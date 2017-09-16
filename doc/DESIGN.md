@@ -9,7 +9,7 @@ The main component of the program will be a Simulation class, will includes the 
 ![Our Specific Classes Part1](doc/classes1.JPG)
 ![Our Specific Classes Part2](doc/classes2.JPG)
 ### User Interface
-
+ Our “Simulation” class will handle our user input. The first user input would be under a screen that prompts “Upload Configuration” which would necessitate an XML filename to be typed in which would call our “handleKeyInputSplash” method. Through another class “XMLReader”, we would check to see if any parameters are missing or if file is incorrectly formatted. This would send out a “bad input” or “incorrect format” error message. Another error message would be “Unknown filename” if the file inputted could not be found. The next screen would prompt “Choose Simulation Type” giving a list of all our simulation types. The input to choose the simulation would be clickable buttons on the screen which would be call our “handleMouseInputSplash” method. During the simulation, we would accept user key input and mouse input in our “handleKeyInput” method and “handleMouseInput” method respectively. 
 ![User Interface](doc/userInterface.JPG)
 ### Design Details
 ####Use Cases
