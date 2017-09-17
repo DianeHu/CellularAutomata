@@ -32,6 +32,7 @@ private int numCols;
 	}
 	
 	private void setNeighbors() {
+		//TODO
 		//go through each cell and inform its list of neighbors
 		
 	}
@@ -73,10 +74,14 @@ private int numCols;
 	}
 
 	public boolean newGridContainsCellAt(int rownum, int colnum) {
-		return false;
+		if(newGrid[rownum][colnum] instanceof EmptyCell) {
+			return false;
+		}
+		return true;
 	}
 	
 	public void addToNewGrid(Cell c) {
-		
+		newGrid[c.getRow()][c.getCol()] = c;
 	}
 }
+
