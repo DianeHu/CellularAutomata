@@ -13,12 +13,12 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class XMLReader {
+public class XMLReaderDOM {
 
 	private static File fXMLFile;
 	private Document doc;
 
-	public XMLReader(File xml) throws SAXException, IOException, ParserConfigurationException {
+	public XMLReaderDOM(File xml) throws SAXException, IOException, ParserConfigurationException {
 	}
 
 	public void printXML(File xml) throws ParserConfigurationException, SAXException, IOException {
