@@ -15,11 +15,18 @@ public class BlueSchellingCell extends Cell{
 	private int colNum;
 	private Rectangle block;
 	private ArrayList<Cell> neighbors;
-	private double satisfiedThreshold = 0.3;
+	private int threshold;
+	private int width;
+	private int height;
+	
 	
 	public BlueSchellingCell(int myRowNum, int myColNum, int width, int height) {
 		super(myRowNum, myColNum, width, height);
 		block.setFill(Color.NAVY);
+	}
+	
+	public void setThreshold(int t) {
+		threshold = t;
 	}
 	
 	/* (non-Javadoc)
@@ -33,5 +40,9 @@ public class BlueSchellingCell extends Cell{
 		if(!satisfied) {
 			moveToRandomEmptySpace(emptySpots, grid);
 		}
+	}
+	
+	public boolean isNeighbor(int otherRowNum, int otherColNum) {
+		return super.isNeighbor8(otherRowNum, otherColNum);
 	}
 }
