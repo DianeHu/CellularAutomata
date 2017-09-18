@@ -76,13 +76,12 @@ public abstract class Cell {
 	 * @param newCell
 	 * Changes the cell at a certain location to a new cell. Can be used to switch type of cell at any location.
 	 */
-	public void changeCellType(Group root, Cell previousCell, Cell newCell) {
-		int previousRowNum = previousCell.getRow();
-		int previousColNum = previousCell.getCol();
-		root.getChildren().remove(previousCell.getParent());
+	public void changeCellType(Grid newGrid, Cell newCell) {
+		int previousRowNum = this.getRow();
+		int previousColNum = this.getCol();
 		newCell.colNum = previousColNum;
 		newCell.rowNum = previousRowNum;
-		root.getChildren().add(newCell.getParent());
+		newGrid.addToNewGrid(newCell);
 	}
 	
 	/**
