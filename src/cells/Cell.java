@@ -13,14 +13,16 @@ public abstract class Cell {
 	
 	private int rowNum;
 	private int colNum;
-	private int width;
-	private int height;
+	private int myWidth;
+	private int myHeight;
 	private Rectangle myCell;
 	private ArrayList<Cell> neighbors;
 	
 	public Cell(int myRowNum, int myColNum, int width, int height) {
 		rowNum = myRowNum;
 		colNum = myColNum;
+		myWidth = width;
+		myHeight = height;
 		myCell = new Rectangle((rowNum-1)*width, (colNum-1)*height, width, height);
 		neighbors = new ArrayList<Cell>();
 	}
@@ -33,16 +35,16 @@ public abstract class Cell {
 		return colNum;
 	}
 	
-	public boolean isNeighbor(int otherRowNum, int otherColNum) {
-		if(Math.abs(rowNum-otherRowNum)<=1 & Math.abs(colNum-otherColNum)<=1) {
+	public boolean isSurroundingNeighbor(int otherRowNum, int otherColNum) {
+		if(Math.abs(rowNum-otherRowNum)<=1 && Math.abs(colNum-otherColNum)<=1) {
 			return true;
 		}
 		return false;
 	}
 		
 	public void drawCell(Group root) {
-		myCell.setX((rowNum-1)*width);
-		myCell.setY((colNum-1)*height);
+		myCell.setX((rowNum-1)*myWidth);
+		myCell.setY((colNum-1)*myHeight);
 		root.getChildren().add(myCell);
 	}
 	
@@ -55,8 +57,17 @@ public abstract class Cell {
 	}
 	
 	public Cell createEmptyCell(int rowNum, int colNum) {
-		Cell newCell = new EmptyCell(rowNum, colNum, width, height);
+		Cell newCell = new EmptyCell(rowNum, colNum, myWidth, myHeight);
 		return newCell;
+	}
+	
+	public void changeCellType(Group root, Cell previousCell, Cell newCell) {
+		int previousRowNum = previousCell.getRow();
+		int previousColNum = previousCell.getCol();
+		root.getChildren().remove(previousCell.getParent());
+		newCell.colNum = previousColNum;
+		newCell.rowNum = previousRowNum;
+		root.getChildren().add(newCell.getParent());
 	}
 	
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
