@@ -9,6 +9,10 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * @author Madhavi
+ * @author Diane Hu
+ */
 public abstract class Cell {
 	
 	private int rowNum;
