@@ -59,6 +59,21 @@ public abstract class Cell {
 		}
 		return false;
 	}
+	
+	public boolean isNeighbor8(int otherRowNum, int otherColNum) {
+		if(Math.abs(rowNum-otherRowNum)<=1 & Math.abs(colNum-otherColNum)<=1) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isNeighbor4(int otherRowNum, int otherColNum) {
+		if((Math.abs(rowNum-otherRowNum)<=1 & colNum==otherColNum)
+				| (Math.abs(colNum-otherColNum)<=1 & rowNum==otherRowNum)) {
+			return true;
+		}
+		return false;
+	}
 		
 	/**
 	 * @param root
@@ -138,14 +153,17 @@ public abstract class Cell {
 	 * @param grid
 	 * Moves cell to random empty location in grid.
 	 */
-	protected void moveToRandomEmptySpace(ArrayList<Cell> emptySpots, Grid grid) {
+	protected boolean moveToRandomPlace(ArrayList<Cell> spots, Grid grid) {
 		boolean moved = false;
 		while(!moved) {
-			int numEmptySpaces = emptySpots.size();
+			int numEmptySpaces = spots.size();
+			if(numEmptySpaces==0) {
+				break;
+			}
 			Random rand = new Random(); 
-			Cell testLoc = emptySpots.get(rand.nextInt(numEmptySpaces));
+			Cell testLoc = spots.get(rand.nextInt(numEmptySpaces));
 			if(grid.newGridContainsCellAt(testLoc.getRow(),testLoc.getCol())) {
-				emptySpots.remove(testLoc);
+				spots.remove(testLoc);
 			}
 			else {
 				rowNum = testLoc.getRow(); colNum = testLoc.getCol();
@@ -153,6 +171,8 @@ public abstract class Cell {
 				moved = true;
 			}
 		}
+		
+		return moved;
 	}
 	
 	/**
