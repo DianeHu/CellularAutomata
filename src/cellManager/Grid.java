@@ -16,9 +16,12 @@ public class Grid {
 private Group root;
 private Cell[][] currentGrid;
 private Cell[][] newGrid;
+private Cell[][] emptyGrid;
 private File xml;
 private int numRows;
 private int numCols;
+private int cellWidth;
+private int cellHeight;
 
 	public Grid(Group r, File f) {
 		root = r;
@@ -33,12 +36,23 @@ private int numCols;
 		XMLReader reader = new XMLReader(xml);
 		numRows = reader.getNumRows();
 		numCols = reader.getNumCols();
-		currentGrid = new Cell[numRows][numCols];
-		newGrid = new Cell[numRows][numCols];
+		createEmptyGrid();
+		currentGrid = emptyGrid;
+		newGrid = emptyGrid;
 		// read from xml to create initial state
 	}
 	
-	
+	/**
+	 * Creates a grid with only empty cells which can be used to initialize
+	 *  newgrid and current grid
+	 */	
+	private void createEmptyGrid() {
+		for(int i = 0; i<numRows; i++) {
+			for(int j = 0; j<numCols; j++) {
+				emptyGrid[i][j]=new EmptyCell(i,j,cellWidth,cellHeight);
+			}
+		}
+	}
 	/**
 	 * Sets neighbor list of each cell in grid.
 	 * TODO: how to determine index out of bounds.
@@ -118,6 +132,19 @@ private int numCols;
 		}
 		return true;
 	}
+	
+	/**
+	 * @param rownum
+	 * @param colnum
+	 * @return Tests if the new grid has a SharkCell at a certain location, returns true/false.
+	 */
+	public boolean newGridContainsSharkAt(int rownum, int colnum) {
+		if(newGrid[rownum][colnum] instanceof SharkCell) {
+			return false;
+		}
+		return true;
+	}
+	
 	
 	/**
 	 * @param c
