@@ -19,26 +19,6 @@ public class OrangeSchellingCell extends Cell{
 		block.setFill(Color.DARKORANGE);
 	}
 	
-	public int getRow() {
-		return super.getRow();
-	}
-	
-	public int getCol() {
-		return super.getCol();
-	}
-	
-	public boolean isNeighbor(int otherRowNum, int otherColNum) {
-		return super.isNeighbor(otherRowNum, otherColNum);
-	}
-	
-	public void drawCell(Group root) {
-		super.drawCell(root);
-	}
-	
-	public void setNeighbors(ArrayList<Cell> n) {
-		super.setNeighbors(n);
-	}
-	
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
 		double numBlue = (double)getNumBlueNeighbors();
 		double numOrange = (double)getNumOrangeNeighbors();
@@ -47,18 +27,4 @@ public class OrangeSchellingCell extends Cell{
 			moveToRandomEmptySpace(emptySpots, grid);
 		}
 	}
-	
-	protected void moveToRandomEmptySpace(ArrayList<Cell> emptySpots, Grid grid) {
-		super.moveToRandomEmptySpace(emptySpots, grid);
-	}
-
-	
-	protected int getNumBlueNeighbors() {
-		return super.getNumBlueNeighbors();
-	}
-	
-	protected int getNumOrangeNeighbors() {
-		return super.getNumOrangeNeighbors();
-	}
-	
 }
