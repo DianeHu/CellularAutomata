@@ -13,6 +13,9 @@ public class OrangeSchellingCell extends Cell{
 	private int colNum;
 	private Rectangle block;
 	private ArrayList<Cell> neighbors;
+	private int threshold;
+	private int width;
+	private int height;
 	
 	public OrangeSchellingCell(int myRowNum, int myColNum, int width, int height) {
 		super(myRowNum, myColNum, width, height);
@@ -27,8 +30,12 @@ public class OrangeSchellingCell extends Cell{
 		return super.getCol();
 	}
 	
+	public void setThreshold(int t) {
+		threshold = t;
+	}
+	
 	public boolean isNeighbor(int otherRowNum, int otherColNum) {
-		return super.isNeighbor(otherRowNum, otherColNum);
+		return super.isNeighbor8(otherRowNum, otherColNum);
 	}
 	
 	public void drawCell(Group root) {
@@ -42,14 +49,14 @@ public class OrangeSchellingCell extends Cell{
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
 		double numBlue = (double)getNumBlueNeighbors();
 		double numOrange = (double)getNumOrangeNeighbors();
-		boolean satisfied = numOrange/(numOrange+numBlue) >= 0.3;
+		boolean satisfied = numOrange/(numOrange+numBlue) >= threshold;
 		if(!satisfied) {
-			moveToRandomEmptySpace(emptySpots, grid);
+			moveToRandomPlace(emptySpots, grid);
 		}
 	}
 	
-	protected void moveToRandomEmptySpace(ArrayList<Cell> emptySpots, Grid grid) {
-		super.moveToRandomEmptySpace(emptySpots, grid);
+	protected boolean moveToRandomPlace(ArrayList<Cell> emptySpots, Grid grid) {
+		return super.moveToRandomPlace(emptySpots, grid);
 	}
 
 	
