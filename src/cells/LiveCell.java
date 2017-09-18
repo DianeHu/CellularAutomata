@@ -7,6 +7,9 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * @author Diane Hu
+ */
 public class LiveCell extends Cell{
 	
 	private int rowNum;
@@ -22,6 +25,11 @@ public class LiveCell extends Cell{
 		block.setFill(Color.DARKCYAN);
 	}
 
+	/**
+	 * @param root
+	 * Checks the number of live neighbors. If number of live neighbors indicates over or underpopulation, then replace the current live cell with
+	 * a dead one. Subsequently resets the number of live neighbors to zero.
+	 */
 	public void dieOut(Group root) {
 		checkNumLiveNeighbors(this);
 		if(numLiveNeighbors < 2 || numLiveNeighbors > 3) {

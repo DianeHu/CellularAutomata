@@ -7,6 +7,9 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * @author Diane Hu
+ */
 public class TreeCell extends Cell{
 	private int rowNum;
 	private int colNum;
@@ -15,6 +18,7 @@ public class TreeCell extends Cell{
 	private boolean fireThreat = false;
 	private double probCatch = .15;
 	private double threatSeverity = 1;
+	private double probGrow = .15;
 	private int width;
 	private int height;
 	
@@ -23,6 +27,10 @@ public class TreeCell extends Cell{
 		block.setFill(Color.FORESTGREEN);
 	}
 	
+	/* (non-Javadoc)
+	 * @see cells.Cell#isSurroundingNeighbor(int, int)
+	 * This method overrides the superclass method to only account for the compass directions (North, South, East, West) as neighbors
+	 */
 	@Override
 	public boolean isSurroundingNeighbor(int otherRowNum, int otherColNum) {
 		if((Math.abs(rowNum-otherRowNum)<=1 && (colNum == otherColNum)) || (Math.abs(colNum-otherColNum)<=1 && (rowNum == otherRowNum))) {
@@ -31,20 +39,25 @@ public class TreeCell extends Cell{
 		return false;
 	}
 	
-	public void setNeighbors(ArrayList<Cell> n) {
-		super.setNeighbors(n);
-	}
-	
+	/**
+	 * @param root
+	 * If current cell experiences a threat of fire, then if a random generated value is bounded within the severity of the catch times the 
+	 * probability of catching fire, the current cell starts to burn.
+	 */
 	public void burn(Group root) {
 		if(fireThreat) {
 			double test = Math.random();
 			if(test < threatSeverity * probCatch) {
-				BurningTreeCell newCell = new BurningTreeCell(rowNum, colNum, width, height);
+				Cell newCell = new BurningTreeCell(rowNum, colNum, width, height);
 				changeCellType(root, this, newCell);
 			}
 		}
 	}
 	
+	/**
+	 * For every cell in the current cell's neighbors, if there is a burning cell, indicate there is a threat of fire, and increase severity by
+	 * number of burning cells.
+	 */
 	public void checkFireThreat() {
 		for(Cell cell : neighbors) {
 			if(cell instanceof BurningTreeCell) {
@@ -54,13 +67,19 @@ public class TreeCell extends Cell{
 		}
 	}
 	
-	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
-		double numBlue = (double)getNumBlueNeighbors();
-		double numOrange = (double)getNumOrangeNeighbors();
-		boolean satisfied = numBlue/(numOrange+numBlue) >= 0.3;
-		if(!satisfied) {
-			moveToRandomEmptySpace(emptySpots, grid);
+	/**
+	 * @param root
+	 * @param cell
+	 * For a cell that is empty, if a random generated value is contained within the probability of a tree growing, place a new tree in the current
+	 * empty spot's location.
+	 */
+	public void growTree(Group root, Cell cell) {
+		if(cell instanceof EmptyCell) {
+			double test = Math.random();
+			if(test < probGrow) {
+				Cell newCell = new TreeCell(rowNum, colNum, width, height);
+				changeCellType(root, this, newCell);
+			}
 		}
 	}
-
 }

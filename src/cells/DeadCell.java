@@ -7,6 +7,9 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * @author Diane Hu
+ */
 public class DeadCell extends Cell{
 	
 	private int rowNum;
@@ -22,6 +25,11 @@ public class DeadCell extends Cell{
 		block.setFill(Color.WHITE);
 	}
 	
+	/**
+	 * @param root
+	 * Checks the number of live neighbors. If the number is exactly three, the dead cell is replaced with a live one, as if by reproduction.
+	 * Subsequently resets the number of live neighbors to zero.
+	 */
 	public void resurrectCell(Group root) {
 		checkNumLiveNeighbors(this);
 		if(numLiveNeighbors == 3) {

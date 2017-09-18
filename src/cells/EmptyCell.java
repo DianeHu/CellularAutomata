@@ -25,8 +25,8 @@ public class EmptyCell extends Cell {
 		return super.getCol();
 	}
 	
-	public boolean isNeighbor(int otherRowNum, int otherColNum) {
-		return super.isNeighbor(otherRowNum, otherColNum);
+	public boolean isSurroundingNeighbor(int otherRowNum, int otherColNum) {
+		return super.isSurroundingNeighbor(otherRowNum, otherColNum);
 	}
 	
 	public void drawCell(Group root) {
