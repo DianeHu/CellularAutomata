@@ -1,10 +1,12 @@
 package cells;
 
 import java.util.ArrayList;
+
 import java.util.Random;
 
 import cellManager.Grid;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.shape.Rectangle;
 
 public abstract class Cell {
@@ -13,13 +15,13 @@ public abstract class Cell {
 	private int colNum;
 	private int width;
 	private int height;
-	private Rectangle block;
+	private Rectangle myCell;
 	private ArrayList<Cell> neighbors;
 	
 	public Cell(int myRowNum, int myColNum, int width, int height) {
 		rowNum = myRowNum;
 		colNum = myColNum;
-		block = new Rectangle((rowNum-1)*width, (colNum-1)*height, width, height);
+		myCell = new Rectangle((rowNum-1)*width, (colNum-1)*height, width, height);
 		neighbors = new ArrayList<Cell>();
 	}
 	
@@ -39,19 +41,30 @@ public abstract class Cell {
 	}
 		
 	public void drawCell(Group root) {
-		block.setX((rowNum-1)*width);
-		block.setY((colNum-1)*height);
-		root.getChildren().add(block);
+		myCell.setX((rowNum-1)*width);
+		myCell.setY((colNum-1)*height);
+		root.getChildren().add(myCell);
 	}
 	
-	public void killCell() {
+	public void killCell(Group root) {
+		int previousRowNum = rowNum;
+		int previousColNum = colNum;
+		root.getChildren().remove(myCell);
+		Cell newCell = createEmptyCell(previousRowNum, previousColNum);
+		root.getChildren().add(newCell.getParent());
 	}
 	
-	public void createCell() {
+	public Cell createEmptyCell(int rowNum, int colNum) {
+		Cell newCell = new EmptyCell(rowNum, colNum, width, height);
+		return newCell;
 	}
 	
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
 		//do nothing
+	}
+	
+	public Node getParent() {
+		return this.getParent();
 	}
 	
 	public void setNeighbors(ArrayList<Cell> n) {
