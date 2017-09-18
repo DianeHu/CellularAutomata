@@ -17,6 +17,7 @@ public abstract class Cell {
 	private int myHeight;
 	private Rectangle myCell;
 	private ArrayList<Cell> neighbors;
+	private int numLiveNeighbors = 0;
 	
 	public Cell(int myRowNum, int myColNum, int width, int height) {
 		rowNum = myRowNum;
@@ -115,6 +116,14 @@ public abstract class Cell {
 				rowNum = testLoc.getRow(); colNum = testLoc.getCol();
 				grid.addToNewGrid(this);
 				moved = true;
+			}
+		}
+	}
+	
+	protected void checkNumLiveNeighbors(Cell cell) {
+		for(Cell c : neighbors) {
+			if(c instanceof LiveCell) {
+				cell.numLiveNeighbors++;
 			}
 		}
 	}

@@ -13,7 +13,7 @@ public class LiveCell extends Cell{
 	private int colNum;
 	private Rectangle block;
 	private ArrayList<Cell> neighbors;
-	private int numLiveNeighbors;
+	private int numLiveNeighbors = 0;
 	private int width;
 	private int height;
 	
@@ -23,19 +23,12 @@ public class LiveCell extends Cell{
 	}
 
 	public void dieOut(Group root) {
-		checkNumLiveNeighbors();
+		checkNumLiveNeighbors(this);
 		if(numLiveNeighbors < 2 || numLiveNeighbors > 3) {
 			Cell newCell = new DeadCell(rowNum, colNum, width, height);
 			changeCellType(root, this, newCell);
 		}
-	}
-	
-	private void checkNumLiveNeighbors() {
-		for(Cell cell : neighbors) {
-			if(cell instanceof LiveCell) {
-				numLiveNeighbors++;
-			}
-		}
+		numLiveNeighbors = 0;
 	}
 }
 
