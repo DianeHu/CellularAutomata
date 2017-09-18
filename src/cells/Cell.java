@@ -88,11 +88,9 @@ public abstract class Cell {
 	/**
 	 * @param emptySpots
 	 * @param grid
-	 * do-nothing method implemented by subclasses to determine way cells move. Not abstracted since in certain simulations cells do not "move."
+	 * Abstract method that each subclass calls to move cell.
 	 */
-	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
-		//do nothing
-	}
+	public abstract void moveCell(ArrayList<Cell> emptySpots, Grid grid);
 	
 	/**
 	 * @return Returns parent node of cell.
