@@ -26,8 +26,13 @@ public class BurningTreeCell extends Cell{
 	 * @param root
 	 * Replaces the current burning cell with an empty cell.
 	 */
-	public void burnOut(Group root) {
-		Cell newCell = new EmptyCell(rowNum, colNum, width, height);
-		changeCellType(root, this, newCell);
+	public void burnOut(Grid newGrid) {
+		Cell newCell = new EmptyCell(this.rowNum, this.colNum, width, height);
+		changeCellType(newGrid, newCell);
+	}
+
+	@Override
+	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
+		burnOut(grid);
 	}
 }
