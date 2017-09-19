@@ -21,8 +21,14 @@ public class BlueSchellingCell extends Cell{
 	
 	
 	public BlueSchellingCell(int myRowNum, int myColNum, int width, int height) {
-		super(myRowNum, myColNum, width, height);
-		block.setFill(Color.NAVY);
+		super(myRowNum, myColNum, w, h);
+		rowNum = myRowNum;
+		colNum = myColNum;
+		width = w;
+		height = h;
+		myCell = new Rectangle((rowNum)*width, (colNum)*height, width, height);
+		neighbors = new ArrayList<Cell>();
+		myCell.setFill(Color.NAVY);
 	}
 	
 	public void setThreshold(int t) {
