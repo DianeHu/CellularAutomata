@@ -30,17 +30,17 @@ public class DeadCell extends Cell{
 	 * Checks the number of live neighbors. If the number is exactly three, the dead cell is replaced with a live one, as if by reproduction.
 	 * Subsequently resets the number of live neighbors to zero.
 	 */
-	public void resurrectCell(Group root) {
+	public void resurrectCell(Grid newGrid) {
 		checkNumLiveNeighbors(this);
 		if(numLiveNeighbors == 3) {
-			Cell newCell = new LiveCell(rowNum, colNum, width, height);
-			changeCellType(root, this, newCell);
+			Cell newCell = new LiveCell(this.rowNum, this.colNum, width, height);
+			changeCellType(newGrid, newCell);
 		}
 		numLiveNeighbors = 0;
 	}
+
+	@Override
+	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
+		resurrectCell(grid);
+	}
 }
-
-
-
-
-

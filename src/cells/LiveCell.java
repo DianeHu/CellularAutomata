@@ -30,17 +30,18 @@ public class LiveCell extends Cell{
 	 * Checks the number of live neighbors. If number of live neighbors indicates over or underpopulation, then replace the current live cell with
 	 * a dead one. Subsequently resets the number of live neighbors to zero.
 	 */
-	public void dieOut(Group root) {
+	public void dieOut(Grid newGrid) {
 		checkNumLiveNeighbors(this);
 		if(numLiveNeighbors < 2 || numLiveNeighbors > 3) {
-			Cell newCell = new DeadCell(rowNum, colNum, width, height);
-			changeCellType(root, this, newCell);
+			Cell newCell = new DeadCell(this.rowNum, this.colNum, width, height);
+			changeCellType(newGrid, newCell);
 		}
 		numLiveNeighbors = 0;
 	}
+
+	@Override
+	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
+		dieOut(grid);
+	}
 }
-
-
-
-
 
