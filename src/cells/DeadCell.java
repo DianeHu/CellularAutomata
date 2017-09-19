@@ -19,6 +19,7 @@ public class DeadCell extends Cell{
 	private int numLiveNeighbors = 0;
 	private int width;
 	private int height;
+	private boolean resurrected = false;
 	
 	public DeadCell(int myRowNum, int myColNum, int width, int height) {
 		super(myRowNum, myColNum, width, height);
@@ -35,12 +36,16 @@ public class DeadCell extends Cell{
 		if(numLiveNeighbors == 3) {
 			Cell newCell = new LiveCell(this.rowNum, this.colNum, width, height);
 			changeCellType(newGrid, newCell);
+			numLiveNeighbors = 0;
+			resurrected = true;
 		}
-		numLiveNeighbors = 0;
 	}
 
 	@Override
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
 		resurrectCell(grid);
+		if(resurrected == false) {
+			grid.addToNewGrid(this);
+		}
 	}
 }

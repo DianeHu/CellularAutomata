@@ -21,6 +21,7 @@ public class TreeCell extends Cell{
 	private double probGrow = .15;
 	private int width;
 	private int height;
+	private boolean burned = false;
 	
 	public TreeCell(int myRowNum, int myColNum, int width, int height) {
 		super(myRowNum, myColNum, width, height);
@@ -50,6 +51,7 @@ public class TreeCell extends Cell{
 			if(test < threatSeverity * probCatch) {
 				Cell newCell = new BurningTreeCell(this.rowNum, this.colNum, width, height);
 				changeCellType(newGrid, newCell);
+				burned = true;
 			}
 		}
 	}
@@ -88,6 +90,9 @@ public class TreeCell extends Cell{
 		burn(grid);
 		for(Cell c : emptySpots) {
 			growTree(grid, c);
+		}
+		if(burned == false) {
+			grid.addToNewGrid(this);
 		}
 	}
 }
