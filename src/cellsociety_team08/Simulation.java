@@ -29,6 +29,7 @@ public class Simulation extends Application {
 	private Grid sampleGrid;
 	private Stage myStage;
 	private int colorNum = 0;
+	private File XMLSample;
 
 	
 	@Override
@@ -50,10 +51,10 @@ public class Simulation extends Application {
 	}*/
 	
 	public void start(Stage s) throws Exception {
-		File xmlSample = null;
+		XMLSample = null;
 		// attach scene to the stage and display it
 		myStage = s;
-		Scene scene = setSimulation(xmlSample);
+		Scene scene = setSimulation(XMLSample);
 	    myStage.setScene(scene);
 	    myStage.setTitle(TITLE);
 	    myStage.show();
@@ -95,8 +96,7 @@ public class Simulation extends Application {
 	    return myScene;
 	}
 	
-	private Scene setUpSplash()
-	{
+	private Scene setUpSplash(){
 		int width = 0, height =0;
 		Paint background = Color.WHITE;
 		myScene = new Scene(root, width, height, background);
@@ -107,19 +107,17 @@ public class Simulation extends Application {
 	
 	private void step (double elapsedTime) 
 	{
-		//sampleGrid.update();
-		//sampleGrid.createsNewGrid(); 
-		File xml = null;
+		sampleGrid.update();
+		sampleGrid.createsNewGrid(); 
 		colorNum++;
-		myStage.setScene(setSimulation(xml));
+		myStage.setScene(setSimulation(XMLSample));
 	}
 	
 	private void handleKeyInput (KeyCode code) {
 		if(code == KeyCode.A)
 		{
-			File xml = null;
 			colorNum++;
-			myStage.setScene(setSimulation(xml));
+			myStage.setScene(setSimulation(XMLSample));
 		}
 	}
 	
