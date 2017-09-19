@@ -53,34 +53,59 @@ private int cellHeight;
 			}
 		}
 	}
-	/**
-	 * Sets neighbor list of each cell in grid.
-	 * TODO: how to determine index out of bounds.
+/**
+	 * This methods sets the list of neighbors for each cell by checking
+	 *  which of its adjacent cells are considered neighbors by the algorithm
 	 */
+	
 	private void setNeighbors() {
-		for(int i = 0; i < numRows; i++) {
-			for(int j = 0; j < numCols; j++) {
-				ArrayList<Cell> cellNeighborList = new ArrayList<Cell>();
-				Cell below = currentGrid[i - 1][j];
-				Cell above = currentGrid[i + 1][j];
-				Cell left = currentGrid[i][j - 1];
-				Cell right = currentGrid[i][j + 1];
-				Cell upperRightDiagonal = currentGrid[i + 1][j + 1];
-				Cell upperLeftDiagonal = currentGrid[i + 1][j - 1];
-				Cell lowerRightDiagonal = currentGrid[i - 1][j + 1];
-				Cell lowerLeftDiagonal = currentGrid[i - 1][j - 1];
-				Cell current = currentGrid[i][j];
-				cellNeighborList.add(below);
-				cellNeighborList.add(above);
-				cellNeighborList.add(left);
-				cellNeighborList.add(right);
-				cellNeighborList.add(upperRightDiagonal);
-				cellNeighborList.add(upperLeftDiagonal);
-				cellNeighborList.add(lowerRightDiagonal);
-				cellNeighborList.add(lowerLeftDiagonal);
-				current.setNeighbors(cellNeighborList);
+		//TODO
+		//go through each cell and inform its list of neighbors
+		for(int i = 0; i<numRows; i++) {
+			for(int j = 0; j<numCols; j++) {
+				Cell c = currentGrid[i][j];
+				setNeighborsForCell(c);
 			}
+		}		
+	}
+	
+	private void setNeighborsForCell(Cell cell) {
+		ArrayList<Cell> neighbors = new ArrayList<Cell>();
+		int row = cell.getRow(); 
+		int col = cell.getCol();
+		//top
+		if(row!=0 & cell.isNeighbor(row+1,col)) {
+			neighbors.add(currentGrid[row-1][col]);
 		}
+		//bottom
+		if(row!=(numRows-1) & cell.isNeighbor(row-1,col)) {
+			neighbors.add(currentGrid[row+1][col]);
+		}
+		//left
+		if(col!=0 & cell.isNeighbor(row,col-1)) {
+			neighbors.add(currentGrid[row][col-1]);
+		}
+		//right
+		if(col!=(numCols-1) & cell.isNeighbor(row,col+1)) {
+			neighbors.add(currentGrid[row][col+1]);
+		}
+		//upper right
+		if(col!=(numCols-1) & row!=0 & cell.isNeighbor(row+1,col+1)) {
+			neighbors.add(currentGrid[row-1][col+1]);
+		}
+		//lower right
+		if(row!=(numCols-1) & col!=(numCols-1) & cell.isNeighbor(row-1,col+1)) {
+			neighbors.add(currentGrid[row+1][col+1]);
+		}
+		//upper left
+		if(row!=0 & col!=0 & cell.isNeighbor(row+1,col-1)) {
+			neighbors.add(currentGrid[row-1][col-1]);
+		}
+		//lower left
+		if(row!=(numCols-1) & col!=0 & cell.isNeighbor(row-1,col-1)) {
+			neighbors.add(currentGrid[row+1][col-1]);
+		}
+		cell.setNeighbors(neighbors);
 	}
 	
 	public void createsNewGrid() {
