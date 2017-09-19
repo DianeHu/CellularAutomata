@@ -44,12 +44,12 @@ public class TreeCell extends Cell{
 	 * If current cell experiences a threat of fire, then if a random generated value is bounded within the severity of the catch times the 
 	 * probability of catching fire, the current cell starts to burn.
 	 */
-	public void burn(Group root) {
+	public void burn(Grid newGrid) {
 		if(fireThreat) {
 			double test = Math.random();
 			if(test < threatSeverity * probCatch) {
-				Cell newCell = new BurningTreeCell(rowNum, colNum, width, height);
-				changeCellType(root, this, newCell);
+				Cell newCell = new BurningTreeCell(this.rowNum, this.colNum, width, height);
+				changeCellType(newGrid, newCell);
 			}
 		}
 	}
@@ -73,13 +73,21 @@ public class TreeCell extends Cell{
 	 * For a cell that is empty, if a random generated value is contained within the probability of a tree growing, place a new tree in the current
 	 * empty spot's location.
 	 */
-	public void growTree(Group root, Cell cell) {
+	public void growTree(Grid newGrid, Cell cell) {
 		if(cell instanceof EmptyCell) {
 			double test = Math.random();
 			if(test < probGrow) {
-				Cell newCell = new TreeCell(rowNum, colNum, width, height);
-				changeCellType(root, this, newCell);
+				Cell newCell = new TreeCell(this.rowNum, this.colNum, width, height);
+				changeCellType(newGrid, newCell);
 			}
+		}
+	}
+
+	@Override
+	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
+		burn(grid);
+		for(Cell c : emptySpots) {
+			growTree(grid, c);
 		}
 	}
 }
