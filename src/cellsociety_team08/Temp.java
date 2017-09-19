@@ -13,20 +13,24 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class XMLReaderDOM {
+public class XMLReader {
 
-	private static File fXMLFile;
+	private File fXMLFile;
+	private DocumentBuilder dBuilder;
 	private Document doc;
 
-	public XMLReaderDOM(File xml) throws SAXException, IOException, ParserConfigurationException {
+	public XMLReader(File xml) throws SAXException, IOException, ParserConfigurationException {
+		initialize(xml);
 	}
 
-	public void printXML(File xml) throws ParserConfigurationException, SAXException, IOException {
-		fXMLFile = xml;
+	private void initialize(File xml) throws ParserConfigurationException, SAXException, IOException {
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-		doc = dBuilder.parse(fXMLFile);
+		dBuilder = dbFactory.newDocumentBuilder();
+		Document doc = dBuilder.parse(fXMLFile);
 		doc.getDocumentElement().normalize();
+		fXMLFile = xml;
+	}
+	public void printXML(File xml) throws ParserConfigurationException, SAXException, IOException {
 		System.out.println("Simulation type: " + doc.getDocumentElement().getNodeName());
 		if (doc.hasChildNodes()) {
 			printNode(doc.getChildNodes());
@@ -34,7 +38,6 @@ public class XMLReaderDOM {
 	}
 	
 	public int printNumRowsCols(File xml) {
-		//NodeList nList = doc.getElementsByTagName("numRows");
 		String temp = doc.getElementById("numRows").getAttribute("numRows");
 		int numRows = Integer.parseInt(temp);
 		return numRows;

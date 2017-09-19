@@ -74,35 +74,35 @@ private int cellHeight;
 		int row = cell.getRow(); 
 		int col = cell.getCol();
 		//top
-		if(row!=0 & cell.isNeighbor(row+1,col)) {
+		if(row!=0 & cell.isNeighbor8(row+1,col)) {
 			neighbors.add(currentGrid[row-1][col]);
 		}
 		//bottom
-		if(row!=(numRows-1) & cell.isNeighbor(row-1,col)) {
+		if(row!=(numRows-1) & cell.isNeighbor8(row-1,col)) {
 			neighbors.add(currentGrid[row+1][col]);
 		}
 		//left
-		if(col!=0 & cell.isNeighbor(row,col-1)) {
+		if(col!=0 & cell.isNeighbor8(row,col-1)) {
 			neighbors.add(currentGrid[row][col-1]);
 		}
 		//right
-		if(col!=(numCols-1) & cell.isNeighbor(row,col+1)) {
+		if(col!=(numCols-1) & cell.isNeighbor8(row,col+1)) {
 			neighbors.add(currentGrid[row][col+1]);
 		}
 		//upper right
-		if(col!=(numCols-1) & row!=0 & cell.isNeighbor(row+1,col+1)) {
+		if(col!=(numCols-1) & row!=0 & cell.isNeighbor8(row+1,col+1)) {
 			neighbors.add(currentGrid[row-1][col+1]);
 		}
 		//lower right
-		if(row!=(numCols-1) & col!=(numCols-1) & cell.isNeighbor(row-1,col+1)) {
+		if(row!=(numCols-1) & col!=(numCols-1) & cell.isNeighbor8(row-1,col+1)) {
 			neighbors.add(currentGrid[row+1][col+1]);
 		}
 		//upper left
-		if(row!=0 & col!=0 & cell.isNeighbor(row+1,col-1)) {
+		if(row!=0 & col!=0 & cell.isNeighbor8(row+1,col-1)) {
 			neighbors.add(currentGrid[row-1][col-1]);
 		}
 		//lower left
-		if(row!=(numCols-1) & col!=0 & cell.isNeighbor(row-1,col-1)) {
+		if(row!=(numCols-1) & col!=0 & cell.isNeighbor8(row-1,col-1)) {
 			neighbors.add(currentGrid[row+1][col-1]);
 		}
 		cell.setNeighbors(neighbors);
@@ -189,4 +189,3 @@ private int cellHeight;
 		newGrid[c.getRow()][c.getCol()] = new EmptyCell(c.getRow(),c.getCol(),cellWidth,cellHeight);
 	}
 }
-

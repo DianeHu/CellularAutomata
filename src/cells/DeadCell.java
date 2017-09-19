@@ -44,8 +44,3 @@ public class DeadCell extends Cell{
 		resurrectCell(grid);
 	}
 }
-
-
-
-
-

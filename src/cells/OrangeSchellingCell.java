@@ -39,9 +39,9 @@ public class OrangeSchellingCell extends Cell{
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
 		double numBlue = (double)getNumBlueNeighbors();
 		double numOrange = (double)getNumOrangeNeighbors();
-		boolean satisfied = numOrange/(numOrange+numBlue) >= satisfiedThreshold;
+		boolean satisfied = numOrange/(numOrange+numBlue) >= threshold;
 		if(!satisfied) {
-			moveToRandomEmptySpace(emptySpots, grid);
+			moveToRandomPlace(emptySpots, grid);
 		}
 	}
 }
