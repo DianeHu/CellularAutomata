@@ -20,15 +20,10 @@ public class BlueSchellingCell extends Cell{
 	private int height;
 	
 	
-	public BlueSchellingCell(int myRowNum, int myColNum, int width, int height) {
+	public BlueSchellingCell(int myRowNum, int myColNum, int w, int h) {
 		super(myRowNum, myColNum, w, h);
-		rowNum = myRowNum;
-		colNum = myColNum;
-		width = w;
-		height = h;
-		myCell = new Rectangle((rowNum)*width, (colNum)*height, width, height);
-		neighbors = new ArrayList<Cell>();
-		myCell.setFill(Color.NAVY);
+		getMyCell().setFill(Color.NAVY);
+		getMyCell().setStroke(Color.DARKGREY);
 	}
 	
 	public void setThreshold(int t) {
