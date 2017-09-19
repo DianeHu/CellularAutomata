@@ -178,5 +178,15 @@ private int cellHeight;
 	public void addToNewGrid(Cell c) {
 		newGrid[c.getRow()][c.getCol()] = c;
 	}
+	
+	/**
+	 * @param c is a cell which is removed from the newGrid
+	 * This method removes a cell from the newGrid assuming that the cell has been added
+	 * to its location in the newGrid already. The calling of the method in the FishCell
+	 * class takes care of this assumption.
+	 */
+	public void removeFromNewGrid(Cell c) {
+		newGrid[c.getRow()][c.getCol()] = new EmptyCell(c.getRow(),c.getCol(),cellWidth,cellHeight);
+	}
 }
 
