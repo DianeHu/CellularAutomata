@@ -2,6 +2,7 @@ package cellManager;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import cells.BlueSchellingCell;
 import cells.Cell;
@@ -9,6 +10,8 @@ import cells.EmptyCell;
 import cells.OrangeSchellingCell;
 import cells.SharkCell;
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 
 public class Grid {
@@ -17,6 +20,7 @@ private Group root;
 private Cell[][] currentGrid;
 private Cell[][] newGrid;
 private Cell[][] emptyGrid;
+private Rectangle[][] blocks;
 private File xml;
 private int numRows;
 private int numCols;
@@ -41,43 +45,71 @@ private int cellHeight;
 		currentGrid = new Cell[numRows][numCols];
 		newGrid = new Cell[numRows][numCols];
 		emptyGrid = new Cell[numRows][numCols];
+		blocks = new Rectangle[numRows][numCols];
 		
 		createEmptyGrid();
-		currentGrid = emptyGrid;
+		currentGrid = emptyGrid.clone();
+		setRectangles();
 		setInitialStates();
-		newGrid = emptyGrid;
+		newGrid = emptyGrid.clone();
+
 		// read from xml to create initial state
 	}
 	
+	private void setRectangles() {
+		
+		for(int i = 0; i<numRows; i++) {
+			for(int j = 0; j<numCols; j++) {
+				Rectangle r = new Rectangle(j*cellWidth,i*cellHeight,cellWidth,cellHeight);
+				r.setStroke(Color.DARKGREY);
+				root.getChildren().add(r);
+				blocks[i][j]=r;
+			}
+		}
+		
+	}
+	
 	private void setInitialStates() {
-		char[][] states ={{'b','b','o','o','o'},
+/*		char[][] states ={{'b','b','o','o','o'},
 				    		  {'o','b',' ',' ','b'},
 				    		  {' ',' ','o','b','b'},
 				    		  {'o','o','b','o',' '},
-				    		  {'b',' ','o','b','o'}
-		};
+				    		  {'b',' ','o','b','o'}};*/
+		
+		char[][] states ={{'o','o','o','o','o'},
+	    		  			{'o','b','o','o','o'},
+	    		  			{'o','o','o','o','o'},
+	    		  			{'o','o',' ','o',' '},
+	    		  			{' ',' ','o',' ','o'}};
+		int numBlue = 0;
 		for(int i = 0; i<numRows; i++) {
 			for(int j = 0; j<numCols; j++) {
-				if(states[j][i]=='o') {
+				if(states[i][j]=='o') {
 					OrangeSchellingCell c = new OrangeSchellingCell(i,j,cellWidth,cellHeight);
-					currentGrid[j][i]= c;
+					currentGrid[i][j]= c;
 					c.setThreshold(.3);
-					c.drawCell(root);
+					blocks[i][j].setFill(c.getColor());
+					
 				}
-				if(states[j][i]=='b') {
+				if(states[i][j]=='b') {
 					BlueSchellingCell c = new BlueSchellingCell(i,j,cellWidth,cellHeight);
-					currentGrid[j][i]= c;
+					currentGrid[i][j]= c;
 					c.setThreshold(.3);
-					c.drawCell(root);
+					blocks[i][j].setFill(c.getColor());
+					numBlue++;
 				}
-				if(states[j][i]==' ') {
+				if(states[i][j]==' ') {
 					Cell c = new EmptyCell(i,j,cellWidth,cellHeight);
-					currentGrid[j][i]= c;
-					c.drawCell(root);
+					currentGrid[i][j]= c;
+					blocks[i][j].setFill(c.getColor());
 				}
-			}			
+				
+			}
+			
 		}
+		System.out.println("init blue" + numBlue);
 	}
+	
 	/**
 	 * Creates a grid with only empty cells which can be used to initialize
 	 *  newgrid and current grid
@@ -125,12 +157,18 @@ private int cellHeight;
 	public void createsNewGrid() {
 		setNeighbors();
 		ArrayList<Cell> emptyCells = getEmptyCells();
-		for(int i = 0; i<numRows; i++) {
-			for(int j = 0; j<numCols; j++) {
+		ArrayList<Cell> visitedCells = new ArrayList<Cell>();
+		for(int i = 0; i<currentGrid.length; i++) {
+			for(int j = 0; j<currentGrid[i].length; j++) {
 				Cell c = currentGrid[i][j];
-				c.moveCell(emptyCells,this);
+				if(c instanceof BlueSchellingCell) {
+					c.moveCell(emptyCells,this);
+					System.out.println(c.getRow() + " " + c.getCol());
+					visitedCells.add(c);
+				}				
 			}
 		}
+		System.out.println(visitedCells.size());
 	}
 	
 	
@@ -144,22 +182,25 @@ private int cellHeight;
 				}
 			}
 		}
+		System.out.println(emptyCells.size());
 		return emptyCells;
 	}
 	
-	public void update() {
-		currentGrid = newGrid;
-		newGrid = emptyGrid;
-		root.getChildren().clear();
+	public void update(Group r) {
+		currentGrid = newGrid.clone();
+		newGrid = emptyGrid.clone();
+		//root.getChildren().clear();
+		//removeCellsFromScreen();
 		for(int i = 0; i<numRows; i++) {
 			for(int j = 0; j<numCols; j++) {
-				Cell c = currentGrid[i][j];
-				c.drawCell(root);
-				System.out.println("drawn update");
+				Cell c = currentGrid[j][i];
+				//c.drawCell(r);
+				blocks[i][j].setFill(c.getColor());
 			}
 		}
 		
 	}
+	
 
 	public boolean newGridContainsCellAt(int rownum, int colnum) {
 		if(newGrid[rownum][colnum] instanceof EmptyCell) {
