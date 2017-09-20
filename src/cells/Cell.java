@@ -17,19 +17,28 @@ public abstract class Cell {
 	
 	private int rowNum;
 	private int colNum;
-	private int myWidth;
-	private int myHeight;
-	private Rectangle myCell;
 	private ArrayList<Cell> neighbors;
-	private int numLiveNeighbors;
+	private Color col;
 	
 	public Cell(int myRowNum, int myColNum, int width, int height) {
 		rowNum = myRowNum;
 		colNum = myColNum;
-		myWidth = width;
-		myHeight = height;
-		myCell = new Rectangle((rowNum-1)*width, (colNum-1)*height, width, height);
 		neighbors = new ArrayList<Cell>();
+	}
+	
+	/**
+	 * Sets the color for a cell type
+	 * @param c is the Color associated with the cell type
+	 */
+	protected void setColor(Color c) {
+		col = c;
+	}
+	
+	/**
+	 * @return the color associated with the cell type
+	 */
+	public Color getColor() {
+		return col;
 	}
 	
 	/**
@@ -45,6 +54,8 @@ public abstract class Cell {
 	public int getCol() {
 		return colNum;
 	}
+	
+	
 	
 	
 	/**
