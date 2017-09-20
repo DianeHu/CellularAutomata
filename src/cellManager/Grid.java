@@ -8,7 +8,7 @@ import cells.BlueSchellingCell;
 import cells.Cell;
 import cells.EmptyCell;
 import cells.OrangeSchellingCell;
-import cells.SharkCell;
+//import cells.SharkCell;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -85,21 +85,21 @@ private int cellHeight;
 		for(int i = 0; i<numRows; i++) {
 			for(int j = 0; j<numCols; j++) {
 				if(states[i][j]=='o') {
-					OrangeSchellingCell c = new OrangeSchellingCell(i,j,cellWidth,cellHeight);
+					OrangeSchellingCell c = new OrangeSchellingCell(i,j);
 					currentGrid[i][j]= c;
 					c.setThreshold(.3);
 					blocks[i][j].setFill(c.getColor());
 					
 				}
 				if(states[i][j]=='b') {
-					BlueSchellingCell c = new BlueSchellingCell(i,j,cellWidth,cellHeight);
+					BlueSchellingCell c = new BlueSchellingCell(i,j);
 					currentGrid[i][j]= c;
 					c.setThreshold(.3);
 					blocks[i][j].setFill(c.getColor());
 					numBlue++;
 				}
 				if(states[i][j]==' ') {
-					Cell c = new EmptyCell(i,j,cellWidth,cellHeight);
+					Cell c = new EmptyCell(i,j);
 					currentGrid[i][j]= c;
 					blocks[i][j].setFill(c.getColor());
 				}
@@ -117,7 +117,7 @@ private int cellHeight;
 	private void createEmptyGrid() {
 		for(int i = 0; i<numRows; i++) {
 			for(int j = 0; j<numCols; j++) {
-				emptyGrid[i][j]=new EmptyCell(i,j,cellWidth,cellHeight);
+				emptyGrid[i][j]=new EmptyCell(i,j);
 			}
 		}
 	}
@@ -145,7 +145,7 @@ private int cellHeight;
 		for(int i = -1; i<2; i++) {
 			for(int j = -1; j<2; j++) {
 				if(row+i<numRows & row+i>-1 & col+j<numCols & col+j>-1) {
-					if(cell.isNeighbor(row+i,col+j)) {
+					if(cell.isNeighbor8(row+i,col+j)) {
 						neighbors.add(currentGrid[row+i][col+j]);
 					}
 				}
@@ -214,12 +214,12 @@ private int cellHeight;
 	 * @param colnum
 	 * @return Tests if the new grid has a SharkCell at a certain location, returns true/false.
 	 */
-	public boolean newGridContainsSharkAt(int rownum, int colnum) {
+	/*public boolean newGridContainsSharkAt(int rownum, int colnum) {
 		if(newGrid[rownum][colnum] instanceof SharkCell) {
 			return false;
 		}
 		return true;
-	}
+	}*/
 	
 	public void addToNewGrid(Cell c) {
 		newGrid[c.getRow()][c.getCol()] = c;
@@ -233,7 +233,6 @@ private int cellHeight;
 	 * class takes care of this assumption.
 	 */
 	public void removeFromNewGrid(Cell c) {
-		newGrid[c.getRow()][c.getCol()] = new EmptyCell(c.getRow(),c.getCol(),cellWidth,cellHeight);
+		newGrid[c.getRow()][c.getCol()] = new EmptyCell(c.getRow(),c.getCol());
 	}
 }
-
