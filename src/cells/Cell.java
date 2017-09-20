@@ -7,6 +7,7 @@ import java.util.Random;
 import cellManager.Grid;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -19,8 +20,9 @@ public abstract class Cell {
 	private int colNum;
 	private ArrayList<Cell> neighbors;
 	private Color col;
+	private int numLiveNeighbors;
 	
-	public Cell(int myRowNum, int myColNum, int width, int height) {
+	public Cell(int myRowNum, int myColNum) {
 		rowNum = myRowNum;
 		colNum = myColNum;
 		neighbors = new ArrayList<Cell>();
@@ -85,16 +87,7 @@ public abstract class Cell {
 		}
 		return false;
 	}
-		
-	/**
-	 * @param root
-	 * Draws the cell at the given location.
-	 */
-	public void drawCell(Group root) {
-		myCell.setX((rowNum-1)*myWidth);
-		myCell.setY((colNum-1)*myHeight);
-		root.getChildren().add(myCell);
-	}
+
 	
 	/**
 	 * @param root
