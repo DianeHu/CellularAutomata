@@ -1,5 +1,4 @@
 package cellsociety_team08;
-import java.io.File;
 
 import cellManager.Grid;
 import cells.Cell;
@@ -13,10 +12,23 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import java.io.File;
+
+import XMLClasses.XMLException;
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.FileChooser.ExtensionFilter;
+import XMLClasses.XMLReader;
 
 public class Simulation extends Application {
 
-	private static final int SIZE = 400;
+	public static final String DATA_FILE_EXTENSION = "*.xml";
+	private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
+	private static final int SIZE = 800;
 	private static final Color BACKGROUND = Color.TRANSPARENT;
 	private static final String TITLE = "SIMULATION";
 	private static final double MILLISECOND_DELAY = 0;
@@ -28,8 +40,6 @@ public class Simulation extends Application {
 	private Stage myStage;
 	private int colorNum = 0;
 	private File XMLSample;
-
-	
 	@Override
 	/*public void start(Stage s) throws Exception {
 		// attach scene to the stage and display it
@@ -65,14 +75,34 @@ public class Simulation extends Application {
         animation.play();
 		
 	}
-	
+	/*
+	public void startSplash (Stage primaryStage) throws Exception {
+        File dataFile = myChooser.showOpenDialog(primaryStage);
+        if (dataFile != null) {
+            try {
+                //System.out.println(new XMLReader("media").getMusic(dataFile));
+            }
+            catch (XMLException e) {
+                Alert a = new Alert(AlertType.ERROR);
+                a.setContentText(e.getMessage());
+                a.showAndWait();
+            }
+            // silly trick to select data file multiple times for this demo
+            start(primaryStage);
+        }
+        else {
+            // nothing selected, so quit the application
+            Platform.exit();
+        }
+    }
+	*/
 	private Scene setSimulation(File xml)
 	{
 		//int width = 0, height =0;
 		Paint background = Color.TRANSPARENT;
 		if(colorNum == 1)
 		{
-			background = Color.WHITE;
+			background = Color.PINK;
 		}
 		if(colorNum == 2)
 		{
@@ -135,8 +165,18 @@ public class Simulation extends Application {
         
     }
 	
+	private FileChooser makeChooser (String extensionAccepted) {
+        FileChooser result = new FileChooser();
+        result.setTitle("Open Data File");
+	    // pick a reasonable place to start searching for files
+        result.setInitialDirectory(new File(System.getProperty("user.dir")));
+        result.getExtensionFilters().setAll(new ExtensionFilter("Text Files", extensionAccepted));
+	    return result;
+	}
+	
     public static void main (String[] args) {
         launch(args);
     }
+    
 
 }
