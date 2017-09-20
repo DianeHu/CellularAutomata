@@ -14,8 +14,8 @@ public class OrangeSchellingCell extends Cell{
 
 	private double threshold;
 
-	public OrangeSchellingCell(int myRowNum, int myColNum, int w, int h) {
-		super(myRowNum, myColNum, w, h);
+	public OrangeSchellingCell(int myRowNum, int myColNum) {
+		super(myRowNum, myColNum);
 		setColor(Color.DARKORANGE);
 	}
 
