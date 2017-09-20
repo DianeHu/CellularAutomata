@@ -13,11 +13,10 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-//import javafx
 
 public class Simulation extends Application {
 
-	private static final int SIZE = 800;
+	private static final int SIZE = 400;
 	private static final Color BACKGROUND = Color.TRANSPARENT;
 	private static final String TITLE = "SIMULATION";
 	private static final double MILLISECOND_DELAY = 0;
@@ -105,9 +104,10 @@ public class Simulation extends Application {
 	}
 	
 	private void step (double elapsedTime) 
-	{
+	{   
+		//myStage.setScene(setSimulation(XMLSample));
 		sampleGrid.createsNewGrid();
-		sampleGrid.update(); 
+		sampleGrid.update(root); 
 		colorNum++;
 	}
 	
@@ -116,6 +116,10 @@ public class Simulation extends Application {
 		{
 			colorNum++;
 			myStage.setScene(setSimulation(XMLSample));
+		}
+		if(code == KeyCode.SPACE) {			
+			sampleGrid.createsNewGrid();			
+			sampleGrid.update(root); 
 		}
 	}
 	
