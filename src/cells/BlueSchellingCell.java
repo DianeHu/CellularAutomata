@@ -13,8 +13,8 @@ import javafx.scene.shape.Rectangle;
 public class BlueSchellingCell extends Cell{
 private double threshold;
 	
-	public BlueSchellingCell(int myRowNum, int myColNum, int w, int h) {
-		super(myRowNum, myColNum, w, h);
+	public BlueSchellingCell(int myRowNum, int myColNum) {
+		super(myRowNum, myColNum);
 		setColor(Color.NAVY);
 	}
 	
@@ -43,8 +43,5 @@ private double threshold;
 			grid.addToNewGrid(this);
 		}
 	}
-	
-	public boolean isNeighbor(int otherRowNum, int otherColNum) {
-		return super.isNeighbor8(otherRowNum, otherColNum);
-	}
+
 }
