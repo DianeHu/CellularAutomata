@@ -193,7 +193,7 @@ private int cellHeight;
 		//removeCellsFromScreen();
 		for(int i = 0; i<numRows; i++) {
 			for(int j = 0; j<numCols; j++) {
-				Cell c = currentGrid[j][i];
+				Cell c = currentGrid[i][j];
 				//c.drawCell(r);
 				blocks[i][j].setFill(c.getColor());
 			}
