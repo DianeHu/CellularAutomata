@@ -21,8 +21,14 @@ public class OrangeSchellingCell extends Cell{
 	private int height;
 	
 	public OrangeSchellingCell(int myRowNum, int myColNum, int width, int height) {
-		super(myRowNum, myColNum, width, height);
-		block.setFill(Color.DARKORANGE);
+		super(myRowNum, myColNum, w, h);
+		rowNum = myRowNum;
+		colNum = myColNum;
+		width = w;
+		height = h;
+		myCell = new Rectangle((rowNum)*width, (colNum)*height, width, height);
+		neighbors = new ArrayList<Cell>();
+		myCell.setFill(Color.DARKORANGE);
 	}
 	
 	public void setThreshold(int t) {

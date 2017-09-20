@@ -20,9 +20,10 @@ public class BlueSchellingCell extends Cell{
 	private int height;
 	
 	
-	public BlueSchellingCell(int myRowNum, int myColNum, int width, int height) {
-		super(myRowNum, myColNum, width, height);
-		block.setFill(Color.NAVY);
+	public BlueSchellingCell(int myRowNum, int myColNum, int w, int h) {
+		super(myRowNum, myColNum, w, h);
+		getMyCell().setFill(Color.NAVY);
+		getMyCell().setStroke(Color.DARKGREY);
 	}
 	
 	public void setThreshold(int t) {

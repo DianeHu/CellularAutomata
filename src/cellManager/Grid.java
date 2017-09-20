@@ -10,26 +10,7 @@ import cells.OrangeSchellingCell;
 import cells.SharkCell;
 import javafx.scene.Group;
 
-/**
- * @author Madhavi
- *
- */
-/**
- * @author Madhavi
- *
- */
-/**
- * @author Madhavi
- *
- */
-/**
- * @author Madhavi
- *
- */
-/**
- * @author Madhavi
- *
- */
+
 public class Grid {
 public static final int SIZE = 400;
 private Group root;
@@ -56,6 +37,11 @@ private int cellHeight;
 		numCols = 5;
 		cellWidth = SIZE/numCols;
 		cellHeight = SIZE/numRows;
+		
+		currentGrid = new Cell[numRows][numCols];
+		newGrid = new Cell[numRows][numCols];
+		emptyGrid = new Cell[numRows][numCols];
+		
 		createEmptyGrid();
 		currentGrid = emptyGrid;
 		setInitialStates();
@@ -71,20 +57,22 @@ private int cellHeight;
 				    		  {'b',' ','o','b','o'}
 		};
 		for(int i = 0; i<numRows; i++) {
-			for(int j = 0; i<numCols; j++) {
-				if(states[i][j]=='o') {
-					Cell c = new OrangeSchellingCell(i,j,cellWidth,cellHeight);
-					currentGrid[i][j]= c;
+			for(int j = 0; j<numCols; j++) {
+				if(states[j][i]=='o') {
+					OrangeSchellingCell c = new OrangeSchellingCell(i,j,cellWidth,cellHeight);
+					currentGrid[j][i]= c;
+					c.setThreshold(.3);
 					c.drawCell(root);
 				}
-				if(states[i][j]=='b') {
-					Cell c = new BlueSchellingCell(i,j,cellWidth,cellHeight);
-					currentGrid[i][j]= c;
+				if(states[j][i]=='b') {
+					BlueSchellingCell c = new BlueSchellingCell(i,j,cellWidth,cellHeight);
+					currentGrid[j][i]= c;
+					c.setThreshold(.3);
 					c.drawCell(root);
 				}
-				if(states[i][j]==' ') {
+				if(states[j][i]==' ') {
 					Cell c = new EmptyCell(i,j,cellWidth,cellHeight);
-					currentGrid[i][j]= c;
+					currentGrid[j][i]= c;
 					c.drawCell(root);
 				}
 			}			
@@ -132,39 +120,6 @@ private int cellHeight;
 			}
 		}		
 		cell.setNeighbors(neighbors);
-		/*//top
-		if(row!=0 & cell.isNeighbor(row+1,col)) {
-			neighbors.add(currentGrid[row-1][col]);
-		}
-		//bottom
-		if(row!=(numRows-1) & cell.isNeighbor(row-1,col)) {
-			neighbors.add(currentGrid[row+1][col]);
-		}
-		//left
-		if(col!=0 & cell.isNeighbor(row,col-1)) {
-			neighbors.add(currentGrid[row][col-1]);
-		}
-		//right
-		if(col!=(numCols-1) & cell.isNeighbor(row,col+1)) {
-			neighbors.add(currentGrid[row][col+1]);
-		}
-		//upper right
-		if(col!=(numCols-1) & row!=0 & cell.isNeighbor(row+1,col+1)) {
-			neighbors.add(currentGrid[row-1][col+1]);
-		}
-		//lower right
-		if(row!=(numCols-1) & col!=(numCols-1) & cell.isNeighbor(row-1,col+1)) {
-			neighbors.add(currentGrid[row+1][col+1]);
-		}
-		//upper left
-		if(row!=0 & col!=0 & cell.isNeighbor(row+1,col-1)) {
-			neighbors.add(currentGrid[row-1][col-1]);
-		}
-		//lower left
-		if(row!=(numCols-1) & col!=0 & cell.isNeighbor(row-1,col-1)) {
-			neighbors.add(currentGrid[row+1][col-1]);
-		}
-		cell.setNeighbors(neighbors);*/
 	}
 	
 	public void createsNewGrid() {
@@ -195,10 +150,12 @@ private int cellHeight;
 	public void update() {
 		currentGrid = newGrid;
 		newGrid = emptyGrid;
+		root.getChildren().clear();
 		for(int i = 0; i<numRows; i++) {
 			for(int j = 0; j<numCols; j++) {
 				Cell c = currentGrid[i][j];
 				c.drawCell(root);
+				System.out.println("drawn update");
 			}
 		}
 		
@@ -238,3 +195,4 @@ private int cellHeight;
 		newGrid[c.getRow()][c.getCol()] = new EmptyCell(c.getRow(),c.getCol(),cellWidth,cellHeight);
 	}
 }
+
