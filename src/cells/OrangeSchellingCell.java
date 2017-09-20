@@ -11,27 +11,15 @@ import javafx.scene.shape.Rectangle;
  * @author Madhavi
  */
 public class OrangeSchellingCell extends Cell{
-	
-	private int rowNum;
-	private int colNum;
-	private Rectangle block;
-	private ArrayList<Cell> neighbors;
-	private int threshold;
-	private int width;
-	private int height;
-	
-	public OrangeSchellingCell(int myRowNum, int myColNum, int width, int height) {
+
+	private double threshold;
+
+	public OrangeSchellingCell(int myRowNum, int myColNum, int w, int h) {
 		super(myRowNum, myColNum, w, h);
-		rowNum = myRowNum;
-		colNum = myColNum;
-		width = w;
-		height = h;
-		myCell = new Rectangle((rowNum)*width, (colNum)*height, width, height);
-		neighbors = new ArrayList<Cell>();
-		myCell.setFill(Color.DARKORANGE);
+		setColor(Color.DARKORANGE);
 	}
-	
-	public void setThreshold(int t) {
+
+	public void setThreshold(double t) {
 		threshold = t;
 	}
 	
