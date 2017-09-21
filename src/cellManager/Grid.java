@@ -191,17 +191,20 @@ public class Grid {
 	}
 	
 	public void update(Group r) {
-		//updateCurrentGrid();
-		//createEmptyGrid();
-		//empty(newGrid);
+
 		for(int i = 0; i<numRows; i++) {
 			for(int j = 0; j<numCols; j++) {
 				Cell c = newGrid[i][j];
 				blocks[i][j].setFill(c.getColor());
-				System.out.println(c.getColor() +" ");
+				currentGrid[i][j] = newGrid[i][j];
 			}
 			System.out.println("\n");
 		}
+		
+		empty(newGrid);
+	}
+
+
 		
 	}
 
