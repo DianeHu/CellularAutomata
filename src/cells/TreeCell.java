@@ -11,21 +11,16 @@ import javafx.scene.shape.Rectangle;
  * @author Diane Hu
  */
 public class TreeCell extends Cell{
-	private int rowNum;
-	private int colNum;
-	private Rectangle block;
-	private ArrayList<Cell> neighbors;
+
 	private boolean fireThreat = false;
 	private double probCatch = .15;
 	private double threatSeverity = 1;
 	private double probGrow = .15;
-	private int width;
-	private int height;
 	private boolean burned = false;
 	
-	public TreeCell(int myRowNum, int myColNum, int width, int height) {
-		super(myRowNum, myColNum, width, height);
-		block.setFill(Color.FORESTGREEN);
+	public TreeCell(int myRowNum, int myColNum) {
+		super(myRowNum, myColNum);
+		setColor(Color.FORESTGREEN);
 	}
 	
 	/* (non-Javadoc)
@@ -34,7 +29,7 @@ public class TreeCell extends Cell{
 	 */
 	@Override
 	public boolean isSurroundingNeighbor(int otherRowNum, int otherColNum) {
-		if((Math.abs(rowNum-otherRowNum)<=1 && (colNum == otherColNum)) || (Math.abs(colNum-otherColNum)<=1 && (rowNum == otherRowNum))) {
+		if((Math.abs(getRow()-otherRowNum)<=1 && (getCol() == otherColNum)) || (Math.abs(getRow()-otherColNum)<=1 && (getCol() == otherRowNum))) {
 			return true;
 		}
 		return false;
@@ -49,7 +44,7 @@ public class TreeCell extends Cell{
 		if(fireThreat) {
 			double test = Math.random();
 			if(test < threatSeverity * probCatch) {
-				Cell newCell = new BurningTreeCell(this.rowNum, this.colNum, width, height);
+				Cell newCell = new BurningTreeCell(getRow(), getCol());
 				changeCellType(newGrid, newCell);
 				burned = true;
 			}
@@ -61,7 +56,7 @@ public class TreeCell extends Cell{
 	 * number of burning cells.
 	 */
 	public void checkFireThreat() {
-		for(Cell cell : neighbors) {
+		for(Cell cell : getNeighbors()) {
 			if(cell instanceof BurningTreeCell) {
 				fireThreat = true;
 				threatSeverity++;
@@ -79,7 +74,7 @@ public class TreeCell extends Cell{
 		if(cell instanceof EmptyCell) {
 			double test = Math.random();
 			if(test < probGrow) {
-				Cell newCell = new TreeCell(this.rowNum, this.colNum, width, height);
+				Cell newCell = new TreeCell(getRow(), getCol());
 				changeCellType(newGrid, newCell);
 			}
 		}
