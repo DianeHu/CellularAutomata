@@ -11,22 +11,19 @@ import javafx.scene.shape.Rectangle;
  * @author Madhavi
  */
 public class BlueSchellingCell extends Cell{
-	private int rowNum;
-	private int colNum;
-	private Rectangle block;
-	private ArrayList<Cell> neighbors;
-	private int threshold;
-	private int width;
-	private int height;
+private double threshold;
 	
-	
-	public BlueSchellingCell(int myRowNum, int myColNum, int width, int height) {
-		super(myRowNum, myColNum, width, height);
-		block.setFill(Color.NAVY);
+	public BlueSchellingCell(int myRowNum, int myColNum) {
+		super(myRowNum, myColNum);
+		setColor(Color.NAVY);
 	}
 	
-	public void setThreshold(int t) {
+	public void setThreshold(double t) {
 		threshold = t;
+	}
+	
+	public boolean isNeighbor(int otherRowNum, int otherColNum) {
+		return super.isNeighbor8(otherRowNum, otherColNum);
 	}
 	
 	/* (non-Javadoc)
@@ -46,8 +43,5 @@ public class BlueSchellingCell extends Cell{
 			grid.addToNewGrid(this);
 		}
 	}
-	
-	public boolean isNeighbor(int otherRowNum, int otherColNum) {
-		return super.isNeighbor8(otherRowNum, otherColNum);
-	}
+
 }

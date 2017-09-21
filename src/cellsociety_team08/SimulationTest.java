@@ -104,8 +104,8 @@ public class SimulationTest extends Application {
 	
 	private void step (double elapsedTime) 
 	{
-		sampleGrid.update();
 		sampleGrid.createsNewGrid(); 
+		sampleGrid.update();
 		colorNum++;
 		myStage.setScene(setSimulation());
 	}

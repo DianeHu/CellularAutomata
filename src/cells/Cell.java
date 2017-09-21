@@ -20,7 +20,6 @@ public abstract class Cell {
 	private int colNum;
 	private ArrayList<Cell> neighbors;
 	private Color col;
-	private int numLiveNeighbors;
 	
 	public Cell(int myRowNum, int myColNum) {
 		rowNum = myRowNum;
@@ -66,16 +65,13 @@ public abstract class Cell {
 	 * @return Returns whether or not a cell at an indicated position is a neighbor of the current cell. Neighbor defined as any of the eight
 	 * surrounding positions of a cell, i.e., including positions diagonal to the current one.
 	 */
-	public boolean isSurroundingNeighbor(int otherRowNum, int otherColNum) {
-		if(Math.abs(rowNum-otherRowNum)<=1 && Math.abs(colNum-otherColNum)<=1) {
-			return true;
-		}
-		return false;
-	}
+	public abstract boolean isNeighbor(int otherRowNum, int otherColNum);
 	
 	public boolean isNeighbor8(int otherRowNum, int otherColNum) {
 		if(Math.abs(rowNum-otherRowNum)<=1 & Math.abs(colNum-otherColNum)<=1) {
-			return true;
+			if(!(otherRowNum==rowNum && otherColNum==colNum)) {
+				return true;
+			}
 		}
 		return false;
 	}
@@ -87,6 +83,7 @@ public abstract class Cell {
 		}
 		return false;
 	}
+
 
 	
 	/**
@@ -152,6 +149,16 @@ public abstract class Cell {
 		return sum;
 	}
 	
+	protected int getNumBurningNeighbors() {
+		int sum = 0;
+		for(Cell c: neighbors) {
+			if(c instanceof BurningTreeCell) {
+				sum++;
+			}
+		}
+		return sum;
+	}
+	
 	/**
 	 * @param emptySpots
 	 * @param grid
@@ -183,20 +190,15 @@ public abstract class Cell {
 	 * @param cell
 	 * Checks number of live neighbors for a given cell in the Game Of Life simulation.
 	 */
-	protected void checkNumLiveNeighbors() {
+	
+	protected int checkNumLiveNeighbors() {
+		int numLiveNeighbors = 0;
 		for(Cell c : neighbors) {
 			if(c instanceof LiveCell) {
 				numLiveNeighbors++;
 			}
 		}
-	}
-	
-	protected int getNumLiveNeighbors() {
 		return numLiveNeighbors;
-	}
-	
-	protected void setNumLiveNeighbors(int num) {
-		numLiveNeighbors = num;
 	}
 	
 	protected ArrayList<Cell> getNeighbors(){

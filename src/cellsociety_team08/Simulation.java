@@ -2,7 +2,6 @@ package cellsociety_team08;
 import java.io.File;
 
 import cellManager.Grid;
-import cells.BurningTreeCell;
 import cells.Cell;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -14,12 +13,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-//import javafx
 
 public class Simulation extends Application {
 
 	private static final int SIZE = 400;
-	private static final Color BACKGROUND = Color.WHITE;
+	private static final Color BACKGROUND = Color.TRANSPARENT;
 	private static final String TITLE = "SIMULATION";
 	private static final double MILLISECOND_DELAY = 0;
 	private static final double SECOND_DELAY = 0;
@@ -71,7 +69,7 @@ public class Simulation extends Application {
 	private Scene setSimulation(File xml)
 	{
 		//int width = 0, height =0;
-		Paint background = Color.AQUA;
+		Paint background = Color.TRANSPARENT;
 		if(colorNum == 1)
 		{
 			background = Color.WHITE;
@@ -86,8 +84,8 @@ public class Simulation extends Application {
 		//sampleCell = new BurningTreeCell(10, 10, SIZE, SIZE);
 		//sampleCell.drawCell(root);
 		
-		//sampleGrid = new Grid(root, xml); 
-		//sampleGrid.initialize();
+		sampleGrid = new Grid(root); 
+		sampleGrid.initialize();
 		
 		//root.getChildren().addAll();
 		
@@ -106,11 +104,11 @@ public class Simulation extends Application {
 	}
 	
 	private void step (double elapsedTime) 
-	{
-		sampleGrid.update();
-		sampleGrid.createsNewGrid(); 
+	{   
+		//myStage.setScene(setSimulation(XMLSample));
+		//sampleGrid.createsNewGrid();
+		//sampleGrid.update(root); 
 		colorNum++;
-		myStage.setScene(setSimulation(XMLSample));
 	}
 	
 	private void handleKeyInput (KeyCode code) {
@@ -118,6 +116,10 @@ public class Simulation extends Application {
 		{
 			colorNum++;
 			myStage.setScene(setSimulation(XMLSample));
+		}
+		if(code == KeyCode.SPACE) {			
+			sampleGrid.createsNewGrid();			
+			sampleGrid.update(root); 
 		}
 	}
 	

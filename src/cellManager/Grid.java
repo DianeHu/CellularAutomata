@@ -2,45 +2,35 @@ package cellManager;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import cells.BlueSchellingCell;
+import cells.BurningTreeCell;
 import cells.Cell;
+import cells.DeadCell;
 import cells.EmptyCell;
+import cells.LiveCell;
 import cells.OrangeSchellingCell;
-import cells.SharkCell;
+import cells.TreeCell;
+//import cells.SharkCell;
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
-/**
- * @author Madhavi
- *
- */
-/**
- * @author Madhavi
- *
- */
-/**
- * @author Madhavi
- *
- */
-/**
- * @author Madhavi
- *
- */
-/**
- * @author Madhavi
- *
- */
+
 public class Grid {
-public static final int SIZE = 400;
-private Group root;
-private Cell[][] currentGrid;
-private Cell[][] newGrid;
-private Cell[][] emptyGrid;
-private File xml;
-private int numRows;
-private int numCols;
-private int cellWidth;
-private int cellHeight;
+	
+	public static final int SIZE = 400;
+	private Group root;
+	private Cell[][] currentGrid;
+	private Cell[][] newGrid;
+	private Cell[][] emptyGrid;
+	private Rectangle[][] blocks;
+	private File xml;
+	private int numRows;
+	private int numCols;
+	private int cellWidth;
+	private int cellHeight;
 
 	public Grid(Group r) {
 		root = r;
@@ -56,40 +46,29 @@ private int cellHeight;
 		numCols = 5;
 		cellWidth = SIZE/numCols;
 		cellHeight = SIZE/numRows;
-		createEmptyGrid();
-		currentGrid = emptyGrid;
+		
+		currentGrid = new Cell[numRows][numCols];
+		newGrid = new Cell[numRows][numCols];
+		//emptyGrid = new Cell[numRows][numCols];
+		blocks = new Rectangle[numRows][numCols];
+		
+		//createEmptyGrid();
+		empty(currentGrid);
+		empty(newGrid);
+		setRectangles();
 		setInitialStates();
-		newGrid = emptyGrid;
+
 		// read from xml to create initial state
 	}
 	
-	private void setInitialStates() {
-		char[][] states ={{'b','b','o','o','o'},
-				    		  {'o','b',' ',' ','b'},
-				    		  {' ',' ','o','b','b'},
-				    		  {'o','o','b','o',' '},
-				    		  {'b',' ','o','b','o'}
-		};
+	private void empty(Cell[][] grid) {
 		for(int i = 0; i<numRows; i++) {
-			for(int j = 0; i<numCols; j++) {
-				if(states[i][j]=='o') {
-					Cell c = new OrangeSchellingCell(i,j,cellWidth,cellHeight);
-					currentGrid[i][j]= c;
-					c.drawCell(root);
-				}
-				if(states[i][j]=='b') {
-					Cell c = new BlueSchellingCell(i,j,cellWidth,cellHeight);
-					currentGrid[i][j]= c;
-					c.drawCell(root);
-				}
-				if(states[i][j]==' ') {
-					Cell c = new EmptyCell(i,j,cellWidth,cellHeight);
-					currentGrid[i][j]= c;
-					c.drawCell(root);
-				}
-			}			
+			for(int j = 0; j<numCols; j++) {
+				grid[i][j]=new EmptyCell(i,j);
+			}
 		}
 	}
+	
 	/**
 	 * Creates a grid with only empty cells which can be used to initialize
 	 *  newgrid and current grid
@@ -97,10 +76,89 @@ private int cellHeight;
 	private void createEmptyGrid() {
 		for(int i = 0; i<numRows; i++) {
 			for(int j = 0; j<numCols; j++) {
-				emptyGrid[i][j]=new EmptyCell(i,j,cellWidth,cellHeight);
+				emptyGrid[i][j]=new EmptyCell(i,j);
 			}
 		}
 	}
+	
+	private void setRectangles() {
+		
+		for(int i = 0; i<numRows; i++) {
+			for(int j = 0; j<numCols; j++) {
+				Rectangle r = new Rectangle(j*cellWidth,i*cellHeight,cellWidth,cellHeight);
+				r.setStroke(Color.DARKGREY);
+				root.getChildren().add(r);
+				blocks[i][j]=r;
+			}
+		}
+	}
+	
+	/*private void setInitialStates() {
+				char[][] states ={{'l','l','d','d','d'},
+			    		  			{'l','d','d','l','l'},
+			    		  			{'d','l','l','l','l'},
+			    		  			{'l','d','l','l','d'},
+			    		  			{'d','l','d','d','l'}};
+
+				for(int i = 0; i<numRows; i++) {
+					for(int j = 0; j<numCols; j++) {
+						if(states[i][j]=='l') {
+							Cell c = new LiveCell(i,j);
+							currentGrid[i][j]= c;
+							blocks[i][j].setFill(c.getColor());
+							
+						}
+						if(states[i][j]=='d') {
+							Cell c = new DeadCell(i,j);
+							currentGrid[i][j]= c;
+							blocks[i][j].setFill(c.getColor());
+						}
+						if(states[i][j]==' ') {
+							Cell c = new EmptyCell(i,j);
+							currentGrid[i][j]= c;
+							blocks[i][j].setFill(c.getColor());
+						}
+						
+					}
+					
+				}
+			}*/
+	private void setInitialStates() {
+		/*		char[][] states ={{'b','b','o','o','o'},
+						    		  {'o','b',' ',' ','b'},
+						    		  {' ',' ','o','b','b'},
+						    		  {'o','o','b','o',' '},
+						    		  {'b',' ','o','b','o'}};*/
+				
+				char[][] states ={{'t','t','t','b','t'},
+			    		  			{'b',' ',' ',' ','t'},
+			    		  			{'t','t','b','b','t'},
+			    		  			{'t','t',' ','t',' '},
+			    		  			{'t','t','t','t','t'}};
+
+				for(int i = 0; i<numRows; i++) {
+					for(int j = 0; j<numCols; j++) {
+						if(states[i][j]=='t') {
+							Cell c = new TreeCell(i,j);
+							currentGrid[i][j]= c;
+							blocks[i][j].setFill(c.getColor());
+							
+						}
+						if(states[i][j]=='b') {
+							Cell c = new BurningTreeCell(i,j);
+							currentGrid[i][j]= c;
+							blocks[i][j].setFill(c.getColor());
+						}
+						if(states[i][j]==' ') {
+							Cell c = new EmptyCell(i,j);
+							currentGrid[i][j]= c;
+							blocks[i][j].setFill(c.getColor());
+						}
+						
+					}
+					
+				}
+			}
 	
 	/**
 	 * This methods sets the list of neighbors for each cell by checking
@@ -132,46 +190,13 @@ private int cellHeight;
 			}
 		}		
 		cell.setNeighbors(neighbors);
-		/*//top
-		if(row!=0 & cell.isNeighbor(row+1,col)) {
-			neighbors.add(currentGrid[row-1][col]);
-		}
-		//bottom
-		if(row!=(numRows-1) & cell.isNeighbor(row-1,col)) {
-			neighbors.add(currentGrid[row+1][col]);
-		}
-		//left
-		if(col!=0 & cell.isNeighbor(row,col-1)) {
-			neighbors.add(currentGrid[row][col-1]);
-		}
-		//right
-		if(col!=(numCols-1) & cell.isNeighbor(row,col+1)) {
-			neighbors.add(currentGrid[row][col+1]);
-		}
-		//upper right
-		if(col!=(numCols-1) & row!=0 & cell.isNeighbor(row+1,col+1)) {
-			neighbors.add(currentGrid[row-1][col+1]);
-		}
-		//lower right
-		if(row!=(numCols-1) & col!=(numCols-1) & cell.isNeighbor(row-1,col+1)) {
-			neighbors.add(currentGrid[row+1][col+1]);
-		}
-		//upper left
-		if(row!=0 & col!=0 & cell.isNeighbor(row+1,col-1)) {
-			neighbors.add(currentGrid[row-1][col-1]);
-		}
-		//lower left
-		if(row!=(numCols-1) & col!=0 & cell.isNeighbor(row-1,col-1)) {
-			neighbors.add(currentGrid[row+1][col-1]);
-		}
-		cell.setNeighbors(neighbors);*/
 	}
 	
 	public void createsNewGrid() {
 		setNeighbors();
 		ArrayList<Cell> emptyCells = getEmptyCells();
-		for(int i = 0; i<numRows; i++) {
-			for(int j = 0; j<numCols; j++) {
+		for(int i = 0; i<currentGrid.length; i++) {
+			for(int j = 0; j<currentGrid[i].length; j++) {
 				Cell c = currentGrid[i][j];
 				c.moveCell(emptyCells,this);
 			}
@@ -192,17 +217,19 @@ private int cellHeight;
 		return emptyCells;
 	}
 	
-	public void update() {
-		currentGrid = newGrid;
-		newGrid = emptyGrid;
+	public void update(Group r) {
+
 		for(int i = 0; i<numRows; i++) {
 			for(int j = 0; j<numCols; j++) {
-				Cell c = currentGrid[i][j];
-				c.drawCell(root);
+				Cell c = newGrid[i][j];
+				blocks[i][j].setFill(c.getColor());
+				currentGrid[i][j] = newGrid[i][j];
 			}
 		}
 		
+		empty(newGrid);
 	}
+
 
 	public boolean newGridContainsCellAt(int rownum, int colnum) {
 		if(newGrid[rownum][colnum] instanceof EmptyCell) {
@@ -216,12 +243,12 @@ private int cellHeight;
 	 * @param colnum
 	 * @return Tests if the new grid has a SharkCell at a certain location, returns true/false.
 	 */
-	public boolean newGridContainsSharkAt(int rownum, int colnum) {
+	/*public boolean newGridContainsSharkAt(int rownum, int colnum) {
 		if(newGrid[rownum][colnum] instanceof SharkCell) {
 			return false;
 		}
 		return true;
-	}
+	}*/
 	
 	public void addToNewGrid(Cell c) {
 		newGrid[c.getRow()][c.getCol()] = c;
@@ -235,6 +262,6 @@ private int cellHeight;
 	 * class takes care of this assumption.
 	 */
 	public void removeFromNewGrid(Cell c) {
-		newGrid[c.getRow()][c.getCol()] = new EmptyCell(c.getRow(),c.getCol(),cellWidth,cellHeight);
+		newGrid[c.getRow()][c.getCol()] = new EmptyCell(c.getRow(),c.getCol());
 	}
 }
