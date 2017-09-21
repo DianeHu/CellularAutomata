@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import XMLClasses.GridConfiguration;
 
 
 /**
@@ -37,18 +38,18 @@ public class XMLReader {
     /**
      * Get the data contained in this XML file as an object
      */
-    /*public Music getMusic (File dataFile) {
+    public GridConfiguration getGridConfiguration (File dataFile) {
         Element root = getRootElement(dataFile);
-        if (! isValidFile(root, Music.DATA_TYPE)) {
-            throw new XMLException("XML file does not represent %s", Music.DATA_TYPE);
+        if (! isValidFile(root, GridConfiguration.DATA_TYPE)) {
+            throw new XMLException("XML file does not represent %s", GridConfiguration.DATA_TYPE);
         }
         // read data associated with the fields given by the object
         Map<String, String> results = new HashMap<>();
-        for (String field : Music.DATA_FIELDS) {
+        for (String field : GridConfiguration.DATA_FIELDS) {
             results.put(field, getTextValue(root, field));
         }
-        return new Music(results);
-    }*/
+       return new GridConfiguration(results);
+    }
 
 
     // Get root element of an XML file
