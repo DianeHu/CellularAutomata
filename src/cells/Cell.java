@@ -20,7 +20,6 @@ public abstract class Cell {
 	private int colNum;
 	private ArrayList<Cell> neighbors;
 	private Color col;
-	private int numLiveNeighbors;
 	
 	public Cell(int myRowNum, int myColNum) {
 		rowNum = myRowNum;
@@ -183,20 +182,14 @@ public abstract class Cell {
 	 * @param cell
 	 * Checks number of live neighbors for a given cell in the Game Of Life simulation.
 	 */
-	protected void checkNumLiveNeighbors() {
+	protected int checkNumLiveNeighbors() {
+		int numLiveNeighbors = 0;
 		for(Cell c : neighbors) {
 			if(c instanceof LiveCell) {
 				numLiveNeighbors++;
 			}
 		}
-	}
-	
-	protected int getNumLiveNeighbors() {
 		return numLiveNeighbors;
-	}
-	
-	protected void setNumLiveNeighbors(int num) {
-		numLiveNeighbors = num;
 	}
 	
 	protected ArrayList<Cell> getNeighbors(){
