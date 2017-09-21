@@ -183,12 +183,23 @@ public abstract class Cell {
 	 * @param cell
 	 * Checks number of live neighbors for a given cell in the Game Of Life simulation.
 	 */
-	protected void checkNumLiveNeighbors(Cell cell) {
+	protected void checkNumLiveNeighbors() {
 		for(Cell c : neighbors) {
 			if(c instanceof LiveCell) {
-				cell.numLiveNeighbors++;
+				numLiveNeighbors++;
 			}
 		}
 	}
 	
+	protected int getNumLiveNeighbors() {
+		return numLiveNeighbors;
+	}
+	
+	protected void setNumLiveNeighbors(int num) {
+		numLiveNeighbors = num;
+	}
+	
+	protected ArrayList<Cell> getNeighbors(){
+		return neighbors;
+	}
 }
