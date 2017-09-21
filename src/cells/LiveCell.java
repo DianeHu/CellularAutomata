@@ -11,11 +11,15 @@ import javafx.scene.shape.Rectangle;
  * @author Diane Hu
  */
 public class LiveCell extends Cell{
-	private boolean dead = false;
 	
 	public LiveCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setColor(Color.DARKCYAN);
+	}
+	
+	@Override
+	public boolean isNeighbor(int otherRowNum, int otherColNum) {
+		return super.isNeighbor8(otherRowNum, otherColNum);
 	}
 
 	/**
@@ -23,20 +27,23 @@ public class LiveCell extends Cell{
 	 * Checks the number of live neighbors. If number of live neighbors indicates over or underpopulation, then replace the current live cell with
 	 * a dead one. Subsequently resets the number of live neighbors to zero.
 	 */
-	public void dieOut(Grid newGrid) {
-		checkNumLiveNeighbors();
-		if(getNumLiveNeighbors() < 2 || getNumLiveNeighbors() > 3) {
-			Cell newCell = new DeadCell(getRow(), getCol());
-			changeCellType(newGrid, newCell);
-			setNumLiveNeighbors(0);
-			dead = true;
+	private void dieOut(Grid newGrid) {
+		Cell newCell = new DeadCell(getRow(), getCol());
+		newGrid.addToNewGrid(newCell);
+	}
+	
+	private boolean shouldDie() {
+		if(checkNumLiveNeighbors() < 2 || checkNumLiveNeighbors() > 3) {
+			return true;
 		}
+		return false;
 	}
 
 	@Override
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
-		dieOut(grid);
-		if(dead == false) {
+		if(shouldDie()) {
+			dieOut(grid);
+		} else {
 			grid.addToNewGrid(this);
 		}
 	}
