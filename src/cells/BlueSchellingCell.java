@@ -38,7 +38,12 @@ public class BlueSchellingCell extends Cell{
 		double numOrange = (double)getNumOrangeNeighbors();
 		boolean satisfied = numBlue/(numOrange+numBlue) >= threshold;
 		if(!satisfied) {
-			moveToRandomPlace(emptySpots, grid);
+			if(!moveToRandomPlace(emptySpots, grid)) {
+				grid.addToNewGrid(this);
+			}
+		}
+		else {
+			grid.addToNewGrid(this);
 		}
 	}
 	

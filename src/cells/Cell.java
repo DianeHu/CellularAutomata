@@ -7,6 +7,7 @@ import java.util.Random;
 import cellManager.Grid;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -17,19 +18,29 @@ public abstract class Cell {
 	
 	private int rowNum;
 	private int colNum;
-	private int myWidth;
-	private int myHeight;
-	private Rectangle myCell;
 	private ArrayList<Cell> neighbors;
+	private Color col;
 	private int numLiveNeighbors;
 	
-	public Cell(int myRowNum, int myColNum, int width, int height) {
+	public Cell(int myRowNum, int myColNum) {
 		rowNum = myRowNum;
 		colNum = myColNum;
-		myWidth = width;
-		myHeight = height;
-		myCell = new Rectangle((rowNum-1)*width, (colNum-1)*height, width, height);
 		neighbors = new ArrayList<Cell>();
+	}
+	
+	/**
+	 * Sets the color for a cell type
+	 * @param c is the Color associated with the cell type
+	 */
+	protected void setColor(Color c) {
+		col = c;
+	}
+	
+	/**
+	 * @return the color associated with the cell type
+	 */
+	public Color getColor() {
+		return col;
 	}
 	
 	/**
@@ -45,6 +56,8 @@ public abstract class Cell {
 	public int getCol() {
 		return colNum;
 	}
+	
+	
 	
 	
 	/**
@@ -74,16 +87,7 @@ public abstract class Cell {
 		}
 		return false;
 	}
-		
-	/**
-	 * @param root
-	 * Draws the cell at the given location.
-	 */
-	public void drawCell(Group root) {
-		myCell.setX((rowNum-1)*myWidth);
-		myCell.setY((colNum-1)*myHeight);
-		root.getChildren().add(myCell);
-	}
+
 	
 	/**
 	 * @param root
@@ -179,12 +183,23 @@ public abstract class Cell {
 	 * @param cell
 	 * Checks number of live neighbors for a given cell in the Game Of Life simulation.
 	 */
-	protected void checkNumLiveNeighbors(Cell cell) {
+	protected void checkNumLiveNeighbors() {
 		for(Cell c : neighbors) {
 			if(c instanceof LiveCell) {
-				cell.numLiveNeighbors++;
+				numLiveNeighbors++;
 			}
 		}
 	}
 	
+	protected int getNumLiveNeighbors() {
+		return numLiveNeighbors;
+	}
+	
+	protected void setNumLiveNeighbors(int num) {
+		numLiveNeighbors = num;
+	}
+	
+	protected ArrayList<Cell> getNeighbors(){
+		return neighbors;
+	}
 }
