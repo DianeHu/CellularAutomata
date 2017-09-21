@@ -11,19 +11,11 @@ import javafx.scene.shape.Rectangle;
  * @author Diane Hu
  */
 public class LiveCell extends Cell{
-	
-	private int rowNum;
-	private int colNum;
-	private Rectangle block;
-	private ArrayList<Cell> neighbors;
-	private int numLiveNeighbors = 0;
-	private int width;
-	private int height;
 	private boolean dead = false;
 	
-	public LiveCell(int myRowNum, int myColNum, int width, int height) {
-		super(myRowNum, myColNum, width, height);
-		block.setFill(Color.DARKCYAN);
+	public LiveCell(int myRowNum, int myColNum) {
+		super(myRowNum, myColNum);
+		setColor(Color.DARKCYAN);
 	}
 
 	/**
@@ -32,11 +24,11 @@ public class LiveCell extends Cell{
 	 * a dead one. Subsequently resets the number of live neighbors to zero.
 	 */
 	public void dieOut(Grid newGrid) {
-		checkNumLiveNeighbors(this);
-		if(numLiveNeighbors < 2 || numLiveNeighbors > 3) {
-			Cell newCell = new DeadCell(this.rowNum, this.colNum, width, height);
+		checkNumLiveNeighbors();
+		if(getNumLiveNeighbors() < 2 || getNumLiveNeighbors() > 3) {
+			Cell newCell = new DeadCell(getRow(), getCol());
 			changeCellType(newGrid, newCell);
-			numLiveNeighbors = 0;
+			setNumLiveNeighbors(0);
 			dead = true;
 		}
 	}
