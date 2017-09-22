@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import XMLClasses.GridConfiguration;
 import cells.BlueSchellingCell;
 import cells.BurningTreeCell;
 import cells.Cell;
@@ -27,24 +28,24 @@ public class Grid {
 	private Cell[][] newGrid;
 	private Cell[][] emptyGrid;
 	private Rectangle[][] blocks;
-	private File xml;
+	private GridConfiguration gridConfig;
 	private int numRows;
 	private int numCols;
 	private int cellWidth;
 	private int cellHeight;
 
-	public Grid(Group r) {
+	public Grid(Group r, GridConfiguration g) {
 		root = r;
-		//xml = f;
+		gridConfig = g;
 		
 	}
 	
 	public void initialize() {
-		/*XMLReader reader = new XMLReader(xml);
-		numRows = reader.getNumRows();
-		numCols = reader.getNumCols();*/
-		numRows = 5;
-		numCols = 5;
+		
+		numRows = gridConfig.getNumRows();
+		numCols = gridConfig.getNumCols();
+		//numRows = 5;
+		//numCols = 5;
 		cellWidth = SIZE/numCols;
 		cellHeight = SIZE/numRows;
 		
@@ -101,12 +102,8 @@ public class Grid {
 				    		  {' ',' ','o','b','b'},
 				    		  {'o','o','b','o',' '},
 				    		  {'b',' ','o','b','o'}};*/
-/*		
-		char[][] states ={{'o','o','o',' ','o'},
-	    		  			{' ','b','o','b','o'},
-	    		  			{'o','o','o','o','o'},
-	    		  			{'b','b',' ','o',' '},
-	    		  			{'o',' ','o',' ','o'}};*/
+		
+		char[][] states =gridConfig.getCellConfiguration();
 		
 		char[][] states ={{' ',' ',' ',' ',' '},
 	  			{' ',' ',' ',' ',' '},
