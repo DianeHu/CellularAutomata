@@ -29,15 +29,7 @@ public class OrangeSchellingCell extends Cell{
 		double numOrange = (double)getNumOrangeNeighbors();
 		boolean satisfied = numOrange/(numOrange+numBlue) >= threshold;
 		if(!satisfied) {
-			System.out.println("Not satisfied");
-			/*if(!moveToRandomPlace(emptySpots, grid)) {
-				grid.addToNewGrid(this);
-			}*/
-			if(emptySpots.size()!=0) {
-				moveToRandomPlace(emptySpots,grid);
-				System.out.println("No empty");
-			}			
-			else {
+			if(!moveToRandomPlace(emptySpots, grid)) {
 				grid.addToNewGrid(this);
 			}
 		}
@@ -45,6 +37,7 @@ public class OrangeSchellingCell extends Cell{
 			grid.addToNewGrid(this);
 		}
 	}
+
 	
 
 	

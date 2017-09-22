@@ -117,7 +117,7 @@ public abstract class Cell {
 	
 	protected boolean moveToRandomPlace(ArrayList<Cell> spots, Grid grid) {
 		boolean moved = false;
-/*		while(!moved) {
+		while(!moved) {
 			int numEmptySpaces = spots.size();
 			if(numEmptySpaces==0) {
 				break;
@@ -132,13 +132,7 @@ public abstract class Cell {
 				grid.addToNewGrid(this);
 				moved = true;
 			}
-		}*/
-		int numEmptySpaces = spots.size();
-		Random rand = new Random(); 
-		Cell testLoc = spots.get(rand.nextInt(numEmptySpaces));
-		rowNum = testLoc.getRow(); colNum = testLoc.getCol();
-		grid.addToNewGrid(this);
-		moved = true;
+		}
 		return moved;
 	}
 	

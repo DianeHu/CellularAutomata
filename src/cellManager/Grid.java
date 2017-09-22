@@ -190,21 +190,18 @@ public class Grid {
 		for(int i = 0; i<currentGrid.length; i++) {
 			for(int j = 0; j<currentGrid[i].length; j++) {
 				Cell c = currentGrid[i][j];
-				ArrayList<Cell> empty = getEmptyCells(currentGrid);
-				System.out.println("size" + empty.size());
-				empty.retainAll(getEmptyCells(newGrid));
-				System.out.println("size" + empty.size());
+				ArrayList<Cell> empty = getEmptyCells();
 				c.moveCell(empty,this);
 			}
 		}
 	}
 	
 	
-	private ArrayList<Cell> getEmptyCells(Cell[][] grid){
+	private ArrayList<Cell> getEmptyCells(){
 		ArrayList<Cell> emptyCells = new ArrayList<Cell>();
 		for(int i = 0; i<numRows; i++) {
 			for(int j = 0; j<numCols; j++) {
-				Cell c = grid[i][j];
+				Cell c = currentGrid[i][j];
 				if(c instanceof EmptyCell) {
 					emptyCells.add(c);
 				}
