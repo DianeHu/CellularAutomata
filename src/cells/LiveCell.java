@@ -2,10 +2,9 @@ package cells;
 
 import java.util.ArrayList;
 
+
 import cellManager.Grid;
-import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 /**
  * @author Diane Hu
@@ -30,7 +29,7 @@ public class LiveCell extends Cell {
 	 *            neighbors to zero.
 	 */
 	private void dieOut(Grid newGrid) {
-		Cell newCell = new DeadCell(getRow(), getCol());
+		Cell newCell = new DeadCell(this.getRow(), this.getCol());
 		newGrid.addToNewGrid(newCell);
 	}
 

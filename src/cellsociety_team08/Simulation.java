@@ -30,7 +30,7 @@ public class Simulation extends Application {
 
 	public static final String DATA_FILE_EXTENSION = "*.xml";
 	private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
-	private static final int SIZE = 800;
+	private static final int SIZE = 400;
 	private static final Color BACKGROUND = Color.TRANSPARENT;
 	private static final String TITLE = "SIMULATION";
 	private static final double MILLISECOND_DELAY = 0;
