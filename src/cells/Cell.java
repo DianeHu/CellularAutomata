@@ -218,6 +218,18 @@ public abstract class Cell {
 		return emptyNeighbors;
 	}
 
-
+    protected int checkNumLiveNeighbors() {
+		int numLiveNeighbors = 0;
+		for(Cell c : neighbors) {
+			if(c instanceof LiveCell) {
+				numLiveNeighbors++;
+			}
+		}
+		return numLiveNeighbors;
+	}
+	
+	protected ArrayList<Cell> getNeighbors(){
+		return neighbors;
+	}
 	
 }
