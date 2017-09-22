@@ -101,8 +101,8 @@ public class Simulation extends Application {
 		//sampleCell = new BurningTreeCell(10, 10, SIZE, SIZE);
 		//sampleCell.drawCell(root);
 		
-		//sampleGrid = new Grid(root); 
-		//sampleGrid.initialize();
+		sampleGrid = new Grid(root); 
+		sampleGrid.initialize();
 		
 		//root.getChildren().addAll();
 		
