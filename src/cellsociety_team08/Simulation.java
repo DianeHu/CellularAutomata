@@ -1,5 +1,6 @@
 package cellsociety_team08;
 import java.io.File;
+import java.util.Arrays;
 
 import cellManager.Grid;
 import cells.Cell;
@@ -68,7 +69,12 @@ public class Simulation extends Application {
         if (dataFile != null) {
             try {
                 InputConfiguration  = new XMLReader("GridConfiguration").getGridConfiguration(dataFile);
-                //System.out.println(InputConfiguration.getNumCols());
+                System.out.println(InputConfiguration.getNumRows());
+                System.out.println(InputConfiguration.getNumCols());
+                System.out.println(Arrays.deepToString(InputConfiguration.getCellConfiguration()));
+               
+                
+                
             }
             catch (XMLException e) {
                 Alert a = new Alert(AlertType.ERROR);
