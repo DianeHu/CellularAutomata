@@ -68,6 +68,7 @@ public class Simulation extends Application {
         if (dataFile != null) {
             try {
                 InputConfiguration  = new XMLReader("GridConfiguration").getGridConfiguration(dataFile);
+                //System.out.println(InputConfiguration.getNumCols());
             }
             catch (XMLException e) {
                 Alert a = new Alert(AlertType.ERROR);
@@ -101,7 +102,7 @@ public class Simulation extends Application {
 		//sampleCell = new BurningTreeCell(10, 10, SIZE, SIZE);
 		//sampleCell.drawCell(root);
 		
-		sampleGrid = new Grid(root); 
+		sampleGrid = new Grid(root,xml); 
 		sampleGrid.initialize();
 		
 		//root.getChildren().addAll();
