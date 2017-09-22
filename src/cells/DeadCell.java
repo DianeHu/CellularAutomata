@@ -25,7 +25,7 @@ public class DeadCell extends Cell {
 	 *            zero.
 	 */
 	public void resurrectCell(Grid newGrid) {
-		Cell newCell = new LiveCell(getRow(), getCol());
+		Cell newCell = new LiveCell(this.getRow(), this.getCol());
 		newGrid.addToNewGrid(newCell);
 	}
 
@@ -38,7 +38,7 @@ public class DeadCell extends Cell {
 
 	@Override
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
-		if(shouldResurrect()) {
+		if (shouldResurrect()) {
 			resurrectCell(grid);
 		} else {
 			grid.addToNewGrid(this);

@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import cells.BlueSchellingCell;
+import cells.BurningTreeCell;
 import cells.Cell;
 import cells.DeadCell;
 import cells.EmptyCell;
+import cells.EmptyLandCell;
 import cells.FishCell;
 import cells.OrangeSchellingCell;
 import cells.SharkCell;
+import cells.TreeCell;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -93,66 +96,41 @@ public class Grid {
 	}
 	
 	private void setInitialStates() {
-/*		char[][] states ={{'b','b','o','o','o'},
-				    		  {'o','b',' ',' ','b'},
-				    		  {' ',' ','o','b','b'},
-				    		  {'o','o','b','o',' '},
-				    		  {'b',' ','o','b','o'}};*/
-		
-		char[][] states ={{'o','o','o',' ','o'},
-	    		  			{' ','b','o','b','o'},
-	    		  			{'o','o','o','o','o'},
-	    		  			{'b','b',' ','o',' '},
-	    		  			{'o',' ','o',' ','o'}};
-		
-/*		char[][] states ={{' ',' ',' ',' ',' '},
-	  			{' ',' ',' ',' ',' '},
-	  			{' ',' ','f',' ',' '},
-	  			{' ',' ',' ',' ',' '},
-	  			{' ',' ',' ',' ',' '}};*/
-		int numBlue = 0;
-		for(int i = 0; i<numRows; i++) {
-			for(int j = 0; j<numCols; j++) {
-				if(states[i][j]=='f') {
-					FishCell c = new FishCell(i,j);
-					currentGrid[i][j]= c;
-					c.setBreedTurns(5);
-					blocks[i][j].setFill(c.getColor());
-					
-				}
-				if(states[i][j]=='s') {
-					SharkCell c = new SharkCell(i,j);
-					currentGrid[i][j]= c;
-					c.setBreedTurns(5);
-					blocks[i][j].setFill(c.getColor());
-					
-				}
-				if(states[i][j]=='o') {
-					OrangeSchellingCell c = new OrangeSchellingCell(i,j);
-					currentGrid[i][j]= c;
-					c.setThreshold(.3);
-					blocks[i][j].setFill(c.getColor());
-					
-				}
-				if(states[i][j]=='b') {
-					BlueSchellingCell c = new BlueSchellingCell(i,j);
-					currentGrid[i][j]= c;
-					c.setThreshold(.3);
-					blocks[i][j].setFill(c.getColor());
-					numBlue++;
-				}
-				if(states[i][j]==' ') {
-					Cell c = new EmptyCell(i,j);
-					currentGrid[i][j]= c;
-					blocks[i][j].setFill(c.getColor());
-				}
+		/*		char[][] states ={{'b','b','o','o','o'},
+						    		  {'o','b',' ',' ','b'},
+						    		  {' ',' ','o','b','b'},
+						    		  {'o','o','b','o',' '},
+						    		  {'b',' ','o','b','o'}};*/
 				
-			}
-			
-		}
-	}
-	
+				char[][] states ={{'t','t','t','b','t'},
+			    		  			{'b',' ',' ',' ','t'},
+			    		  			{'t','t','b','b','t'},
+			    		  			{'t','t',' ','t',' '},
+			    		  			{'t','t','t','t','t'}};
 
+				for(int i = 0; i<numRows; i++) {
+					for(int j = 0; j<numCols; j++) {
+						if(states[i][j]=='t') {
+							Cell c = new TreeCell(i,j);
+							currentGrid[i][j]= c;
+							blocks[i][j].setFill(c.getColor());
+							
+						}
+						if(states[i][j]=='b') {
+							Cell c = new BurningTreeCell(i,j);
+							currentGrid[i][j]= c;
+							blocks[i][j].setFill(c.getColor());
+						}
+						if(states[i][j]==' ') {
+							Cell c = new EmptyLandCell(i,j);
+							currentGrid[i][j]= c;
+							blocks[i][j].setFill(c.getColor());
+						}
+						
+					}
+					
+				}
+			}
 	
 	/**
 	 * This methods sets the list of neighbors for each cell by checking
@@ -218,7 +196,6 @@ public class Grid {
 				blocks[i][j].setFill(c.getColor());
 				currentGrid[i][j] = newGrid[i][j];
 			}
-			System.out.println("\n");
 		}		
 		empty(newGrid);
 	}

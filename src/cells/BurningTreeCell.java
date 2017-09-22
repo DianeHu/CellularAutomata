@@ -10,19 +10,19 @@ import javafx.scene.shape.Rectangle;
 /**
  * @author Diane Hu
  */
-public class BurningTreeCell extends Cell{
-	
+public class BurningTreeCell extends Cell {
+
 	public BurningTreeCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setColor(Color.DARKORANGE);
 	}
-	
+
 	/**
 	 * @param root
-	 * Replaces the current burning cell with an empty cell.
+	 *            Replaces the current burning cell with an empty cell.
 	 */
 	public void burnOut(Grid newGrid) {
-		Cell newCell = new EmptyCell(getRow(), getCol());
+		Cell newCell = new EmptyLandCell(this.getRow(), this.getCol());
 		changeCellType(newGrid, newCell);
 	}
 
