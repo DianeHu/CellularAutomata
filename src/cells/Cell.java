@@ -6,7 +6,6 @@ import java.util.Random;
 
 import cellManager.Grid;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -27,6 +26,7 @@ public abstract class Cell {
 		neighbors = new ArrayList<Cell>();
 	}
 	
+	
 	/**
 	 * Sets the color for a cell type
 	 * @param c is the Color associated with the cell type
@@ -42,9 +42,15 @@ public abstract class Cell {
 		return col;
 	}
 	
-	/**
-	 * @return Returns row number of the cell
-	 */
+	//new
+	public void setRow(int row) {
+		rowNum = row;
+	}
+	//new
+	public void setCol(int col) {
+		colNum = col;
+	}
+
 	public int getRow() {
 		return rowNum;
 	}
@@ -67,11 +73,24 @@ public abstract class Cell {
 	 */
 	public abstract boolean isNeighbor(int otherRowNum, int otherColNum);
 	
+	//changed
 	public boolean isNeighbor8(int otherRowNum, int otherColNum) {
 		if(Math.abs(rowNum-otherRowNum)<=1 & Math.abs(colNum-otherColNum)<=1) {
 			if(!(otherRowNum==rowNum && otherColNum==colNum)) {
 				return true;
 			}
+		}
+		return false;
+	}
+	
+
+	public abstract boolean isNeighbor(int otherRowNum, int otherColNum);
+	
+	//changed
+	public boolean isNeighbor4(int otherRowNum, int otherColNum) {
+		if((Math.abs(rowNum-otherRowNum)==1 & colNum==otherColNum)
+				| (Math.abs(colNum-otherColNum)==1 & rowNum==otherRowNum)) {
+			return true;
 		}
 		return false;
 	}
@@ -121,9 +140,11 @@ public abstract class Cell {
 		neighbors = n;
 	}
 	
-	/**
-	 * @return Returns number of blue neighbors of a cell in the Segregation Schelling simulation.
-	 */
+	//new 
+	protected ArrayList<Cell> getNeighbors(){
+		return neighbors;
+	}
+	
 	protected int getNumBlueNeighbors() {
 		int sum = 0;
 		for(Cell c: neighbors) {
@@ -181,15 +202,23 @@ public abstract class Cell {
 				moved = true;
 			}
 		}
-		
 		return moved;
 	}
 	
 	/**
-	 * @param cell
-	 * Checks number of live neighbors for a given cell in the Game Of Life simulation.
+	 * @return a list of a cell's empty neighbors
 	 */
-	protected int checkNumLiveNeighbors() {
+	protected ArrayList<Cell> getEmptyNeighbors(){
+		ArrayList<Cell> emptyNeighbors = new ArrayList<Cell>();
+		for(Cell c: neighbors) {
+			if(c instanceof EmptyCell) {
+				emptyNeighbors.add(c);
+			}
+		}
+		return emptyNeighbors;
+	}
+
+    protected int checkNumLiveNeighbors() {
 		int numLiveNeighbors = 0;
 		for(Cell c : neighbors) {
 			if(c instanceof LiveCell) {
@@ -202,4 +231,5 @@ public abstract class Cell {
 	protected ArrayList<Cell> getNeighbors(){
 		return neighbors;
 	}
+	
 }

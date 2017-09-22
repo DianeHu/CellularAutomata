@@ -1,4 +1,5 @@
 package cellsociety_team08;
+import java.io.File;
 
 import cellManager.Grid;
 import cells.Cell;
@@ -40,6 +41,8 @@ public class Simulation extends Application {
 	private Stage myStage;
 	private int colorNum = 0;
 	private File XMLSample;
+
+	
 	@Override
 	/*public void start(Stage s) throws Exception {
 		// attach scene to the stage and display it

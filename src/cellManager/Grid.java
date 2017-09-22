@@ -8,6 +8,7 @@ import cells.BlueSchellingCell;
 import cells.Cell;
 import cells.DeadCell;
 import cells.EmptyCell;
+import cells.FishCell;
 import cells.OrangeSchellingCell;
 import cells.SharkCell;
 import javafx.scene.Group;
@@ -98,14 +99,34 @@ public class Grid {
 				    		  {'o','o','b','o',' '},
 				    		  {'b',' ','o','b','o'}};*/
 		
-		char[][] states ={{'o','o','o','o','o'},
-	    		  			{'o','b','o','o','o'},
+		char[][] states ={{'o','o','o',' ','o'},
+	    		  			{' ','b','o','b','o'},
 	    		  			{'o','o','o','o','o'},
-	    		  			{'o','o',' ','o',' '},
-	    		  			{' ',' ','o',' ','o'}};
+	    		  			{'b','b',' ','o',' '},
+	    		  			{'o',' ','o',' ','o'}};
+		
+/*		char[][] states ={{' ',' ',' ',' ',' '},
+	  			{' ',' ',' ',' ',' '},
+	  			{' ',' ','f',' ',' '},
+	  			{' ',' ',' ',' ',' '},
+	  			{' ',' ',' ',' ',' '}};*/
 		int numBlue = 0;
 		for(int i = 0; i<numRows; i++) {
 			for(int j = 0; j<numCols; j++) {
+				if(states[i][j]=='f') {
+					FishCell c = new FishCell(i,j);
+					currentGrid[i][j]= c;
+					c.setBreedTurns(5);
+					blocks[i][j].setFill(c.getColor());
+					
+				}
+				if(states[i][j]=='s') {
+					SharkCell c = new SharkCell(i,j);
+					currentGrid[i][j]= c;
+					c.setBreedTurns(5);
+					blocks[i][j].setFill(c.getColor());
+					
+				}
 				if(states[i][j]=='o') {
 					OrangeSchellingCell c = new OrangeSchellingCell(i,j);
 					currentGrid[i][j]= c;
@@ -167,11 +188,11 @@ public class Grid {
 	
 	public void createsNewGrid() {
 		setNeighbors();
-		ArrayList<Cell> emptyCells = getEmptyCells();
 		for(int i = 0; i<currentGrid.length; i++) {
 			for(int j = 0; j<currentGrid[i].length; j++) {
 				Cell c = currentGrid[i][j];
-				c.moveCell(emptyCells,this);
+				ArrayList<Cell> empty = getEmptyCells();
+				c.moveCell(empty,this);
 			}
 		}
 	}
@@ -191,7 +212,6 @@ public class Grid {
 	}
 	
 	public void update(Group r) {
-
 		for(int i = 0; i<numRows; i++) {
 			for(int j = 0; j<numCols; j++) {
 				Cell c = newGrid[i][j];
@@ -199,14 +219,25 @@ public class Grid {
 				currentGrid[i][j] = newGrid[i][j];
 			}
 			System.out.println("\n");
-		}
-		
+		}		
 		empty(newGrid);
 	}
 
 
 	public boolean newGridContainsCellAt(int rownum, int colnum) {
 		if(newGrid[rownum][colnum] instanceof EmptyCell) {
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * @param rownum
+	 * @param colnum
+	 * @return Tests if the new grid has a SharkCell at a certain location, returns true/false.
+	 */
+	public boolean newGridContainsSharkAt(int rownum, int colnum) {
+		if(newGrid[rownum][colnum] instanceof SharkCell) {
 			return false;
 		}
 		return true;
@@ -238,5 +269,17 @@ public class Grid {
 	public void removeFromNewGrid(Cell c) {
 		newGrid[c.getRow()][c.getCol()] = new EmptyCell(c.getRow(),c.getCol());
 	}
+	
+	
+	/**
+	 * @param row 
+	 * @param col
+	 * @return The cell at a certain location in newGrid
+	 */
+	public Cell getCellInNewGridAt(int row, int col) {
+		return newGrid[row][col];
+	}
+	
+	
 }
 
