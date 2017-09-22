@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.io.File;
 
+import XMLClasses.GridConfiguration;
 import XMLClasses.XMLException;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -40,32 +41,14 @@ public class Simulation extends Application {
 	private Grid sampleGrid;
 	private Stage myStage;
 	private int colorNum = 0;
-	private File XMLSample;
-
+	private GridConfiguration XMLConfiguration;
 	
-	@Override
-	/*public void start(Stage s) throws Exception {
+	
+	public void startSimulation(Stage s, GridConfiguration SampleConfiguration) throws Exception {
+		XMLConfiguration = SampleConfiguration;
 		// attach scene to the stage and display it
 		myStage = s;
-		Scene sceneSplash = setUpSplash();
-		myStage.setScene(sceneSplash);
-		myStage.setTitle(TITLE);
-		myStage.show();
-        // attach "game loop" to timeline to play it
-        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
-                                      e -> step(SECOND_DELAY));
-        Timeline animation = new Timeline();
-        animation.setCycleCount(Timeline.INDEFINITE);
-        animation.getKeyFrames().add(frame);
-        animation.play();
-		
-	}*/
-	
-	public void start(Stage s) throws Exception {
-		XMLSample = null;
-		// attach scene to the stage and display it
-		myStage = s;
-		Scene scene = setSimulation(XMLSample);
+		Scene scene = setSimulation(XMLConfiguration);
 	    myStage.setScene(scene);
 	    myStage.setTitle(TITLE);
 	    myStage.show();
@@ -78,12 +61,13 @@ public class Simulation extends Application {
         animation.play();
 		
 	}
-	/*
-	public void startSplash (Stage primaryStage) throws Exception {
+	
+	public void start (Stage primaryStage) throws Exception {
         File dataFile = myChooser.showOpenDialog(primaryStage);
+        GridConfiguration InputConfiguration = null;
         if (dataFile != null) {
             try {
-                //System.out.println(new XMLReader("media").getMusic(dataFile));
+                InputConfiguration  = new XMLReader("GridConfiguration").getGridConfiguration(dataFile);
             }
             catch (XMLException e) {
                 Alert a = new Alert(AlertType.ERROR);
@@ -91,15 +75,15 @@ public class Simulation extends Application {
                 a.showAndWait();
             }
             // silly trick to select data file multiple times for this demo
-            start(primaryStage);
+            startSimulation(primaryStage, InputConfiguration); 
         }
         else {
             // nothing selected, so quit the application
             Platform.exit();
         }
     }
-	*/
-	private Scene setSimulation(File xml)
+	
+	private Scene setSimulation(GridConfiguration xml)
 	{
 		//int width = 0, height =0;
 		Paint background = Color.TRANSPARENT;
@@ -117,8 +101,8 @@ public class Simulation extends Application {
 		//sampleCell = new BurningTreeCell(10, 10, SIZE, SIZE);
 		//sampleCell.drawCell(root);
 		
-		sampleGrid = new Grid(root); 
-		sampleGrid.initialize();
+		//sampleGrid = new Grid(root); 
+		//sampleGrid.initialize();
 		
 		//root.getChildren().addAll();
 		
@@ -148,7 +132,7 @@ public class Simulation extends Application {
 		if(code == KeyCode.A)
 		{
 			colorNum++;
-			myStage.setScene(setSimulation(XMLSample));
+			myStage.setScene(setSimulation(XMLConfiguration));
 		}
 		if(code == KeyCode.SPACE) {			
 			sampleGrid.createsNewGrid();			
