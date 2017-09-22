@@ -5,14 +5,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import cells.BlueSchellingCell;
-import cells.BurningTreeCell;
 import cells.Cell;
 import cells.DeadCell;
 import cells.EmptyCell;
-import cells.LiveCell;
 import cells.OrangeSchellingCell;
-import cells.TreeCell;
-//import cells.SharkCell;
+import cells.SharkCell;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -91,74 +88,50 @@ public class Grid {
 				blocks[i][j]=r;
 			}
 		}
+		
 	}
 	
-	/*private void setInitialStates() {
-				char[][] states ={{'l','l','d','d','d'},
-			    		  			{'l','d','d','l','l'},
-			    		  			{'d','l','l','l','l'},
-			    		  			{'l','d','l','l','d'},
-			    		  			{'d','l','d','d','l'}};
-
-				for(int i = 0; i<numRows; i++) {
-					for(int j = 0; j<numCols; j++) {
-						if(states[i][j]=='l') {
-							Cell c = new LiveCell(i,j);
-							currentGrid[i][j]= c;
-							blocks[i][j].setFill(c.getColor());
-							
-						}
-						if(states[i][j]=='d') {
-							Cell c = new DeadCell(i,j);
-							currentGrid[i][j]= c;
-							blocks[i][j].setFill(c.getColor());
-						}
-						if(states[i][j]==' ') {
-							Cell c = new EmptyCell(i,j);
-							currentGrid[i][j]= c;
-							blocks[i][j].setFill(c.getColor());
-						}
-						
-					}
-					
-				}
-			}*/
 	private void setInitialStates() {
-		/*		char[][] states ={{'b','b','o','o','o'},
-						    		  {'o','b',' ',' ','b'},
-						    		  {' ',' ','o','b','b'},
-						    		  {'o','o','b','o',' '},
-						    		  {'b',' ','o','b','o'}};*/
-				
-				char[][] states ={{'t','t','t','b','t'},
-			    		  			{'b',' ',' ',' ','t'},
-			    		  			{'t','t','b','b','t'},
-			    		  			{'t','t',' ','t',' '},
-			    		  			{'t','t','t','t','t'}};
-
-				for(int i = 0; i<numRows; i++) {
-					for(int j = 0; j<numCols; j++) {
-						if(states[i][j]=='t') {
-							Cell c = new TreeCell(i,j);
-							currentGrid[i][j]= c;
-							blocks[i][j].setFill(c.getColor());
-							
-						}
-						if(states[i][j]=='b') {
-							Cell c = new BurningTreeCell(i,j);
-							currentGrid[i][j]= c;
-							blocks[i][j].setFill(c.getColor());
-						}
-						if(states[i][j]==' ') {
-							Cell c = new EmptyCell(i,j);
-							currentGrid[i][j]= c;
-							blocks[i][j].setFill(c.getColor());
-						}
-						
-					}
+/*		char[][] states ={{'b','b','o','o','o'},
+				    		  {'o','b',' ',' ','b'},
+				    		  {' ',' ','o','b','b'},
+				    		  {'o','o','b','o',' '},
+				    		  {'b',' ','o','b','o'}};*/
+		
+		char[][] states ={{'o','o','o','o','o'},
+	    		  			{'o','b','o','o','o'},
+	    		  			{'o','o','o','o','o'},
+	    		  			{'o','o',' ','o',' '},
+	    		  			{' ',' ','o',' ','o'}};
+		int numBlue = 0;
+		for(int i = 0; i<numRows; i++) {
+			for(int j = 0; j<numCols; j++) {
+				if(states[i][j]=='o') {
+					OrangeSchellingCell c = new OrangeSchellingCell(i,j);
+					currentGrid[i][j]= c;
+					c.setThreshold(.3);
+					blocks[i][j].setFill(c.getColor());
 					
 				}
+				if(states[i][j]=='b') {
+					BlueSchellingCell c = new BlueSchellingCell(i,j);
+					currentGrid[i][j]= c;
+					c.setThreshold(.3);
+					blocks[i][j].setFill(c.getColor());
+					numBlue++;
+				}
+				if(states[i][j]==' ') {
+					Cell c = new EmptyCell(i,j);
+					currentGrid[i][j]= c;
+					blocks[i][j].setFill(c.getColor());
+				}
+				
 			}
+			
+		}
+	}
+	
+
 	
 	/**
 	 * This methods sets the list of neighbors for each cell by checking
@@ -225,6 +198,7 @@ public class Grid {
 				blocks[i][j].setFill(c.getColor());
 				currentGrid[i][j] = newGrid[i][j];
 			}
+			System.out.println("\n");
 		}
 		
 		empty(newGrid);
@@ -265,3 +239,4 @@ public class Grid {
 		newGrid[c.getRow()][c.getCol()] = new EmptyCell(c.getRow(),c.getCol());
 	}
 }
+

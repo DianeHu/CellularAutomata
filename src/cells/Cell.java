@@ -55,7 +55,7 @@ public abstract class Cell {
 	public int getCol() {
 		return colNum;
 	}
-	
+
 	
 	
 	
@@ -83,7 +83,6 @@ public abstract class Cell {
 		}
 		return false;
 	}
-
 
 	
 	/**
@@ -190,7 +189,6 @@ public abstract class Cell {
 	 * @param cell
 	 * Checks number of live neighbors for a given cell in the Game Of Life simulation.
 	 */
-	
 	protected int checkNumLiveNeighbors() {
 		int numLiveNeighbors = 0;
 		for(Cell c : neighbors) {
