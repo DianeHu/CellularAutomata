@@ -61,8 +61,6 @@ public abstract class Cell {
 	public int getCol() {
 		return colNum;
 	}
-
-	
 	
 	
 	/**
@@ -75,7 +73,7 @@ public abstract class Cell {
 	
 	//changed
 	public boolean isNeighbor8(int otherRowNum, int otherColNum) {
-		if(Math.abs(rowNum-otherRowNum)<=1 & Math.abs(colNum-otherColNum)<=1) {
+		if(Math.abs(rowNum-otherRowNum)<=1 && Math.abs(colNum-otherColNum)<=1) {
 			if(!(otherRowNum==rowNum && otherColNum==colNum)) {
 				return true;
 			}

@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import cells.BlueSchellingCell;
+import cells.BurningTreeCell;
 import cells.Cell;
 import cells.DeadCell;
 import cells.EmptyCell;
+import cells.EmptyLandCell;
 import cells.FishCell;
 import cells.OrangeSchellingCell;
 import cells.SharkCell;
+import cells.TreeCell;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -135,25 +138,7 @@ public class Grid {
 					blocks[i][j].setFill(c.getColor());
 					
 				}
-				if(states[i][j]=='b') {
-					BlueSchellingCell c = new BlueSchellingCell(i,j);
-					currentGrid[i][j]= c;
-					c.setThreshold(.3);
-					blocks[i][j].setFill(c.getColor());
-					numBlue++;
-				}
-				if(states[i][j]==' ') {
-					Cell c = new EmptyCell(i,j);
-					currentGrid[i][j]= c;
-					blocks[i][j].setFill(c.getColor());
-				}
-				
 			}
-			
-		}
-	}
-	
-
 	
 	/**
 	 * This methods sets the list of neighbors for each cell by checking
@@ -219,7 +204,6 @@ public class Grid {
 				blocks[i][j].setFill(c.getColor());
 				currentGrid[i][j] = newGrid[i][j];
 			}
-			System.out.println("\n");
 		}		
 		empty(newGrid);
 	}

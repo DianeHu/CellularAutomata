@@ -66,7 +66,7 @@ public class XMLReader {
 
     // Returns if this is a valid XML file for the specified object type
     private boolean isValidFile (Element root, String type) {
-        return getAttribute(root, TYPE_ATTRIBUTE).equals(type);
+        return root.getTagName().equals(type);
     }
 
     // Get value of Element's attribute
