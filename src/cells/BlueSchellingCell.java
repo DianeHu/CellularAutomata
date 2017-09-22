@@ -11,7 +11,7 @@ import javafx.scene.shape.Rectangle;
  * @author Madhavi
  */
 public class BlueSchellingCell extends Cell{
-private double threshold;
+	private double threshold;
 	
 	public BlueSchellingCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
@@ -43,5 +43,7 @@ private double threshold;
 			grid.addToNewGrid(this);
 		}
 	}
+
+
 
 }

@@ -43,4 +43,8 @@ public class OrangeSchellingCell extends Cell{
 			grid.addToNewGrid(this);
 		}
 	}
+
+	
+
+	
 }

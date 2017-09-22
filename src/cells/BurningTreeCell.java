@@ -30,4 +30,9 @@ public class BurningTreeCell extends Cell{
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
 		burnOut(grid);
 	}
+
+	@Override
+	public boolean isNeighbor(int otherRowNum, int otherColNum) {
+		return super.isNeighbor4(otherRowNum, otherColNum);
+	}
 }

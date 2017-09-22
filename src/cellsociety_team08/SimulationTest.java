@@ -49,7 +49,20 @@ public class SimulationTest extends Application {
 	}*/
 	
 	public void start(Stage s) throws Exception {
-		// attach scene to the stage and display it
+		myStage = s;
+		Scene scene = setSimulation();
+        s.setScene(scene);
+        s.setTitle(TITLE);
+        s.show();
+        // attach "game loop" to timeline to play it
+        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+                                      e -> step(SECOND_DELAY));
+        Timeline animation = new Timeline();
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.getKeyFrames().add(frame);
+        animation.play();
+        
+		/*// attach scene to the stage and display it
 		myStage = s;
 		Scene scene = setSimulation();
 	    myStage.setScene(scene);
@@ -103,19 +116,13 @@ public class SimulationTest extends Application {
 	}
 	
 	private void step (double elapsedTime) 
-	{
-		sampleGrid.update();
+	{		
 		sampleGrid.createsNewGrid(); 
-		colorNum++;
-		myStage.setScene(setSimulation());
+		sampleGrid.update(root);
 	}
 	
 	private void handleKeyInput (KeyCode code) {
-		if(code == KeyCode.A)
-		{
-			colorNum++;
-			myStage.setScene(setSimulation());
-		}
+
 	}
 	
 	private void handleMouseInput (double x, double y) {

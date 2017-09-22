@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Segregation>
+  <numRows>2</numRows>
+  <numCol>3</numCol>
+  <satisfactionThreshold>.5</satisfactionThreshold>
+  <BlueSchellingCell>
+    <row1>bob</row1>
+    <row2>obo</row2>
+  </BlueSchellingCell>
+</Segregation>
