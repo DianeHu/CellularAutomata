@@ -12,9 +12,8 @@ import javafx.scene.shape.Rectangle;
  */
 public class TreeCell extends Cell{
 
-	private boolean fireThreat = false;
 	private double probCatch = .5;
-	private double probGrow = .05;
+	private double probGrow = 0.01;
 	
 	public TreeCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
@@ -64,7 +63,6 @@ public class TreeCell extends Cell{
 		if(test < probGrow) {
 			Cell newCell = new TreeCell(cell.getRow(), cell.getCol());
 			newGrid.addToNewGrid(newCell);
-			System.out.println("grew tree");
 		}
 	}
 
