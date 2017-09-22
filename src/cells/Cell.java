@@ -83,8 +83,8 @@ public abstract class Cell {
 	
 	//changed
 	public boolean isNeighbor4(int otherRowNum, int otherColNum) {
-		if((Math.abs(rowNum-otherRowNum)==1 && colNum==otherColNum)
-				| (Math.abs(colNum-otherColNum)==1 && rowNum==otherRowNum)) {
+		if((Math.abs(rowNum-otherRowNum)==1 & colNum==otherColNum)
+				| (Math.abs(colNum-otherColNum)==1 & rowNum==otherRowNum)) {
 			return true;
 		}
 		return false;
@@ -111,10 +111,6 @@ public abstract class Cell {
 	 * Abstract method that each subclass calls to move cell.
 	 */
 	public abstract void moveCell(ArrayList<Cell> emptySpots, Grid grid);
-	
-	/**
-	 * @return Returns parent node of cell.
-	 */
 	
 	/**
 	 * @param n
