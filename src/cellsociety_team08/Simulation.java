@@ -1,5 +1,6 @@
 package cellsociety_team08;
 import java.io.File;
+import java.util.Arrays;
 
 import cellManager.Grid;
 import cells.Cell;
@@ -68,6 +69,12 @@ public class Simulation extends Application {
         if (dataFile != null) {
             try {
                 InputConfiguration  = new XMLReader("GridConfiguration").getGridConfiguration(dataFile);
+                System.out.println(InputConfiguration.getNumRows());
+                System.out.println(InputConfiguration.getNumCols());
+                System.out.println(Arrays.deepToString(InputConfiguration.getCellConfiguration()));
+               
+                
+                
             }
             catch (XMLException e) {
                 Alert a = new Alert(AlertType.ERROR);
@@ -101,8 +108,8 @@ public class Simulation extends Application {
 		//sampleCell = new BurningTreeCell(10, 10, SIZE, SIZE);
 		//sampleCell.drawCell(root);
 		
-		//sampleGrid = new Grid(root); 
-		//sampleGrid.initialize();
+		sampleGrid = new Grid(root,xml); 
+		sampleGrid.initialize();
 		
 		//root.getChildren().addAll();
 		
