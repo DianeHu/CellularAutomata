@@ -1,4 +1,4 @@
-package cellsociety_team08;
+/*package cellsociety_team08;
 import java.io.File;
 
 import cellManager.Grid;
@@ -31,7 +31,7 @@ public class SimulationTest extends Application {
 
 	
 	@Override
-	/*public void start(Stage s) throws Exception {
+	public void start(Stage s) throws Exception {
 		// attach scene to the stage and display it
 		myStage = s;
 		Scene sceneSplash = setUpSplash();
@@ -46,7 +46,7 @@ public class SimulationTest extends Application {
         animation.getKeyFrames().add(frame);
         animation.play();
 		
-	}*/
+	}
 	
 	public void start(Stage s) throws Exception {
 		myStage = s;
@@ -62,7 +62,7 @@ public class SimulationTest extends Application {
         animation.getKeyFrames().add(frame);
         animation.play();
         
-		/*// attach scene to the stage and display it
+		// attach scene to the stage and display it
 		myStage = s;
 		Scene scene = setSimulation();
 	    myStage.setScene(scene);
@@ -141,4 +141,4 @@ public class SimulationTest extends Application {
         launch(args);
     }
 
-}
+}*/
