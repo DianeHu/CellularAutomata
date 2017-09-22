@@ -57,7 +57,7 @@ public class Simulation extends Application {
         animation.play();
 		
 	}*/
-	
+	/*
 	public void start(Stage s) throws Exception {
 		XMLSample = null;
 		// attach scene to the stage and display it
@@ -75,12 +75,12 @@ public class Simulation extends Application {
         animation.play();
 		
 	}
-	/*
-	public void startSplash (Stage primaryStage) throws Exception {
+	*/
+	public void start (Stage primaryStage) throws Exception {
         File dataFile = myChooser.showOpenDialog(primaryStage);
         if (dataFile != null) {
             try {
-                //System.out.println(new XMLReader("media").getMusic(dataFile));
+                System.out.println(new XMLReader("GridConfiguration").getGridConfiguration(dataFile));
             }
             catch (XMLException e) {
                 Alert a = new Alert(AlertType.ERROR);
@@ -95,7 +95,7 @@ public class Simulation extends Application {
             Platform.exit();
         }
     }
-	*/
+	
 	private Scene setSimulation(File xml)
 	{
 		//int width = 0, height =0;
