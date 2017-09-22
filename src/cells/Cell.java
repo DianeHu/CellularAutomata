@@ -5,24 +5,47 @@ import java.util.Random;
 
 import cellManager.Grid;
 import javafx.scene.Group;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public abstract class Cell {
 	
 	private int rowNum;
 	private int colNum;
-	private int width;
-	private int height;
-	private Rectangle block;
 	private ArrayList<Cell> neighbors;
+	private Color col;
 	
-	public Cell(int myRowNum, int myColNum, int width, int height) {
+	public Cell(int myRowNum, int myColNum) {
 		rowNum = myRowNum;
 		colNum = myColNum;
-		block = new Rectangle((rowNum-1)*width, (colNum-1)*height, width, height);
 		neighbors = new ArrayList<Cell>();
 	}
 	
+	
+	/**
+	 * Sets the color for a cell type
+	 * @param c is the Color associated with the cell type
+	 */
+	protected void setColor(Color c) {
+		col = c;
+	}
+	
+	/**
+	 * @return the color associated with the cell type
+	 */
+	public Color getColor() {
+		return col;
+	}
+	
+	//new
+	public void setRow(int row) {
+		rowNum = row;
+	}
+	//new
+	public void setCol(int col) {
+		colNum = col;
+	}
+
 	public int getRow() {
 		return rowNum;
 	}
@@ -31,17 +54,26 @@ public abstract class Cell {
 		return colNum;
 	}
 	
-	public boolean isNeighbor(int otherRowNum, int otherColNum) {
+	//changed
+	public boolean isNeighbor8(int otherRowNum, int otherColNum) {
 		if(Math.abs(rowNum-otherRowNum)<=1 & Math.abs(colNum-otherColNum)<=1) {
-			return true;
+			if(!(otherRowNum==rowNum && otherColNum==colNum)) {
+				return true;
+			}
 		}
 		return false;
 	}
-		
-	public void drawCell(Group root) {
-		block.setX((rowNum-1)*width);
-		block.setY((colNum-1)*height);
-		root.getChildren().add(block);
+	
+
+	public abstract boolean isNeighbor(int otherRowNum, int otherColNum);
+	
+	//changed
+	public boolean isNeighbor4(int otherRowNum, int otherColNum) {
+		if((Math.abs(rowNum-otherRowNum)==1 & colNum==otherColNum)
+				| (Math.abs(colNum-otherColNum)==1 & rowNum==otherRowNum)) {
+			return true;
+		}
+		return false;
 	}
 	
 	public void killCell() {
@@ -56,6 +88,11 @@ public abstract class Cell {
 	
 	public void setNeighbors(ArrayList<Cell> n) {
 		neighbors = n;
+	}
+	
+	//new 
+	protected ArrayList<Cell> getNeighbors(){
+		return neighbors;
 	}
 	
 	protected int getNumBlueNeighbors() {
@@ -78,21 +115,46 @@ public abstract class Cell {
 		return sum;
 	}
 	
-	protected void moveToRandomEmptySpace(ArrayList<Cell> emptySpots, Grid grid) {
+	protected boolean moveToRandomPlace(ArrayList<Cell> spots, Grid grid) {
 		boolean moved = false;
-		while(!moved) {
-			int numEmptySpaces = emptySpots.size();
+/*		while(!moved) {
+			int numEmptySpaces = spots.size();
+			if(numEmptySpaces==0) {
+				break;
+			}
 			Random rand = new Random(); 
-			Cell testLoc = emptySpots.get(rand.nextInt(numEmptySpaces));
+			Cell testLoc = spots.get(rand.nextInt(numEmptySpaces));
 			if(grid.newGridContainsCellAt(testLoc.getRow(),testLoc.getCol())) {
-				emptySpots.remove(testLoc);
+				spots.remove(testLoc);
 			}
 			else {
 				rowNum = testLoc.getRow(); colNum = testLoc.getCol();
 				grid.addToNewGrid(this);
 				moved = true;
 			}
-		}
+		}*/
+		int numEmptySpaces = spots.size();
+		Random rand = new Random(); 
+		Cell testLoc = spots.get(rand.nextInt(numEmptySpaces));
+		rowNum = testLoc.getRow(); colNum = testLoc.getCol();
+		grid.addToNewGrid(this);
+		moved = true;
+		return moved;
 	}
+	
+	/**
+	 * @return a list of a cell's empty neighbors
+	 */
+	protected ArrayList<Cell> getEmptyNeighbors(){
+		ArrayList<Cell> emptyNeighbors = new ArrayList<Cell>();
+		for(Cell c: neighbors) {
+			if(c instanceof EmptyCell) {
+				emptyNeighbors.add(c);
+			}
+		}
+		return emptyNeighbors;
+	}
+
+
 	
 }

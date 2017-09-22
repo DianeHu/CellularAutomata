@@ -14,7 +14,7 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class Simulation extends Application {
+public class SimulationTest extends Application {
 
 	private static final int SIZE = 400;
 	private static final Color BACKGROUND = Color.TRANSPARENT;
@@ -23,11 +23,9 @@ public class Simulation extends Application {
 	private static final double SECOND_DELAY = 0;
 	private Group root = new Group();
 	private Scene myScene;
-	private Cell sampleCell;
 	private Grid sampleGrid;
 	private Stage myStage;
 	private int colorNum = 0;
-	private File XMLSample;
 
 	
 	@Override
@@ -49,10 +47,22 @@ public class Simulation extends Application {
 	}*/
 	
 	public void start(Stage s) throws Exception {
-		XMLSample = null;
-		// attach scene to the stage and display it
 		myStage = s;
-		Scene scene = setSimulation(XMLSample);
+		Scene scene = setSimulation();
+        s.setScene(scene);
+        s.setTitle(TITLE);
+        s.show();
+        // attach "game loop" to timeline to play it
+        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+                                      e -> step(SECOND_DELAY));
+        Timeline animation = new Timeline();
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.getKeyFrames().add(frame);
+        animation.play();
+        
+		/*// attach scene to the stage and display it
+		myStage = s;
+		Scene scene = setSimulation();
 	    myStage.setScene(scene);
 	    myStage.setTitle(TITLE);
 	    myStage.show();
@@ -62,22 +72,22 @@ public class Simulation extends Application {
         Timeline animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
-        animation.play();
+        animation.play();*/
 		
 	}
 	
-	private Scene setSimulation(File xml)
+	private Scene setSimulation()
 	{
 		//int width = 0, height =0;
-		Paint background = Color.TRANSPARENT;
-		if(colorNum == 1)
+		Paint background = Color.AQUA;
+/*		if(colorNum == 1)
 		{
 			background = Color.WHITE;
 		}
 		if(colorNum == 2)
 		{
 			background = Color.GREEN;
-		}
+		}*/
 		
 		root = new Group();
 		myScene = new Scene(root, SIZE, SIZE, background);
@@ -104,23 +114,13 @@ public class Simulation extends Application {
 	}
 	
 	private void step (double elapsedTime) 
-	{   
-		//myStage.setScene(setSimulation(XMLSample));
-		sampleGrid.createsNewGrid();
-		sampleGrid.update(root); 
-		colorNum++;
+	{		
+		sampleGrid.createsNewGrid(); 
+		sampleGrid.update(root);
 	}
 	
 	private void handleKeyInput (KeyCode code) {
-		if(code == KeyCode.A)
-		{
-			colorNum++;
-			myStage.setScene(setSimulation(XMLSample));
-		}
-		if(code == KeyCode.SPACE) {			
-			sampleGrid.createsNewGrid();			
-			sampleGrid.update(root); 
-		}
+
 	}
 	
 	private void handleMouseInput (double x, double y) {
