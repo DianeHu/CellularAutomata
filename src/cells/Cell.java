@@ -57,18 +57,15 @@ public abstract class Cell {
 	}
 
 	
+	
+	
 	/**
 	 * @param otherRowNum
 	 * @param otherColNum
 	 * @return Returns whether or not a cell at an indicated position is a neighbor of the current cell. Neighbor defined as any of the eight
 	 * surrounding positions of a cell, i.e., including positions diagonal to the current one.
 	 */
-	public boolean isSurroundingNeighbor(int otherRowNum, int otherColNum) {
-		if(Math.abs(rowNum-otherRowNum)<=1 && Math.abs(colNum-otherColNum)<=1) {
-			return true;
-		}
-		return false;
-	}
+	public abstract boolean isNeighbor(int otherRowNum, int otherColNum);
 	
 	public boolean isNeighbor8(int otherRowNum, int otherColNum) {
 		if(Math.abs(rowNum-otherRowNum)<=1 & Math.abs(colNum-otherColNum)<=1) {
@@ -145,6 +142,16 @@ public abstract class Cell {
 		int sum = 0;
 		for(Cell c: neighbors) {
 			if(c instanceof OrangeSchellingCell) {
+				sum++;
+			}
+		}
+		return sum;
+	}
+	
+	protected int getNumBurningNeighbors() {
+		int sum = 0;
+		for(Cell c: neighbors) {
+			if(c instanceof BurningTreeCell) {
 				sum++;
 			}
 		}

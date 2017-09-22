@@ -6,6 +6,7 @@ import java.util.Arrays;
 
 import cells.BlueSchellingCell;
 import cells.Cell;
+import cells.DeadCell;
 import cells.EmptyCell;
 import cells.OrangeSchellingCell;
 import cells.SharkCell;
@@ -167,7 +168,6 @@ public class Grid {
 	public void createsNewGrid() {
 		setNeighbors();
 		ArrayList<Cell> emptyCells = getEmptyCells();
-		ArrayList<Cell> visitedCells = new ArrayList<Cell>();
 		for(int i = 0; i<currentGrid.length; i++) {
 			for(int j = 0; j<currentGrid[i].length; j++) {
 				Cell c = currentGrid[i][j];
@@ -205,9 +205,6 @@ public class Grid {
 	}
 
 
-		
-	}
-
 	public boolean newGridContainsCellAt(int rownum, int colnum) {
 		if(newGrid[rownum][colnum] instanceof EmptyCell) {
 			return false;
@@ -220,12 +217,12 @@ public class Grid {
 	 * @param colnum
 	 * @return Tests if the new grid has a SharkCell at a certain location, returns true/false.
 	 */
-	public boolean newGridContainsSharkAt(int rownum, int colnum) {
+	/*public boolean newGridContainsSharkAt(int rownum, int colnum) {
 		if(newGrid[rownum][colnum] instanceof SharkCell) {
 			return false;
 		}
 		return true;
-	}
+	}*/
 	
 	public void addToNewGrid(Cell c) {
 		newGrid[c.getRow()][c.getCol()] = c;
