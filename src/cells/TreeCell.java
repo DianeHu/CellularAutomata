@@ -2,10 +2,9 @@ package cells;
 
 import java.util.ArrayList;
 
+
 import cellManager.Grid;
-import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 /**
  * @author Diane Hu
@@ -37,7 +36,7 @@ public class TreeCell extends Cell {
 	 *            generated value is bounded within the severity of the catch times
 	 *            the probability of catching fire, the current cell starts to burn.
 	 */
-	public void burn(Grid newGrid) {
+	private void burn(Grid newGrid) {
 		double test = Math.random();
 		if (test < getNumBurningNeighbors() * probCatch) {
 			Cell newCell = new BurningTreeCell(this.getRow(), this.getCol());
@@ -52,7 +51,7 @@ public class TreeCell extends Cell {
 	 * indicate there is a threat of fire, and increase severity by number of
 	 * burning cells.
 	 */
-	public boolean checkFireThreat() {
+	private boolean checkFireThreat() {
 		for (Cell cell : getNeighbors()) {
 			if (cell instanceof BurningTreeCell) {
 				return true;

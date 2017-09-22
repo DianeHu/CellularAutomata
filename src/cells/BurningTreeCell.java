@@ -2,10 +2,9 @@ package cells;
 
 import java.util.ArrayList;
 
+
 import cellManager.Grid;
-import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 /**
  * @author Diane Hu
@@ -16,12 +15,17 @@ public class BurningTreeCell extends Cell {
 		super(myRowNum, myColNum);
 		setColor(Color.DARKORANGE);
 	}
+	
+	@Override
+	public boolean isNeighbor(int otherRowNum, int otherColNum) {
+		return super.isNeighbor4(otherRowNum, otherColNum);
+	}
 
 	/**
 	 * @param root
 	 *            Replaces the current burning cell with an empty cell.
 	 */
-	public void burnOut(Grid newGrid) {
+	private void burnOut(Grid newGrid) {
 		Cell newCell = new EmptyLandCell(this.getRow(), this.getCol());
 		changeCellType(newGrid, newCell);
 	}
@@ -29,10 +33,5 @@ public class BurningTreeCell extends Cell {
 	@Override
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
 		burnOut(grid);
-	}
-
-	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum) {
-		return super.isNeighbor4(otherRowNum, otherColNum);
 	}
 }

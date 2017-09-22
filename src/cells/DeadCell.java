@@ -3,9 +3,7 @@ package cells;
 import java.util.ArrayList;
 
 import cellManager.Grid;
-import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 /**
  * @author Diane Hu
@@ -16,6 +14,11 @@ public class DeadCell extends Cell {
 		super(myRowNum, myColNum);
 		setColor(Color.WHITE);
 	}
+	
+	@Override
+	public boolean isNeighbor(int otherRowNum, int otherColNum) {
+		return super.isNeighbor8(otherRowNum, otherColNum);
+	}
 
 	/**
 	 * @param root
@@ -24,7 +27,7 @@ public class DeadCell extends Cell {
 	 *            reproduction. Subsequently resets the number of live neighbors to
 	 *            zero.
 	 */
-	public void resurrectCell(Grid newGrid) {
+	private void resurrectCell(Grid newGrid) {
 		Cell newCell = new LiveCell(this.getRow(), this.getCol());
 		newGrid.addToNewGrid(newCell);
 	}
@@ -43,10 +46,5 @@ public class DeadCell extends Cell {
 		} else {
 			grid.addToNewGrid(this);
 		}
-	}
-
-	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum) {
-		return super.isNeighbor8(otherRowNum, otherColNum);
 	}
 }

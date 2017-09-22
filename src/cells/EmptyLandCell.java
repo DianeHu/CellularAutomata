@@ -3,9 +3,7 @@ package cells;
 import java.util.ArrayList;
 
 import cellManager.Grid;
-import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 /**
  * @author Diane Hu
@@ -38,7 +36,7 @@ public class EmptyLandCell extends Cell {
 	 *            within the probability of a tree growing, place a new tree in the
 	 *            current empty spot's location.
 	 */
-	public void growTree(Grid newGrid) {
+	private void growTree(Grid newGrid) {
 		Cell newCell = new TreeCell(this.getRow(), this.getCol());
 		newGrid.addToNewGrid(newCell);
 	}
