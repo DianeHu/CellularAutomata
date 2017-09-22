@@ -2,7 +2,6 @@ package cells;
 
 import java.util.ArrayList;
 
-
 import cellManager.Grid;
 import javafx.scene.paint.Color;
 
@@ -13,6 +12,12 @@ public class TreeCell extends Cell {
 
 	private double probCatch = .5;
 
+	/**
+	 * @param myRowNum
+	 * @param myColNum
+	 * 
+	 *            Makes new TreeCell, extension of superclass Cell.
+	 */
 	public TreeCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setColor(Color.FORESTGREEN);
@@ -35,6 +40,7 @@ public class TreeCell extends Cell {
 	 *            If current cell experiences a threat of fire, then if a random
 	 *            generated value is bounded within the severity of the catch times
 	 *            the probability of catching fire, the current cell starts to burn.
+	 *            If cell doesn't burn, then cell persists into next grid.
 	 */
 	private void burn(Grid newGrid) {
 		double test = Math.random();
@@ -48,8 +54,7 @@ public class TreeCell extends Cell {
 
 	/**
 	 * For every cell in the current cell's neighbors, if there is a burning cell,
-	 * indicate there is a threat of fire, and increase severity by number of
-	 * burning cells.
+	 * indicate there is a threat of fire.
 	 */
 	private boolean checkFireThreat() {
 		for (Cell cell : getNeighbors()) {
@@ -60,14 +65,15 @@ public class TreeCell extends Cell {
 		return false;
 	}
 
-	/**
-	 * @param root
-	 * @param cell
-	 *            For a cell that is empty, if a random generated value is contained
-	 *            within the probability of a tree growing, place a new tree in the
-	 *            current empty spot's location.
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see cells.Cell#moveCell(java.util.ArrayList, cellManager.Grid)
+	 * 
+	 * Overrides superclass moveCell method. If there is a fire threat, the tree
+	 * burns. Otherwise, the tree persists into the next grid if there is no fire
+	 * threat.
 	 */
-
 	@Override
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
 		if (checkFireThreat()) {

@@ -12,6 +12,12 @@ public class EmptyLandCell extends Cell {
 
 	private double probGrow = 0.1;
 
+	/**
+	 * @param myRowNum
+	 * @param myColNum
+	 * 
+	 *            Makes new EmptyLandCell, extension of superclass Cell.
+	 */
 	public EmptyLandCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setColor(Color.BROWN);
@@ -32,15 +38,17 @@ public class EmptyLandCell extends Cell {
 	/**
 	 * @param root
 	 * @param cell
-	 *            For a cell that is empty, if a random generated value is contained
-	 *            within the probability of a tree growing, place a new tree in the
-	 *            current empty spot's location.
+	 *            Place a new tree in the current empty spot's location.
 	 */
 	private void growTree(Grid newGrid) {
 		Cell newCell = new TreeCell(this.getRow(), this.getCol());
 		newGrid.addToNewGrid(newCell);
 	}
 
+	/**
+	 * @return Returns true if by a certain probability threshold a new tree should
+	 *         grow.
+	 */
 	private boolean shouldGrow() {
 		double test = Math.random();
 		if (test < probGrow) {
@@ -49,6 +57,15 @@ public class EmptyLandCell extends Cell {
 		return false;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see cells.Cell#moveCell(java.util.ArrayList, cellManager.Grid)
+	 * 
+	 * Overrides superclass moveCell method. If a new tree should grow (determined
+	 * by random generated value, then a new tree replaces the current spot,
+	 * otherwise the current emptyLandCell persists into the next grid.
+	 */
 	@Override
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
 		if (shouldGrow()) {
