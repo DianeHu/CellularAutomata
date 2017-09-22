@@ -83,21 +83,10 @@ public abstract class Cell {
 		return false;
 	}
 	
-
-	public abstract boolean isNeighbor(int otherRowNum, int otherColNum);
-	
 	//changed
 	public boolean isNeighbor4(int otherRowNum, int otherColNum) {
 		if((Math.abs(rowNum-otherRowNum)==1 & colNum==otherColNum)
 				| (Math.abs(colNum-otherColNum)==1 & rowNum==otherRowNum)) {
-			return true;
-		}
-		return false;
-	}
-	
-	public boolean isNeighbor4(int otherRowNum, int otherColNum) {
-		if((Math.abs(rowNum-otherRowNum)<=1 & colNum==otherColNum)
-				| (Math.abs(colNum-otherColNum)<=1 & rowNum==otherRowNum)) {
 			return true;
 		}
 		return false;
@@ -126,23 +115,11 @@ public abstract class Cell {
 	public abstract void moveCell(ArrayList<Cell> emptySpots, Grid grid);
 	
 	/**
-	 * @return Returns parent node of cell.
-	 */
-	public Node getParent() {
-		return this.getParent();
-	}
-	
-	/**
 	 * @param n
 	 * Sets neighbor list of cell to given list.
 	 */
 	public void setNeighbors(ArrayList<Cell> n) {
 		neighbors = n;
-	}
-	
-	//new 
-	protected ArrayList<Cell> getNeighbors(){
-		return neighbors;
 	}
 	
 	protected int getNumBlueNeighbors() {
