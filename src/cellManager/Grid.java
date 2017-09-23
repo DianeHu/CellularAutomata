@@ -33,6 +33,7 @@ public class Grid {
 	private int numCols;
 	private int cellWidth;
 	private int cellHeight;
+	private String simulationType;
 
 	public Grid(Group r, GridConfiguration g) {
 		root = r;
