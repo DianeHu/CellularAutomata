@@ -94,17 +94,13 @@ public class Grid {
 		numCols = gridConfig.getNumCols();
 		createMaps();
 		setCurrSimulationMap();
-		//numRows = 6;
-		//numCols = 6;
 		cellWidth = SIZE / numCols;
 		cellHeight = SIZE / numRows;
 
 		currentGrid = new Cell[numRows][numCols];
 		newGrid = new Cell[numRows][numCols];
-		// emptyGrid = new Cell[numRows][numCols];
 		blocks = new Rectangle[numRows][numCols];
 
-		// createEmptyGrid();
 		empty(currentGrid);
 		empty(newGrid);
 		setRectangles();
