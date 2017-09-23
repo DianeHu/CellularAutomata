@@ -2,5 +2,10 @@
 <GridConfiguration>
   <numRows>6</numRows>
   <numCols>6</numCols>
-  <cellConfiguration>b   obb    bobb o bbbbbobo  obobbobobo</cellConfiguration>
-</GridConfiguration>
+  <cellConfiguration>bbb oob  b bobb o bbbbbobo  obobbobobo</cellConfiguration>
+  <probCatch>.5</probCatch>
+  <probGrow>.5</probGrow>
+  <segregationThreshold>.5</segregationThreshold>
+  <fishBreedTurns>5</fishBreedTurns>
+  <sharkBreedTurns>5</sharkBreedTurns>
+  <sharkStarveTurns>5</sharkStarveTurns></GridConfiguration>

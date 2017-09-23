@@ -106,37 +106,42 @@ public class Grid {
 		
 		char[][] states =gridConfig.getCellConfiguration();
 		
-		char[][] states ={{' ',' ',' ',' ',' '},
+		/*char[][] states ={{' ',' ',' ',' ',' '},
 	  			{' ',' ',' ',' ',' '},
 	  			{' ',' ','s','f',' '},
 	  			{' ',' ',' ',' ',' '},
 	  			{' ',' ',' ',' ',' '}};
+	  			*/
 		int numBlue = 0;
 		for(int i = 0; i<numRows; i++) {
 			for(int j = 0; j<numCols; j++) {
-				if(states[i][j]=='f') {
-					FishCell c = new FishCell(i,j);
+				if(states[i][j]=='b') {
+					BlueSchellingCell c = new BlueSchellingCell(i,j);
 					currentGrid[i][j]= c;
-					c.setBreedTurns(20);
+					//c.setBreedTurns(20);
 					blocks[i][j].setFill(c.getColor());
 					
 				}
-				if(states[i][j]=='s') {
-					SharkCell c = new SharkCell(i,j);
+				if(states[i][j]==' ') {
+					EmptyCell c = new EmptyCell(i,j);
 					currentGrid[i][j]= c;
-					c.setBreedTurns(20);
-					c.setStarveTurns(2);
+					//c.setBreedTurns(20);
+					//c.setStarveTurns(2);
 					blocks[i][j].setFill(c.getColor());
 					
 				}
 				if(states[i][j]=='o') {
 					OrangeSchellingCell c = new OrangeSchellingCell(i,j);
 					currentGrid[i][j]= c;
-					c.setThreshold(.3);
+					c.setThreshold(gridConfig.getSegregationThreshold());
 					blocks[i][j].setFill(c.getColor());
-					
 				}
 			}
+		}
+		
+					
+				
+	}
 	
 	/**
 	 * This methods sets the list of neighbors for each cell by checking
