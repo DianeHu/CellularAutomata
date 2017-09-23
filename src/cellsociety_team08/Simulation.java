@@ -69,9 +69,9 @@ public class Simulation extends Application {
         if (dataFile != null) {
             try {
                 InputConfiguration  = new XMLReader("GridConfiguration").getGridConfiguration(dataFile);
-                System.out.println(InputConfiguration.getNumRows());
-                System.out.println(InputConfiguration.getNumCols());
-                System.out.println(Arrays.deepToString(InputConfiguration.getCellConfiguration()));
+                //System.out.println(InputConfiguration.getNumRows());
+                //System.out.println(InputConfiguration.getNumCols());
+                //System.out.println(Arrays.deepToString(InputConfiguration.getCellConfiguration()));
                
                 
                 
