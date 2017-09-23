@@ -32,6 +32,7 @@ public class Grid {
 	private int numCols;
 	private int cellWidth;
 	private int cellHeight;
+	private String simulationType;
 
 	public Grid(Group r) {
 		root = r;
@@ -104,9 +105,9 @@ public class Grid {
 				
 				char[][] states ={{'t','t','t','b','t'},
 			    		  			{'b',' ',' ',' ','t'},
-			    		  			{'t','t','b','b','t'},
-			    		  			{'t','t',' ','t',' '},
-			    		  			{'t','t','t','t','t'}};
+			    		  			{'t','b','b','b','t'},
+			    		  			{'b','t',' ','t',' '},
+			    		  			{'t','t','b','b','t'}};
 
 				for(int i = 0; i<numRows; i++) {
 					for(int j = 0; j<numCols; j++) {
