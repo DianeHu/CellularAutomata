@@ -9,8 +9,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class SharkCell extends Cell{
-	private int breedTurns;
-	private int starveTurns;
+	private static int breedTurns;
+	private static int starveTurns;
 	private int numBreedTurns;
 	private int numStarveTurns;
 	
@@ -32,24 +32,41 @@ public class SharkCell extends Cell{
 	}
 
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
-		ArrayList<Cell> emptyNeighbors = new ArrayList<Cell>(emptySpots);
-		emptyNeighbors.retainAll(getNeighbors());
-
-		ArrayList<FishCell> neighborfish = getNeighboringFish();
-		if(neighborfish.size()==0) {
-			moveToRandomPlace(emptyNeighbors,grid);
-		}
-		else {
-			if(eatFish(neighborfish,grid)) {
-				numStarveTurns = -1;
+		
+		if(numStarveTurns!=starveTurns) {
+			ArrayList<Cell> emptyNeighbors = getEmptyNeighbors();
+	        ArrayList<FishCell> neighborfish = getNeighboringFish();
+	        
+			/*if(neighborfish.size()==0) {
+				moveToRandomPlace(emptyNeighbors,grid);
+				numStarveTurns++;
 			}
+			else {
+				if(eatFish(neighborfish,grid)) {
+					numStarveTurns = 0;
+				}
+			}*/
+	        if(eatFish(neighborfish,grid)) {
+				numStarveTurns = 0;
+			}
+	        else {
+				moveToRandomPlace(emptyNeighbors,grid);
+				numStarveTurns++;
+	        }
+			
+			if(numBreedTurns>=breedTurns) {
+				breed(emptyNeighbors,grid);
+			}		
+			
+			numBreedTurns++;
 		}
-		
-		if(numBreedTurns>=breedTurns) {
-			breed(emptyNeighbors,grid);
-		}		
-		
-		numBreedTurns++;
+	}
+	
+	private void breed(ArrayList<Cell> emptySpots, Grid grid) {
+		SharkCell newshark = new SharkCell(getRow(), getCol());
+		if(newshark.moveToRandomPlace(emptySpots,grid)) {
+			numBreedTurns = -1;
+		}
 	}
 	
 	public boolean eatFish(ArrayList<FishCell> fish, Grid grid) {
@@ -61,6 +78,9 @@ public class SharkCell extends Cell{
 			}
 			Random rand = new Random(); 
 			FishCell testFish = fish.get(rand.nextInt(numFish));
+			System.out.println(testFish.getRow() + " " +testFish.getCol());
+			System.out.println(getRow() + " " +getCol());
+			System.out.println(grid.newGridContainsSharkAt(testFish.getRow(),testFish.getCol()));
 			if(grid.newGridContainsSharkAt(testFish.getRow(),testFish.getCol())) {
 				fish.remove(testFish);
 			}
@@ -68,10 +88,11 @@ public class SharkCell extends Cell{
 				setRow(testFish.getRow()); setCol(testFish.getCol());
 				testFish.die(grid); 
 				grid.addToNewGrid(this);
+				System.out.println("added to grid");
 				moved = true;
 			}
 		}
-		
+		System.out.println(moved);
 		return moved;
 	}
 	
@@ -86,12 +107,7 @@ public class SharkCell extends Cell{
 		return neighborfish;
 	}
 	
-	private void breed(ArrayList<Cell> emptySpots, Grid grid) {
-		SharkCell newshark = new SharkCell(getRow(), getCol());
-		if(newshark.moveToRandomPlace(emptySpots,grid)) {
-			numBreedTurns = -1;
-		}
-	}
+
 
 
 }

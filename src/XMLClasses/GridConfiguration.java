@@ -12,8 +12,8 @@ public class GridConfiguration {
     // simple way to create an immutable list
     public static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
         "numRows",
-        "numCol",
-        "cellType",
+        "numCols",
+        "cellConfiguration",
     });
 
     // specific data values for this instance
@@ -26,7 +26,7 @@ public class GridConfiguration {
 
     // provide alternate ways to access data values if needed
     public int getNumRows () {
-        return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(1)));
+        return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(0)));
     }
 
     public int getNumCols () {

@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<GridConfiguration>
+  <numRows>6</numRows>
+  <numCols>6</numCols>
+  <cellConfiguration>b   obb    bobb o bbbbbobo  obobbobobo</cellConfiguration>
+</GridConfiguration>

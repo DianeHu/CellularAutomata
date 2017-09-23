@@ -8,7 +8,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class FishCell extends Cell{
-	private int breedTurns;
+	private static int breedTurns; //need to justify
 	private int numTurns;
 	private boolean eaten;
 	
@@ -27,8 +27,6 @@ public class FishCell extends Cell{
 	
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
 		ArrayList<Cell> emptyNeighbors = getEmptyNeighbors();
-		System.out.println(emptyNeighbors.size());
-		System.out.println(getNeighbors().size());
 		if(numTurns>=breedTurns) {
 			breed(emptyNeighbors,grid);
 		}
@@ -43,7 +41,6 @@ public class FishCell extends Cell{
 	private void breed(ArrayList<Cell> emptySpots, Grid grid) {
 		FishCell newfish = new FishCell(getRow(), getCol());
 		if(newfish.moveToRandomPlace(emptySpots,grid)){
-			System.out.println("breeded");
 			numTurns = -1;
 		}
 	}

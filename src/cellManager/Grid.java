@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import XMLClasses.GridConfiguration;
 import cells.BlueSchellingCell;
 import cells.BurningTreeCell;
 import cells.Cell;
@@ -27,25 +28,25 @@ public class Grid {
 	private Cell[][] newGrid;
 	private Cell[][] emptyGrid;
 	private Rectangle[][] blocks;
-	private File xml;
+	private GridConfiguration gridConfig;
 	private int numRows;
 	private int numCols;
 	private int cellWidth;
 	private int cellHeight;
 	private String simulationType;
 
-	public Grid(Group r) {
+	public Grid(Group r, GridConfiguration g) {
 		root = r;
-		//xml = f;
+		gridConfig = g;
 		
 	}
 	
 	public void initialize() {
-		/*XMLReader reader = new XMLReader(xml);
-		numRows = reader.getNumRows();
-		numCols = reader.getNumCols();*/
-		numRows = 5;
-		numCols = 5;
+		
+		numRows = gridConfig.getNumRows();
+		numCols = gridConfig.getNumCols();
+		//numRows = 5;
+		//numCols = 5;
 		cellWidth = SIZE/numCols;
 		cellHeight = SIZE/numRows;
 		
@@ -97,38 +98,42 @@ public class Grid {
 	}
 	
 	private void setInitialStates() {
-		/*		char[][] states ={{'b','b','o','o','o'},
-						    		  {'o','b',' ',' ','b'},
-						    		  {' ',' ','o','b','b'},
-						    		  {'o','o','b','o',' '},
-						    		  {'b',' ','o','b','o'}};*/
-				
-				char[][] states ={{'t','t','t','b','t'},
-			    		  			{'b',' ',' ',' ','t'},
-			    		  			{'t','b','b','b','t'},
-			    		  			{'b','t',' ','t',' '},
-			    		  			{'t','t','b','b','t'}};
-
-				for(int i = 0; i<numRows; i++) {
-					for(int j = 0; j<numCols; j++) {
-						if(states[i][j]=='t') {
-							Cell c = new TreeCell(i,j);
-							currentGrid[i][j]= c;
-							blocks[i][j].setFill(c.getColor());
-							
-						}
-						if(states[i][j]=='b') {
-							Cell c = new BurningTreeCell(i,j);
-							currentGrid[i][j]= c;
-							blocks[i][j].setFill(c.getColor());
-						}
-						if(states[i][j]==' ') {
-							Cell c = new EmptyLandCell(i,j);
-							currentGrid[i][j]= c;
-							blocks[i][j].setFill(c.getColor());
-						}
-						
-					}
+/*		char[][] states ={{'b','b','o','o','o'},
+				    		  {'o','b',' ',' ','b'},
+				    		  {' ',' ','o','b','b'},
+				    		  {'o','o','b','o',' '},
+				    		  {'b',' ','o','b','o'}};*/
+		
+		char[][] states =gridConfig.getCellConfiguration();
+		
+		char[][] states ={{' ',' ',' ',' ',' '},
+	  			{' ',' ',' ',' ',' '},
+	  			{' ',' ','s','f',' '},
+	  			{' ',' ',' ',' ',' '},
+	  			{' ',' ',' ',' ',' '}};
+		int numBlue = 0;
+		for(int i = 0; i<numRows; i++) {
+			for(int j = 0; j<numCols; j++) {
+				if(states[i][j]=='f') {
+					FishCell c = new FishCell(i,j);
+					currentGrid[i][j]= c;
+					c.setBreedTurns(20);
+					blocks[i][j].setFill(c.getColor());
+					
+				}
+				if(states[i][j]=='s') {
+					SharkCell c = new SharkCell(i,j);
+					currentGrid[i][j]= c;
+					c.setBreedTurns(20);
+					c.setStarveTurns(2);
+					blocks[i][j].setFill(c.getColor());
+					
+				}
+				if(states[i][j]=='o') {
+					OrangeSchellingCell c = new OrangeSchellingCell(i,j);
+					currentGrid[i][j]= c;
+					c.setThreshold(.3);
+					blocks[i][j].setFill(c.getColor());
 					
 				}
 			}
@@ -203,10 +208,7 @@ public class Grid {
 
 
 	public boolean newGridContainsCellAt(int rownum, int colnum) {
-		if(newGrid[rownum][colnum] instanceof EmptyCell) {
-			return false;
-		}
-		return true;
+		return !(newGrid[rownum][colnum] instanceof EmptyCell);
 	}
 	
 	/**
@@ -215,10 +217,7 @@ public class Grid {
 	 * @return Tests if the new grid has a SharkCell at a certain location, returns true/false.
 	 */
 	public boolean newGridContainsSharkAt(int rownum, int colnum) {
-		if(newGrid[rownum][colnum] instanceof SharkCell) {
-			return false;
-		}
-		return true;
+		return newGrid[rownum][colnum] instanceof SharkCell;
 	}
 	
 	/**
