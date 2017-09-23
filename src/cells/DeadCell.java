@@ -20,6 +20,11 @@ public class DeadCell extends Cell {
 		super(myRowNum, myColNum);
 		setColor(Color.WHITE);
 	}
+	
+	public DeadCell() {
+		super();
+		setColor(Color.WHITE);
+	}
 
 	/*
 	 * (non-Javadoc)

@@ -20,6 +20,11 @@ public class BurningTreeCell extends Cell {
 		super(myRowNum, myColNum);
 		setColor(Color.DARKORANGE);
 	}
+	
+	public BurningTreeCell() {
+		super();
+		setColor(Color.DARKORANGE);
+	}
 
 	/*
 	 * (non-Javadoc)

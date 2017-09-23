@@ -26,6 +26,10 @@ public abstract class Cell {
 		neighbors = new ArrayList<Cell>();
 	}
 	
+	public Cell() {
+		neighbors = new ArrayList<Cell>();
+	}
+	
 	
 	/**
 	 * Sets the color for a cell type
