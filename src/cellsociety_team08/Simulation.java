@@ -44,7 +44,7 @@ public class Simulation extends Application {
 	private Stage myStage;
 	private int colorNum = 0;
 	private GridConfiguration XMLConfiguration;
-	private static String simulationType = "Segregation";
+	private static String simulationType = "SpreadingWildfire";
 	
 	
 	public void startSimulation(Stage s, GridConfiguration SampleConfiguration) throws Exception {

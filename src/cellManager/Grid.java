@@ -78,21 +78,24 @@ public class Grid {
 			break;
 		case ("Wator"):
 			simMap = waTor;
+			break;
 		case ("SpreadingWildfire"):
 			simMap = spreadingWildfire;
+			break;
 		case ("Segregation"):
 			simMap = segregation;
+			break;
 		}
 	}
 
 	public void initialize() {
 
-		//numRows = gridConfig.getNumRows();
-		//numCols = gridConfig.getNumCols();
+		numRows = gridConfig.getNumRows();
+		numCols = gridConfig.getNumCols();
 		createMaps();
 		setCurrSimulationMap();
-		numRows = 6;
-		numCols = 6;
+		//numRows = 6;
+		//numCols = 6;
 		cellWidth = SIZE / numCols;
 		cellHeight = SIZE / numRows;
 
@@ -163,25 +166,21 @@ public class Grid {
 
 		/*for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
-				if (states[i][j] == 'f') {
-					FishCell c = new FishCell(i, j);
-					currentGrid[i][j] = c;
-					c.setBreedTurns(20);
-					blocks[i][j].setFill(c.getColor());
-
-				}
-				if (states[i][j] == 's') {
-					SharkCell c = new SharkCell(i, j);
-					currentGrid[i][j] = c;
-					c.setBreedTurns(20);
-					c.setStarveTurns(2);
-					blocks[i][j].setFill(c.getColor());
-
-				}
 				if (states[i][j] == 'o') {
-					OrangeSchellingCell c = new OrangeSchellingCell(i, j);
+					Cell c = new OrangeSchellingCell(i, j);
 					currentGrid[i][j] = c;
-					c.setThreshold(.3);
+					blocks[i][j].setFill(c.getColor());
+
+				}
+				if (states[i][j] == 'b') {
+					Cell c = new BlueSchellingCell(i, j);
+					currentGrid[i][j] = c;
+					blocks[i][j].setFill(c.getColor());
+
+				}
+				if (states[i][j] == 'e') {
+					Cell c = new EmptyCell(i, j);
+					currentGrid[i][j] = c;
 					blocks[i][j].setFill(c.getColor());
 
 				}
