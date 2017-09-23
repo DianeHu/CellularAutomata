@@ -14,6 +14,12 @@ public class GridConfiguration {
         "numRows",
         "numCols",
         "cellConfiguration",
+        "probCatch",
+        "probGrow",
+        "segregationThreshold",
+        "fishBreedTurns",
+        "sharkBreedTurns",
+        "sharkStarveTurns",
     });
 
     // specific data values for this instance
@@ -51,6 +57,30 @@ public class GridConfiguration {
     		}
     	}
     	return cellConfiguration;
+    }
+    
+    public double getProbCatch () {
+        return Double.parseDouble(myDataValues.get(DATA_FIELDS.get(3)));
+    }
+    
+    public double getProbGrow () {
+        return Double.parseDouble(myDataValues.get(DATA_FIELDS.get(4)));
+    }
+    
+    public double getSegregationThreshold () {
+        return Double.parseDouble(myDataValues.get(DATA_FIELDS.get(5)));
+    }
+    
+    public int getFishBreedTurns () {
+        return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(6)));
+    }
+    
+    public int getSharkBreedTurns () {
+        return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(7)));
+    }
+    
+    public int getSharkStarveTurns () {
+        return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(8)));
     }
 
     @Override

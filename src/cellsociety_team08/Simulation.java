@@ -26,12 +26,13 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.FileChooser.ExtensionFilter;
 import XMLClasses.XMLReader;
+import cellsociety_team08.SimulationButtons;
 
 public class Simulation extends Application {
 
 	public static final String DATA_FILE_EXTENSION = "*.xml";
 	private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
-	private static final int SIZE = 400;
+	private static final int SIZE = 500;
 	private static final Color BACKGROUND = Color.TRANSPARENT;
 	private static final String TITLE = "SIMULATION";
 	public static final int FRAMES_PER_SECOND = 2;
@@ -44,11 +45,45 @@ public class Simulation extends Application {
 	private Stage myStage;
 	private int colorNum = 0;
 	private GridConfiguration XMLConfiguration;
-	private static String simulationType = "SpreadingWildfire";
+	private int simulationType;
 	
+	public void start (Stage primaryStage) throws Exception {
+        File dataFile = myChooser.showOpenDialog(primaryStage);
+        GridConfiguration InputConfiguration = null;
+        if (dataFile != null) {
+            try {
+                InputConfiguration  = new XMLReader("GridConfiguration").getGridConfiguration(dataFile);
+                //System.out.println(InputConfiguration.getSegregationThreshold());
+                //System.out.println(InputConfiguration.getProbCatch());
+                //System.out.println(InputConfiguration.getNumCols());
+                //System.out.println(Arrays.deepToString(InputConfiguration.getCellConfiguration()));
+               
+                
+                
+            }
+            catch (XMLException e) {
+                Alert a = new Alert(AlertType.ERROR);
+                a.setContentText(e.getMessage());
+                a.showAndWait();
+            }
+            // silly trick to select data file multiple times for this demo
+            XMLConfiguration = InputConfiguration;
+            chooseSimulation(root,primaryStage);
+        }
+        else {
+            // nothing selected, so quit the application
+            Platform.exit();
+        }
+    }
 	
-	public void startSimulation(Stage s, GridConfiguration SampleConfiguration) throws Exception {
-		XMLConfiguration = SampleConfiguration;
+	public void chooseSimulation(Group g,Stage s) throws Exception
+	{
+		SimulationButtons.initialize(g);
+		startSplash(s);
+	}
+	
+	public void startSimulation(Stage s) throws Exception {
+		
 		// attach scene to the stage and display it
 		myStage = s;
 		Scene scene = setSimulation(XMLConfiguration);
@@ -65,32 +100,23 @@ public class Simulation extends Application {
 		
 	}
 	
-	public void start (Stage primaryStage) throws Exception {
-        File dataFile = myChooser.showOpenDialog(primaryStage);
-        GridConfiguration InputConfiguration = null;
-        if (dataFile != null) {
-            try {
-                InputConfiguration  = new XMLReader("GridConfiguration").getGridConfiguration(dataFile);
-                //System.out.println(InputConfiguration.getNumRows());
-                //System.out.println(InputConfiguration.getNumCols());
-                //System.out.println(Arrays.deepToString(InputConfiguration.getCellConfiguration()));
-               
-                
-                
-            }
-            catch (XMLException e) {
-                Alert a = new Alert(AlertType.ERROR);
-                a.setContentText(e.getMessage());
-                a.showAndWait();
-            }
-            // silly trick to select data file multiple times for this demo
-            startSimulation(primaryStage, InputConfiguration); 
-        }
-        else {
-            // nothing selected, so quit the application
-            Platform.exit();
-        }
-    }
+	public void startSplash(Stage s) throws Exception {
+
+		// attach scene to the stage and display it
+		myStage = s;
+		Scene scene = setUpSplash();
+	    myStage.setScene(scene);
+	    myStage.setTitle(TITLE);
+	    myStage.show();
+        // attach "game loop" to timeline to play it
+        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
+                                      e -> step(SECOND_DELAY));
+        Timeline animation = new Timeline();
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.getKeyFrames().add(frame);
+        animation.play();
+        simulationType = SimulationButtons.setSimulation();
+	}
 	
 	private Scene setSimulation(GridConfiguration xml)
 	{
@@ -121,9 +147,8 @@ public class Simulation extends Application {
 	}
 	
 	private Scene setUpSplash(){
-		int width = 0, height =0;
 		Paint background = Color.WHITE;
-		myScene = new Scene(root, width, height, background);
+		myScene = new Scene(root, SIZE, SIZE, background);
 		myScene.setOnKeyPressed(e -> handleKeyInputSplash(e.getCode()));
 	    myScene.setOnMouseClicked(e -> handleMouseInputSplash(e.getX(), e.getY()));
 	    return myScene;
@@ -155,13 +180,18 @@ public class Simulation extends Application {
 	
 	private void handleKeyInputSplash (KeyCode code) {
 		
+		if(code == KeyCode.S)
+		{
+			myStage.setScene(setSimulation(XMLConfiguration));
+		}
 	}
 	
 	private void handleMouseInputSplash (double x, double y) {
         
     }
 	
-	public static String getSimulationType() {
+	public int setSimulationType()
+	{
 		return simulationType;
 	}
 	

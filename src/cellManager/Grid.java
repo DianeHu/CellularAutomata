@@ -174,16 +174,19 @@ public class Grid {
 					blocks[i][j].setFill(c.getColor());
 
 				}
-				if (states[i][j] == 'e') {
-					Cell c = new EmptyCell(i, j);
-					currentGrid[i][j] = c;
+				if(states[i][j]=='o') {
+					OrangeSchellingCell c = new OrangeSchellingCell(i,j);
+					currentGrid[i][j]= c;
+					c.setThreshold(gridConfig.getSegregationThreshold());
 					blocks[i][j].setFill(c.getColor());
-
 				}
 			}
-		}*/
+		}
+		
+					
+				
 	}
-
+	
 	/**
 	 * This methods sets the list of neighbors for each cell by checking which of
 	 * its adjacent cells are considered neighbors by the algorithm
