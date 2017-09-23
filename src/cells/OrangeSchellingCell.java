@@ -18,6 +18,11 @@ public class OrangeSchellingCell extends Cell{
 		super(myRowNum, myColNum);
 		setColor(Color.DARKORANGE);
 	}
+	
+	public OrangeSchellingCell() {
+		super();
+		setColor(Color.DARKORANGE);
+	}
 
 	public void setThreshold(double t) {
 		threshold = t;
@@ -43,8 +48,5 @@ public class OrangeSchellingCell extends Cell{
 			grid.addToNewGrid(this);
 		}
 	}
-
-	
-
 	
 }

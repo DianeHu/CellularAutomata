@@ -22,6 +22,11 @@ public class EmptyLandCell extends Cell {
 		super(myRowNum, myColNum);
 		setColor(Color.BROWN);
 	}
+	
+	public EmptyLandCell() {
+		super();
+		setColor(Color.BROWN);
+	}
 
 	/*
 	 * (non-Javadoc)

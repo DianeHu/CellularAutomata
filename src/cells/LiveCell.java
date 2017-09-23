@@ -15,6 +15,11 @@ public class LiveCell extends Cell {
 		super(myRowNum, myColNum);
 		setColor(Color.DARKCYAN);
 	}
+	
+	public LiveCell() {
+		super();
+		setColor(Color.DARKCYAN);
+	}
 
 	@Override
 	public boolean isNeighbor(int otherRowNum, int otherColNum) {

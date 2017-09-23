@@ -12,6 +12,11 @@ public class EmptyCell extends Cell {
 		setColor(Color.FLORALWHITE);
 	}
 	
+	public EmptyCell() {
+		super();
+		setColor(Color.FLORALWHITE);
+	}
+	
 	public boolean isNeighbor(int otherRowNum, int otherColNum) {
 		return super.isNeighbor8(otherRowNum, otherColNum);
 	}

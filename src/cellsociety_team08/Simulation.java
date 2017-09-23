@@ -44,6 +44,7 @@ public class Simulation extends Application {
 	private Stage myStage;
 	private int colorNum = 0;
 	private GridConfiguration XMLConfiguration;
+	private static String simulationType = "Segregation";
 	
 	
 	public void startSimulation(Stage s, GridConfiguration SampleConfiguration) throws Exception {
@@ -131,8 +132,8 @@ public class Simulation extends Application {
 	private void step (double elapsedTime) 
 	{   
 		//myStage.setScene(setSimulation(XMLSample));
-		sampleGrid.createsNewGrid();
-		sampleGrid.update(root); 
+		//sampleGrid.createsNewGrid();
+		//sampleGrid.update(root); 
 		colorNum++;
 	}
 	
@@ -142,10 +143,10 @@ public class Simulation extends Application {
 			colorNum++;
 			myStage.setScene(setSimulation(XMLConfiguration));
 		}
-		/*if(code == KeyCode.SPACE) {			
+		if(code == KeyCode.SPACE) {			
 			sampleGrid.createsNewGrid();			
 			sampleGrid.update(root); 
-		}*/
+		}
 	}
 	
 	private void handleMouseInput (double x, double y) {
@@ -159,6 +160,10 @@ public class Simulation extends Application {
 	private void handleMouseInputSplash (double x, double y) {
         
     }
+	
+	public static String getSimulationType() {
+		return simulationType;
+	}
 	
 	private FileChooser makeChooser (String extensionAccepted) {
         FileChooser result = new FileChooser();

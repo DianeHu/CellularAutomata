@@ -22,6 +22,11 @@ public class TreeCell extends Cell {
 		super(myRowNum, myColNum);
 		setColor(Color.FORESTGREEN);
 	}
+	
+	public TreeCell() {
+		super();
+		setColor(Color.FORESTGREEN);
+	}
 
 	/*
 	 * (non-Javadoc)
