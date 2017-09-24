@@ -19,6 +19,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
@@ -36,8 +38,8 @@ public class Simulation extends Application {
 	public static final int FRAMES_PER_SECOND = 2;
 	public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private static double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-	private Group rootTop = new Group();
-	private Group rootRight = new Group();
+	private HBox hboxTop = new HBox();
+	private VBox vboxRight = new VBox();
 	private Group splash = new Group();
 	private Group simulationScreen = new Group();
 	private Scene myScene;
@@ -65,10 +67,10 @@ public class Simulation extends Application {
 	public void addButtonsToBorder(Stage s) throws Exception
 	{
 		emptyPane.getChildren().clear();
-		SimulationButtons.initializeTop(rootTop);
-		SimulationButtons.initializeRight(rootRight);
-		fileChooserButton = (Button) rootTop.getChildren().get(0);
-		startButton = (Button) rootTop.getChildren().get(1);
+		SimulationButtons.initializeTop(hboxTop);
+		SimulationButtons.initializeRight(vboxRight);
+		fileChooserButton = (Button) hboxTop.getChildren().get(0);
+		startButton = (Button) hboxTop.getChildren().get(1);
 		Rectangle temp = new Rectangle();
 		temp.setWidth(400);
 		temp.setHeight(400);
@@ -77,15 +79,14 @@ public class Simulation extends Application {
 		GridPane.setRowIndex(temp, 0);
 		GridPane.setColumnIndex(temp, 0);
 		emptyPane.getChildren().add(temp);
-		pauseButton = (Button) rootRight.getChildren().get(0);
-		resumeButton = (Button) rootRight.getChildren().get(1);
-		fasterButton = (Button) rootRight.getChildren().get(2);
-		slowerButton = (Button) rootRight.getChildren().get(3);
-		resetButton = (Button) rootRight.getChildren().get(4);
-		stepButton = (Button) rootRight.getChildren().get(5);
+		pauseButton = (Button) vboxRight.getChildren().get(0);
+		resumeButton = (Button) vboxRight.getChildren().get(1);
+		fasterButton = (Button) vboxRight.getChildren().get(2);
+		slowerButton = (Button) vboxRight.getChildren().get(3);
+		resetButton = (Button) vboxRight.getChildren().get(4);
 		screenBorder.setCenter(emptyPane);
-		screenBorder.setTop(rootTop);
-		screenBorder.setRight(rootRight);
+		screenBorder.setTop(hboxTop);
+		screenBorder.setRight(vboxRight);
 		startSplash(s);
 		
 		splash.getChildren().add(screenBorder);
@@ -225,8 +226,9 @@ public class Simulation extends Application {
 	}
 	
 	private void reset() {
-		//screenBorder.getChildren().remove(root);
 		//screenBorder.getChildren().add(emptyPane);
+		screenBorder.getChildren().remove(root);
+		
 		
 	}
     public static void main (String[] args) {
