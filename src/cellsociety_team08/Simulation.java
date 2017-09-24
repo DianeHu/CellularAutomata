@@ -10,7 +10,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
@@ -45,7 +45,6 @@ public class Simulation extends Application {
 	private Group root = new Group();
 	private Group roots = new Group();
 	private Scene myScene;
-	private Cell sampleCell;
 	private Grid sampleGrid;
 	private Stage myStage;
 	private int colorNum = 0;
@@ -221,7 +220,7 @@ public class Simulation extends Application {
 		if(elapsedTime!=0)
 		{
 			sampleGrid.createsNewGrid();
-			sampleGrid.update(root); 
+			sampleGrid.update(root);
 		}
 		//colorNum++;
 	}
