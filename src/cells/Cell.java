@@ -61,6 +61,8 @@ public abstract class Cell {
 	public int getCol() {
 		return colNum;
 	}
+
+	
 	
 	
 	/**
@@ -69,22 +71,30 @@ public abstract class Cell {
 	 * @return Returns whether or not a cell at an indicated position is a neighbor of the current cell. Neighbor defined as any of the eight
 	 * surrounding positions of a cell, i.e., including positions diagonal to the current one.
 	 */
-	public abstract boolean isNeighbor(int otherRowNum, int otherColNum);
+	public abstract boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols);
 	
 	//changed
 	public boolean isNeighbor8(int otherRowNum, int otherColNum) {
-		if(Math.abs(rowNum-otherRowNum)<=1 && Math.abs(colNum-otherColNum)<=1) {
-			if(!(otherRowNum==rowNum && otherColNum==colNum)) {
-				return true;
-			}
-		}
-		return false;
+		return (Math.abs(rowNum-otherRowNum)<=1 & Math.abs(colNum-otherColNum)<=1) 
+				& !(otherRowNum==rowNum && otherColNum==colNum);
 	}
 	
 	//changed
 	public boolean isNeighbor4(int otherRowNum, int otherColNum) {
+		return (Math.abs(rowNum-otherRowNum)==1 & colNum==otherColNum)
+				| (Math.abs(colNum-otherColNum)==1 & rowNum==otherRowNum);
+	}
+	
+	public boolean isNeighborTorus(int otherRowNum, int otherColNum, int numRows, int numCols) {
 		if((Math.abs(rowNum-otherRowNum)==1 & colNum==otherColNum)
 				| (Math.abs(colNum-otherColNum)==1 & rowNum==otherRowNum)) {
+			return true;
+		}
+		if(rowNum==otherRowNum & ((colNum==0 & otherColNum==numCols-1)|(colNum==numCols-1 & otherColNum==0))) {
+			return true;
+		}
+
+		if(colNum==otherColNum & ((rowNum==0 & otherRowNum==numRows-1)|(rowNum==numRows-1 & otherRowNum==0))) {
 			return true;
 		}
 		return false;
@@ -208,3 +218,4 @@ public abstract class Cell {
 	}
 	
 }
+
