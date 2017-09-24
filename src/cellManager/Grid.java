@@ -36,7 +36,7 @@ public class Grid {
 	private int numCols;
 	private int cellWidth;
 	private int cellHeight;
-	private String simulationType = "SpreadingWildfire";
+	private String simulationType;
 	private Map<Character, Cell> segregation = new HashMap<>();
 	private Map<Character, Cell> gameOfLife = new HashMap<>();
 	private Map<Character, Cell> spreadingWildfire = new HashMap<>();
@@ -93,6 +93,7 @@ public class Grid {
 	}
 
 	private void setCurrSimulationMap() {
+		simulationType = gridConfig.getSimulationType();
 		switch (simulationType) {
 		case ("Segregation"):
 			simMap = segregation;

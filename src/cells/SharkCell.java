@@ -36,14 +36,14 @@ public class SharkCell extends Cell{
 	}
 
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
-		System.out.println(numStarveTurns + " " +starveTurns);
+		//System.out.println(numStarveTurns + " " +starveTurns);
 		if(numStarveTurns<starveTurns) {
 			ArrayList<Cell> emptyNeighbors = getEmptyNeighbors();
 	        ArrayList<FishCell> neighborfish = getNeighboringFish();
 
 	        if(eatFish(neighborfish,grid)) {
 				numStarveTurns = 0;
-				System.out.println(" eaten");
+				//System.out.println(" eaten");
 			}
 	        else {
 				if(numBreedTurns>=breedTurns) {
