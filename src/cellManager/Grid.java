@@ -111,6 +111,7 @@ public class Grid {
 
 		waTor.put('f', fCell);
 		waTor.put('s', sCell);
+		waTor.put('e', eCell);
 	}
 
 	/**
@@ -140,7 +141,7 @@ public class Grid {
 	 *         to cells, sets the appropriate maps, and sets up the 2D arrays
 	 *         backing the gridpane.
 	 */
-	public GridPane initialize() {
+	public void initialize() {
 		createMaps();
 		setCurrSimulationMap();
 		numRows = gridConfig.getNumRows();
@@ -156,8 +157,6 @@ public class Grid {
 		empty(newGrid);
 		setRectangles();
 		setInitialStates();
-
-		return pane;
 
 		// read from xml to create initial state
 	}

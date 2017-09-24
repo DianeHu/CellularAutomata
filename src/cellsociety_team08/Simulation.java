@@ -181,27 +181,12 @@ public class Simulation extends Application {
 	}
 	
 	private Scene setSimulation(GridConfiguration xml)
-	{
-		//int width = 0, height =0;
-		Paint background = Color.TRANSPARENT;
-		if(colorNum == 1)
-		{
-			background = Color.PINK;
-		}
-		if(colorNum == 2)
-		{
-			background = Color.GREEN;
-		}
-		
+	{	
 		root = new Group();
-		myScene = new Scene(root, SIZE, SIZE, background);
-		//sampleCell = new BurningTreeCell(10, 10, SIZE, SIZE);
-		//sampleCell.drawCell(root);
+		myScene = new Scene(root, SIZE, SIZE);
 		
 		sampleGrid = new Grid(root,xml); 
-		simPane = sampleGrid.initialize();
-		
-		//root.getChildren().addAll();
+		sampleGrid.initialize();
 		
 		myScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
 	    myScene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
