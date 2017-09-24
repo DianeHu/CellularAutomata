@@ -16,6 +16,7 @@ public class SimulationButtons {
 	private static Button fasterButton;
 	private static Button slowerButton;
 	private static Button resetButton;
+	private static Button stepButton;
 	
 	public static void initializeTop(Group root)
 	{
@@ -46,6 +47,10 @@ public class SimulationButtons {
 		resetButton = new Button("Reset");
 		root.getChildren().add(resetButton);
 		resetButton.setTranslateY(120);
+		
+		stepButton = new Button("Step");
+		root.getChildren().add(stepButton);
+		stepButton.setTranslateY(150);
 	}
 	
 	

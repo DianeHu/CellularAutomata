@@ -43,7 +43,6 @@ public class Simulation extends Application {
 	private Scene myScene;
 	private Grid sampleGrid;
 	private Stage myStage;
-	//private GridPane emptyPane;
 	private GridConfiguration XMLConfiguration;
 	private static Button fileChooserButton;
 	private static Button startButton;
@@ -52,6 +51,7 @@ public class Simulation extends Application {
 	private static Button fasterButton;
 	private static Button slowerButton;
 	private static Button resetButton;
+	private static Button stepButton;
 	private static double timePassing = SECOND_DELAY;
 	private GridPane emptyPane = new GridPane();
 	private BorderPane screenBorder = new BorderPane();
@@ -82,6 +82,7 @@ public class Simulation extends Application {
 		fasterButton = (Button) rootRight.getChildren().get(2);
 		slowerButton = (Button) rootRight.getChildren().get(3);
 		resetButton = (Button) rootRight.getChildren().get(4);
+		stepButton = (Button) rootRight.getChildren().get(5);
 		screenBorder.setCenter(emptyPane);
 		screenBorder.setTop(rootTop);
 		screenBorder.setRight(rootRight);
@@ -139,6 +140,13 @@ public class Simulation extends Application {
 			@Override
 			public void handle (ActionEvent event) {
 				reset();
+			}
+		});
+		stepButton.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle (ActionEvent event) {
+				sampleGrid.createsNewGrid();
+				sampleGrid.update();
 			}
 		});
 	}
@@ -202,8 +210,7 @@ public class Simulation extends Application {
 	{	
 		root = new Group();
 		sampleGrid = new Grid(root,xml);
-		GridPane pane = new GridPane();
-		pane = sampleGrid.initialize();
+		sampleGrid.initialize();
 		screenBorder.setCenter(root);
 		simulationScreen.getChildren().add(screenBorder);
 		myScene = new Scene(simulationScreen, SIZE, SIZE, BACKGROUND);
