@@ -6,7 +6,7 @@ import cellManager.Grid;
 import javafx.scene.paint.Color;
 
 public class EmptyCell extends Cell {
-	
+
 	public EmptyCell(int myRowNum, int myColNum) {
 		super(myRowNum,myColNum);	
 		setColor(Color.FLORALWHITE);
@@ -17,7 +17,7 @@ public class EmptyCell extends Cell {
 		Cell newCell = new EmptyCell();
 		return newCell;
 	}
-	
+
 	public EmptyCell() {
 		super();
 		setColor(Color.FLORALWHITE);

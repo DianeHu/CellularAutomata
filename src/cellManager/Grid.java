@@ -20,6 +20,7 @@ import cells.SharkCell;
 import cells.TreeCell;
 import cellsociety_team08.Simulation;
 import javafx.scene.Group;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -42,6 +43,7 @@ public class Grid {
 	private Map<Character, Cell> spreadingWildfire = new HashMap<>();
 	private Map<Character, Cell> waTor = new HashMap<>();
 	private Map<Character, Cell> simMap = new HashMap<>();
+	private GridPane pane = new GridPane();
 
 	public Grid(Group r, GridConfiguration g) {
 		root = r;
@@ -156,7 +158,6 @@ public class Grid {
 			for (int j = 0; j < numCols; j++) {
 				Rectangle r = new Rectangle(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
 				r.setStroke(Color.DARKGREY);
-				root.getChildren().add(r);
 				blocks[i][j] = r;
 			}
 		}
@@ -174,9 +175,12 @@ public class Grid {
 				c.setCol(j);
 				currentGrid[i][j] = c;
 				blocks[i][j].setFill(c.getColor());
+				GridPane.setConstraints(blocks[i][j], j, i);
+				pane.getChildren().add(blocks[i][j]);
 			}
 		}
-
+		
+		root.getChildren().add(pane);
 	}
 
 	/**

@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
@@ -51,6 +52,7 @@ public class Simulation extends Application {
 	private static Button fileChooserButton;
 	private static Button startButton;
 	private static double timePassing = SECOND_DELAY;
+	private GridPane pane = new GridPane();
 	
 	public void start (Stage primaryStage) throws Exception {
 		chooseFile(root,primaryStage);
@@ -214,7 +216,7 @@ public class Simulation extends Application {
 		if(elapsedTime!=0)
 		{
 			sampleGrid.createsNewGrid();
-			sampleGrid.update(root); 
+			sampleGrid.update(root);
 		}
 		//colorNum++;
 	}

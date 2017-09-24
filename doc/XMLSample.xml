@@ -1,5 +1,5 @@
 ﻿<GridConfiguration>
-  <simulationType>Wator</simulationType><numRows>6</numRows>
+  <simulationType>SpreadingWildfire</simulationType><numRows>6</numRows>
   <numCols>6</numCols>
   <cellConfiguration>tbbbbttttttteeeetbbetbettttbbbeettbb</cellConfiguration>
   <probCatch>.5</probCatch>
