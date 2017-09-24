@@ -27,7 +27,7 @@ public class BurningTreeCell extends Cell{
 		Cell newCell = new BurningTreeCell();
 		return newCell;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -37,10 +37,9 @@ public class BurningTreeCell extends Cell{
 	 * directions (North, South, East, West) as neighbors.
 	 */
 	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum) {
+	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
 		return super.isNeighbor4(otherRowNum, otherColNum);
 	}
-
 	/**
 	 * @param root
 	 * Replaces the current burning cell with an empty cell.
@@ -53,10 +52,5 @@ public class BurningTreeCell extends Cell{
 	@Override
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
 		burnOut(grid);
-	}
-
-	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
-		return super.isNeighbor4(otherRowNum, otherColNum);
 	}
 }
