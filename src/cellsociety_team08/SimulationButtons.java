@@ -6,6 +6,8 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 public class SimulationButtons {
 	
@@ -17,35 +19,35 @@ public class SimulationButtons {
 	private static Button slowerButton;
 	private static Button resetButton;
 	
-	public static void initializeTop(Group root)
+	public static void initializeTop(HBox hbox)
 	{
 		fileChooserButton = new Button("Choose XML file for configuration");
-		root.getChildren().add(fileChooserButton);
+		hbox.getChildren().add(fileChooserButton);
 		startButton = new Button("Start Simulation");
-		startButton.setTranslateX(200);
-		root.getChildren().add(startButton);
+		//startButton.setTranslateX(200);
+		hbox.getChildren().add(startButton);
 	}
 	
-	public static void initializeRight(Group root)
+	public static void initializeRight(VBox vbox)
 	{
 		pauseButton = new Button("Pause");
-		root.getChildren().add(pauseButton);
+		vbox.getChildren().add(pauseButton);
 		
 		resumeButton = new Button("Resume");
-		resumeButton.setTranslateY(30);
-		root.getChildren().add(resumeButton);
+		//resumeButton.setTranslateY(30);
+		vbox.getChildren().add(resumeButton);
 		
 		fasterButton = new Button("Faster");
-		root.getChildren().add(fasterButton);
-		fasterButton.setTranslateY(60);
+		vbox.getChildren().add(fasterButton);
+		//fasterButton.setTranslateY(60);
 		
 		slowerButton = new Button("Slower");
-		root.getChildren().add(slowerButton);
-		slowerButton.setTranslateY(90);
+		vbox.getChildren().add(slowerButton);
+		//slowerButton.setTranslateY(90);
 		
 		resetButton = new Button("Reset");
-		root.getChildren().add(resetButton);
-		resetButton.setTranslateY(120);
+		vbox.getChildren().add(resetButton);
+		//resetButton.setTranslateY(120);
 	}
 	
 	
