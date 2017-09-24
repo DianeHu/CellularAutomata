@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -43,6 +44,7 @@ public class Simulation extends Application {
 	public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private static double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	private Group root = new Group();
+	private Group roots = new Group();
 	private Scene myScene;
 	private Grid sampleGrid;
 	private Stage myStage;
@@ -52,6 +54,7 @@ public class Simulation extends Application {
 	private static Button startButton;
 	private static double timePassing = SECOND_DELAY;
 	private GridPane pane = new GridPane();
+	private static BorderPane screenBorder;
 	
 	public void start (Stage primaryStage) throws Exception {
 		chooseFile(root,primaryStage);
@@ -116,6 +119,10 @@ public class Simulation extends Application {
 		SimulationButtons.initialize(g);
 		fileChooserButton = (Button) root.getChildren().get(0);
 		startButton = (Button) root.getChildren().get(1);
+		BorderPane screenBorder = new BorderPane(fileChooserButton);
+		roots.getChildren().add(screenBorder);
+		//screenBorder.setCenter(fileChooserButton);
+		screenBorder.setBottom(startButton);
 		startSplash(s);
 		fileChooserButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -203,7 +210,7 @@ public class Simulation extends Application {
 	
 	private Scene setUpSplash(){
 		Paint background = Color.WHITE;
-		myScene = new Scene(root, SIZE, SIZE, background);
+		myScene = new Scene(roots, SIZE, SIZE, background);
 		myScene.setOnKeyPressed(e -> handleKeyInputSplash(e.getCode()));
 	    myScene.setOnMouseClicked(e -> handleMouseInputSplash(e.getX(), e.getY()));
 	    return myScene;
