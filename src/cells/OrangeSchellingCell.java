@@ -12,7 +12,7 @@ import javafx.scene.shape.Rectangle;
  */
 public class OrangeSchellingCell extends Cell{
 
-	private double threshold = .5;
+	private double threshold;
 
 	public OrangeSchellingCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
@@ -24,6 +24,7 @@ public class OrangeSchellingCell extends Cell{
 		setColor(Color.DARKORANGE);
 	}
 
+	@Override
 	public void setThreshold(double t) {
 		threshold = t;
 	}

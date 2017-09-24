@@ -45,7 +45,7 @@ public class Simulation extends Application {
 	private Stage myStage;
 	private int colorNum = 0;
 	private GridConfiguration XMLConfiguration;
-	private int simulationType;
+	private static String simulationType;
 	
 	public void start (Stage primaryStage) throws Exception {
         File dataFile = myChooser.showOpenDialog(primaryStage);
@@ -109,8 +109,7 @@ public class Simulation extends Application {
 	    myStage.setTitle(TITLE);
 	    myStage.show();
         // attach "game loop" to timeline to play it
-        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
-                                      e -> step(SECOND_DELAY));
+        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY));
         Timeline animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
@@ -157,9 +156,9 @@ public class Simulation extends Application {
 	private void step (double elapsedTime) 
 	{   
 		//myStage.setScene(setSimulation(XMLSample));
-		//sampleGrid.createsNewGrid();
-		//sampleGrid.update(root); 
-		colorNum++;
+		sampleGrid.createsNewGrid();
+		sampleGrid.update(root); 
+		//colorNum++;
 	}
 	
 	private void handleKeyInput (KeyCode code) {
@@ -168,10 +167,10 @@ public class Simulation extends Application {
 			colorNum++;
 			myStage.setScene(setSimulation(XMLConfiguration));
 		}
-		if(code == KeyCode.SPACE) {			
+		/*if(code == KeyCode.SPACE) {			
 			sampleGrid.createsNewGrid();			
 			sampleGrid.update(root); 
-		}
+		}*/
 	}
 	
 	private void handleMouseInput (double x, double y) {
@@ -190,7 +189,7 @@ public class Simulation extends Application {
         
     }
 	
-	public int setSimulationType()
+	public static String setSimulationType()
 	{
 		return simulationType;
 	}

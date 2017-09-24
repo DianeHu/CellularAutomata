@@ -12,7 +12,7 @@ public class SimulationButtons {
 	private static MenuItem menuItem2; 
 	private static MenuItem menuItem3;
 	private static MenuItem menuItem4;
-	private static MenuButton menuButton; 
+	private static MenuButton menuButton;
 	
 	public static void initialize(Group root)
 	{
@@ -26,7 +26,7 @@ public class SimulationButtons {
 		
 	}
 	
-	public static int setSimulation()
+	public static String setSimulation()
 	{
 		
 		menuItem1.setOnAction(new EventHandler<ActionEvent>() {
@@ -41,7 +41,7 @@ public class SimulationButtons {
 		});
 		if(menuItem1.isDisable())
 		{
-			return 1;
+			return "Segregation";
 		}
 		
 		menuItem2.setOnAction(new EventHandler<ActionEvent>() {
@@ -56,7 +56,7 @@ public class SimulationButtons {
 		});
 		if(menuItem2.isDisable())
 		{
-			return 2;
+			return "SpreadingWildfire";
 		}
 		
 		menuItem3.setOnAction(new EventHandler<ActionEvent>() {
@@ -71,7 +71,7 @@ public class SimulationButtons {
 		});
 		if(menuItem3.isDisable())
 		{
-			return 3;
+			return "Wator";
 		}
 		
 		menuItem4.setOnAction(new EventHandler<ActionEvent>() {
@@ -86,11 +86,9 @@ public class SimulationButtons {
 		});
 		if(menuItem4.isDisable())
 		{
-			return 4;
+			return "GameOfLife";
 		}
 		
-		return 0;
-		
+		return "Error";
 	}
-    
 }

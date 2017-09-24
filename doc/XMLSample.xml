@@ -1,8 +1,7 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<GridConfiguration>
+﻿<GridConfiguration>
   <numRows>6</numRows>
   <numCols>6</numCols>
-  <cellConfiguration>bbb oob  b bobb o bbbbbobo  obobbobobo</cellConfiguration>
+  <cellConfiguration>eeeeeebeeeeeoeeeeeeeebeeeeeoeeeebeoo</cellConfiguration>
   <probCatch>.5</probCatch>
   <probGrow>.5</probGrow>
   <segregationThreshold>.5</segregationThreshold>

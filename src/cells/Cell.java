@@ -59,6 +59,10 @@ public abstract class Cell {
 		return rowNum;
 	}
 	
+	public void setThreshold(double num) {
+		//do nothing
+	}
+	
 	/**
 	 * @return Returns column number of the cell
 	 */

@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
  */
 public class EmptyLandCell extends Cell {
 
-	private double probGrow = 0.1;
+	private double probGrow;
 
 	/**
 	 * @param myRowNum
@@ -38,6 +38,11 @@ public class EmptyLandCell extends Cell {
 	@Override
 	public boolean isNeighbor(int otherRowNum, int otherColNum) {
 		return super.isNeighbor4(otherRowNum, otherColNum);
+	}
+	
+	@Override
+	public void setThreshold(double num) {
+		probGrow = num;
 	}
 
 	/**
