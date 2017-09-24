@@ -75,6 +75,7 @@ public class Grid {
 		SharkCell sCell = new SharkCell();
 		sCell.setBreedTurns(gridConfig.getSharkBreedTurns());
 		sCell.setStarveTurns(gridConfig.getSharkStarveTurns());
+		
 
 		segregation.put('b', bCell);
 		segregation.put('o', oCell);
@@ -87,7 +88,7 @@ public class Grid {
 		spreadingWildfire.put('b', bTCell);
 		spreadingWildfire.put('e', eLCell);
 		
-		waTor.put('f', fCell);
+		waTor.put('f',fCell);
 		waTor.put('s', sCell);
 	}
 
