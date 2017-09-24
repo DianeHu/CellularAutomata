@@ -59,7 +59,8 @@ public class Simulation extends Application {
 	private GridPane emptyPane = new GridPane();
 	private BorderPane screenBorder = new BorderPane();
 	private Timeline animation = new Timeline();
-	private Group root = new Group();
+	private Group root;
+	private boolean isFirstTime = true;
 	
 	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/Labels";
 	private ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
@@ -182,12 +183,17 @@ public class Simulation extends Application {
 	
 	private Scene setSimulation(GridConfiguration xml)
 	{	
+		screenBorder.getChildren().remove(root);
 		root = new Group();
 		sampleGrid = new Grid(root,xml);
 		sampleGrid.initialize();
 		screenBorder.setCenter(root);
-		simulationScreen.getChildren().add(screenBorder);
-		myScene = new Scene(simulationScreen, SIZE, SIZE, BACKGROUND);
+		if(isFirstTime == true) {
+			simulationScreen.getChildren().add(screenBorder);
+			myScene = new Scene(simulationScreen, SIZE, SIZE, BACKGROUND);
+		}
+		isFirstTime = false;
+		//myScene = new Scene(simulationScreen, SIZE, SIZE, BACKGROUND);
 	    return myScene;
 	}
 	
