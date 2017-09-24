@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import cellManager.Grid;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 
 /**
@@ -53,6 +55,10 @@ public abstract class Cell {
 	 */
 	protected void setColor(Color c) {
 		col = c;
+	}
+	
+	public Node getNode() {
+		return this.getNode();
 	}
 	
 	/**

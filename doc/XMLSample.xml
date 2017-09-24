@@ -1,10 +1,11 @@
 ﻿<GridConfiguration>
-  <numRows>6</numRows>
+  <simulationType>SpreadingWildfire</simulationType><numRows>6</numRows>
   <numCols>6</numCols>
   <cellConfiguration>ssfssfsffffsfsffsssfsfsssfsfsffsfsss</cellConfiguration>
   <probCatch>.5</probCatch>
-  <probGrow>1</probGrow>
+  <probGrow>.5</probGrow>
   <segregationThreshold>.5</segregationThreshold>
   <fishBreedTurns>5</fishBreedTurns>
   <sharkBreedTurns>5</sharkBreedTurns>
-  <sharkStarveTurns>5</sharkStarveTurns></GridConfiguration>
+  <sharkStarveTurns>5</sharkStarveTurns>
+  </GridConfiguration>

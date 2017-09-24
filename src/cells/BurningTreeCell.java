@@ -12,6 +12,8 @@ import javafx.scene.shape.Rectangle;
  */
 public class BurningTreeCell extends Cell{
 	
+	private static double probGrow;
+	
 	public BurningTreeCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setColor(Color.DARKORANGE);
@@ -24,7 +26,8 @@ public class BurningTreeCell extends Cell{
 	
 	@Override
 	public Cell copy() {
-		Cell newCell = new BurningTreeCell();
+		BurningTreeCell newCell = new BurningTreeCell();
+		newCell.setThreshold(probGrow);
 		return newCell;
 	}
 	
@@ -45,8 +48,14 @@ public class BurningTreeCell extends Cell{
 	 * Replaces the current burning cell with an empty cell.
 	 */
 	public void burnOut(Grid newGrid) {
-		Cell newCell = new EmptyCell(getRow(), getCol());
+		EmptyLandCell newCell = new EmptyLandCell(getRow(), getCol());
+		newCell.setThreshold(probGrow);
 		changeCellType(newGrid, newCell);
+	}
+	
+	@Override
+	public void setThreshold(double num) {
+		probGrow = num;
 	}
 
 	@Override

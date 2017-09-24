@@ -20,6 +20,7 @@ import cells.SharkCell;
 import cells.TreeCell;
 import cellsociety_team08.Simulation;
 import javafx.scene.Group;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
@@ -43,12 +44,13 @@ public class Grid {
 	private int numCols;
 	private int cellWidth;
 	private int cellHeight;
-	private String simulationType = "Wator";
+	private String simulationType;
 	private Map<Character, Cell> segregation = new HashMap<>();
 	private Map<Character, Cell> gameOfLife = new HashMap<>();
 	private Map<Character, Cell> spreadingWildfire = new HashMap<>();
 	private Map<Character, Cell> waTor = new HashMap<>();
 	private Map<Character, Cell> simMap = new HashMap<>();
+	private GridPane pane = new GridPane();
 
 	/**
 	 * @param r - This is the root used to edit scenes
@@ -76,7 +78,8 @@ public class Grid {
 		TreeCell tCell = new TreeCell();
 		tCell.setThreshold(gridConfig.getProbCatch());
 		
-		BurningTreeCell bTCell = new BurningTreeCell();
+		Cell bTCell = new BurningTreeCell();
+		bTCell.setThreshold(gridConfig.getProbGrow());
 		
 		EmptyCell eCell = new EmptyCell();
 		
@@ -115,6 +118,7 @@ public class Grid {
 	 * based off of the simulation string read from the XML file
 	 */
 	private void setCurrSimulationMap() {
+		simulationType = gridConfig.getSimulationType();
 		switch (simulationType) {
 		case ("Segregation"):
 			simMap = segregation;
@@ -131,11 +135,7 @@ public class Grid {
 		}
 	}
 
-	/**
-	 * Reads information from gridConfig and creates maps in order to create the initial 
-	 * state of the simulation.
-	 */
-	public void initialize() {
+	public GridPane initialize() {
 		createMaps();
 		setCurrSimulationMap();
 		numRows = gridConfig.getNumRows();
@@ -151,6 +151,10 @@ public class Grid {
 		empty(newGrid);
 		setRectangles();
 		setInitialStates();
+		
+		return pane;
+
+		// read from xml to create initial state
 	}
 
 	/**
@@ -175,7 +179,6 @@ public class Grid {
 			for (int j = 0; j < numCols; j++) {
 				Rectangle r = new Rectangle(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
 				r.setStroke(Color.DARKGREY);
-				root.getChildren().add(r);
 				blocks[i][j] = r;
 			}
 		}
@@ -198,9 +201,12 @@ public class Grid {
 				c.setCol(j);
 				currentGrid[i][j] = c;
 				blocks[i][j].setFill(c.getColor());
+				GridPane.setConstraints(blocks[i][j], j, i);
+				pane.getChildren().add(blocks[i][j]);
 			}
 		}
-
+		
+		root.getChildren().add(pane);
 	}
 
 	/**

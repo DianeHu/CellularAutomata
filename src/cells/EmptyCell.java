@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
  * could move into its location.
  */
 public class EmptyCell extends Cell {
-	
+
 	public EmptyCell(int myRowNum, int myColNum) {
 		super(myRowNum,myColNum);	
 		setColor(Color.FLORALWHITE);
@@ -31,11 +31,12 @@ public class EmptyCell extends Cell {
 		Cell newCell = new EmptyCell();
 		return newCell;
 	}
+
+	public EmptyCell() {
+		super();
+		setColor(Color.FLORALWHITE);
+	}
 	
-	/* (non-Javadoc)
-	 * @see cells.Cell#isNeighbor(int, int, int, int)
-	 */
-	@Override
 	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
 		return super.isNeighbor8(otherRowNum, otherColNum);
 	}
