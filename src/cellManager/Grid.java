@@ -36,7 +36,7 @@ public class Grid {
 	private int numCols;
 	private int cellWidth;
 	private int cellHeight;
-	private String simulationType = "Wator";
+	private String simulationType = "SpreadingWildfire";
 	private Map<Character, Cell> segregation = new HashMap<>();
 	private Map<Character, Cell> gameOfLife = new HashMap<>();
 	private Map<Character, Cell> spreadingWildfire = new HashMap<>();
@@ -59,6 +59,7 @@ public class Grid {
 		tCell.setThreshold(gridConfig.getProbCatch());
 		
 		Cell bTCell = new BurningTreeCell();
+		bTCell.setThreshold(gridConfig.getProbGrow());
 		
 		Cell eCell = new EmptyCell();
 		
