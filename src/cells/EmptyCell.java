@@ -18,10 +18,6 @@ public class EmptyCell extends Cell {
 		setColor(Color.FLORALWHITE);
 	}
 	
-	public EmptyCell() {
-		super();
-		setColor(Color.FLORALWHITE);
-	}
 	
 	/* (non-Javadoc)
 	 * @see cells.Cell#copy()

@@ -53,7 +53,7 @@ public class BurningTreeCell extends Cell{
 		changeCellType(newGrid, newCell);
 	}
 	
-	@Override
+
 	public void setThreshold(double num) {
 		probGrow = num;
 	}

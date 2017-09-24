@@ -13,6 +13,9 @@ public class SimulationButtons {
 	private static Button startButton;
 	private static Button pauseButton;
 	private static Button resumeButton;
+	private static Button fasterButton;
+	private static Button slowerButton;
+	private static Button resetButton;
 	
 	public static void initializeTop(Group root)
 	{
@@ -25,11 +28,24 @@ public class SimulationButtons {
 	
 	public static void initializeRight(Group root)
 	{
-		pauseButton = new Button("Choose XML file for configuration");
-		root.getChildren().add(fileChooserButton);
-		resumeButton = new Button("Start Simulation");
-		resumeButton.setTranslateY(200);
-		root.getChildren().add(startButton);
+		pauseButton = new Button("Pause");
+		root.getChildren().add(pauseButton);
+		
+		resumeButton = new Button("Resume");
+		resumeButton.setTranslateY(30);
+		root.getChildren().add(resumeButton);
+		
+		fasterButton = new Button("Faster");
+		root.getChildren().add(fasterButton);
+		fasterButton.setTranslateY(60);
+		
+		slowerButton = new Button("Slower");
+		root.getChildren().add(slowerButton);
+		slowerButton.setTranslateY(90);
+		
+		resetButton = new Button("Reset");
+		root.getChildren().add(resetButton);
+		resetButton.setTranslateY(120);
 	}
 	
 	
