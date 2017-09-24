@@ -51,6 +51,7 @@ public class Simulation extends Application {
 	private static Button fileChooserButton;
 	private static Button startButton;
 	private static double timePassing = SECOND_DELAY;
+	private GridPane pane = new GridPane();
 	
 	public void start (Stage primaryStage) throws Exception {
 		chooseFile(root,primaryStage);
@@ -191,7 +192,7 @@ public class Simulation extends Application {
 		//sampleCell.drawCell(root);
 		
 		sampleGrid = new Grid(root,xml); 
-		sampleGrid.initialize();
+		pane = sampleGrid.initialize();
 		
 		//root.getChildren().addAll();
 		

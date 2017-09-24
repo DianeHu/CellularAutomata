@@ -112,7 +112,7 @@ public class Grid {
 		}
 	}
 
-	public void initialize() {
+	public GridPane initialize() {
 		createMaps();
 		setCurrSimulationMap();
 		numRows = gridConfig.getNumRows();
@@ -128,6 +128,8 @@ public class Grid {
 		empty(newGrid);
 		setRectangles();
 		setInitialStates();
+		
+		return pane;
 
 		// read from xml to create initial state
 	}
