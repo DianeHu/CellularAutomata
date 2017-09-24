@@ -36,7 +36,7 @@ public class Grid {
 	private int numCols;
 	private int cellWidth;
 	private int cellHeight;
-	private String simulationType = Simulation.getSimulationType();
+	private String simulationType = "Segregation";
 	private Map<Character, Cell> segregation = new HashMap<>();
 	private Map<Character, Cell> gameOfLife = new HashMap<>();
 	private Map<Character, Cell> spreadingWildfire = new HashMap<>();
@@ -46,17 +46,27 @@ public class Grid {
 	public Grid(Group r, GridConfiguration g) {
 		root = r;
 		gridConfig = g;
-
 	}
 
 	private void createMaps() {
 		Cell bCell = new BlueSchellingCell();
+		bCell.setThreshold(gridConfig.getSegregationThreshold());
+		
 		Cell oCell = new OrangeSchellingCell();
+		oCell.setThreshold(gridConfig.getSegregationThreshold());
+		
 		Cell tCell = new TreeCell();
+		tCell.setThreshold(gridConfig.getProbCatch());
+		
 		Cell bTCell = new BurningTreeCell();
+		
 		Cell eCell = new EmptyCell();
+		
 		Cell eLCell = new EmptyLandCell();
+		eLCell.setThreshold(gridConfig.getProbGrow());
+		
 		Cell lCell = new LiveCell();
+		
 		Cell dCell = new DeadCell();
 
 		segregation.put('b', bCell);
@@ -73,27 +83,26 @@ public class Grid {
 
 	private void setCurrSimulationMap() {
 		switch (simulationType) {
-		case ("GameOfLife"):
-			simMap = gameOfLife;
-			break;
-		case ("Wator"):
-			simMap = waTor;
+		case ("Segregation"):
+			simMap = segregation;
 			break;
 		case ("SpreadingWildfire"):
 			simMap = spreadingWildfire;
 			break;
-		case ("Segregation"):
-			simMap = segregation;
+		case ("Wator"):
+			simMap = waTor;
+			break;
+		case ("GameOfLife"):
+			simMap = gameOfLife;
 			break;
 		}
 	}
 
 	public void initialize() {
-
-		numRows = gridConfig.getNumRows();
-		numCols = gridConfig.getNumCols();
 		createMaps();
 		setCurrSimulationMap();
+		numRows = gridConfig.getNumRows();
+		numCols = gridConfig.getNumCols();
 		cellWidth = SIZE / numCols;
 		cellHeight = SIZE / numRows;
 
@@ -152,36 +161,38 @@ public class Grid {
 		
 		for(int i = 0; i < numRows; i++) {
 			for(int j = 0; j < numCols; j++) {
+				if(states[i][j] == 'b') {
+					Cell c = new BlueSchellingCell(i, j);
+					currentGrid[i][j] = c;
+					blocks[i][j].setFill(c.getColor());
+					c.setThreshold(gridConfig.getSegregationThreshold());
+				}
+				
+				if(states[i][j] == 'o') {
+					Cell c = new OrangeSchellingCell(i, j);
+					currentGrid[i][j] = c;
+					blocks[i][j].setFill(c.getColor());
+					c.setThreshold(gridConfig.getSegregationThreshold());
+				}
+				if(states[i][j] == 'e') {
+					Cell c = new EmptyCell(i, j);
+					currentGrid[i][j] = c;
+					blocks[i][j].setFill(c.getColor());
+				}
+			}
+		}
+		
+
+		/*for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
 				Cell c = simMap.get(states[i][j]);
 				c.setRow(i);
 				c.setCol(j);
 				currentGrid[i][j] = c;
 				blocks[i][j].setFill(c.getColor());
 			}
-		}
-
-		/*for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numCols; j++) {
-				if (states[i][j] == 'o') {
-					Cell c = new OrangeSchellingCell(i, j);
-					currentGrid[i][j] = c;
-					blocks[i][j].setFill(c.getColor());
-
-				}
-				if (states[i][j] == 'b') {
-					Cell c = new BlueSchellingCell(i, j);
-					currentGrid[i][j] = c;
-					blocks[i][j].setFill(c.getColor());
-
-				}
-				if (states[i][j] == 'e') {
-					Cell c = new EmptyCell(i, j);
-					currentGrid[i][j] = c;
-					blocks[i][j].setFill(c.getColor());
-
-				}
-			}
 		}*/
+
 	}
 
 	/**
@@ -220,8 +231,8 @@ public class Grid {
 		setNeighbors();
 		for (int i = 0; i < currentGrid.length; i++) {
 			for (int j = 0; j < currentGrid[i].length; j++) {
-				Cell c = currentGrid[i][j];
 				ArrayList<Cell> empty = getEmptyCells();
+				Cell c = currentGrid[i][j];
 				c.moveCell(empty, this);
 			}
 		}

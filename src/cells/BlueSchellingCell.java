@@ -11,7 +11,7 @@ import javafx.scene.shape.Rectangle;
  * @author Madhavi
  */
 public class BlueSchellingCell extends Cell{
-	private double threshold = .5;
+	private double threshold;
 	
 	public BlueSchellingCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
@@ -23,6 +23,7 @@ public class BlueSchellingCell extends Cell{
 		setColor(Color.NAVY);
 	}
 	
+	@Override
 	public void setThreshold(double t) {
 		threshold = t;
 	}
@@ -48,6 +49,4 @@ public class BlueSchellingCell extends Cell{
 			grid.addToNewGrid(this);
 		}
 	}
-
-
 }
