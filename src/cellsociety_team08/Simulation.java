@@ -40,7 +40,7 @@ public class Simulation extends Application {
 	private static final int SIZE = 500;
 	private static final Color BACKGROUND = Color.TRANSPARENT;
 	private static final String TITLE = "SIMULATION";
-	public static final int FRAMES_PER_SECOND = 3;
+	public static final int FRAMES_PER_SECOND = 2;
 	public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private static double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	private Group root = new Group();
@@ -222,7 +222,7 @@ public class Simulation extends Application {
 		if(elapsedTime!=0)
 		{
 			sampleGrid.createsNewGrid();
-			sampleGrid.update(root);
+			sampleGrid.update();
 		}
 		//colorNum++;
 	}
