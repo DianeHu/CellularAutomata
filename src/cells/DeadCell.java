@@ -21,6 +21,12 @@ public class DeadCell extends Cell {
 		setColor(Color.WHITE);
 	}
 	
+	@Override
+	public Cell copy() {
+		Cell newCell = new DeadCell();
+		return newCell;
+	}
+	
 	public DeadCell() {
 		super();
 		setColor(Color.WHITE);

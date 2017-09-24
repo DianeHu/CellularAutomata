@@ -29,6 +29,13 @@ public class OrangeSchellingCell extends Cell{
 		threshold = t;
 	}
 	
+	@Override
+	public Cell copy() {
+		Cell newCell = new OrangeSchellingCell();
+		newCell.setThreshold(threshold);
+		return newCell;
+	}
+	
 	public boolean isNeighbor(int otherRowNum, int otherColNum) {
 		return super.isNeighbor8(otherRowNum, otherColNum);
 	}

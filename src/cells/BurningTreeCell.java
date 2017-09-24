@@ -25,6 +25,12 @@ public class BurningTreeCell extends Cell {
 		super();
 		setColor(Color.DARKORANGE);
 	}
+	
+	@Override
+	public Cell copy() {
+		Cell newCell = new BurningTreeCell();
+		return newCell;
+	}
 
 	/*
 	 * (non-Javadoc)

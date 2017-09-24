@@ -25,6 +25,12 @@ public class LiveCell extends Cell {
 	public boolean isNeighbor(int otherRowNum, int otherColNum) {
 		return super.isNeighbor8(otherRowNum, otherColNum);
 	}
+	
+	@Override
+	public Cell copy() {
+		Cell newCell = new LiveCell();
+		return newCell;
+	}
 
 	/**
 	 * @param root

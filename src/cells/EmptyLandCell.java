@@ -27,6 +27,13 @@ public class EmptyLandCell extends Cell {
 		super();
 		setColor(Color.BROWN);
 	}
+	
+	@Override
+	public Cell copy() {
+		Cell newCell = new EmptyLandCell();
+		newCell.setThreshold(probGrow);
+		return newCell;
+	}
 
 	/*
 	 * (non-Javadoc)

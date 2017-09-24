@@ -32,6 +32,13 @@ public class TreeCell extends Cell {
 	public void setThreshold(double num) {
 		probCatch = num;
 	}
+	
+	@Override
+	public Cell copy() {
+		Cell newCell = new TreeCell();
+		newCell.setThreshold(probCatch);
+		return newCell;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 

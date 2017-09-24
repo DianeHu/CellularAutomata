@@ -36,7 +36,7 @@ public class Grid {
 	private int numCols;
 	private int cellWidth;
 	private int cellHeight;
-	private String simulationType = "Segregation";
+	private String simulationType = "SpreadingWildfire";
 	private Map<Character, Cell> segregation = new HashMap<>();
 	private Map<Character, Cell> gameOfLife = new HashMap<>();
 	private Map<Character, Cell> spreadingWildfire = new HashMap<>();
@@ -152,40 +152,12 @@ public class Grid {
 	}
 
 	private void setInitialStates() {
-		/*
-		 * char[][] states ={{'b','b','o','o','o'}, {'o','b',' ',' ','b'}, {' ','
-		 * ','o','b','b'}, {'o','o','b','o',' '}, {'b',' ','o','b','o'}};
-		 */
 
 		char[][] states = gridConfig.getCellConfiguration();
 		
-		/*for(int i = 0; i < numRows; i++) {
-			for(int j = 0; j < numCols; j++) {
-				if(states[i][j] == 'b') {
-					Cell c = new BlueSchellingCell(i, j);
-					currentGrid[i][j] = c;
-					blocks[i][j].setFill(c.getColor());
-					c.setThreshold(gridConfig.getSegregationThreshold());
-				}
-				
-				if(states[i][j] == 'o') {
-					Cell c = new OrangeSchellingCell(i, j);
-					currentGrid[i][j] = c;
-					blocks[i][j].setFill(c.getColor());
-					c.setThreshold(gridConfig.getSegregationThreshold());
-				}
-				if(states[i][j] == 'e') {
-					Cell c = new EmptyCell(i, j);
-					currentGrid[i][j] = c;
-					blocks[i][j].setFill(c.getColor());
-				}
-			}
-		}*/
-		
-
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
-				Cell c = simMap.get(states[i][j]);
+				Cell c = simMap.get(states[i][j]).copy();
 				c.setRow(i);
 				c.setCol(j);
 				currentGrid[i][j] = c;

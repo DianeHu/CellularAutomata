@@ -168,14 +168,16 @@ public class Simulation extends Application {
 			myStage.setScene(setSimulation(XMLConfiguration));
 		}
 		if(code == KeyCode.SPACE) {	
-			try {
+			sampleGrid.createsNewGrid();
+			sampleGrid.update(root); 
+			/*try {
 				startSimulation(myStage);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			//sampleGrid.createsNewGrid();			
-			//sampleGrid.update(root); 
+			//sampleGrid.update(root); */
 		}
 	}
 	

@@ -1,9 +1,9 @@
 ﻿<GridConfiguration>
   <numRows>6</numRows>
   <numCols>6</numCols>
-  <cellConfiguration>eeeeeebeeeeeoeeeeeeeebeeeeeoeeeebeoo</cellConfiguration>
+  <cellConfiguration>tbbbbttttttteeeetbbetbettttbbbeettbb</cellConfiguration>
   <probCatch>.5</probCatch>
-  <probGrow>.5</probGrow>
+  <probGrow>1</probGrow>
   <segregationThreshold>.5</segregationThreshold>
   <fishBreedTurns>5</fishBreedTurns>
   <sharkBreedTurns>5</sharkBreedTurns>
