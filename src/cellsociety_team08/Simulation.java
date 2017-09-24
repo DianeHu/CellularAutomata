@@ -40,7 +40,7 @@ public class Simulation extends Application {
 	private static final String TITLE = "SIMULATION";
 	public static final int FRAMES_PER_SECOND = 3;
 	public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-	public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+	private static double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	private Group root = new Group();
 	private Scene myScene;
 	private Cell sampleCell;
@@ -50,7 +50,7 @@ public class Simulation extends Application {
 	private GridConfiguration XMLConfiguration;
 	private static Button fileChooserButton;
 	private static Button startButton;
-	
+	private static double timePassing = SECOND_DELAY;
 	
 	public void start (Stage primaryStage) throws Exception {
 		chooseFile(root,primaryStage);
@@ -125,7 +125,13 @@ public class Simulation extends Application {
 		startButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle (ActionEvent event) {
-            	myStage.setScene(setSimulation(XMLConfiguration));
+            	//myStage.setScene(setSimulation(XMLConfiguration));
+            	try {
+					startSimulation(s);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
 		});
 		//openFile(s);
@@ -141,7 +147,7 @@ public class Simulation extends Application {
 	    myStage.show();
         // attach "game loop" to timeline to play it
         KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
-                                      e -> step(SECOND_DELAY));
+                                      e -> step(timePassing));
         Timeline animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
@@ -205,8 +211,11 @@ public class Simulation extends Application {
 	private void step (double elapsedTime) 
 	{   
 		//myStage.setScene(setSimulation(XMLSample));
-		sampleGrid.createsNewGrid();
-		sampleGrid.update(root); 
+		if(elapsedTime!=0)
+		{
+			sampleGrid.createsNewGrid();
+			sampleGrid.update(root); 
+		}
 		//colorNum++;
 	}
 	
@@ -215,6 +224,14 @@ public class Simulation extends Application {
 		{
 			colorNum++;
 			myStage.setScene(setSimulation(XMLConfiguration));
+		}
+		if(code == KeyCode.B)
+		{
+			timePassing = 0; 
+		}
+		if(code == KeyCode.D)
+		{
+			timePassing = SECOND_DELAY;
 		}
 		if(code == KeyCode.SPACE) {	
 			sampleGrid.createsNewGrid();
