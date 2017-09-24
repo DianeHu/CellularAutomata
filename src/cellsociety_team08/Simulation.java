@@ -53,7 +53,7 @@ public class Simulation extends Application {
 	private static Button fileChooserButton;
 	private static Button startButton;
 	private static double timePassing = SECOND_DELAY;
-	private GridPane pane = new GridPane();
+	private GridPane simPane = new GridPane();
 	private static BorderPane screenBorder;
 	
 	public void start (Stage primaryStage) throws Exception {
@@ -199,7 +199,7 @@ public class Simulation extends Application {
 		//sampleCell.drawCell(root);
 		
 		sampleGrid = new Grid(root,xml); 
-		pane = sampleGrid.initialize();
+		simPane = sampleGrid.initialize();
 		
 		//root.getChildren().addAll();
 		
