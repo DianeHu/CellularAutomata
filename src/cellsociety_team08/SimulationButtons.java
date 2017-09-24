@@ -10,12 +10,16 @@ import javafx.scene.control.MenuItem;
 public class SimulationButtons {
 	
 	private static Button fileChooserButton;
+	private static Button startButton;
 	
-	public static Button initialize(Group root)
+	public static void initialize(Group root)
 	{
 		fileChooserButton = new Button("Choose XML file for configuration");
 		root.getChildren().add(fileChooserButton);
-		return fileChooserButton;
+		startButton = new Button("Start Simulation");
+		startButton.setTranslateX(200);
+		root.getChildren().add(startButton);
 	}
+	
 	
 }

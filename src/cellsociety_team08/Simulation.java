@@ -49,6 +49,7 @@ public class Simulation extends Application {
 	private int colorNum = 0;
 	private GridConfiguration XMLConfiguration;
 	private static Button fileChooserButton;
+	private static Button startButton;
 	
 	
 	public void start (Stage primaryStage) throws Exception {
@@ -111,12 +112,20 @@ public class Simulation extends Application {
 	
 	public void chooseFile(Group g,Stage s) throws Exception
 	{
-		fileChooserButton = SimulationButtons.initialize(g);
+		SimulationButtons.initialize(g);
+		fileChooserButton = (Button) root.getChildren().get(0);
+		startButton = (Button) root.getChildren().get(1);
 		startSplash(s);
 		fileChooserButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle (ActionEvent event) {
             	openFile(s);
+            }
+		});
+		startButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle (ActionEvent event) {
+            	myStage.setScene(setSimulation(XMLConfiguration));
             }
 		});
 		//openFile(s);
