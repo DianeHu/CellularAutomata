@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
  */
 public class EmptyLandCell extends Cell {
 
-	private double probGrow;
+	private static double probGrow;
 
 	/**
 	 * @param myRowNum
