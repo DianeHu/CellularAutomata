@@ -25,7 +25,7 @@ public class TreeCell extends Cell{
 	 * This method overrides the superclass method to only account for the compass directions (North, South, East, West) as neighbors
 	 */
 	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum) {
+	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
 		return super.isNeighbor4(otherRowNum, otherColNum);
 	}
 	

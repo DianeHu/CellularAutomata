@@ -27,36 +27,29 @@ public class SharkCell extends Cell{
 	public void setStarveTurns(int n) {
 		starveTurns = n;
 	}
-	public boolean isNeighbor(int otherRowNum, int otherColNum) {
-		return super.isNeighbor4(otherRowNum, otherColNum);
+	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
+		return super.isNeighborTorus(otherRowNum, otherColNum, numRows, numCols);
 	}
 
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
-		
-		if(numStarveTurns!=starveTurns) {
+		System.out.println(numStarveTurns + " " +starveTurns);
+		if(numStarveTurns<starveTurns) {
 			ArrayList<Cell> emptyNeighbors = getEmptyNeighbors();
 	        ArrayList<FishCell> neighborfish = getNeighboringFish();
-	        
-			/*if(neighborfish.size()==0) {
-				moveToRandomPlace(emptyNeighbors,grid);
-				numStarveTurns++;
-			}
-			else {
-				if(eatFish(neighborfish,grid)) {
-					numStarveTurns = 0;
-				}
-			}*/
+
 	        if(eatFish(neighborfish,grid)) {
 				numStarveTurns = 0;
+				System.out.println(" eaten");
 			}
 	        else {
-				moveToRandomPlace(emptyNeighbors,grid);
+				if(numBreedTurns>=breedTurns) {
+					breed(emptyNeighbors,grid);
+				}	
+				if(numBreedTurns!=-1) {
+					moveToRandomPlace(emptyNeighbors,grid);
+				}
 				numStarveTurns++;
-	        }
-			
-			if(numBreedTurns>=breedTurns) {
-				breed(emptyNeighbors,grid);
-			}		
+	        }	
 			
 			numBreedTurns++;
 		}
@@ -64,8 +57,9 @@ public class SharkCell extends Cell{
 	
 	private void breed(ArrayList<Cell> emptySpots, Grid grid) {
 		SharkCell newshark = new SharkCell(getRow(), getCol());
-		if(newshark.moveToRandomPlace(emptySpots,grid)) {
+		if(moveToRandomPlace(emptySpots,grid)) {
 			numBreedTurns = -1;
+			grid.addToNewGrid(newshark);
 		}
 	}
 	
@@ -78,9 +72,6 @@ public class SharkCell extends Cell{
 			}
 			Random rand = new Random(); 
 			FishCell testFish = fish.get(rand.nextInt(numFish));
-			System.out.println(testFish.getRow() + " " +testFish.getCol());
-			System.out.println(getRow() + " " +getCol());
-			System.out.println(grid.newGridContainsSharkAt(testFish.getRow(),testFish.getCol()));
 			if(grid.newGridContainsSharkAt(testFish.getRow(),testFish.getCol())) {
 				fish.remove(testFish);
 			}
@@ -88,11 +79,9 @@ public class SharkCell extends Cell{
 				setRow(testFish.getRow()); setCol(testFish.getCol());
 				testFish.die(grid); 
 				grid.addToNewGrid(this);
-				System.out.println("added to grid");
 				moved = true;
 			}
 		}
-		System.out.println(moved);
 		return moved;
 	}
 	

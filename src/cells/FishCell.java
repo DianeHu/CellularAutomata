@@ -21,8 +21,8 @@ public class FishCell extends Cell{
 		breedTurns = n;
 	}
 
-	public boolean isNeighbor(int otherRowNum, int otherColNum) {
-		return super.isNeighbor4(otherRowNum, otherColNum);
+	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
+		return super.isNeighborTorus(otherRowNum, otherColNum, numRows, numCols);
 	}
 	
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
@@ -30,7 +30,7 @@ public class FishCell extends Cell{
 		if(numTurns>=breedTurns) {
 			breed(emptyNeighbors,grid);
 		}
-		if(!eaten) {
+		if(!eaten && numTurns!=-1) {
 			if(!moveToRandomPlace(emptyNeighbors,grid)) {
 				grid.addToNewGrid(this);
 			}
@@ -40,9 +40,11 @@ public class FishCell extends Cell{
 	
 	private void breed(ArrayList<Cell> emptySpots, Grid grid) {
 		FishCell newfish = new FishCell(getRow(), getCol());
-		if(newfish.moveToRandomPlace(emptySpots,grid)){
+		if(moveToRandomPlace(emptySpots,grid)){
 			numTurns = -1;
+			grid.addToNewGrid(newfish);
 		}
+		
 	}
 	
 	/**

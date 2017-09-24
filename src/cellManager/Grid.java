@@ -93,11 +93,11 @@ public class Grid {
 	}
 	
 	private void setInitialStates() {
-/*		char[][] states ={{'b','b','o','o','o'},
-				    		  {'o','b',' ',' ','b'},
-				    		  {' ',' ','o','b','b'},
-				    		  {'o','o','b','o',' '},
-				    		  {'b',' ','o','b','o'}};*/
+/*		char[][] states ={{' ',' ',' ',' ',' '},
+				    		  {' ',' ',' ',' ',' '},
+				    		  {' ',' ','o','b',' '},
+				    		  {' ',' ',' ',' ',' '},
+				    		  {' ',' ',' ',' ',' '}};*/
 /*		
 		char[][] states ={{'o','o','o',' ','o'},
 	    		  			{' ','b','o','b','o'},
@@ -105,26 +105,30 @@ public class Grid {
 	    		  			{'b','b',' ','o',' '},
 	    		  			{'o',' ','o',' ','o'}};*/
 		
-		char[][] states ={{' ',' ',' ',' ',' '},
+/*		char[][] states ={{' ',' ','f',' ','f'},
+	  			{'f',' ','f','f',' '},
+	  			{' ',' ',' ','f','f'},
+	  			{' ','f','f',' ',' '},
+	  			{' ',' ','s',' ','f'}};*/
+		char[][] states ={{' ',' ',' ','f',' '},
 	  			{' ',' ',' ',' ',' '},
-	  			{' ',' ','s','f',' '},
 	  			{' ',' ',' ',' ',' '},
-	  			{' ',' ',' ',' ',' '}};
-		int numBlue = 0;
+	  			{' ',' ',' ',' ',' '},
+	  			{' ',' ','s',' ',' '}};
 		for(int i = 0; i<numRows; i++) {
 			for(int j = 0; j<numCols; j++) {
 				if(states[i][j]=='f') {
 					FishCell c = new FishCell(i,j);
 					currentGrid[i][j]= c;
-					c.setBreedTurns(20);
+					c.setBreedTurns(3);
 					blocks[i][j].setFill(c.getColor());
 					
 				}
 				if(states[i][j]=='s') {
 					SharkCell c = new SharkCell(i,j);
 					currentGrid[i][j]= c;
-					c.setBreedTurns(20);
-					c.setStarveTurns(2);
+					c.setBreedTurns(10);
+					c.setStarveTurns(5);
 					blocks[i][j].setFill(c.getColor());
 					
 				}
@@ -140,7 +144,6 @@ public class Grid {
 					currentGrid[i][j]= c;
 					c.setThreshold(.3);
 					blocks[i][j].setFill(c.getColor());
-					numBlue++;
 				}
 				if(states[i][j]==' ') {
 					Cell c = new EmptyCell(i,j);
@@ -178,12 +181,32 @@ public class Grid {
 		for(int i = -1; i<2; i++) {
 			for(int j = -1; j<2; j++) {
 				if(row+i<numRows & row+i>-1 & col+j<numCols & col+j>-1) {
-					if(cell.isNeighbor(row+i,col+j)) {
+					if(cell.isNeighbor(row+i,col+j,numRows,numCols)) {
 						neighbors.add(currentGrid[row+i][col+j]);
 					}
 				}
 			}
-		}		
+		}
+		if(cell.getRow()==0) {
+			if(cell.isNeighbor(numRows-1, cell.getCol(), numRows, numCols)) {
+				neighbors.add(currentGrid[numRows-1][cell.getCol()]);
+			}
+		}
+		if(cell.getRow()==numRows-1) {
+			if(cell.isNeighbor(0, cell.getCol(), numRows, numCols)) {
+				neighbors.add(currentGrid[0][cell.getCol()]);
+			}
+		}
+		if(cell.getCol()==0) {
+			if(cell.isNeighbor(cell.getRow(), numCols-1, numRows, numCols)) {
+				neighbors.add(currentGrid[cell.getRow()][numCols-1]);
+			}
+		}
+		if(cell.getCol()==numCols-1) {
+			if(cell.isNeighbor(cell.getRow(), 0, numRows, numCols)) {
+				neighbors.add(currentGrid[cell.getRow()][0]);
+			}
+		}
 		cell.setNeighbors(neighbors);
 	}
 	
@@ -219,7 +242,6 @@ public class Grid {
 				blocks[i][j].setFill(c.getColor());
 				currentGrid[i][j] = newGrid[i][j];
 			}
-			System.out.println("\n");
 		}		
 		empty(newGrid);
 	}

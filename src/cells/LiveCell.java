@@ -18,7 +18,7 @@ public class LiveCell extends Cell {
 	}
 
 	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum) {
+	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
 		return super.isNeighbor8(otherRowNum, otherColNum);
 	}
 
