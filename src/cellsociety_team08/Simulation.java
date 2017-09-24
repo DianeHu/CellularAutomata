@@ -84,6 +84,7 @@ public class Simulation extends Application {
 		fasterButton = (Button) vboxRight.getChildren().get(2);
 		slowerButton = (Button) vboxRight.getChildren().get(3);
 		resetButton = (Button) vboxRight.getChildren().get(4);
+		stepButton = (Button) vboxRight.getChildren().get(5);
 		screenBorder.setCenter(emptyPane);
 		screenBorder.setTop(hboxTop);
 		screenBorder.setRight(vboxRight);

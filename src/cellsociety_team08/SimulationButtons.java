@@ -47,11 +47,11 @@ public class SimulationButtons {
 		//slowerButton.setTranslateY(90);
 		
 		resetButton = new Button("Reset");
-		root.getChildren().add(resetButton);
+		vbox.getChildren().add(resetButton);
 		resetButton.setTranslateY(120);
 		
 		stepButton = new Button("Step");
-		root.getChildren().add(stepButton);
+		vbox.getChildren().add(stepButton);
 		stepButton.setTranslateY(150);
 	}
 	
