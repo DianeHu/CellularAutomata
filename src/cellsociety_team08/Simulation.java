@@ -1,6 +1,7 @@
 package cellsociety_team08;
 
 import java.io.File;
+import java.util.ResourceBundle;
 
 import XMLClasses.GridConfiguration;
 import XMLClasses.XMLException;
@@ -35,8 +36,8 @@ public class Simulation extends Application {
 	private static final int SIZE = 500;
 	private static final Color BACKGROUND = Color.TRANSPARENT;
 	private static final String TITLE = "SIMULATION";
-	public static final int FRAMES_PER_SECOND = 2;
-	public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+	private static final int FRAMES_PER_SECOND = 2;
+	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private static double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	private HBox hboxTop = new HBox();
 	private VBox vboxRight = new VBox();
@@ -59,6 +60,9 @@ public class Simulation extends Application {
 	private BorderPane screenBorder = new BorderPane();
 	private Timeline animation = new Timeline();
 	private Group root = new Group();
+	
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/Labels";
+	private ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
 	
 	public void start (Stage primaryStage) throws Exception {
 		addButtonsToBorder(primaryStage);
@@ -127,7 +131,7 @@ public class Simulation extends Application {
         GridConfiguration InputConfiguration = null;
         if (dataFile != null) {
             try {
-                InputConfiguration  = new XMLReader("GridConfiguration").getGridConfiguration(dataFile);
+                InputConfiguration  = new XMLReader(myResources.getString("gridConfig")).getGridConfiguration(dataFile);
             }
             catch (XMLException e) {
                 Alert a = new Alert(AlertType.ERROR);
