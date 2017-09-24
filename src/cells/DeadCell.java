@@ -7,6 +7,8 @@ import javafx.scene.paint.Color;
 
 /**
  * @author Diane Hu
+ * 
+ *         Implements cell type dead in simulation type game-of-life.
  */
 public class DeadCell extends Cell {
 
@@ -20,16 +22,24 @@ public class DeadCell extends Cell {
 		super(myRowNum, myColNum);
 		setColor(Color.BLACK);
 	}
-	
+
+	/**
+	 * Constructor for DeadCell that does not specify row or column number
+	 */
+	public DeadCell() {
+		super();
+		setColor(Color.BLACK);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see cells.Cell#copy()
+	 */
 	@Override
 	public Cell copy() {
 		Cell newCell = new DeadCell();
 		return newCell;
-	}
-	
-	public DeadCell() {
-		super();
-		setColor(Color.BLACK);
 	}
 
 	/*
