@@ -36,7 +36,7 @@ public class OrangeSchellingCell extends Cell{
 		return newCell;
 	}
 	
-	public boolean isNeighbor(int otherRowNum, int otherColNum) {
+	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
 		return super.isNeighbor8(otherRowNum, otherColNum);
 	}
 	/* (non-Javadoc)

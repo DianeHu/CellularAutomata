@@ -8,9 +8,11 @@ import java.util.Map;
 
 import XMLClasses.GridConfiguration;
 import cells.BlueSchellingCell;
+import cells.BurningTreeCell;
 import cells.Cell;
 import cells.DeadCell;
 import cells.EmptyCell;
+import cells.EmptyLandCell;
 import cells.FishCell;
 import cells.LiveCell;
 import cells.OrangeSchellingCell;
@@ -34,7 +36,7 @@ public class Grid {
 	private int numCols;
 	private int cellWidth;
 	private int cellHeight;
-	private String simulationType = "SpreadingWildfire";
+	private String simulationType = "Wator";
 	private Map<Character, Cell> segregation = new HashMap<>();
 	private Map<Character, Cell> gameOfLife = new HashMap<>();
 	private Map<Character, Cell> spreadingWildfire = new HashMap<>();
@@ -66,6 +68,14 @@ public class Grid {
 		Cell lCell = new LiveCell();
 		
 		Cell dCell = new DeadCell();
+		
+		FishCell fCell = new FishCell();
+		fCell.setBreedTurns(gridConfig.getFishBreedTurns());
+		
+		SharkCell sCell = new SharkCell();
+		sCell.setBreedTurns(gridConfig.getSharkBreedTurns());
+		sCell.setStarveTurns(gridConfig.getSharkStarveTurns());
+		
 
 		segregation.put('b', bCell);
 		segregation.put('o', oCell);
@@ -77,6 +87,9 @@ public class Grid {
 		spreadingWildfire.put('t', tCell);
 		spreadingWildfire.put('b', bTCell);
 		spreadingWildfire.put('e', eLCell);
+		
+		waTor.put('f',fCell);
+		waTor.put('s', sCell);
 	}
 
 	private void setCurrSimulationMap() {

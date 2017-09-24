@@ -19,6 +19,10 @@ public class SharkCell extends Cell{
 		setColor(Color.SLATEGREY);
 	}
 
+	public SharkCell() {
+		super();
+		setColor(Color.SLATEGREY);
+	}
 	
 	public void setBreedTurns(int n) {
 		breedTurns = n;
@@ -94,6 +98,15 @@ public class SharkCell extends Cell{
 			}
 		}
 		return neighborfish;
+	}
+
+
+	@Override
+	public SharkCell copy() {
+		SharkCell newCell = new SharkCell();
+		newCell.setBreedTurns(breedTurns);
+		newCell.setStarveTurns(starveTurns);
+		return newCell;
 	}
 	
 

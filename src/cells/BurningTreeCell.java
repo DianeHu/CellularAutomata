@@ -37,7 +37,7 @@ public class BurningTreeCell extends Cell{
 	 * directions (North, South, East, West) as neighbors.
 	 */
 	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum) {
+	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
 		return super.isNeighbor4(otherRowNum, otherColNum);
 	}
 
@@ -55,8 +55,4 @@ public class BurningTreeCell extends Cell{
 		burnOut(grid);
 	}
 
-	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
-		return super.isNeighbor4(otherRowNum, otherColNum);
-	}
 }

@@ -17,6 +17,11 @@ public class FishCell extends Cell{
 		setColor(Color.PALEGREEN);
 	}
 	
+	public FishCell() {
+		super();
+		setColor(Color.PALEGREEN);
+	}
+	
 	public void setBreedTurns(int n) {
 		breedTurns = n;
 	}
@@ -59,6 +64,13 @@ public class FishCell extends Cell{
 		if(grid.getCellInNewGridAt(getRow(),getCol()) instanceof FishCell) {
 			grid.removeFromNewGrid(this);
 		}	
+	}
+
+	@Override
+	public FishCell copy() {
+		FishCell newCell = new FishCell();
+		newCell.setBreedTurns(breedTurns);
+		return newCell;
 	}
 	
 
