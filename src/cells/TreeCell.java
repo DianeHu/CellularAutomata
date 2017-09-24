@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
  */
 public class TreeCell extends Cell {
 
-	private double probCatch;
+	private static double probCatch;
 
 	/**
 	 * @param myRowNum

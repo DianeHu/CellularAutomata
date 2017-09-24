@@ -59,6 +59,7 @@ public class Grid {
 		tCell.setThreshold(gridConfig.getProbCatch());
 		
 		Cell bTCell = new BurningTreeCell();
+		bTCell.setThreshold(gridConfig.getProbGrow());
 		
 		Cell eCell = new EmptyCell();
 		

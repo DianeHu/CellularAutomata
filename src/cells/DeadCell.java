@@ -18,7 +18,7 @@ public class DeadCell extends Cell {
 	 */
 	public DeadCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
-		setColor(Color.WHITE);
+		setColor(Color.BLACK);
 	}
 	
 	@Override
@@ -29,7 +29,7 @@ public class DeadCell extends Cell {
 	
 	public DeadCell() {
 		super();
-		setColor(Color.WHITE);
+		setColor(Color.BLACK);
 	}
 
 	/*
