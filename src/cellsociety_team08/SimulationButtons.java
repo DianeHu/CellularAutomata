@@ -18,6 +18,7 @@ public class SimulationButtons {
 	private static Button fasterButton;
 	private static Button slowerButton;
 	private static Button resetButton;
+	private static Button stepButton;
 	
 	public static void initializeTop(HBox hbox)
 	{
@@ -46,8 +47,12 @@ public class SimulationButtons {
 		//slowerButton.setTranslateY(90);
 		
 		resetButton = new Button("Reset");
-		vbox.getChildren().add(resetButton);
-		//resetButton.setTranslateY(120);
+		root.getChildren().add(resetButton);
+		resetButton.setTranslateY(120);
+		
+		stepButton = new Button("Step");
+		root.getChildren().add(stepButton);
+		stepButton.setTranslateY(150);
 	}
 	
 	

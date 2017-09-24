@@ -45,7 +45,6 @@ public class Simulation extends Application {
 	private Scene myScene;
 	private Grid sampleGrid;
 	private Stage myStage;
-	//private GridPane emptyPane;
 	private GridConfiguration XMLConfiguration;
 	private static Button fileChooserButton;
 	private static Button startButton;
@@ -54,6 +53,7 @@ public class Simulation extends Application {
 	private static Button fasterButton;
 	private static Button slowerButton;
 	private static Button resetButton;
+	private static Button stepButton;
 	private static double timePassing = SECOND_DELAY;
 	private GridPane emptyPane = new GridPane();
 	private BorderPane screenBorder = new BorderPane();
@@ -96,53 +96,28 @@ public class Simulation extends Application {
 	}
 
 	private void addEvents(Stage s) {
-		fileChooserButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle (ActionEvent event) {
-            	openFile(s);
-            }
-		});
-		startButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle (ActionEvent event) {
-                        	try {
-					startSimulation(s);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-            }
-		});
-		pauseButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle (ActionEvent event) {
-				pause();
+		
+		fileChooserButton.setOnAction(e -> openFile(s));
+		startButton.setOnAction(e -> {
+			try {
+				startSimulation(s);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		});
-		resumeButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle (ActionEvent event) {
-				resume();
-			}
-		});
-		fasterButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle (ActionEvent event) {
-				faster();
-			}
-		});
-		slowerButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle (ActionEvent event) {
-				slower();
-			}
-		});
-		resetButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle (ActionEvent event) {
-				reset();
-			}
-		});
+		
+		pauseButton.setOnAction(e -> pause());
+		resumeButton.setOnAction(e -> resume());
+		slowerButton.setOnAction(e -> faster());
+		fasterButton.setOnAction(e -> faster());
+		resetButton.setOnAction(e -> reset());
+		stepButton.setOnAction(e -> manualStep());
+	}
+	
+	private void manualStep() {
+		sampleGrid.createsNewGrid();
+		sampleGrid.update();
 	}
 	
 	private void openFile(Stage s)
