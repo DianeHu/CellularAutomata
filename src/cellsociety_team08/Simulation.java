@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -114,13 +115,13 @@ public class Simulation extends Application {
 	
 	public void chooseFile(Group g,Stage s) throws Exception
 	{
-		SimulationButtons.initialize(g);
+		SimulationButtons.initializeTop(g);
 		fileChooserButton = (Button) root.getChildren().get(0);
 		startButton = (Button) root.getChildren().get(1);
-		BorderPane screenBorder = new BorderPane(fileChooserButton);
+		BorderPane screenBorder = new BorderPane();
 		roots.getChildren().add(screenBorder);
-		//screenBorder.setCenter(fileChooserButton);
-		screenBorder.setBottom(startButton);
+		screenBorder.setTop(root);
+		//screenBorder.setTop(startButton);
 		startSplash(s);
 		fileChooserButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
@@ -142,6 +143,8 @@ public class Simulation extends Application {
 		});
 		//openFile(s);
 	}
+	
+	
 	
 	public void startSimulation(Stage s) throws Exception {
 		
