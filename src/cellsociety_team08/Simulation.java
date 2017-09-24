@@ -44,7 +44,6 @@ public class Simulation extends Application {
 	private static double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	private Group root = new Group();
 	private Scene myScene;
-	private Cell sampleCell;
 	private Grid sampleGrid;
 	private Stage myStage;
 	private int colorNum = 0;
@@ -52,7 +51,6 @@ public class Simulation extends Application {
 	private static Button fileChooserButton;
 	private static Button startButton;
 	private static double timePassing = SECOND_DELAY;
-	private GridPane pane = new GridPane();
 	
 	public void start (Stage primaryStage) throws Exception {
 		chooseFile(root,primaryStage);
