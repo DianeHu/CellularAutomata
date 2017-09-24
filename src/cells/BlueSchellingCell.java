@@ -18,6 +18,19 @@ public class BlueSchellingCell extends Cell{
 		setColor(Color.NAVY);
 	}
 	
+	public BlueSchellingCell() {
+		super();
+		setColor(Color.NAVY);
+	}
+	
+	@Override
+	public Cell copy() {
+		Cell newCell = new BlueSchellingCell();
+		newCell.setThreshold(threshold);
+		return newCell;
+	}
+	
+	@Override
 	public void setThreshold(double t) {
 		threshold = t;
 	}
@@ -43,8 +56,6 @@ public class BlueSchellingCell extends Cell{
 			grid.addToNewGrid(this);
 		}
 	}
-
-
 
 }
 

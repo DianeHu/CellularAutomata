@@ -3,54 +3,111 @@ package cellManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
+import XMLClasses.GridConfiguration;
 import cells.BlueSchellingCell;
 import cells.Cell;
 import cells.DeadCell;
 import cells.EmptyCell;
 import cells.FishCell;
+import cells.LiveCell;
 import cells.OrangeSchellingCell;
 import cells.SharkCell;
+import cells.TreeCell;
+import cellsociety_team08.Simulation;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-
 public class Grid {
-	
+
 	public static final int SIZE = 400;
 	private Group root;
 	private Cell[][] currentGrid;
 	private Cell[][] newGrid;
 	private Cell[][] emptyGrid;
 	private Rectangle[][] blocks;
-	private File xml;
+	private GridConfiguration gridConfig;
 	private int numRows;
 	private int numCols;
 	private int cellWidth;
 	private int cellHeight;
+	private String simulationType = "SpreadingWildfire";
+	private Map<Character, Cell> segregation = new HashMap<>();
+	private Map<Character, Cell> gameOfLife = new HashMap<>();
+	private Map<Character, Cell> spreadingWildfire = new HashMap<>();
+	private Map<Character, Cell> waTor = new HashMap<>();
+	private Map<Character, Cell> simMap = new HashMap<>();
 
-	public Grid(Group r) {
+	public Grid(Group r, GridConfiguration g) {
 		root = r;
-		//xml = f;
-		
+		gridConfig = g;
 	}
-	
-	public void initialize() {
-		/*XMLReader reader = new XMLReader(xml);
-		numRows = reader.getNumRows();
-		numCols = reader.getNumCols();*/
-		numRows = 5;
-		numCols = 5;
-		cellWidth = SIZE/numCols;
-		cellHeight = SIZE/numRows;
+
+	private void createMaps() {
+		Cell bCell = new BlueSchellingCell();
+		bCell.setThreshold(gridConfig.getSegregationThreshold());
 		
+		Cell oCell = new OrangeSchellingCell();
+		oCell.setThreshold(gridConfig.getSegregationThreshold());
+		
+		Cell tCell = new TreeCell();
+		tCell.setThreshold(gridConfig.getProbCatch());
+		
+		Cell bTCell = new BurningTreeCell();
+		
+		Cell eCell = new EmptyCell();
+		
+		Cell eLCell = new EmptyLandCell();
+		eLCell.setThreshold(gridConfig.getProbGrow());
+		
+		Cell lCell = new LiveCell();
+		
+		Cell dCell = new DeadCell();
+
+		segregation.put('b', bCell);
+		segregation.put('o', oCell);
+		segregation.put('e', eCell);
+
+		gameOfLife.put('l', lCell);
+		gameOfLife.put('d', dCell);
+
+		spreadingWildfire.put('t', tCell);
+		spreadingWildfire.put('b', bTCell);
+		spreadingWildfire.put('e', eLCell);
+	}
+
+	private void setCurrSimulationMap() {
+		switch (simulationType) {
+		case ("Segregation"):
+			simMap = segregation;
+			break;
+		case ("SpreadingWildfire"):
+			simMap = spreadingWildfire;
+			break;
+		case ("Wator"):
+			simMap = waTor;
+			break;
+		case ("GameOfLife"):
+			simMap = gameOfLife;
+			break;
+		}
+	}
+
+	public void initialize() {
+		createMaps();
+		setCurrSimulationMap();
+		numRows = gridConfig.getNumRows();
+		numCols = gridConfig.getNumCols();
+		cellWidth = SIZE / numCols;
+		cellHeight = SIZE / numRows;
+
 		currentGrid = new Cell[numRows][numCols];
 		newGrid = new Cell[numRows][numCols];
-		//emptyGrid = new Cell[numRows][numCols];
 		blocks = new Rectangle[numRows][numCols];
-		
-		//createEmptyGrid();
+
 		empty(currentGrid);
 		empty(newGrid);
 		setRectangles();
@@ -58,125 +115,75 @@ public class Grid {
 
 		// read from xml to create initial state
 	}
-	
+
 	private void empty(Cell[][] grid) {
-		for(int i = 0; i<numRows; i++) {
-			for(int j = 0; j<numCols; j++) {
-				grid[i][j]=new EmptyCell(i,j);
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
+				grid[i][j] = new EmptyCell(i, j);
 			}
 		}
 	}
-	
+
 	/**
-	 * Creates a grid with only empty cells which can be used to initialize
-	 *  newgrid and current grid
-	 */	
+	 * Creates a grid with only empty cells which can be used to initialize newgrid
+	 * and current grid
+	 */
 	private void createEmptyGrid() {
-		for(int i = 0; i<numRows; i++) {
-			for(int j = 0; j<numCols; j++) {
-				emptyGrid[i][j]=new EmptyCell(i,j);
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
+				emptyGrid[i][j] = new EmptyCell(i, j);
 			}
 		}
 	}
-	
+
 	private void setRectangles() {
-		
-		for(int i = 0; i<numRows; i++) {
-			for(int j = 0; j<numCols; j++) {
-				Rectangle r = new Rectangle(j*cellWidth,i*cellHeight,cellWidth,cellHeight);
+
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
+				Rectangle r = new Rectangle(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
 				r.setStroke(Color.DARKGREY);
 				root.getChildren().add(r);
-				blocks[i][j]=r;
+				blocks[i][j] = r;
 			}
 		}
-		
-	}
-	
-	private void setInitialStates() {
-/*		char[][] states ={{' ',' ',' ',' ',' '},
-				    		  {' ',' ',' ',' ',' '},
-				    		  {' ',' ','o','b',' '},
-				    		  {' ',' ',' ',' ',' '},
-				    		  {' ',' ',' ',' ',' '}};*/
-/*		
-		char[][] states ={{'o','o','o',' ','o'},
-	    		  			{' ','b','o','b','o'},
-	    		  			{'o','o','o','o','o'},
-	    		  			{'b','b',' ','o',' '},
-	    		  			{'o',' ','o',' ','o'}};*/
-		
-/*		char[][] states ={{' ',' ','f',' ','f'},
-	  			{'f',' ','f','f',' '},
-	  			{' ',' ',' ','f','f'},
-	  			{' ','f','f',' ',' '},
-	  			{' ',' ','s',' ','f'}};*/
-		char[][] states ={{' ',' ',' ','f',' '},
-	  			{' ',' ',' ',' ',' '},
-	  			{' ',' ',' ',' ',' '},
-	  			{' ',' ',' ',' ',' '},
-	  			{' ',' ','s',' ',' '}};
-		for(int i = 0; i<numRows; i++) {
-			for(int j = 0; j<numCols; j++) {
-				if(states[i][j]=='f') {
-					FishCell c = new FishCell(i,j);
-					currentGrid[i][j]= c;
-					c.setBreedTurns(3);
-					blocks[i][j].setFill(c.getColor());
-					
-				}
-				if(states[i][j]=='s') {
-					SharkCell c = new SharkCell(i,j);
-					currentGrid[i][j]= c;
-					c.setBreedTurns(10);
-					c.setStarveTurns(5);
-					blocks[i][j].setFill(c.getColor());
-					
-				}
-				if(states[i][j]=='o') {
-					OrangeSchellingCell c = new OrangeSchellingCell(i,j);
-					currentGrid[i][j]= c;
-					c.setThreshold(.3);
-					blocks[i][j].setFill(c.getColor());
-					
-				}
-				if(states[i][j]=='b') {
-					BlueSchellingCell c = new BlueSchellingCell(i,j);
-					currentGrid[i][j]= c;
-					c.setThreshold(.3);
-					blocks[i][j].setFill(c.getColor());
-				}
-				if(states[i][j]==' ') {
-					Cell c = new EmptyCell(i,j);
-					currentGrid[i][j]= c;
-					blocks[i][j].setFill(c.getColor());
-				}
-				
-			}
-			
-		}
-	}
-	
 
-	
+	}
+
+	private void setInitialStates() {
+
+		char[][] states = gridConfig.getCellConfiguration();
+		
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
+				Cell c = simMap.get(states[i][j]).copy();
+				c.setRow(i);
+				c.setCol(j);
+				currentGrid[i][j] = c;
+				blocks[i][j].setFill(c.getColor());
+			}
+		}
+
+	}
+
 	/**
-	 * This methods sets the list of neighbors for each cell by checking
-	 *  which of its adjacent cells are considered neighbors by the algorithm
+	 * This methods sets the list of neighbors for each cell by checking which of
+	 * its adjacent cells are considered neighbors by the algorithm
 	 */
-	
+
 	private void setNeighbors() {
-		//TODO
-		//go through each cell and inform its list of neighbors
-		for(int i = 0; i<numRows; i++) {
-			for(int j = 0; j<numCols; j++) {
+		// TODO
+		// go through each cell and inform its list of neighbors
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
 				Cell c = currentGrid[i][j];
 				setNeighborsForCell(c);
 			}
-		}		
+		}
 	}
-	
+
 	private void setNeighborsForCell(Cell cell) {
 		ArrayList<Cell> neighbors = new ArrayList<Cell>();
-		int row = cell.getRow(); 
+		int row = cell.getRow();
 		int col = cell.getCol();
 		for(int i = -1; i<2; i++) {
 			for(int j = -1; j<2; j++) {
@@ -209,93 +216,91 @@ public class Grid {
 		}
 		cell.setNeighbors(neighbors);
 	}
-	
+
 	public void createsNewGrid() {
 		setNeighbors();
-		for(int i = 0; i<currentGrid.length; i++) {
-			for(int j = 0; j<currentGrid[i].length; j++) {
-				Cell c = currentGrid[i][j];
+		for (int i = 0; i < currentGrid.length; i++) {
+			for (int j = 0; j < currentGrid[i].length; j++) {
 				ArrayList<Cell> empty = getEmptyCells();
-				c.moveCell(empty,this);
+				Cell c = currentGrid[i][j];
+				c.moveCell(empty, this);
 			}
 		}
 	}
-	
-	
-	private ArrayList<Cell> getEmptyCells(){
+
+	private ArrayList<Cell> getEmptyCells() {
 		ArrayList<Cell> emptyCells = new ArrayList<Cell>();
-		for(int i = 0; i<numRows; i++) {
-			for(int j = 0; j<numCols; j++) {
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
 				Cell c = currentGrid[i][j];
-				if(c instanceof EmptyCell) {
+				if (c instanceof EmptyCell) {
 					emptyCells.add(c);
 				}
 			}
 		}
 		return emptyCells;
 	}
-	
+
 	public void update(Group r) {
-		for(int i = 0; i<numRows; i++) {
-			for(int j = 0; j<numCols; j++) {
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
 				Cell c = newGrid[i][j];
 				blocks[i][j].setFill(c.getColor());
 				currentGrid[i][j] = newGrid[i][j];
 			}
-		}		
+		}
 		empty(newGrid);
 	}
-
 
 	public boolean newGridContainsCellAt(int rownum, int colnum) {
 		return !(newGrid[rownum][colnum] instanceof EmptyCell);
 	}
-	
+
 	/**
 	 * @param rownum
 	 * @param colnum
-	 * @return Tests if the new grid has a SharkCell at a certain location, returns true/false.
+	 * @return Tests if the new grid has a SharkCell at a certain location, returns
+	 *         true/false.
 	 */
 	public boolean newGridContainsSharkAt(int rownum, int colnum) {
 		return newGrid[rownum][colnum] instanceof SharkCell;
 	}
-	
+
 	/**
 	 * @param rownum
 	 * @param colnum
-	 * @return Tests if the new grid has a SharkCell at a certain location, returns true/false.
+	 * @return Tests if the new grid has a SharkCell at a certain location, returns
+	 *         true/false.
 	 */
-	/*public boolean newGridContainsSharkAt(int rownum, int colnum) {
-		if(newGrid[rownum][colnum] instanceof SharkCell) {
-			return false;
-		}
-		return true;
-	}*/
-	
+	/*
+	 * public boolean newGridContainsSharkAt(int rownum, int colnum) {
+	 * if(newGrid[rownum][colnum] instanceof SharkCell) { return false; } return
+	 * true; }
+	 */
+
 	public void addToNewGrid(Cell c) {
 		newGrid[c.getRow()][c.getCol()] = c;
 	}
-	
-	//new
+
+	// new
 	/**
-	 * @param c is a cell which is removed from the newGrid
-	 * This method removes a cell from the newGrid assuming that the cell has been added
-	 * to its location in the newGrid already. The calling of the method in the FishCell
-	 * class takes care of this assumption.
+	 * @param c
+	 *            is a cell which is removed from the newGrid This method removes a
+	 *            cell from the newGrid assuming that the cell has been added to its
+	 *            location in the newGrid already. The calling of the method in the
+	 *            FishCell class takes care of this assumption.
 	 */
 	public void removeFromNewGrid(Cell c) {
-		newGrid[c.getRow()][c.getCol()] = new EmptyCell(c.getRow(),c.getCol());
+		newGrid[c.getRow()][c.getCol()] = new EmptyCell(c.getRow(), c.getCol());
 	}
-	
-	
+
 	/**
-	 * @param row 
+	 * @param row
 	 * @param col
 	 * @return The cell at a certain location in newGrid
 	 */
 	public Cell getCellInNewGridAt(int row, int col) {
 		return newGrid[row][col];
 	}
-	
-	
+
 }

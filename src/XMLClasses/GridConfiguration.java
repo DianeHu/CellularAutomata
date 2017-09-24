@@ -12,8 +12,14 @@ public class GridConfiguration {
     // simple way to create an immutable list
     public static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
         "numRows",
-        "numCol",
-        "cellType",
+        "numCols",
+        "cellConfiguration",
+        "probCatch",
+        "probGrow",
+        "segregationThreshold",
+        "fishBreedTurns",
+        "sharkBreedTurns",
+        "sharkStarveTurns",
     });
 
     // specific data values for this instance
@@ -26,7 +32,7 @@ public class GridConfiguration {
 
     // provide alternate ways to access data values if needed
     public int getNumRows () {
-        return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(1)));
+        return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(0)));
     }
 
     public int getNumCols () {
@@ -51,6 +57,30 @@ public class GridConfiguration {
     		}
     	}
     	return cellConfiguration;
+    }
+    
+    public double getProbCatch () {
+        return Double.parseDouble(myDataValues.get(DATA_FIELDS.get(3)));
+    }
+    
+    public double getProbGrow () {
+        return Double.parseDouble(myDataValues.get(DATA_FIELDS.get(4)));
+    }
+    
+    public double getSegregationThreshold () {
+        return Double.parseDouble(myDataValues.get(DATA_FIELDS.get(5)));
+    }
+    
+    public int getFishBreedTurns () {
+        return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(6)));
+    }
+    
+    public int getSharkBreedTurns () {
+        return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(7)));
+    }
+    
+    public int getSharkStarveTurns () {
+        return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(8)));
     }
 
     @Override

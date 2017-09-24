@@ -17,6 +17,30 @@ public class BurningTreeCell extends Cell{
 		setColor(Color.DARKORANGE);
 	}
 	
+	public BurningTreeCell() {
+		super();
+		setColor(Color.DARKORANGE);
+	}
+	
+	@Override
+	public Cell copy() {
+		Cell newCell = new BurningTreeCell();
+		return newCell;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see cells.Cell#isNeighbor(int, int)
+	 * 
+	 * This method overrides the superclass method to only account for the compass
+	 * directions (North, South, East, West) as neighbors.
+	 */
+	@Override
+	public boolean isNeighbor(int otherRowNum, int otherColNum) {
+		return super.isNeighbor4(otherRowNum, otherColNum);
+	}
+
 	/**
 	 * @param root
 	 * Replaces the current burning cell with an empty cell.

@@ -26,6 +26,11 @@ public abstract class Cell {
 		neighbors = new ArrayList<Cell>();
 	}
 	
+	public Cell() {
+		neighbors = new ArrayList<Cell>();
+	}
+	
+	public abstract Cell copy();
 	
 	/**
 	 * Sets the color for a cell type
@@ -53,6 +58,10 @@ public abstract class Cell {
 
 	public int getRow() {
 		return rowNum;
+	}
+	
+	public void setThreshold(double num) {
+		//do nothing
 	}
 	
 	/**

@@ -10,7 +10,7 @@ import javafx.scene.paint.Color;
  */
 public class TreeCell extends Cell {
 
-	private double probCatch = .5;
+	private double probCatch;
 
 	/**
 	 * @param myRowNum
@@ -22,7 +22,23 @@ public class TreeCell extends Cell {
 		super(myRowNum, myColNum);
 		setColor(Color.FORESTGREEN);
 	}
-
+	
+	public TreeCell() {
+		super();
+		setColor(Color.FORESTGREEN);
+	}
+	
+	@Override
+	public void setThreshold(double num) {
+		probCatch = num;
+	}
+	
+	@Override
+	public Cell copy() {
+		Cell newCell = new TreeCell();
+		newCell.setThreshold(probCatch);
+		return newCell;
+	}
 	/*
 	 * (non-Javadoc)
 	 * 

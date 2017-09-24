@@ -20,6 +20,17 @@ public class DeadCell extends Cell {
 		super(myRowNum, myColNum);
 		setColor(Color.WHITE);
 	}
+	
+	@Override
+	public Cell copy() {
+		Cell newCell = new DeadCell();
+		return newCell;
+	}
+	
+	public DeadCell() {
+		super();
+		setColor(Color.WHITE);
+	}
 
 	/*
 	 * (non-Javadoc)

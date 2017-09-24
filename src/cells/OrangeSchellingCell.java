@@ -18,12 +18,25 @@ public class OrangeSchellingCell extends Cell{
 		super(myRowNum, myColNum);
 		setColor(Color.DARKORANGE);
 	}
+	
+	public OrangeSchellingCell() {
+		super();
+		setColor(Color.DARKORANGE);
+	}
 
+	@Override
 	public void setThreshold(double t) {
 		threshold = t;
 	}
 	
-	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
+	@Override
+	public Cell copy() {
+		Cell newCell = new OrangeSchellingCell();
+		newCell.setThreshold(threshold);
+		return newCell;
+	}
+	
+	public boolean isNeighbor(int otherRowNum, int otherColNum) {
 		return super.isNeighbor8(otherRowNum, otherColNum);
 	}
 	/* (non-Javadoc)
@@ -43,8 +56,5 @@ public class OrangeSchellingCell extends Cell{
 			grid.addToNewGrid(this);
 		}
 	}
-
-	
-
 	
 }
