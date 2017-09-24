@@ -237,10 +237,9 @@ public class Simulation extends Application {
 	}
 	
 	private void reset() {
-		//screenBorder.getChildren().add(emptyPane);
 		screenBorder.getChildren().remove(root);
-		
-		
+		screenBorder.setRight(vboxRight);
+		screenBorder.setCenter(emptyPane);
 	}
     public static void main (String[] args) {
         launch(args);
