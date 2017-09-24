@@ -29,7 +29,14 @@ public class OrangeSchellingCell extends Cell{
 		threshold = t;
 	}
 	
-	public boolean isNeighbor(int otherRowNum, int otherColNum) {
+	@Override
+	public Cell copy() {
+		Cell newCell = new OrangeSchellingCell();
+		newCell.setThreshold(threshold);
+		return newCell;
+	}
+	
+	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
 		return super.isNeighbor8(otherRowNum, otherColNum);
 	}
 	/* (non-Javadoc)
@@ -39,7 +46,7 @@ public class OrangeSchellingCell extends Cell{
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
 		double numBlue = (double)getNumBlueNeighbors();
 		double numOrange = (double)getNumOrangeNeighbors();
-		boolean satisfied = numOrange/(numOrange+numBlue) >= threshold;
+		boolean satisfied = numOrange/(numOrange+numBlue) >= threshold | numOrange+numBlue==0;
 		if(!satisfied) {
 			if(!moveToRandomPlace(emptySpots, grid)) {
 				grid.addToNewGrid(this);

@@ -21,6 +21,12 @@ public class DeadCell extends Cell {
 		setColor(Color.WHITE);
 	}
 	
+	@Override
+	public Cell copy() {
+		Cell newCell = new DeadCell();
+		return newCell;
+	}
+	
 	public DeadCell() {
 		super();
 		setColor(Color.WHITE);
@@ -35,7 +41,7 @@ public class DeadCell extends Cell {
 	 * neighbors of cell.
 	 */
 	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum) {
+	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
 		return super.isNeighbor8(otherRowNum, otherColNum);
 	}
 

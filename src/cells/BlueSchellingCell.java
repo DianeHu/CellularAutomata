@@ -24,11 +24,18 @@ public class BlueSchellingCell extends Cell{
 	}
 	
 	@Override
+	public Cell copy() {
+		Cell newCell = new BlueSchellingCell();
+		newCell.setThreshold(threshold);
+		return newCell;
+	}
+	
+	@Override
 	public void setThreshold(double t) {
 		threshold = t;
 	}
 	
-	public boolean isNeighbor(int otherRowNum, int otherColNum) {
+	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
 		return super.isNeighbor8(otherRowNum, otherColNum);
 	}
 	
@@ -39,7 +46,7 @@ public class BlueSchellingCell extends Cell{
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
 		double numBlue = (double)getNumBlueNeighbors();
 		double numOrange = (double)getNumOrangeNeighbors();
-		boolean satisfied = numBlue/(numOrange+numBlue) >= threshold;
+		boolean satisfied = numBlue/(numOrange+numBlue) >= threshold | numOrange+numBlue==0;
 		if(!satisfied) {
 			if(!moveToRandomPlace(emptySpots, grid)) {
 				grid.addToNewGrid(this);
@@ -49,4 +56,6 @@ public class BlueSchellingCell extends Cell{
 			grid.addToNewGrid(this);
 		}
 	}
+
 }
+

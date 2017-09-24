@@ -36,7 +36,7 @@ public class Grid {
 	private int numCols;
 	private int cellWidth;
 	private int cellHeight;
-	private String simulationType = "Segregation";
+	private String simulationType = "Wator";
 	private Map<Character, Cell> segregation = new HashMap<>();
 	private Map<Character, Cell> gameOfLife = new HashMap<>();
 	private Map<Character, Cell> spreadingWildfire = new HashMap<>();
@@ -68,6 +68,13 @@ public class Grid {
 		Cell lCell = new LiveCell();
 		
 		Cell dCell = new DeadCell();
+		
+		FishCell fCell = new FishCell();
+		fCell.setBreedTurns(gridConfig.getFishBreedTurns());
+		
+		SharkCell sCell = new SharkCell();
+		sCell.setBreedTurns(gridConfig.getSharkBreedTurns());
+		sCell.setStarveTurns(gridConfig.getSharkStarveTurns());
 
 		segregation.put('b', bCell);
 		segregation.put('o', oCell);
@@ -79,6 +86,9 @@ public class Grid {
 		spreadingWildfire.put('t', tCell);
 		spreadingWildfire.put('b', bTCell);
 		spreadingWildfire.put('e', eLCell);
+		
+		waTor.put('f', fCell);
+		waTor.put('s', sCell);
 	}
 
 	private void setCurrSimulationMap() {
@@ -152,46 +162,18 @@ public class Grid {
 	}
 
 	private void setInitialStates() {
-		/*
-		 * char[][] states ={{'b','b','o','o','o'}, {'o','b',' ',' ','b'}, {' ','
-		 * ','o','b','b'}, {'o','o','b','o',' '}, {'b',' ','o','b','o'}};
-		 */
 
 		char[][] states = gridConfig.getCellConfiguration();
 		
-		for(int i = 0; i < numRows; i++) {
-			for(int j = 0; j < numCols; j++) {
-				if(states[i][j] == 'b') {
-					Cell c = new BlueSchellingCell(i, j);
-					currentGrid[i][j] = c;
-					blocks[i][j].setFill(c.getColor());
-					c.setThreshold(gridConfig.getSegregationThreshold());
-				}
-				
-				if(states[i][j] == 'o') {
-					Cell c = new OrangeSchellingCell(i, j);
-					currentGrid[i][j] = c;
-					blocks[i][j].setFill(c.getColor());
-					c.setThreshold(gridConfig.getSegregationThreshold());
-				}
-				if(states[i][j] == 'e') {
-					Cell c = new EmptyCell(i, j);
-					currentGrid[i][j] = c;
-					blocks[i][j].setFill(c.getColor());
-				}
-			}
-		}
-		
-
-		/*for (int i = 0; i < numRows; i++) {
+		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
-				Cell c = simMap.get(states[i][j]);
+				Cell c = simMap.get(states[i][j]).copy();
 				c.setRow(i);
 				c.setCol(j);
 				currentGrid[i][j] = c;
 				blocks[i][j].setFill(c.getColor());
 			}
-		}*/
+		}
 
 	}
 
@@ -215,13 +197,33 @@ public class Grid {
 		ArrayList<Cell> neighbors = new ArrayList<Cell>();
 		int row = cell.getRow();
 		int col = cell.getCol();
-		for (int i = -1; i < 2; i++) {
-			for (int j = -1; j < 2; j++) {
-				if (row + i < numRows & row + i > -1 & col + j < numCols & col + j > -1) {
-					if (cell.isNeighbor(row + i, col + j)) {
-						neighbors.add(currentGrid[row + i][col + j]);
+		for(int i = -1; i<2; i++) {
+			for(int j = -1; j<2; j++) {
+				if(row+i<numRows & row+i>-1 & col+j<numCols & col+j>-1) {
+					if(cell.isNeighbor(row+i,col+j,numRows,numCols)) {
+						neighbors.add(currentGrid[row+i][col+j]);
 					}
 				}
+			}
+		}
+		if(cell.getRow()==0) {
+			if(cell.isNeighbor(numRows-1, cell.getCol(), numRows, numCols)) {
+				neighbors.add(currentGrid[numRows-1][cell.getCol()]);
+			}
+		}
+		if(cell.getRow()==numRows-1) {
+			if(cell.isNeighbor(0, cell.getCol(), numRows, numCols)) {
+				neighbors.add(currentGrid[0][cell.getCol()]);
+			}
+		}
+		if(cell.getCol()==0) {
+			if(cell.isNeighbor(cell.getRow(), numCols-1, numRows, numCols)) {
+				neighbors.add(currentGrid[cell.getRow()][numCols-1]);
+			}
+		}
+		if(cell.getCol()==numCols-1) {
+			if(cell.isNeighbor(cell.getRow(), 0, numRows, numCols)) {
+				neighbors.add(currentGrid[cell.getRow()][0]);
 			}
 		}
 		cell.setNeighbors(neighbors);
