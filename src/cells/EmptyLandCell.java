@@ -43,8 +43,8 @@ public class EmptyLandCell extends Cell {
 	 * East, West) as neighbors
 	 */
 	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum) {
-		return super.isNeighbor4(otherRowNum, otherColNum);
+    public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
+		return super.isNeighbor8(otherRowNum, otherColNum);
 	}
 	
 	@Override

@@ -8,11 +8,9 @@ import java.util.Map;
 
 import XMLClasses.GridConfiguration;
 import cells.BlueSchellingCell;
-import cells.BurningTreeCell;
 import cells.Cell;
 import cells.DeadCell;
 import cells.EmptyCell;
-import cells.EmptyLandCell;
 import cells.FishCell;
 import cells.LiveCell;
 import cells.OrangeSchellingCell;
@@ -187,13 +185,33 @@ public class Grid {
 		ArrayList<Cell> neighbors = new ArrayList<Cell>();
 		int row = cell.getRow();
 		int col = cell.getCol();
-		for (int i = -1; i < 2; i++) {
-			for (int j = -1; j < 2; j++) {
-				if (row + i < numRows & row + i > -1 & col + j < numCols & col + j > -1) {
-					if (cell.isNeighbor(row + i, col + j)) {
-						neighbors.add(currentGrid[row + i][col + j]);
+		for(int i = -1; i<2; i++) {
+			for(int j = -1; j<2; j++) {
+				if(row+i<numRows & row+i>-1 & col+j<numCols & col+j>-1) {
+					if(cell.isNeighbor(row+i,col+j,numRows,numCols)) {
+						neighbors.add(currentGrid[row+i][col+j]);
 					}
 				}
+			}
+		}
+		if(cell.getRow()==0) {
+			if(cell.isNeighbor(numRows-1, cell.getCol(), numRows, numCols)) {
+				neighbors.add(currentGrid[numRows-1][cell.getCol()]);
+			}
+		}
+		if(cell.getRow()==numRows-1) {
+			if(cell.isNeighbor(0, cell.getCol(), numRows, numCols)) {
+				neighbors.add(currentGrid[0][cell.getCol()]);
+			}
+		}
+		if(cell.getCol()==0) {
+			if(cell.isNeighbor(cell.getRow(), numCols-1, numRows, numCols)) {
+				neighbors.add(currentGrid[cell.getRow()][numCols-1]);
+			}
+		}
+		if(cell.getCol()==numCols-1) {
+			if(cell.isNeighbor(cell.getRow(), 0, numRows, numCols)) {
+				neighbors.add(currentGrid[cell.getRow()][0]);
 			}
 		}
 		cell.setNeighbors(neighbors);
