@@ -62,4 +62,5 @@ public class BurningTreeCell extends Cell{
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
 		burnOut(grid);
 	}
+
 }

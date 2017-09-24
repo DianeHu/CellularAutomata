@@ -28,14 +28,13 @@ public class TreeCell extends Cell {
 		setColor(Color.FORESTGREEN);
 	}
 	
-	@Override
 	public void setThreshold(double num) {
 		probCatch = num;
 	}
 	
 	@Override
 	public Cell copy() {
-		Cell newCell = new TreeCell();
+		TreeCell newCell = new TreeCell();
 		newCell.setThreshold(probCatch);
 		return newCell;
 	}

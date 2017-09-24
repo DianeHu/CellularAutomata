@@ -1,7 +1,7 @@
 ﻿<GridConfiguration>
   <simulationType>SpreadingWildfire</simulationType><numRows>6</numRows>
   <numCols>6</numCols>
-  <cellConfiguration>tbbbbttttttteeeetbbetbettttbbbeettbb</cellConfiguration>
+  <cellConfiguration>ssfssfsffffsfsffsssfsfsssfsfsffsfsss</cellConfiguration>
   <probCatch>.5</probCatch>
   <probGrow>.5</probGrow>
   <segregationThreshold>.5</segregationThreshold>
