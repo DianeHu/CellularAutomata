@@ -95,60 +95,28 @@ public class Simulation extends Application {
 	}
 
 	private void addEvents(Stage s) {
-		fileChooserButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle (ActionEvent event) {
-            	openFile(s);
-            }
-		});
-		startButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle (ActionEvent event) {
-                        	try {
-					startSimulation(s);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-            }
-		});
-		pauseButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle (ActionEvent event) {
-				pause();
+		
+		fileChooserButton.setOnAction(e -> openFile(s));
+		startButton.setOnAction(e -> {
+			try {
+				startSimulation(s);
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
 			}
 		});
-		resumeButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle (ActionEvent event) {
-				resume();
-			}
-		});
-		fasterButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle (ActionEvent event) {
-				faster();
-			}
-		});
-		slowerButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle (ActionEvent event) {
-				slower();
-			}
-		});
-		resetButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle (ActionEvent event) {
-				reset();
-			}
-		});
-		stepButton.setOnAction(new EventHandler<ActionEvent>() {
-			@Override
-			public void handle (ActionEvent event) {
-				sampleGrid.createsNewGrid();
-				sampleGrid.update();
-			}
-		});
+		
+		pauseButton.setOnAction(e -> pause());
+		resumeButton.setOnAction(e -> resume());
+		slowerButton.setOnAction(e -> faster());
+		fasterButton.setOnAction(e -> faster());
+		resetButton.setOnAction(e -> reset());
+		stepButton.setOnAction(e -> manualStep());
+	}
+	
+	private void manualStep() {
+		sampleGrid.createsNewGrid();
+		sampleGrid.update();
 	}
 	
 	private void openFile(Stage s)
