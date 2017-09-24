@@ -23,13 +23,20 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+/**
+ * @author Madhavi Rajiv
+ * @author Diane Hu
+ * This class creates manages the different cells in the simulation, and organizes their updates
+ * in parallel. It takes in a GridConfiguration object to get information from the XML file
+ * about the nature of the simulation, and takes in a Group root to edit the scene based on
+ * the states of the cells.
+ */
 public class Grid {
 
 	public static final int SIZE = 400;
 	private Group root;
 	private Cell[][] currentGrid;
 	private Cell[][] newGrid;
-	private Cell[][] emptyGrid;
 	private Rectangle[][] blocks;
 	private GridConfiguration gridConfig;
 	private int numRows;
@@ -43,31 +50,42 @@ public class Grid {
 	private Map<Character, Cell> waTor = new HashMap<>();
 	private Map<Character, Cell> simMap = new HashMap<>();
 
+	/**
+	 * @param r - This is the root used to edit scenes
+	 * @param g - This is the GridConfiguration used to get information from the XML file
+	 */
 	public Grid(Group r, GridConfiguration g) {
 		root = r;
 		gridConfig = g;
 	}
 
+	
+	/**
+	 * Maps different cell types to different characters based on the simulation type.
+	 * The names of each map refer to the simulation types. Each cell mapped to a character
+	 * has its parameters set as well so that these parameters can be passed on when the cell is 
+	 * copied later.
+	 */
 	private void createMaps() {
-		Cell bCell = new BlueSchellingCell();
+		BlueSchellingCell bCell = new BlueSchellingCell();
 		bCell.setThreshold(gridConfig.getSegregationThreshold());
 		
-		Cell oCell = new OrangeSchellingCell();
+		OrangeSchellingCell oCell = new OrangeSchellingCell();
 		oCell.setThreshold(gridConfig.getSegregationThreshold());
 		
-		Cell tCell = new TreeCell();
+		TreeCell tCell = new TreeCell();
 		tCell.setThreshold(gridConfig.getProbCatch());
 		
-		Cell bTCell = new BurningTreeCell();
+		BurningTreeCell bTCell = new BurningTreeCell();
 		
-		Cell eCell = new EmptyCell();
+		EmptyCell eCell = new EmptyCell();
 		
-		Cell eLCell = new EmptyLandCell();
+		EmptyLandCell eLCell = new EmptyLandCell();
 		eLCell.setThreshold(gridConfig.getProbGrow());
 		
-		Cell lCell = new LiveCell();
+		LiveCell lCell = new LiveCell();
 		
-		Cell dCell = new DeadCell();
+		DeadCell dCell = new DeadCell();
 		
 		FishCell fCell = new FishCell();
 		fCell.setBreedTurns(gridConfig.getFishBreedTurns());
@@ -76,7 +94,6 @@ public class Grid {
 		sCell.setBreedTurns(gridConfig.getSharkBreedTurns());
 		sCell.setStarveTurns(gridConfig.getSharkStarveTurns());
 		
-
 		segregation.put('b', bCell);
 		segregation.put('o', oCell);
 		segregation.put('e', eCell);
@@ -91,7 +108,12 @@ public class Grid {
 		waTor.put('f',fCell);
 		waTor.put('s', sCell);
 	}
+	
 
+	/**
+	 * Switches which map is being used to map characters to cell types 
+	 * based off of the simulation string read from the XML file
+	 */
 	private void setCurrSimulationMap() {
 		switch (simulationType) {
 		case ("Segregation"):
@@ -109,6 +131,10 @@ public class Grid {
 		}
 	}
 
+	/**
+	 * Reads information from gridConfig and creates maps in order to create the initial 
+	 * state of the simulation.
+	 */
 	public void initialize() {
 		createMaps();
 		setCurrSimulationMap();
@@ -125,10 +151,13 @@ public class Grid {
 		empty(newGrid);
 		setRectangles();
 		setInitialStates();
-
-		// read from xml to create initial state
 	}
 
+	/**
+	 * @param grid- a 2D matrix of cells
+	 * Takes in a 2D matrix of cells and sets them all to EmptyCells,
+	 * effectively zeroing out the matrix
+	 */
 	private void empty(Cell[][] grid) {
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
@@ -138,17 +167,8 @@ public class Grid {
 	}
 
 	/**
-	 * Creates a grid with only empty cells which can be used to initialize newgrid
-	 * and current grid
+	 * Creates the a grid of blank rectangles which represents the cells.
 	 */
-	private void createEmptyGrid() {
-		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numCols; j++) {
-				emptyGrid[i][j] = new EmptyCell(i, j);
-			}
-		}
-	}
-
 	private void setRectangles() {
 
 		for (int i = 0; i < numRows; i++) {
@@ -162,6 +182,11 @@ public class Grid {
 
 	}
 
+	/**
+	 * Colors in the grid of rectangles based off of which cell type exists
+	 * at each location in the initial state read from the XML file through
+	 * GridConfig.
+	 */
 	private void setInitialStates() {
 
 		char[][] states = gridConfig.getCellConfiguration();
@@ -180,12 +205,11 @@ public class Grid {
 
 	/**
 	 * This methods sets the list of neighbors for each cell by checking which of
-	 * its adjacent cells are considered neighbors by the algorithm
+	 * its adjacent cells are considered neighbors by the algorithm used for
+	 * its respective cell type.
 	 */
 
 	private void setNeighbors() {
-		// TODO
-		// go through each cell and inform its list of neighbors
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
 				Cell c = currentGrid[i][j];
@@ -194,8 +218,27 @@ public class Grid {
 		}
 	}
 
+	/**
+	 * @param cell is an individual Cell type
+	 * This method sets a list of neighbors for a single cell.
+	 * 
+	 */
 	private void setNeighborsForCell(Cell cell) {
 		ArrayList<Cell> neighbors = new ArrayList<Cell>();
+		getAdjacentNeighbors(cell, neighbors);
+		getWrappedNeighbors(cell, neighbors);
+		cell.setNeighbors(neighbors);
+	}
+
+
+	/**
+	 * @param cell
+	 * @param neighbors
+	 * This method takes in a cell and edits its list of neighbors to include
+	 * adjacent neighbors which are neighbors according to the cell type's
+	 * isNeighbor() algorithm.
+	 */
+	private void getAdjacentNeighbors(Cell cell, ArrayList<Cell> neighbors) {
 		int row = cell.getRow();
 		int col = cell.getCol();
 		for(int i = -1; i<2; i++) {
@@ -207,6 +250,17 @@ public class Grid {
 				}
 			}
 		}
+	}
+
+
+	/**
+	 * @param cell
+	 * @param neighbors
+	 * This method takes in a cell and edits its list of neighbors to include
+	 * wrapped neighbors which are neighbors according to the cell type's 
+	 * isNeighbor() algorithm.
+	 */
+	private void getWrappedNeighbors(Cell cell, ArrayList<Cell> neighbors) {
 		if(cell.getRow()==0) {
 			if(cell.isNeighbor(numRows-1, cell.getCol(), numRows, numCols)) {
 				neighbors.add(currentGrid[numRows-1][cell.getCol()]);
@@ -227,9 +281,13 @@ public class Grid {
 				neighbors.add(currentGrid[cell.getRow()][0]);
 			}
 		}
-		cell.setNeighbors(neighbors);
 	}
 
+	/**
+	 * This method goes through each cell and has it perform its interactions
+	 * in order to create the new grid, a 2D matrix of cells which describes
+	 * the next state.
+	 */
 	public void createsNewGrid() {
 		setNeighbors();
 		for (int i = 0; i < currentGrid.length; i++) {
@@ -241,6 +299,9 @@ public class Grid {
 		}
 	}
 
+	/**
+	 * @return a list of all the empty cells in the current configuration of cells
+	 */
 	private ArrayList<Cell> getEmptyCells() {
 		ArrayList<Cell> emptyCells = new ArrayList<Cell>();
 		for (int i = 0; i < numRows; i++) {
@@ -254,7 +315,13 @@ public class Grid {
 		return emptyCells;
 	}
 
-	public void update(Group r) {
+	
+	/**
+	 * Moves on to the next state of the simulation by setting the current state 
+	 * equal to the new state which has been created earlier, and then emptying
+	 * out the new state so that it can be built up again.
+	 */
+	public void update() {
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
 				Cell c = newGrid[i][j];
@@ -265,6 +332,12 @@ public class Grid {
 		empty(newGrid);
 	}
 
+	/**
+	 * @param rownum
+	 * @param colnum
+	 * @return a boolean describing whether a non-empty cell exists at
+	 * the location specified by rownum and colnum
+	 */
 	public boolean newGridContainsCellAt(int rownum, int colnum) {
 		return !(newGrid[rownum][colnum] instanceof EmptyCell);
 	}
@@ -280,17 +353,9 @@ public class Grid {
 	}
 
 	/**
-	 * @param rownum
-	 * @param colnum
-	 * @return Tests if the new grid has a SharkCell at a certain location, returns
-	 *         true/false.
+	 * @param c
+	 * Takes in a cell c and adds it to newGrid, which describes the newState
 	 */
-	/*
-	 * public boolean newGridContainsSharkAt(int rownum, int colnum) {
-	 * if(newGrid[rownum][colnum] instanceof SharkCell) { return false; } return
-	 * true; }
-	 */
-
 	public void addToNewGrid(Cell c) {
 		newGrid[c.getRow()][c.getCol()] = c;
 	}

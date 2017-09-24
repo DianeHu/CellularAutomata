@@ -157,7 +157,7 @@ public class Simulation extends Application {
 	{   
 		//myStage.setScene(setSimulation(XMLSample));
 		sampleGrid.createsNewGrid();
-		sampleGrid.update(root); 
+		sampleGrid.update(); 
 		//colorNum++;
 	}
 	
@@ -169,7 +169,7 @@ public class Simulation extends Application {
 		}
 		if(code == KeyCode.SPACE) {	
 			sampleGrid.createsNewGrid();
-			sampleGrid.update(root); 
+			sampleGrid.update(); 
 			/*try {
 				startSimulation(myStage);
 			} catch (Exception e) {

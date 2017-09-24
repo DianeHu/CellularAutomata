@@ -7,29 +7,48 @@ import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
+
+/**
+ * @author Madhavi Rajiv
+ * This class describes the way a cell of fish type in Wator interacts with its surroundings.
+ */
 public class FishCell extends Cell{
-	private static int breedTurns; //need to justify
+	private static int breedTurns; 
 	private int numTurns;
 	private boolean eaten;
 	
+
 	public FishCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setColor(Color.PALEGREEN);
 	}
-	
+
 	public FishCell() {
 		super();
 		setColor(Color.PALEGREEN);
 	}
 	
+	
+	/**
+	 * @param n 
+	 * Sets the number of turns before the fish breeds as n
+	 */
 	public void setBreedTurns(int n) {
 		breedTurns = n;
 	}
 
+	/* (non-Javadoc)
+	 * @see cells.Cell#isNeighbor(int, int, int, int)
+	 */
+	@Override
 	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
 		return super.isNeighborTorus(otherRowNum, otherColNum, numRows, numCols);
 	}
 	
+	/* (non-Javadoc)
+	 * @see cells.Cell#moveCell(java.util.ArrayList, cellManager.Grid)
+	 */
+	@Override
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
 		ArrayList<Cell> emptyNeighbors = getEmptyNeighbors();
 		if(numTurns>=breedTurns) {
@@ -43,6 +62,13 @@ public class FishCell extends Cell{
 		numTurns++;
 	}
 	
+	/**
+	 * @param emptySpots
+	 * @param grid
+	 * This method allows the fish to reproduce into an empty spot in the 
+	 * list of empty spots. The Grid object parameter is used to update the 
+	 * newGrid.
+	 */
 	private void breed(ArrayList<Cell> emptySpots, Grid grid) {
 		FishCell newfish = new FishCell(getRow(), getCol());
 		if(moveToRandomPlace(emptySpots,grid)){

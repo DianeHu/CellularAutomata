@@ -5,14 +5,16 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import cellManager.Grid;
-import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 /**
- * @author Madhavi
+ * @author Madhavi Rajiv
  * @author Diane Hu
+ * This class outlines the functionality of a general Cell type.
+ * The Cell needs to know how to move, interact with its neighbors, and
+ * tell whether a cell at a certain location is its neighbor.
  */
+
 public abstract class Cell {
 	
 	private int rowNum;
@@ -20,16 +22,29 @@ public abstract class Cell {
 	private ArrayList<Cell> neighbors;
 	private Color col;
 	
+	
+	/**
+	 * @param myRowNum
+	 * @param myColNum
+	 * The cell is initialized with its location. The constructor also initializes the list
+	 * of neighbors.
+	 */
 	public Cell(int myRowNum, int myColNum) {
 		rowNum = myRowNum;
 		colNum = myColNum;
 		neighbors = new ArrayList<Cell>();
 	}
 	
+	/**
+	 * This constructor initializes a cell without its location.
+	 */
 	public Cell() {
 		neighbors = new ArrayList<Cell>();
 	}
 	
+	/**
+	 * @returns a cell copied in terms of parameters from the original cell
+	 */
 	public abstract Cell copy();
 	
 	/**
@@ -47,21 +62,28 @@ public abstract class Cell {
 		return col;
 	}
 	
-	//new
+	
+	/**
+	 * @param row
+	 * Sets the row location of a cell
+	 */
 	public void setRow(int row) {
 		rowNum = row;
 	}
-	//new
+
+	/**
+	 * @param col
+	 * Sets the column location of a cell
+	 */
 	public void setCol(int col) {
 		colNum = col;
 	}
 
+	/**
+	 * @return Returns the row location of a cell
+	 */
 	public int getRow() {
 		return rowNum;
-	}
-	
-	public void setThreshold(double num) {
-		//do nothing
 	}
 	
 	/**
@@ -71,42 +93,50 @@ public abstract class Cell {
 		return colNum;
 	}
 
-	
+	/**
+	 * @param otherRowNum
+	 * @param otherColNum
+	 * @return Returns whether or not a cell at an indicated position is a neighbor of the current cell. 
+	 */
+	public abstract boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols);
 	
 	
 	/**
 	 * @param otherRowNum
 	 * @param otherColNum
-	 * @return Returns whether or not a cell at an indicated position is a neighbor of the current cell. Neighbor defined as any of the eight
-	 * surrounding positions of a cell, i.e., including positions diagonal to the current one.
+	 * @return Returns whether the cell at the given position is a neighbor for simulations
+	 * where neighbors consist of all 8 surrounding adjacent cells.
 	 */
-	public abstract boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols);
-	
-	//changed
 	public boolean isNeighbor8(int otherRowNum, int otherColNum) {
 		return (Math.abs(rowNum-otherRowNum)<=1 & Math.abs(colNum-otherColNum)<=1) 
 				& !(otherRowNum==rowNum && otherColNum==colNum);
 	}
 	
-	//changed
+	/**
+	 * @param otherRowNum
+	 * @param otherColNum
+	 * @return Returns whether the cell at the given position is a neighbor for simulations
+	 * where neighbors consist of neighbors in North, South, East, and West directions.
+	 */
 	public boolean isNeighbor4(int otherRowNum, int otherColNum) {
 		return (Math.abs(rowNum-otherRowNum)==1 & colNum==otherColNum)
 				| (Math.abs(colNum-otherColNum)==1 & rowNum==otherRowNum);
 	}
 	
+	
+	/**
+	 * @param otherRowNum
+	 * @param otherColNum
+	 * @param numRows
+	 * @param numCols
+	 * @return Returns whether the cell at the given position is a neighbor for simulations
+	 * where neighbors consist of neighbors in North, South, East, and West directions, or 
+	 * wrapped neighbors in the same direction.
+	 */
 	public boolean isNeighborTorus(int otherRowNum, int otherColNum, int numRows, int numCols) {
-		if((Math.abs(rowNum-otherRowNum)==1 & colNum==otherColNum)
-				| (Math.abs(colNum-otherColNum)==1 & rowNum==otherRowNum)) {
-			return true;
-		}
-		if(rowNum==otherRowNum & ((colNum==0 & otherColNum==numCols-1)|(colNum==numCols-1 & otherColNum==0))) {
-			return true;
-		}
-
-		if(colNum==otherColNum & ((rowNum==0 & otherRowNum==numRows-1)|(rowNum==numRows-1 & otherRowNum==0))) {
-			return true;
-		}
-		return false;
+		boolean horizontalWrapping = rowNum==otherRowNum & ((colNum==0 & otherColNum==numCols-1)|(colNum==numCols-1 & otherColNum==0));
+		boolean verticalWrapping = colNum==otherColNum & ((rowNum==0 & otherRowNum==numRows-1)|(rowNum==numRows-1 & otherRowNum==0));
+		return isNeighbor4(otherRowNum,otherColNum)|horizontalWrapping|verticalWrapping;
 	}
 
 	
@@ -127,7 +157,8 @@ public abstract class Cell {
 	/**
 	 * @param emptySpots
 	 * @param grid
-	 * Abstract method that each subclass calls to move cell.
+	 * Abstract method that each subclass calls to move cell and have cell interact with 
+	 * neighbors. This method changes based on the cell subclass and the rules of the simulation type.
 	 */
 	public abstract void moveCell(ArrayList<Cell> emptySpots, Grid grid);
 	
@@ -139,6 +170,9 @@ public abstract class Cell {
 		neighbors = n;
 	}
 	
+	/**
+	 * @return the number of neighbors which are instances of BlueSchellingCell
+	 */
 	protected int getNumBlueNeighbors() {
 		int sum = 0;
 		for(Cell c: neighbors) {
@@ -151,7 +185,7 @@ public abstract class Cell {
 	
 	
 	/**
-	 * @return Returns number of orange neighbors of a cell in the Segregation Schelling simulation.
+	 * @return the number of neighbors which are instances of OrangeSchellingCell
 	 */
 	protected int getNumOrangeNeighbors() {
 		int sum = 0;
@@ -163,6 +197,9 @@ public abstract class Cell {
 		return sum;
 	}
 	
+	/**
+	 * @return the number of neighbors which are instances of BurningTreeCell
+	 */
 	protected int getNumBurningNeighbors() {
 		int sum = 0;
 		for(Cell c: neighbors) {
@@ -176,7 +213,8 @@ public abstract class Cell {
 	/**
 	 * @param emptySpots
 	 * @param grid
-	 * Moves cell to random empty location in grid.
+	 * Moves cell to random empty location in grid; these empty locations
+	 * are given in the list emptySpots.
 	 */
 	protected boolean moveToRandomPlace(ArrayList<Cell> spots, Grid grid) {
 		boolean moved = false;
@@ -212,6 +250,9 @@ public abstract class Cell {
 		return emptyNeighbors;
 	}
 
+    /**
+     * @return the number of neighbors which are instances of LiveCell
+     */
     protected int checkNumLiveNeighbors() {
 		int numLiveNeighbors = 0;
 		for(Cell c : neighbors) {
@@ -222,6 +263,9 @@ public abstract class Cell {
 		return numLiveNeighbors;
 	}
 	
+    /**
+     * @return the list of neighbors
+     */
 	protected ArrayList<Cell> getNeighbors(){
 		return neighbors;
 	}
