@@ -7,9 +7,17 @@ import javafx.scene.paint.Color;
 
 /**
  * @author Diane Hu
+ * 
+ *         Implements cell type land in spreading wildfire simulation.
  */
 public class EmptyLandCell extends Cell {
 
+	/**
+	 * Since there is only one threshold value for all EmptyLandCells (all cells
+	 * grow new trees with the same likelihood), and the value stays constant across
+	 * the simulation, this variable is static. Also addresses issue of new cells
+	 * not being instantiated with appropriate threshold values.
+	 */
 	private static double probGrow;
 
 	/**
@@ -22,12 +30,20 @@ public class EmptyLandCell extends Cell {
 		super(myRowNum, myColNum);
 		setColor(Color.BROWN);
 	}
-	
+
+	/**
+	 * Constructor that does not specify row or column number.
+	 */
 	public EmptyLandCell() {
 		super();
 		setColor(Color.BROWN);
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see cells.Cell#copy()
+	 */
 	@Override
 	public Cell copy() {
 		EmptyLandCell newCell = new EmptyLandCell();
@@ -39,14 +55,18 @@ public class EmptyLandCell extends Cell {
 	 * (non-Javadoc)
 	 * 
 	 * @see cells.Cell#isSurroundingNeighbor(int, int) This method overrides the
-	 * superclass method to only account for the compass directions (North, South,
-	 * East, West) as neighbors
+	 * superclass method to account for all 8 surrounding neighbors.
 	 */
 	@Override
-    public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
+	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
 		return super.isNeighbor8(otherRowNum, otherColNum);
 	}
-	
+
+	/**
+	 * @param num
+	 * 
+	 *            Setter for probGrow.
+	 */
 	public void setThreshold(double num) {
 		probGrow = num;
 	}
