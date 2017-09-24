@@ -108,7 +108,7 @@ public class Simulation extends Application {
 		
 		pauseButton.setOnAction(e -> pause());
 		resumeButton.setOnAction(e -> resume());
-		slowerButton.setOnAction(e -> faster());
+		slowerButton.setOnAction(e -> slower());
 		fasterButton.setOnAction(e -> faster());
 		resetButton.setOnAction(e -> reset());
 		stepButton.setOnAction(e -> manualStep());
