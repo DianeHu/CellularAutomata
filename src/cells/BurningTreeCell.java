@@ -27,7 +27,7 @@ public class BurningTreeCell extends Cell{
 		Cell newCell = new BurningTreeCell();
 		return newCell;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -40,7 +40,6 @@ public class BurningTreeCell extends Cell{
 	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
 		return super.isNeighbor4(otherRowNum, otherColNum);
 	}
-
 	/**
 	 * @param root
 	 * Replaces the current burning cell with an empty cell.
