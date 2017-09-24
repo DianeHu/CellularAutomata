@@ -1,0 +1,11 @@
+<GridConfiguration>
+  <simulationType>Wator</simulationType><numRows>9</numRows>
+  <numCols>9</numCols>
+  <cellConfiguration>ssfffsfsfsffsfsfsffsfsfsfsfffsfsfsfsfsfffsssfsfffsfsffffsfsfsfffsfsfffsfsfsfsfsfsfsfsfsffsfsfsfsfsfsfsfsfsf</cellConfiguration>
+  <probCatch>.5</probCatch>
+  <probGrow>.5</probGrow>
+  <segregationThreshold>.3</segregationThreshold>
+  <fishBreedTurns>5</fishBreedTurns>
+  <sharkBreedTurns>5</sharkBreedTurns>
+  <sharkStarveTurns>5</sharkStarveTurns>
+  </GridConfiguration>

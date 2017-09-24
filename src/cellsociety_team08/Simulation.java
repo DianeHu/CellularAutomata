@@ -31,7 +31,10 @@ import javafx.util.Duration;
 
 public class Simulation extends Application {
 
-	public static final String DATA_FILE_EXTENSION = "*.xml";
+	private static final Color EMPTY_DISPLAY_BORDER = Color.DARKGRAY;
+	private static final Color EMPTY_DISPLAY_BACKGROUND = Color.LIGHTGRAY;
+	private static final int GRID_DISPLAY_SIZE = 400;
+	private static final String DATA_FILE_EXTENSION = "*.xml";
 	private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
 	private static final int SIZE = 500;
 	private static final Color BACKGROUND = Color.TRANSPARENT;
@@ -61,26 +64,25 @@ public class Simulation extends Application {
 	private Timeline animation = new Timeline();
 	private Group root;
 	private boolean isFirstTime = true;
-	
+
 	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/Labels";
 	private ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
-	
-	public void start (Stage primaryStage) throws Exception {
+
+	public void start(Stage primaryStage) throws Exception {
 		addButtonsToBorder(primaryStage);
-    }
-	
-	public void addButtonsToBorder(Stage s) throws Exception
-	{
+	}
+
+	public void addButtonsToBorder(Stage s) throws Exception {
 		emptyPane.getChildren().clear();
 		SimulationButtons.initializeTop(hboxTop);
 		SimulationButtons.initializeRight(vboxRight);
 		fileChooserButton = (Button) hboxTop.getChildren().get(0);
 		startButton = (Button) hboxTop.getChildren().get(1);
 		Rectangle temp = new Rectangle();
-		temp.setWidth(400);
-		temp.setHeight(400);
-		temp.setFill(Color.LIGHTGRAY);
-		temp.setStroke(Color.DARKGRAY);
+		temp.setWidth(GRID_DISPLAY_SIZE);
+		temp.setHeight(GRID_DISPLAY_SIZE);
+		temp.setFill(EMPTY_DISPLAY_BACKGROUND);
+		temp.setStroke(EMPTY_DISPLAY_BORDER);
 		GridPane.setRowIndex(temp, 0);
 		GridPane.setColumnIndex(temp, 0);
 		emptyPane.getChildren().add(temp);
@@ -94,7 +96,7 @@ public class Simulation extends Application {
 		screenBorder.setTop(hboxTop);
 		screenBorder.setRight(vboxRight);
 		startSplash(s);
-		
+
 		splash.getChildren().add(screenBorder);
 
 		addEvents(s);
@@ -102,7 +104,7 @@ public class Simulation extends Application {
 	}
 
 	private void addEvents(Stage s) {
-		
+
 		fileChooserButton.setOnAction(e -> openFile(s));
 		startButton.setOnAction(e -> {
 			try {
@@ -112,7 +114,7 @@ public class Simulation extends Application {
 				e1.printStackTrace();
 			}
 		});
-		
+
 		pauseButton.setOnAction(e -> pause());
 		resumeButton.setOnAction(e -> resume());
 		slowerButton.setOnAction(e -> slower());
@@ -120,95 +122,87 @@ public class Simulation extends Application {
 		resetButton.setOnAction(e -> reset());
 		stepButton.setOnAction(e -> manualStep());
 	}
-	
+
 	private void manualStep() {
 		sampleGrid.createsNewGrid();
 		sampleGrid.update();
 	}
-	
-	private void openFile(Stage s)
-	{
+
+	private void openFile(Stage s) {
 		File dataFile = myChooser.showOpenDialog(s);
-        GridConfiguration InputConfiguration = null;
-        if (dataFile != null) {
-            try {
-                InputConfiguration  = new XMLReader(myResources.getString("gridConfig")).getGridConfiguration(dataFile);
-            }
-            catch (XMLException e) {
-                Alert a = new Alert(AlertType.ERROR);
-                a.setContentText(e.getMessage());
-                a.showAndWait();
-            }
-            // silly trick to select data file multiple times for this demo
-            XMLConfiguration = InputConfiguration;
-        }
-        else {
-            // nothing selected, so quit the application
-            Platform.exit();
-        }
+		GridConfiguration InputConfiguration = null;
+		if (dataFile != null) {
+			try {
+				InputConfiguration = new XMLReader(myResources.getString("gridConfig")).getGridConfiguration(dataFile);
+			} catch (XMLException e) {
+				Alert a = new Alert(AlertType.ERROR);
+				a.setContentText(e.getMessage());
+				a.showAndWait();
+			}
+			// silly trick to select data file multiple times for this demo
+			XMLConfiguration = InputConfiguration;
+		} else {
+			// nothing selected, so quit the application
+			Platform.exit();
+		}
 	}
-	
+
 	public void startSplash(Stage s) throws Exception {
 
 		// attach scene to the stage and display it
 		myStage = s;
 		Scene scene = setUpSplash();
-	    myStage.setScene(scene);
-	    myStage.setTitle(TITLE);
-	    myStage.show();
-        // attach "game loop" to timeline to play it
-        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY));
-        Timeline animation = new Timeline();
-        animation.setCycleCount(Timeline.INDEFINITE);
-        animation.getKeyFrames().add(frame);
-        animation.play();
-   	}
-	
+		myStage.setScene(scene);
+		myStage.setTitle(TITLE);
+		myStage.show();
+		// attach "game loop" to timeline to play it
+		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY));
+		Timeline animation = new Timeline();
+		animation.setCycleCount(Timeline.INDEFINITE);
+		animation.getKeyFrames().add(frame);
+		animation.play();
+	}
+
 	public void startSimulation(Stage s) throws Exception {
-		
+
 		// attach scene to the stage and display it
 		myStage = s;
 		Scene scene = setSimulation(XMLConfiguration);
-	    myStage.setScene(scene);
-	    myStage.setTitle(TITLE);
-	    myStage.show();
-        // attach "game loop" to timeline to play it
-        KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY),
-                                      e -> step(timePassing));
-        animation.setCycleCount(Timeline.INDEFINITE);
-        animation.getKeyFrames().add(frame);
-        animation.play();
-		
+		myStage.setScene(scene);
+		myStage.setTitle(TITLE);
+		myStage.show();
+		// attach "game loop" to timeline to play it
+		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(timePassing));
+		animation.setCycleCount(Timeline.INDEFINITE);
+		animation.getKeyFrames().add(frame);
+		animation.play();
+
 	}
-	
-	private Scene setSimulation(GridConfiguration xml)
-	{	
+
+	private Scene setSimulation(GridConfiguration xml) {
 		screenBorder.getChildren().remove(root);
 		root = new Group();
-		sampleGrid = new Grid(root,xml);
+		sampleGrid = new Grid(root, xml);
 		sampleGrid.initialize();
 		screenBorder.setCenter(root);
-		if(isFirstTime == true) {
+		if (isFirstTime == true) {
 			simulationScreen.getChildren().add(screenBorder);
 			myScene = new Scene(simulationScreen, SIZE, SIZE, BACKGROUND);
 		}
 		isFirstTime = false;
-		//myScene = new Scene(simulationScreen, SIZE, SIZE, BACKGROUND);
-	    return myScene;
+		// myScene = new Scene(simulationScreen, SIZE, SIZE, BACKGROUND);
+		return myScene;
 	}
-	
-	private Scene setUpSplash(){
+
+	private Scene setUpSplash() {
 		myScene = new Scene(splash, SIZE, SIZE, BACKGROUND);
-	    return myScene;
+		return myScene;
 	}
-	
-	private void step (double elapsedTime) 
-	{   
-			sampleGrid.createsNewGrid();
-			sampleGrid.update();
+
+	private void step(double elapsedTime) {
+		sampleGrid.createsNewGrid();
+		sampleGrid.update();
 	}
-	
-	
 
 	private void resume() {
 		animation.play();
@@ -217,33 +211,35 @@ public class Simulation extends Application {
 	private void pause() {
 		animation.pause();
 	}
+
 	private void faster() {
-		timePassing*=2;
+		timePassing *= 2;
 		animation.setRate(timePassing);
-		
+
 	}
 
 	private void slower() {
-		timePassing*=.5;
+		timePassing *= .5;
 		animation.setRate(timePassing);
 	}
-	private FileChooser makeChooser (String extensionAccepted) {
-        FileChooser result = new FileChooser();
-        result.setTitle("Open Data File");
-	    // pick a reasonable place to start searching for files
-        result.setInitialDirectory(new File(System.getProperty("user.dir")));
-        result.getExtensionFilters().setAll(new ExtensionFilter("Text Files", extensionAccepted));
-	    return result;
+
+	private FileChooser makeChooser(String extensionAccepted) {
+		FileChooser result = new FileChooser();
+		result.setTitle("Open Data File");
+		// pick a reasonable place to start searching for files
+		result.setInitialDirectory(new File(System.getProperty("user.dir")));
+		result.getExtensionFilters().setAll(new ExtensionFilter("Text Files", extensionAccepted));
+		return result;
 	}
-	
+
 	private void reset() {
 		screenBorder.getChildren().remove(root);
 		screenBorder.setRight(vboxRight);
 		screenBorder.setCenter(emptyPane);
 	}
-    public static void main (String[] args) {
-        launch(args);
-    }
-    
+
+	public static void main(String[] args) {
+		launch(args);
+	}
 
 }
