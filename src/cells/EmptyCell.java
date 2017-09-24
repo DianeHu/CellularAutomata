@@ -12,7 +12,18 @@ public class EmptyCell extends Cell {
 		setColor(Color.FLORALWHITE);
 	}
 	
-	public boolean isNeighbor(int otherRowNum, int otherColNum) {
+	@Override
+	public Cell copy() {
+		Cell newCell = new EmptyCell();
+		return newCell;
+	}
+	
+	public EmptyCell() {
+		super();
+		setColor(Color.FLORALWHITE);
+	}
+	
+	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
 		return super.isNeighbor8(otherRowNum, otherColNum);
 	}
 	

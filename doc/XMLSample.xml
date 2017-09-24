@@ -1,6 +1,10 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<GridConfiguration>
-  <numRows>5</numRows>
-  <numCols>5</numCols>
-  <cellConfiguration>bboooob   b  obbobbo oooob</cellConfiguration>
-</GridConfiguration>
+﻿<GridConfiguration>
+  <numRows>6</numRows>
+  <numCols>6</numCols>
+  <cellConfiguration>ffffsssfsfsssfsfssssffffffssffffffff</cellConfiguration>
+  <probCatch>.5</probCatch>
+  <probGrow>1</probGrow>
+  <segregationThreshold>.5</segregationThreshold>
+  <fishBreedTurns>5</fishBreedTurns>
+  <sharkBreedTurns>5</sharkBreedTurns>
+  <sharkStarveTurns>5</sharkStarveTurns></GridConfiguration>
