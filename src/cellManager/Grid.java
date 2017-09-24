@@ -159,7 +159,7 @@ public class Grid {
 
 		char[][] states = gridConfig.getCellConfiguration();
 		
-		for(int i = 0; i < numRows; i++) {
+		/*for(int i = 0; i < numRows; i++) {
 			for(int j = 0; j < numCols; j++) {
 				if(states[i][j] == 'b') {
 					Cell c = new BlueSchellingCell(i, j);
@@ -180,10 +180,10 @@ public class Grid {
 					blocks[i][j].setFill(c.getColor());
 				}
 			}
-		}
+		}*/
 		
 
-		/*for (int i = 0; i < numRows; i++) {
+		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
 				Cell c = simMap.get(states[i][j]);
 				c.setRow(i);
@@ -191,7 +191,7 @@ public class Grid {
 				currentGrid[i][j] = c;
 				blocks[i][j].setFill(c.getColor());
 			}
-		}*/
+		}
 
 	}
 
