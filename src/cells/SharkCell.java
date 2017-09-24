@@ -7,7 +7,10 @@ import cellManager.Grid;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
+/**
+ * @author Madhavi Rajiv
+ * This class describes the way a cell of shark type in Wator interacts with its surroundings.
+ */
 public class SharkCell extends Cell{
 	private static int breedTurns;
 	private static int starveTurns;
@@ -24,26 +27,41 @@ public class SharkCell extends Cell{
 		setColor(Color.SLATEGREY);
 	}
 	
+	/**
+	 * @param n
+	 * This sets the number of turns a shark needs to take before it can breed to n
+	 */
 	public void setBreedTurns(int n) {
 		breedTurns = n;
 	}
 	
+	/**
+	 * @param n
+	 * This sets the number of turns a shark takes without eating before it starves to n
+	 */
 	public void setStarveTurns(int n) {
 		starveTurns = n;
 	}
+	
+	/* (non-Javadoc)
+	 * @see cells.Cell#isNeighbor(int, int, int, int)
+	 */
+	@Override
 	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
 		return super.isNeighborTorus(otherRowNum, otherColNum, numRows, numCols);
 	}
 
+	/* (non-Javadoc)
+	 * @see cells.Cell#moveCell(java.util.ArrayList, cellManager.Grid)
+	 */
+	@Override
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
-		//System.out.println(numStarveTurns + " " +starveTurns);
 		if(numStarveTurns<starveTurns) {
 			ArrayList<Cell> emptyNeighbors = getEmptyNeighbors();
 	        ArrayList<FishCell> neighborfish = getNeighboringFish();
 
 	        if(eatFish(neighborfish,grid)) {
 				numStarveTurns = 0;
-				//System.out.println(" eaten");
 			}
 	        else {
 				if(numBreedTurns>=breedTurns) {
@@ -59,6 +77,13 @@ public class SharkCell extends Cell{
 		}
 	}
 	
+	/**
+	 * @param emptySpots
+	 * @param grid
+	 * This method allows the shark to reproduce into an empty spot in the 
+	 * list of empty spots. The Grid object parameter is used to update the 
+	 * newGrid.
+	 */
 	private void breed(ArrayList<Cell> emptySpots, Grid grid) {
 		SharkCell newshark = new SharkCell(getRow(), getCol());
 		if(moveToRandomPlace(emptySpots,grid)) {
@@ -67,6 +92,13 @@ public class SharkCell extends Cell{
 		}
 	}
 	
+	/**
+	 * @param fish
+	 * @param grid
+	 * @return This method goes through a list of fish, fish, and
+	 * randomly chooses one of them to eat. grid is used to check for collisions 
+	 * by seeing if another shark has already eaten the fish.
+	 */
 	public boolean eatFish(ArrayList<FishCell> fish, Grid grid) {
 		boolean moved = false;
 		while(!moved) {
@@ -89,6 +121,9 @@ public class SharkCell extends Cell{
 		return moved;
 	}
 	
+	/**
+	 * @return a list of fish included in the neighbors
+	 */
 	private ArrayList<FishCell> getNeighboringFish(){
 		ArrayList<FishCell> neighborfish = new ArrayList<FishCell>();
 		for(Cell c:getNeighbors()) {
@@ -108,8 +143,5 @@ public class SharkCell extends Cell{
 		newCell.setStarveTurns(starveTurns);
 		return newCell;
 	}
-	
-
-
 
 }

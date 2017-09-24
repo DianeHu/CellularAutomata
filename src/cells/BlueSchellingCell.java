@@ -8,7 +8,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 /**
- * @author Madhavi
+ * @author Madhavi Rajiv
+ * This class implements the action of the blue cell type in the Segregation simulation
  */
 public class BlueSchellingCell extends Cell{
 	private double threshold;
@@ -23,18 +24,28 @@ public class BlueSchellingCell extends Cell{
 		setColor(Color.NAVY);
 	}
 	
+	/* (non-Javadoc)
+	 * @see cells.Cell#copy()
+	 */
 	@Override
 	public Cell copy() {
-		Cell newCell = new BlueSchellingCell();
+		BlueSchellingCell newCell = new BlueSchellingCell();
 		newCell.setThreshold(threshold);
 		return newCell;
 	}
 	
-	@Override
+	/**
+	 * @param t
+	 * Sets the threshold proportion for being unsatisfied as t
+	 */
 	public void setThreshold(double t) {
 		threshold = t;
 	}
 	
+	/* (non-Javadoc)
+	 * @see cells.Cell#isNeighbor(int, int, int, int)
+	 */
+	@Override
 	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
 		return super.isNeighbor8(otherRowNum, otherColNum);
 	}

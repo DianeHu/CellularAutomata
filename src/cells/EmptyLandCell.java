@@ -30,7 +30,7 @@ public class EmptyLandCell extends Cell {
 	
 	@Override
 	public Cell copy() {
-		Cell newCell = new EmptyLandCell();
+		EmptyLandCell newCell = new EmptyLandCell();
 		newCell.setThreshold(probGrow);
 		return newCell;
 	}
@@ -47,7 +47,6 @@ public class EmptyLandCell extends Cell {
 		return super.isNeighbor8(otherRowNum, otherColNum);
 	}
 	
-	@Override
 	public void setThreshold(double num) {
 		probGrow = num;
 	}
