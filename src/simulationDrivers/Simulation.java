@@ -41,7 +41,7 @@ public class Simulation extends Application {
 	private static final String DATA_FILE_EXTENSION = "*.xml";
 	private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
 	private static final int SIZE = 500;
-	private static final Color BACKGROUND = Color.TRANSPARENT;
+	private static final Color BACKGROUND = Color.BLACK;
 	private static final String TITLE = "SIMULATION";
 	private static final int FRAMES_PER_SECOND = 2;
 	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
@@ -108,12 +108,18 @@ public class Simulation extends Application {
 		screenBorder.setCenter(emptyPane);
 		screenBorder.setTop(hboxTop);
 		screenBorder.setRight(vboxRight);
-		
-		startSplash(s);
 		splash.getChildren().add(screenBorder);
-
+		
+		setUpStage(s, new Scene(splash, SIZE, SIZE, BACKGROUND));
 		addEvents(s);
 
+	}
+
+	private void setUpStage(Stage s, Scene scene) {
+		myStage = s;
+		myStage.setScene(scene);
+		myStage.setTitle(TITLE);
+		myStage.show();
 	}
 
 	/**
@@ -176,38 +182,12 @@ public class Simulation extends Application {
 	/**
 	 * @param s
 	 * @throws Exception
-	 *             This method starts the Splash screen to allow the user to input
-	 *             in an XML and start simulation
-	 */
-	public void startSplash(Stage s) throws Exception {
-
-		// attach scene to the stage and display it
-		myStage = s;
-		Scene scene = setUpSplash();
-		myStage.setScene(scene);
-		myStage.setTitle(TITLE);
-		myStage.show();
-		// attach "game loop" to timeline to play it
-		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY));
-		Timeline animation = new Timeline();
-		animation.setCycleCount(Timeline.INDEFINITE);
-		animation.getKeyFrames().add(frame);
-		animation.play();
-	}
-	
-	/**
-	 * @param s
-	 * @throws Exception
 	 *             This method starts the simulation
 	 */
 	public void startSimulation(Stage s) throws Exception {
 
 		// attach scene to the stage and display it
-		myStage = s;
-		Scene scene = setSimulation(XMLConfiguration);
-		myStage.setScene(scene);
-		myStage.setTitle(TITLE);
-		myStage.show();
+		setUpStage(s, setSimulation());
 		// attach "game loop" to timeline to play it
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(timePassing));
 		animation.setCycleCount(Timeline.INDEFINITE);
@@ -220,9 +200,9 @@ public class Simulation extends Application {
 	 * @return This method sets up the scene upon which the simulation will run and
 	 *         returns it
 	 */
-	private Scene setSimulation(GridConfiguration xml) {
+	private Scene setSimulation() {
 		root = new Group();
-		sampleGrid = new Grid(root, xml);
+		sampleGrid = new Grid(root, XMLConfiguration);
 		sampleGrid.initialize();
 		screenBorder.setCenter(root);
 		
@@ -232,14 +212,6 @@ public class Simulation extends Application {
 		}
 		isFirstTime = false;
 		
-		return myScene;
-	}
-
-	/**
-	 * @return This method sets up the splash scene and returns it
-	 */
-	private Scene setUpSplash() {
-		myScene = new Scene(splash, SIZE, SIZE, BACKGROUND);
 		return myScene;
 	}
 
