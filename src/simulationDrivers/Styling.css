@@ -1,10 +1,11 @@
 .button {
     -fx-background-color: #58ce80;
     -fx-text-fill: #000000;
+    -fx-font-family: "Arial";
 }
 
 .pane{
-    -fx-background-color: #fdf6e3;
+    -fx-background-color: #ffffff;
 }
 
 .root{
