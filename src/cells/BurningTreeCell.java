@@ -3,6 +3,7 @@ package cells;
 import java.util.ArrayList;
 
 import cellManager.Grid;
+import cellManager.RectangleGrid;
 import javafx.scene.paint.Color;
 
 /**
@@ -60,9 +61,9 @@ public class BurningTreeCell extends Cell {
 	 * @param root
 	 *            Replaces the current burning cell with an empty cell.
 	 */
-	public void burnOut(Grid newGrid) {
+	public void burnOut(Grid grid) {
 		EmptyLandCell newCell = new EmptyLandCell(getRow(), getCol());
-		newGrid.addToNewGrid(newCell);
+		grid.addToNewGrid(newCell);
 	}
 
 	/*

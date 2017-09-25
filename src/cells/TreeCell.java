@@ -3,6 +3,7 @@ package cells;
 import java.util.ArrayList;
 
 import cellManager.Grid;
+import cellManager.RectangleGrid;
 import javafx.scene.paint.Color;
 
 /**
@@ -79,13 +80,13 @@ public class TreeCell extends Cell {
 	 *            the probability of catching fire, the current cell starts to burn.
 	 *            If cell doesn't burn, then cell persists into next grid.
 	 */
-	private void burn(Grid newGrid) {
+	private void burn(Grid grid) {
 		double test = Math.random();
 		if (test < getNumBurningNeighbors() * probCatch) {
 			Cell newCell = new BurningTreeCell(this.getRow(), this.getCol());
-			newGrid.addToNewGrid(newCell);
+			grid.addToNewGrid(newCell);
 		} else {
-			newGrid.addToNewGrid(this);
+			grid.addToNewGrid(this);
 		}
 	}
 

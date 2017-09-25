@@ -1,15 +1,16 @@
 .button {
-    -fx-background-color: #58ce80;
+    -fx-background-color: #afaaab;
     -fx-text-fill: #000000;
     -fx-font-family: "Arial";
 }
 
 .pane{
-    -fx-background-color: #ffffff;
+    -fx-background-color: #7c263c;
 }
 
-.root{
-    -fx-background-color: #fdf6e3;
+.root*{
+    -fx-background-color: #58ce80;
+    -fx-font-family: "Courier";
 }
 
 .hbox{
@@ -17,5 +18,5 @@
 }
 
 .button:hover{
-	-fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 100% , #8de0a9, #58ce80);
+	-fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 100% , #bcb7b8, #afaaab);
 }

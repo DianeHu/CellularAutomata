@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import cellManager.Grid;
+import cellManager.RectangleGrid;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 

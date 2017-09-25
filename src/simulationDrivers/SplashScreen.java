@@ -1,7 +1,7 @@
 package simulationDrivers;
 
 import XMLClasses.GridConfiguration;
-import cellManager.Grid;
+import cellManager.RectangleGrid;
 import cells.Cell;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -33,7 +33,7 @@ public class SplashScreen extends Application {
 	private Group root = new Group();
 	private Scene myScene;
 	private Cell sampleCell;
-	private Grid sampleGrid;
+	private RectangleGrid sampleGrid;
 	private Stage myStage;
 	private int colorNum = 0;
 	private GridConfiguration XMLConfiguration;
