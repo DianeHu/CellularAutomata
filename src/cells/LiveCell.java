@@ -3,6 +3,7 @@ package cells;
 import java.util.ArrayList;
 
 import cellManager.Grid;
+import cellManager.RectangleGrid;
 import javafx.scene.paint.Color;
 
 /**
@@ -62,9 +63,9 @@ public class LiveCell extends Cell {
 	 *            cell with a dead one. Subsequently resets the number of live
 	 *            neighbors to zero.
 	 */
-	private void dieOut(Grid newGrid) {
+	private void dieOut(Grid grid) {
 		Cell newCell = new DeadCell(this.getRow(), this.getCol());
-		newGrid.addToNewGrid(newCell);
+		grid.addToNewGrid(newCell);
 	}
 
 	/**

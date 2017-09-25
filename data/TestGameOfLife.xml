@@ -1,7 +1,7 @@
 <GridConfiguration>
   <simulationType>Segregation</simulationType><numRows>10</numRows>
   <numCols>15</numCols>
-  <cellConfiguration></cellConfiguration>
+  <cellConfiguration>GameOfLife</cellConfiguration>
   <probCatch>.5</probCatch>
   <probGrow>.5</probGrow>
   <segregationThreshold>.3</segregationThreshold>
