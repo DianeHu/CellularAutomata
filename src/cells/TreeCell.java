@@ -7,10 +7,18 @@ import javafx.scene.paint.Color;
 
 /**
  * @author Diane Hu
+ * 
+ *         Implements cell type tree in spreading wildfire simulation.
  */
 public class TreeCell extends Cell {
 
-	private double probCatch;
+	/**
+	 * Since there is only one threshold value for all TreeCells (all cells burn
+	 * with the same likelihood), and the value stays constant across the
+	 * simulation, this variable is static. Also addresses issue of new cells not
+	 * being instantiated with appropriate threshold values.
+	 */
+	private static double probCatch;
 
 	/**
 	 * @param myRowNum
@@ -22,23 +30,36 @@ public class TreeCell extends Cell {
 		super(myRowNum, myColNum);
 		setColor(Color.FORESTGREEN);
 	}
-	
+
+	/**
+	 * Constructor that does not specify row and column number.
+	 */
 	public TreeCell() {
 		super();
 		setColor(Color.FORESTGREEN);
 	}
-	
-	@Override
+
+	/**
+	 * @param num
+	 * 
+	 *            Setter for probCatch.
+	 */
 	public void setThreshold(double num) {
 		probCatch = num;
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see cells.Cell#copy()
+	 */
 	@Override
 	public Cell copy() {
-		Cell newCell = new TreeCell();
+		TreeCell newCell = new TreeCell();
 		newCell.setThreshold(probCatch);
 		return newCell;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 

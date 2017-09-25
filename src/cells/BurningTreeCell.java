@@ -3,31 +3,46 @@ package cells;
 import java.util.ArrayList;
 
 import cellManager.Grid;
-import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 /**
  * @author Diane Hu
+ * 
+ *         Implements cell type burning tree in wildfire simulation.
  */
-public class BurningTreeCell extends Cell{
-	
+public class BurningTreeCell extends Cell {
+
+	/**
+	 * @param myRowNum
+	 * @param myColNum
+	 * 
+	 *            Constructor for BurningTreeCell that takes in a row and column
+	 *            number.
+	 */
 	public BurningTreeCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setColor(Color.DARKORANGE);
 	}
-	
+
+	/**
+	 * Constructor for BurningTreeCell that does not specify row or column number.
+	 */
 	public BurningTreeCell() {
 		super();
 		setColor(Color.DARKORANGE);
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see cells.Cell#copy()
+	 */
 	@Override
 	public Cell copy() {
-		Cell newCell = new BurningTreeCell();
+		BurningTreeCell newCell = new BurningTreeCell();
 		return newCell;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -40,15 +55,24 @@ public class BurningTreeCell extends Cell{
 	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
 		return super.isNeighbor4(otherRowNum, otherColNum);
 	}
+
 	/**
 	 * @param root
-	 * Replaces the current burning cell with an empty cell.
+	 *            Replaces the current burning cell with an empty cell.
 	 */
 	public void burnOut(Grid newGrid) {
-		Cell newCell = new EmptyCell(getRow(), getCol());
-		changeCellType(newGrid, newCell);
+		EmptyLandCell newCell = new EmptyLandCell(getRow(), getCol());
+		newGrid.addToNewGrid(newCell);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see cells.Cell#moveCell(java.util.ArrayList, cellManager.Grid)
+	 * 
+	 * Overrides superclass moveCell method to burn out BurningTreeCells at each
+	 * step.
+	 */
 	@Override
 	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
 		burnOut(grid);

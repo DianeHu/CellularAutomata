@@ -11,7 +11,8 @@ public class GridConfiguration {
     // field names expected to appear in data file holding values for this object
     // simple way to create an immutable list
     public static final List<String> DATA_FIELDS = Arrays.asList(new String[] {
-        "numRows",
+        "simulationType",
+    	"numRows",
         "numCols",
         "cellConfiguration",
         "probCatch",
@@ -31,18 +32,22 @@ public class GridConfiguration {
     }
 
     // provide alternate ways to access data values if needed
+    public String getSimulationType () {
+        return myDataValues.get(DATA_FIELDS.get(0));
+    }
+    
     public int getNumRows () {
-        return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(0)));
+        return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(1)));
     }
 
     public int getNumCols () {
-        return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(1)));
+        return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(2)));
     }
 
     public char[][] getCellConfiguration () {
         char[][] cellConfiguration = new char[getNumRows()][getNumCols()];
     	List<Character> cellChars = new ArrayList<Character>();
-    	for(char c: myDataValues.get(DATA_FIELDS.get(2)).toCharArray())
+    	for(char c: myDataValues.get(DATA_FIELDS.get(3)).toCharArray())
     	{
     		cellChars.add(c);
     	}
@@ -60,27 +65,27 @@ public class GridConfiguration {
     }
     
     public double getProbCatch () {
-        return Double.parseDouble(myDataValues.get(DATA_FIELDS.get(3)));
-    }
-    
-    public double getProbGrow () {
         return Double.parseDouble(myDataValues.get(DATA_FIELDS.get(4)));
     }
     
-    public double getSegregationThreshold () {
+    public double getProbGrow () {
         return Double.parseDouble(myDataValues.get(DATA_FIELDS.get(5)));
     }
     
-    public int getFishBreedTurns () {
-        return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(6)));
+    public double getSegregationThreshold () {
+        return Double.parseDouble(myDataValues.get(DATA_FIELDS.get(6)));
     }
     
-    public int getSharkBreedTurns () {
+    public int getFishBreedTurns () {
         return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(7)));
     }
     
-    public int getSharkStarveTurns () {
+    public int getSharkBreedTurns () {
         return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(8)));
+    }
+    
+    public int getSharkStarveTurns () {
+        return Integer.parseInt(myDataValues.get(DATA_FIELDS.get(9)));
     }
 
     @Override
