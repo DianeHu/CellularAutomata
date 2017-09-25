@@ -1,7 +1,6 @@
 package simulationDrivers;
 
 import java.io.File;
-import java.util.ResourceBundle;
 
 import XMLClasses.GridConfiguration;
 import XMLClasses.XMLException;
