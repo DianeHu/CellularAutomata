@@ -7,6 +7,12 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * @author Diane Hu
+ * @author Tyler Yam
+ * 
+ *         Class for creating buttons used in simulation main class.
+ */
 public class SimulationButtons {
 
 	private static final int OFFSET = 7;
@@ -20,9 +26,15 @@ public class SimulationButtons {
 	private static Button stepButton;
 	private static int SCREEN_SIZE = 200 + OFFSET;
 
+	// initializes the resources used to get text Strings
 	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/Labels";
 	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
 
+	/**
+	 * @param hbox
+	 *            Creates start and filechooser buttons, with appropriate
+	 *            padding/spacing
+	 */
 	public static void initializeTop(HBox hbox) {
 		fileChooserButton = new Button(myResources.getString("choose"));
 		hbox.getChildren().add(fileChooserButton);
@@ -33,25 +45,30 @@ public class SimulationButtons {
 		hbox.setSpacing(OFFSET);
 	}
 
+	/**
+	 * @param vbox
+	 *            Creates functional buttons that change the way the simulation
+	 *            runs.
+	 */
 	public static void initializeRight(VBox vbox) {
 		vbox.setPadding(new Insets(OFFSET));
 		vbox.setSpacing(OFFSET);
-		
+
 		pauseButton = new Button(myResources.getString("pauseButton"));
 		vbox.getChildren().add(pauseButton);
-		pauseButton.setTranslateY(SCREEN_SIZE - OFFSET*5);
+		pauseButton.setTranslateY(SCREEN_SIZE - OFFSET * 5);
 
 		resumeButton = new Button(myResources.getString("resumeButton"));
-		resumeButton.setTranslateY(SCREEN_SIZE - OFFSET*4);
+		resumeButton.setTranslateY(SCREEN_SIZE - OFFSET * 4);
 		vbox.getChildren().add(resumeButton);
 
 		fasterButton = new Button(myResources.getString("fasterButton"));
 		vbox.getChildren().add(fasterButton);
-		fasterButton.setTranslateY(SCREEN_SIZE - OFFSET*3);
+		fasterButton.setTranslateY(SCREEN_SIZE - OFFSET * 3);
 
 		slowerButton = new Button(myResources.getString("slowerButton"));
 		vbox.getChildren().add(slowerButton);
-		slowerButton.setTranslateY(SCREEN_SIZE - OFFSET*2);
+		slowerButton.setTranslateY(SCREEN_SIZE - OFFSET * 2);
 
 		resetButton = new Button(myResources.getString("resetButton"));
 		vbox.getChildren().add(resetButton);
