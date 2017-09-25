@@ -1,8 +1,6 @@
 package cellManager;
 
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +16,6 @@ import cells.LiveCell;
 import cells.OrangeSchellingCell;
 import cells.SharkCell;
 import cells.TreeCell;
-import cellsociety_team08.Simulation;
 import javafx.scene.Group;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;

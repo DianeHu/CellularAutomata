@@ -3,9 +3,7 @@ package cells;
 import java.util.ArrayList;
 
 import cellManager.Grid;
-import javafx.scene.Group;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 /**
  * @author Diane Hu
