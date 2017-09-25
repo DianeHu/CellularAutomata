@@ -234,6 +234,7 @@ public class Simulation extends Application {
 		screenBorder.getChildren().remove(root);
 		screenBorder.setRight(vboxRight);
 		screenBorder.setCenter(emptyPane);
+		timePassing = SECOND_DELAY;
 	}
 
 	public static void main(String[] args) {
