@@ -1,0 +1,20 @@
+.button {
+    -fx-background-color: #2aa198;
+    -fx-text-fill: #ffffff;
+}
+
+.pane{
+    -fx-background-color: #fdf6e3;
+}
+
+.root{
+    -fx-background-color: #fdf6e3;
+}
+
+.hbox{
+	-fx-background-color: #fdf6e3;
+}
+
+.button:hover{
+	-fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 100% , #7ce2dc, #2aa198);
+}
