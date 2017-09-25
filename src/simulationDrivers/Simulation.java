@@ -27,6 +27,13 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+/**
+ * 
+ * @author Tyler Yam
+ * @author Diane Hu
+ * This class holds most of the front end processing.
+ * This class essentially runs the simulations.
+ */
 public class Simulation extends Application {
 
 	private static final Color EMPTY_DISPLAY_BORDER = Color.DARKGRAY;
@@ -63,19 +70,26 @@ public class Simulation extends Application {
 	private Group root;
 	private boolean isFirstTime = true;
 
-	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/Labels";
-	private ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
-
+	/**
+	 * This method starts the application
+	 */
 	public void start(Stage primaryStage) throws Exception {
 		addButtonsToBorder(primaryStage);
 	}
 
-	public void addButtonsToBorder(Stage s) throws Exception {
-		emptyPane.getChildren().clear();
+	/**
+	 * @param s
+	 * @throws Exception
+	 *             This method add buttons to the Border Pane and calls the
+	 *             startSplash and addEvents methods
+	 */
+	public void addButtonsToBorder(Stage s) throws Exception {	
 		SimulationButtons.initializeTop(hboxTop);
 		SimulationButtons.initializeRight(vboxRight);
+		
 		fileChooserButton = (Button) hboxTop.getChildren().get(0);
 		startButton = (Button) hboxTop.getChildren().get(1);
+		
 		Rectangle temp = new Rectangle();
 		temp.setWidth(GRID_DISPLAY_SIZE);
 		temp.setHeight(GRID_DISPLAY_SIZE);
@@ -84,23 +98,31 @@ public class Simulation extends Application {
 		GridPane.setRowIndex(temp, 0);
 		GridPane.setColumnIndex(temp, 0);
 		emptyPane.getChildren().add(temp);
+		
 		pauseButton = (Button) vboxRight.getChildren().get(0);
 		resumeButton = (Button) vboxRight.getChildren().get(1);
 		fasterButton = (Button) vboxRight.getChildren().get(2);
 		slowerButton = (Button) vboxRight.getChildren().get(3);
 		resetButton = (Button) vboxRight.getChildren().get(4);
 		stepButton = (Button) vboxRight.getChildren().get(5);
+		
 		screenBorder.setCenter(emptyPane);
 		screenBorder.setTop(hboxTop);
 		screenBorder.setRight(vboxRight);
+		
 		startSplash(s);
-
 		splash.getChildren().add(screenBorder);
 
 		addEvents(s);
 
 	}
 
+	/**
+	 * @param s
+	 *            This method adds functionality to each button. This method calls
+	 *            openFile, startSimulation, pause, resume, slower, faster, reset,
+	 *            and manualStep
+	 */
 	private void addEvents(Stage s) {
 
 		fileChooserButton.setOnAction(e -> openFile(s));
@@ -121,23 +143,30 @@ public class Simulation extends Application {
 		stepButton.setOnAction(e -> manualStep());
 	}
 
+	/**
+	 * This method allows the stepButton to step through our grid every time it is
+	 * click
+	 */
 	private void manualStep() {
 		sampleGrid.createsNewGrid();
 		sampleGrid.update();
 	}
-
+	
+	/**
+	 * @param s
+	 *            This method opens the file chooser to input in an XML
+	 */
 	private void openFile(Stage s) {
 		File dataFile = myChooser.showOpenDialog(s);
 		GridConfiguration InputConfiguration = null;
 		if (dataFile != null) {
 			try {
-				InputConfiguration = new XMLReader(myResources.getString("gridConfig")).getGridConfiguration(dataFile);
+				InputConfiguration = new XMLReader().getGridConfiguration(dataFile);
 			} catch (XMLException e) {
 				Alert a = new Alert(AlertType.ERROR);
 				a.setContentText(e.getMessage());
 				a.showAndWait();
 			}
-			// silly trick to select data file multiple times for this demo
 			XMLConfiguration = InputConfiguration;
 		} else {
 			// nothing selected, so quit the application
@@ -145,6 +174,12 @@ public class Simulation extends Application {
 		}
 	}
 
+	/**
+	 * @param s
+	 * @throws Exception
+	 *             This method starts the Splash screen to allow the user to input
+	 *             in an XML and start simulation
+	 */
 	public void startSplash(Stage s) throws Exception {
 
 		// attach scene to the stage and display it
@@ -160,7 +195,12 @@ public class Simulation extends Application {
 		animation.getKeyFrames().add(frame);
 		animation.play();
 	}
-
+	
+	/**
+	 * @param s
+	 * @throws Exception
+	 *             This method starts the simulation
+	 */
 	public void startSimulation(Stage s) throws Exception {
 
 		// attach scene to the stage and display it
@@ -174,62 +214,92 @@ public class Simulation extends Application {
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.getKeyFrames().add(frame);
 		animation.play();
-
 	}
 
+	/**
+	 * @param xml
+	 * @return This method sets up the scene upon which the simulation will run and
+	 *         returns it
+	 */
 	private Scene setSimulation(GridConfiguration xml) {
-		screenBorder.getChildren().remove(root);
 		root = new Group();
 		sampleGrid = new Grid(root, xml);
 		sampleGrid.initialize();
 		screenBorder.setCenter(root);
+		
 		if (isFirstTime == true) {
 			simulationScreen.getChildren().add(screenBorder);
 			myScene = new Scene(simulationScreen, SIZE, SIZE, BACKGROUND);
 		}
 		isFirstTime = false;
-		// myScene = new Scene(simulationScreen, SIZE, SIZE, BACKGROUND);
+		
 		return myScene;
 	}
 
+	/**
+	 * @return This method sets up the splash scene and returns it
+	 */
 	private Scene setUpSplash() {
 		myScene = new Scene(splash, SIZE, SIZE, BACKGROUND);
 		return myScene;
 	}
 
+	/**
+	 * @param elapsedTime
+	 *            This method iterates through the grid, updating it as the
+	 *            simulation runs
+	 */
 	private void step(double elapsedTime) {
 		sampleGrid.createsNewGrid();
 		sampleGrid.update();
 	}
 
+	/**
+	 * This method resumes the simulation after it is paused
+	 */
 	private void resume() {
 		animation.play();
 	}
 
+	/**
+	 * This method pauses the simulation
+	 */
 	private void pause() {
 		animation.pause();
 	}
 
+	/**
+	 * This method steps through the simulation at twice the speed
+	 */
 	private void faster() {
 		timePassing *= 2;
 		animation.setRate(timePassing);
 
 	}
 
+	/**
+	 * This method steps through the simulation at half the speed
+	 */
 	private void slower() {
 		timePassing *= .5;
 		animation.setRate(timePassing);
 	}
 
+	/**
+	 * @param extensionAccepted
+	 * @return This method makes the FileChooser object
+	 */
 	private FileChooser makeChooser(String extensionAccepted) {
 		FileChooser result = new FileChooser();
 		result.setTitle("Open Data File");
-		// pick a reasonable place to start searching for files
 		result.setInitialDirectory(new File(System.getProperty("user.dir")));
 		result.getExtensionFilters().setAll(new ExtensionFilter("Text Files", extensionAccepted));
 		return result;
 	}
 
+	/**
+	 * This method resets the grid pane so that a new file can be put in
+	*/
 	private void reset() {
 		screenBorder.getChildren().remove(root);
 		screenBorder.setRight(vboxRight);
