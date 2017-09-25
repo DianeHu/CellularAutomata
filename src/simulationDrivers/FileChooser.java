@@ -1,4 +1,4 @@
-package cellsociety_team08;
+package simulationDrivers;
 
 import java.awt.Desktop;
 import java.io.File;
