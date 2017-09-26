@@ -1,93 +1,63 @@
 package simulationDrivers;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.stage.Stage;
-import javafx.util.Duration;
-import javafx.application.Platform;
-
-
+import javafx.scene.chart.XYChart.Series;
+import javafx.scene.layout.Pane;
+ 
+ 
 public class Graph {
-	private LineChart<Number, Number> chart;
-	private static final int FRAMES_PER_SECOND = 2;
-	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-	private static double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-	private static double timePassing = SECOND_DELAY;
-
-	private XYChart.Series<Number, Number> dataSeries;
-
-	private NumberAxis xAxis;
-
-	private Timeline animation;
-
-	private double sequence = 0;
-
-	private double y = 10;
-
-	private final int MAX_DATA_POINTS = 25, MAX = 10, MIN = 5;;
-
-	public Parent createContent() {
-
-	    xAxis = new NumberAxis(0, 10, 1);
-	    final NumberAxis yAxis = new NumberAxis(0, 100, 10);
-	    chart = new LineChart<>(xAxis, yAxis);
-
-	    // setup chart
-	    chart.setAnimated(false);
-	    chart.setLegendVisible(false);
-	    chart.setTitle("Population Monitor");
-	    xAxis.setLabel("Time");
-	    xAxis.setForceZeroInRange(false);
-
-	    yAxis.setLabel("Percentage of Population");
-	    yAxis.setTickLabelFormatter(new NumberAxis.DefaultFormatter(yAxis, null, null));
-
-	    // add starting data
-	    dataSeries = new XYChart.Series<>();
-	    dataSeries.setName("Data");
-
-	    // create some starting data
-	    dataSeries.getData()
-	            .add(new XYChart.Data<Number, Number>(++sequence, y));
-
-	    chart.getData().add(dataSeries);
-
-	    return chart;
+	private Series series1;
+	private Series series2;
+	private LineChart<Number, Number> lineChart;
+	private Group root;
+	
+	public Graph() {
+		lineChart = createContent();
 	}
-
-	private void step(double timePassing) {
-	    dataSeries.getData().add(new XYChart.Data<Number, Number>();
-
-	    // after 25hours delete old data
-	    if (sequence > MAX_DATA_POINTS) {
-	        dataSeries.getData().remove(0);
-	    }
-
-	    // every hour after 24 move range 1 hour
-	    if (sequence > MAX_DATA_POINTS - 1) {
-	        xAxis.setLowerBound(xAxis.getLowerBound() + 1);
-	        xAxis.setUpperBound(xAxis.getUpperBound() + 1);
-	    }
-	}
-
-	public void start(Stage primaryStage){
-		primaryStage.setScene(new Scene(createContent()));
-	    primaryStage.setTitle("Animated Line Chart");
-	    primaryStage.show();
-	    
-		animation = new Timeline();
-		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(timePassing));
-		animation.setCycleCount(Timeline.INDEFINITE);
-		animation.getKeyFrames().add(frame);
-		animation.play();
-	}
-
-	public static void main(String[] args) {
-		launch(args);
-	}
+    
+    public void updateGraph() {
+    	series1.getData().add(new XYChart.Data(1, 2));
+    }
+    
+    public void addToBox(Pane box) {
+    	box.getChildren().add(lineChart);
+    }
+    
+    public Node getParent() {
+    	return this.getParent();
+    }
+    
+    public LineChart createContent() {
+    	final NumberAxis xAxis = new NumberAxis();
+        final NumberAxis yAxis = new NumberAxis();
+         xAxis.setLabel("Timestep");
+        lineChart = new LineChart<Number, Number>(xAxis,yAxis);
+       
+        lineChart.setTitle("Population Monitor");
+                          
+        series1 = new XYChart.Series();
+        series1.setName("BlueSchellingCell");
+        
+        series1.getData().add(new XYChart.Data(1, 23));
+        series1.getData().add(new XYChart.Data(2, 14));
+        series1.getData().add(new XYChart.Data(3, 15));
+        series1.getData().add(new XYChart.Data(4, 24));
+        
+        series2 = new XYChart.Series();
+        series2.setName("OrangeSchellingCell");
+        series2.getData().add(new XYChart.Data(1, 33));
+        series2.getData().add(new XYChart.Data(2, 34));
+        series2.getData().add(new XYChart.Data(3, 25));
+        series2.getData().add(new XYChart.Data(4, 44));
+        series2.getData().add(new XYChart.Data(5, 39));
+        series2.getData().add(new XYChart.Data(6, 16));
+        
+        lineChart.getData().addAll(series1, series2);
+        return lineChart;
+    }
 }

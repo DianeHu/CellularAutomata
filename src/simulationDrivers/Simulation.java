@@ -11,8 +11,14 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -41,7 +47,7 @@ public class Simulation extends Application {
 	private static final int GRID_DISPLAY_SIZE = 400;
 	private static final String DATA_FILE_EXTENSION = "*.xml";
 	private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
-	private static final int SIZE = 500;
+	private static final int SIZE = 600;
 	private static final Color BACKGROUND = Color.TRANSPARENT;
 	private static final String TITLE = "SIMULATION";
 	private static final int FRAMES_PER_SECOND = 2;
@@ -69,6 +75,7 @@ public class Simulation extends Application {
 	private Timeline animation = new Timeline();
 	private Group root;
 	private boolean isFirstTime = true;
+	private Graph g;
 
 	/**
 	 * This method starts the application
@@ -106,6 +113,9 @@ public class Simulation extends Application {
 		resetButton = (Button) vboxRight.getChildren().get(4);
 		stepButton = (Button) vboxRight.getChildren().get(5);
 		
+		g = new Graph();
+		g.addToBox(vboxRight);
+		
 		screenBorder.setCenter(emptyPane);
 		screenBorder.setTop(hboxTop);
 		screenBorder.setRight(vboxRight);
@@ -120,7 +130,7 @@ public class Simulation extends Application {
 		addEvents(s);
 
 	}
-
+	
 	private void setUpStage(Stage s, Scene scene) {
 		myStage = s;
 		myStage.setScene(scene);
@@ -232,6 +242,7 @@ public class Simulation extends Application {
 	private void step(double elapsedTime) {
 		sampleGrid.createsNewGrid();
 		sampleGrid.update();
+		g.updateGraph();
 	}
 
 	/**
