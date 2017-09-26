@@ -58,9 +58,28 @@ public class RectangleGrid extends Grid{
 			}
 		}
 		setBlocks(blocks);
-
 	}
 
+	private double countBSCell() {
+		double count = 0;
+		for(int i = 0; i < getNumRows(); i++) {
+			for(int j = 0; j < getNumCols(); j++) {
+				Cell c = getCurrentGrid()[i][j];
+				if(c instanceof BlueSchellingCell) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+	
+	public double percentBS() {
+		return countBSCell() / (getNumRows() * getNumCols());
+	}
+	
+	public double percentOS() {
+		return 1 - percentBS();
+	}
 	/**
 	 * This methods sets the list of neighbors for each cell by checking which of
 	 * its adjacent cells are considered neighbors by the algorithm used for its

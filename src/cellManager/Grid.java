@@ -80,6 +80,48 @@ public abstract class Grid {
 		}
 	}
 	
+	private double countBSCell() {
+		double count = 0;
+		for(int i = 0; i < getNumRows(); i++) {
+			for(int j = 0; j < getNumCols(); j++) {
+				Cell c = getCurrentGrid()[i][j];
+				if(c instanceof BlueSchellingCell) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+	
+	public double percentBS() {
+		return countBSCell() / (getNumRows() * getNumCols());
+	}
+	
+	public double percentOS() {
+		return 1 - percentBS();
+	}
+	
+	private double countLiveCell() {
+		double count = 0;
+		for(int i = 0; i < getNumRows(); i++) {
+			for(int j = 0; j < getNumCols(); j++) {
+				Cell c = getCurrentGrid()[i][j];
+				if(c instanceof LiveCell) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
+	
+	public double percentLive() {
+		return countLiveCell() / (getNumRows() * getNumCols());
+	}
+	
+	public double percentDead() {
+		return 1 - percentBS();
+	}
+	
 	/**
 	 * @return the GridConfiguration used to get information from the XML file
 	 */

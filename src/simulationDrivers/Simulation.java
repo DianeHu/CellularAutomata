@@ -25,6 +25,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -47,7 +48,9 @@ public class Simulation extends Application {
 	private static final int GRID_DISPLAY_SIZE = 400;
 	private static final String DATA_FILE_EXTENSION = "*.xml";
 	private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
-	private static final int SIZE = 600;
+	private static final int SIZE = 800;
+	private static final int VERT_SIZE = 600;
+	private static final int HORIZONTAL_SIZE = 800;
 	private static final Color BACKGROUND = Color.TRANSPARENT;
 	private static final String TITLE = "SIMULATION";
 	private static final int FRAMES_PER_SECOND = 2;
@@ -55,6 +58,7 @@ public class Simulation extends Application {
 	private static double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	private HBox hboxTop = new HBox();
 	private VBox vboxRight = new VBox();
+	private HBox hboxBottom = new HBox();
 	private Group splash = new Group();
 	private Group simulationScreen = new Group();
 	private Scene myScene;
@@ -119,12 +123,15 @@ public class Simulation extends Application {
 		screenBorder.setCenter(emptyPane);
 		screenBorder.setTop(hboxTop);
 		screenBorder.setRight(vboxRight);
-		screenBorder.setPrefSize(SIZE, SIZE);
+		//screenBorder.setBottom(hboxBottom);
+		//HBox.setHgrow(g.getLineChart(), Priority.ALWAYS); 
+		//screenBorder.setPrefSize(SIZE, SIZE);
+		screenBorder.setPrefSize(HORIZONTAL_SIZE, VERT_SIZE);
 		screenBorder.getStyleClass().add("pane");
 		splash.getChildren().add(screenBorder);
 		splash.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
 		
-		Scene scene = new Scene(splash, SIZE, SIZE);
+		Scene scene = new Scene(splash, HORIZONTAL_SIZE, VERT_SIZE);
 		setUpStage(s, scene);
 		scene.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
 		addEvents(s);
@@ -242,7 +249,7 @@ public class Simulation extends Application {
 	private void step(double elapsedTime) {
 		sampleGrid.createsNewGrid();
 		sampleGrid.update();
-		g.updateGraph();
+		g.updateGraph(sampleGrid);
 	}
 
 	/**

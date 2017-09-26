@@ -20,3 +20,11 @@
 .button:hover{
 	-fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 100% , #bcb7b8, #afaaab);
 }
+
+.bluechart{
+	-fx-stroke: #0000ff
+}
+
+.orangechart{
+	-fx-stroke: #FF4500
+}
