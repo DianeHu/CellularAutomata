@@ -3,6 +3,7 @@ package cellManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import XMLClasses.GridConfiguration;
 import cells.BlueSchellingCell;
@@ -39,6 +40,7 @@ public abstract class Grid {
 	private GridConfiguration gridConfig;
 	private int numRows;
 	private int numCols;
+	private double gridCellCount;
 	private double cellWidth;
 	private double cellHeight;
 	private String simulationType;
@@ -48,6 +50,7 @@ public abstract class Grid {
 	private Map<Character, Cell> waTor = new HashMap<>();
 	private Map<Character, Cell> simMap = new HashMap<>();
 	private GridPane pane = new GridPane();
+	private Map<String, Integer> countMap = new HashMap<>();
 
 	/**
 	 * @param r
@@ -60,68 +63,67 @@ public abstract class Grid {
 		root = r;
 		gridConfig = g;
 	}
-	
+
 	/**
 	 * @return the root used to add shapes to the scene
 	 */
 	protected Group getRoot() {
 		return root;
 	}
-	
+
 	/**
-	 * @param shapes- takes in a list of shapes to set blocks to
+	 * @param shapes-
+	 *            takes in a list of shapes to set blocks to
 	 */
 	protected void setBlocks(Shape[][] shapes) {
 		blocks = new Shape[numRows][numCols];
-		for(int i = 0; i<numRows; i++) {
-			for(int j = 0; j<numCols; j++) {
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
 				blocks[i][j] = shapes[i][j];
 			}
 		}
 	}
-	
-	private double countBSCell() {
-		double count = 0;
-		for(int i = 0; i < getNumRows(); i++) {
-			for(int j = 0; j < getNumCols(); j++) {
-				Cell c = getCurrentGrid()[i][j];
-				if(c instanceof BlueSchellingCell) {
-					count++;
-				}
-			}
-		}
-		return count;
+
+	public double percentTree() {
+		return countMap.get("cells.TreeCell") / gridCellCount;
 	}
-	
+
+	public double percentBurning() {
+		return countMap.get("cells.BurningTreeCell") / gridCellCount;
+	}
+
+	public double percentLand() {
+		return countMap.get("cells.EmptyLandCell") / gridCellCount;
+	}
+
+	public double percentSharks() {
+		return countMap.get("cells.SharkCell") / gridCellCount;
+	}
+
+	public double percentFish() {
+		return countMap.get("cells.FishCell") / gridCellCount;
+	}
+
 	public double percentBS() {
-		return countBSCell() / (getNumRows() * getNumCols());
+		return countMap.get("cells.LiveCell") / gridCellCount;
 	}
-	
+
 	public double percentOS() {
-		return 1 - percentBS();
+		return countMap.get("cells.OrangeSchellingCell") / gridCellCount;
 	}
-	
-	private double countLiveCell() {
-		double count = 0;
-		for(int i = 0; i < getNumRows(); i++) {
-			for(int j = 0; j < getNumCols(); j++) {
-				Cell c = getCurrentGrid()[i][j];
-				if(c instanceof LiveCell) {
-					count++;
-				}
-			}
-		}
-		return count;
+
+	public double percentEmpty() {
+		return countMap.get("cells.EmptyCell") / gridCellCount;
 	}
-	
+
 	public double percentLive() {
-		return countLiveCell() / (getNumRows() * getNumCols());
+		return countMap.get("cells.LiveCell") / gridCellCount;
 	}
-	
+
 	public double percentDead() {
-		return 1 - percentBS();
+		return countMap.get("cells.DeadCell") / gridCellCount;
 	}
-	
+
 	/**
 	 * @return the GridConfiguration used to get information from the XML file
 	 */
@@ -177,6 +179,21 @@ public abstract class Grid {
 		waTor.put('f', fCell);
 		waTor.put('s', sCell);
 		waTor.put('e', eCell);
+
+		countMap.put("cells.BlueSchellingCell", 0);
+		countMap.put("cells.OrangeSchellingCell", 0);
+		countMap.put("cells.LiveCell", 0);
+		countMap.put("cells.DeadCell", 0);
+		countMap.put("cells.TreeCell", 0);
+		countMap.put("cells.BurningTreeCell", 0);
+		countMap.put("cells.EmptyLandCell", 0);
+		countMap.put("cells.EmptyCell", 0);
+		countMap.put("cells.SharkCell", 0);
+		countMap.put("cells.FishCell", 0);
+	}
+
+	public String getSimType() {
+		return gridConfig.getSimulationType();
 	}
 
 	/**
@@ -200,11 +217,15 @@ public abstract class Grid {
 			break;
 		}
 	}
-	
+
+	private void updateCounts(Cell c) {
+		countMap.put(c.getClass().getName(), countMap.get(c.getClass().getName()) + 1);
+	}
+
 	/**
 	 * @return The map mapping each character to a cell type
 	 */
-	protected Map<Character,Cell> getSimMap() {
+	protected Map<Character, Cell> getSimMap() {
 		return simMap;
 	}
 
@@ -218,6 +239,7 @@ public abstract class Grid {
 		setCurrSimulationMap();
 		numRows = gridConfig.getNumRows();
 		numCols = gridConfig.getNumCols();
+		gridCellCount = numRows * numCols;
 		cellWidth = SIZE / numCols;
 		cellHeight = SIZE / numRows;
 
@@ -228,87 +250,87 @@ public abstract class Grid {
 		setShapes();
 		setInitialStates();
 	}
-	
+
 	/**
 	 * @return the number of rows in the grid
 	 */
 	protected int getNumRows() {
 		return numRows;
 	}
-	
-	
+
 	/**
-	 * @param n is used to set the number of rows
+	 * @param n
+	 *            is used to set the number of rows
 	 */
 	protected void setNumRows(int n) {
 		numRows = n;
 	}
-	
+
 	/**
 	 * @return the number of cols in the grid
 	 */
 	protected int getNumCols() {
 		return numCols;
 	}
-	
-	
+
 	/**
-	 * @param n is used to set the number of rows
+	 * @param n
+	 *            is used to set the number of rows
 	 */
 	protected void setNumCols(int n) {
 		numCols = n;
 	}
-	
+
 	/**
 	 * @return the calculated width of the cell
 	 */
 	protected double getCellWidth() {
 		return cellWidth;
 	}
-	
+
 	/**
-	 * @param width is the calculated cellWidth
+	 * @param width
+	 *            is the calculated cellWidth
 	 */
 	protected void setCellWidth(double width) {
 		cellWidth = width;
 	}
-	
+
 	/**
 	 * @return the calculated height of the cell
 	 */
 	protected double getCellHeight() {
 		return cellHeight;
 	}
-	
+
 	/**
-	 * @param height is the calculated cellHeight
+	 * @param height
+	 *            is the calculated cellHeight
 	 */
 	protected void setCellHeight(double height) {
 		cellWidth = height;
 	}
-	
+
 	/**
 	 * @return the grid of cells describing the current state
 	 */
 	protected Cell[][] getCurrentGrid() {
 		return currentGrid;
 	}
-	
+
 	/**
 	 * @return the grid of cells describing the next state
 	 */
 	protected Cell[][] getNewGrid() {
 		return newGrid;
 	}
-	
+
 	/**
 	 * This methods sets the list of neighbors for each cell by checking which of
 	 * its adjacent cells are considered neighbors by the algorithm used for its
 	 * respective cell type.
 	 */
 	protected abstract void setNeighbors();
-
-
 
 	/**
 	 * @param grid-
@@ -342,18 +364,15 @@ public abstract class Grid {
 				Cell c = simMap.get(states[i][j]).copy();
 				c.setRow(i);
 				c.setCol(j);
+				updateCounts(c);
 				currentGrid[i][j] = c;
 				blocks[i][j].setFill(c.getColor());
 				GridPane.setConstraints(blocks[i][j], j, i);
 				pane.getChildren().add(blocks[i][j]);
 			}
 		}
-
 		root.getChildren().add(pane);
 	}
-
-	
-
 
 	/**
 	 * This method goes through each cell and has it perform its interactions in
@@ -366,6 +385,7 @@ public abstract class Grid {
 			for (int j = 0; j < currentGrid[i].length; j++) {
 				ArrayList<Cell> empty = getEmptyCells();
 				Cell c = currentGrid[i][j];
+				updateCounts(c);
 				c.moveCell(empty, this);
 			}
 		}
@@ -393,6 +413,9 @@ public abstract class Grid {
 	 * the new state so that it can be built up again.
 	 */
 	public void update() {
+		for(Entry<String, Integer> entry : countMap.entrySet()) {
+			countMap.put(entry.getKey(), 0);
+		}
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
 				Cell c = newGrid[i][j];

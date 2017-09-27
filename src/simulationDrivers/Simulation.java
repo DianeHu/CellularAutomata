@@ -49,8 +49,8 @@ public class Simulation extends Application {
 	private static final String DATA_FILE_EXTENSION = "*.xml";
 	private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
 	private static final int SIZE = 800;
-	private static final int VERT_SIZE = 600;
-	private static final int HORIZONTAL_SIZE = 800;
+	private static final int VERT_SIZE = 650;
+	private static final int HORIZONTAL_SIZE = 550;
 	private static final Color BACKGROUND = Color.TRANSPARENT;
 	private static final String TITLE = "SIMULATION";
 	private static final int FRAMES_PER_SECOND = 2;
@@ -117,13 +117,11 @@ public class Simulation extends Application {
 		resetButton = (Button) vboxRight.getChildren().get(4);
 		stepButton = (Button) vboxRight.getChildren().get(5);
 		
-		g = new Graph();
-		g.addToBox(vboxRight);
-		
-		screenBorder.setCenter(emptyPane);
+		screenBorder.setLeft(emptyPane);
 		screenBorder.setTop(hboxTop);
-		screenBorder.setRight(vboxRight);
-		//screenBorder.setBottom(hboxBottom);
+		screenBorder.setCenter(vboxRight);
+		//screenBorder.setCenter(hboxCenter);
+		screenBorder.setBottom(hboxBottom);
 		//HBox.setHgrow(g.getLineChart(), Priority.ALWAYS); 
 		//screenBorder.setPrefSize(SIZE, SIZE);
 		screenBorder.setPrefSize(HORIZONTAL_SIZE, VERT_SIZE);
@@ -227,13 +225,15 @@ public class Simulation extends Application {
 		root = new Group();
 		sampleGrid = new RectangleGrid(root, XMLConfiguration);
 		sampleGrid.initialize();
-		screenBorder.setCenter(root);
+		g = new Graph(sampleGrid);
+		g.addToBox(hboxBottom);
+		screenBorder.setLeft(root);
 		screenBorder.getStyleClass().add("pane");
 		
 		if (isFirstTime == true) {
 			simulationScreen.getChildren().add(screenBorder);
 			simulationScreen.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
-			myScene = new Scene(simulationScreen, SIZE, SIZE, BACKGROUND);
+			myScene = new Scene(simulationScreen, HORIZONTAL_SIZE, VERT_SIZE, BACKGROUND);
 			myScene.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
 		}
 		isFirstTime = false;
@@ -248,8 +248,8 @@ public class Simulation extends Application {
 	 */
 	private void step(double elapsedTime) {
 		sampleGrid.createsNewGrid();
+		g.updateGraph();
 		sampleGrid.update();
-		g.updateGraph(sampleGrid);
 	}
 
 	/**
@@ -300,9 +300,10 @@ public class Simulation extends Application {
 	*/
 	private void reset() {
 		screenBorder.getChildren().remove(root);
-		screenBorder.setRight(vboxRight);
-		screenBorder.setCenter(emptyPane);
+		screenBorder.setCenter(vboxRight);
+		screenBorder.setLeft(emptyPane);
 		screenBorder.getStyleClass().add("pane");
+		//vboxRight.getChildren().clear();
 		timePassing = SECOND_DELAY;
 	}
 

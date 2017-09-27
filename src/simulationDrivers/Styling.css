@@ -21,10 +21,15 @@
 	-fx-background-color: radial-gradient(focus-distance 0% , center 50% 50% , radius 100% , #bcb7b8, #afaaab);
 }
 
-.bluechart{
-	-fx-stroke: #0000ff
+.chart {
+    -fx-text-fill: #000000;
+    -fx-font-family: "Courier";
 }
 
-.orangechart{
-	-fx-stroke: #FF4500
+.axis {
+   -fx-text-fill: #58ce80; 
+}
+
+.chart-title {
+  -fx-text-fill: #000000;
 }
