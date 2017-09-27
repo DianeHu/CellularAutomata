@@ -7,6 +7,7 @@ import XMLClasses.GridConfiguration;
 import cells.Cell;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 
 /**
@@ -17,11 +18,11 @@ import javafx.scene.shape.Rectangle;
  *         the nature of the simulation, and takes in a Group root to edit the
  *         scene based on the states of the cells.
  */
-public class RectangleGrid extends Grid{
+public class HexagonGrid extends Grid{
 
 	public static final int SIZE = 400;
-	private Rectangle[][] blocks;
-	private boolean toroidal = true;
+	private Polygon[][] blocks;
+	private boolean toroidal = false;
 	private boolean maxNeighbors = true;
 
 
@@ -32,7 +33,7 @@ public class RectangleGrid extends Grid{
 	 *            - This is the GridConfiguration used to get information from the
 	 *            XML file
 	 */
-	public RectangleGrid(Group r, GridConfiguration g) {
+	public HexagonGrid(Group r, GridConfiguration g) {
 		super(r,g);
 	}
 
@@ -40,18 +41,34 @@ public class RectangleGrid extends Grid{
 	 * Creates the a grid of blank rectangles which represents the cells.
 	 */
 	protected void setShapes() {
-		blocks = new Rectangle[getNumRows()][getNumCols()];
+		blocks = new Polygon[getNumRows()][getNumCols()];
 		for (int i = 0; i < getNumRows(); i++) {
 			for (int j = 0; j < getNumCols(); j++) {
-				Rectangle r = new Rectangle(j * getCellWidth(), i * getCellHeight(), getCellWidth(), getCellHeight());
-				r.setStroke(Color.DARKGREY);
-				blocks[i][j] = r;
+				Polygon h = new Polygon();
+				h.setStroke(Color.DARKGREY);
+				createHexagon(h,i,j);
+				blocks[i][j] = h;
 			}
 		}
 		setBlocks(blocks);
-
 	}
 	
+	private void createHexagon(Polygon hexagon, int row, int col) {
+		double side = (double)getCellHeight()/2;
+		double center = (double)getCellWidth()/2;
+		hexagon.getPoints().addAll(new Double[] {
+				0.0,0.0,
+				side,0.0,
+				side+side/2,center,
+				side,center*2,
+				0.0,center*2,
+				-side/2,center
+			});
+		if(col%2!=0) {
+			hexagon.setTranslateY(getCellHeight()/2);
+		}
+		hexagon.setTranslateX(-.25*(double)(getCellWidth())*col);
+	}
 	/**
 	 * @param cell
 	 *            is an individual Cell type This method sets a list of neighbors

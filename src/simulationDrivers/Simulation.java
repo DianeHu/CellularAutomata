@@ -5,7 +5,9 @@ import java.io.File;
 import XMLClasses.GridConfiguration;
 import XMLClasses.XMLException;
 import XMLClasses.XMLReader;
+import cellManager.HexagonGrid;
 import cellManager.RectangleGrid;
+import cellManager.TriangleGrid;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -51,7 +53,7 @@ public class Simulation extends Application {
 	private Group splash = new Group();
 	private Group simulationScreen = new Group();
 	private Scene myScene;
-	private RectangleGrid sampleGrid;
+	private HexagonGrid sampleGrid;
 	private Stage myStage;
 	private GridConfiguration XMLConfiguration;
 	private static Button fileChooserButton;
@@ -222,7 +224,7 @@ public class Simulation extends Application {
 	 */
 	private Scene setSimulation(GridConfiguration xml) {
 		root = new Group();
-		sampleGrid = new RectangleGrid(root, xml);
+		sampleGrid = new HexagonGrid(root, xml);
 		sampleGrid.initialize();
 		screenBorder.setCenter(root);
 		

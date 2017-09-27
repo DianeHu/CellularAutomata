@@ -1,6 +1,7 @@
 package cells;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cellManager.Grid;
 import cellManager.RectangleGrid;
@@ -44,18 +45,6 @@ public class BurningTreeCell extends Cell {
 		return newCell;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see cells.Cell#isNeighbor(int, int)
-	 * 
-	 * This method overrides the superclass method to only account for the compass
-	 * directions (North, South, East, West) as neighbors.
-	 */
-	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
-		return super.isNeighbor4(otherRowNum, otherColNum);
-	}
 
 	/**
 	 * @param root
@@ -75,7 +64,7 @@ public class BurningTreeCell extends Cell {
 	 * step.
 	 */
 	@Override
-	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
+	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		burnOut(grid);
 	}
 

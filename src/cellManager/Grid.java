@@ -31,7 +31,7 @@ import javafx.scene.shape.Shape;
  */
 public abstract class Grid {
 
-	public static final int SIZE = 400;
+	public static final int SIZE = 350;
 	private Group root;
 	private Cell[][] currentGrid;
 	private Cell[][] newGrid;
@@ -178,7 +178,6 @@ public abstract class Grid {
 		numCols = gridConfig.getNumCols();
 		cellWidth = SIZE / numCols;
 		cellHeight = SIZE / numRows;
-
 		currentGrid = new Cell[numRows][numCols];
 		newGrid = new Cell[numRows][numCols];
 		empty(currentGrid);
@@ -186,6 +185,10 @@ public abstract class Grid {
 		setShapes();
 		setInitialStates();
 	}
+
+/*	protected void setCellDimensions(int numcols, int numrows) {
+		
+	}*/
 	
 	/**
 	 * @return the number of rows in the grid
@@ -264,8 +267,23 @@ public abstract class Grid {
 	 * its adjacent cells are considered neighbors by the algorithm used for its
 	 * respective cell type.
 	 */
-	protected abstract void setNeighbors();
+	protected void setNeighbors() {
+		for (int i = 0; i < getNumRows(); i++) {
+			for (int j = 0; j < getNumCols(); j++) {
+				Cell c = getCurrentGrid()[i][j];
+				setNeighborsForCell(c);
+			}
+		}
+	}
 
+	
+	/**
+	 * @param cell
+	 *            is an individual Cell type This method sets a list of neighbors
+	 *            for a single cell.
+	 * 
+	 */
+	protected abstract void setNeighborsForCell(Cell cell);
 
 
 	/**
@@ -356,6 +374,7 @@ public abstract class Grid {
 				Cell c = newGrid[i][j];
 				blocks[i][j].setFill(c.getColor());
 				currentGrid[i][j] = newGrid[i][j];
+				//System.out.println(c.getClass().getName());
 			}
 		}
 		empty(newGrid);
