@@ -150,8 +150,8 @@ public class HexagonGrid extends Grid{
 	protected void horizontalWrapping(Cell cell, List<Cell> neighbors) {
 		if (cell.getCol() == 0) {		
 			neighbors.add(getCurrentGrid()[cell.getRow()][getNumCols()-1]);
-			if(cell.getRow()!=0) {
-				neighbors.add(getCurrentGrid()[cell.getRow()-1][getNumCols()-1]);
+			if(cell.getRow()!=getNumRows()-1) {
+				neighbors.add(getCurrentGrid()[cell.getRow()+1][getNumCols()-1]);
 			}
 		}
 		if (cell.getCol() == getNumCols() - 1) {
