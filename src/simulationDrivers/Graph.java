@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cellManager.Grid;
+import javafx.geometry.Side;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Data;
 import javafx.scene.chart.XYChart.Series;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -49,7 +51,10 @@ public class Graph {
 			series2.getData().add(new XYChart.Data<Number, Number>(step, 100 * g.percentDead()));
 			break;
 		case ("SpreadingWildfire"):
-			series1.getData().add(new XYChart.Data<Number, Number>(step, 100 * g.percentTree()));
+			//series1.getData().add(new XYChart.Data<Number, Number>(step, 100 * g.percentTree()));
+			Data<Number, Number> temp = new XYChart.Data<Number, Number>(step, 100 * g.percentTree());
+			series1.getData().add(temp);
+			System.out.println(temp);
 			series2.getData().add(new XYChart.Data<Number, Number>(step, 100 * g.percentBurning()));
 			series3.getData().add(new XYChart.Data<Number, Number>(step, 100 * g.percentLand()));
 		case ("Wator"):
@@ -101,6 +106,8 @@ public class Graph {
 		if(series3 != null) {
 			lineChart.getData().add(series3);
 		}
+		
+		lineChart.setLegendSide(Side.RIGHT);
 		lineChart.setLegendVisible(false);
 		return lineChart;
 	}

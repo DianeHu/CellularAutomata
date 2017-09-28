@@ -18,8 +18,13 @@ import cells.OrangeSchellingCell;
 import cells.SharkCell;
 import cells.TreeCell;
 import javafx.scene.Group;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
-import javafx.scene.shape.Rectangle;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Shape;
 
 /**
@@ -49,8 +54,9 @@ public abstract class Grid {
 	private Map<Character, Cell> spreadingWildfire = new HashMap<>();
 	private Map<Character, Cell> waTor = new HashMap<>();
 	private Map<Character, Cell> simMap = new HashMap<>();
-	private GridPane pane = new GridPane();
+	private Pane pane = new AnchorPane();
 	private Map<String, Integer> countMap = new HashMap<>();
+	private ScrollPane gridScroll;
 
 	/**
 	 * @param r
@@ -180,6 +186,10 @@ public abstract class Grid {
 		waTor.put('s', sCell);
 		waTor.put('e', eCell);
 
+		initCountMap();
+	}
+
+	private void initCountMap() {
 		countMap.put("cells.BlueSchellingCell", 0);
 		countMap.put("cells.OrangeSchellingCell", 0);
 		countMap.put("cells.LiveCell", 0);
@@ -364,14 +374,18 @@ public abstract class Grid {
 				Cell c = simMap.get(states[i][j]).copy();
 				c.setRow(i);
 				c.setCol(j);
-				updateCounts(c);
+				//updateCounts(c);
 				currentGrid[i][j] = c;
 				blocks[i][j].setFill(c.getColor());
 				GridPane.setConstraints(blocks[i][j], j, i);
 				pane.getChildren().add(blocks[i][j]);
 			}
 		}
-		root.getChildren().add(pane);
+		gridScroll = new ScrollPane();
+		gridScroll.setContent(pane);
+		gridScroll.setHbarPolicy(ScrollBarPolicy.ALWAYS);
+		gridScroll.setVbarPolicy(ScrollBarPolicy.ALWAYS);
+		root.getChildren().add(gridScroll);
 	}
 
 	/**
@@ -416,6 +430,7 @@ public abstract class Grid {
 		for(Entry<String, Integer> entry : countMap.entrySet()) {
 			countMap.put(entry.getKey(), 0);
 		}
+		System.out.println("updated");
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
 				Cell c = newGrid[i][j];

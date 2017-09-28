@@ -22,6 +22,7 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -80,6 +81,7 @@ public class Simulation extends Application {
 	private Group root;
 	private boolean isFirstTime = true;
 	private Graph g;
+	private ScrollPane gridScroll;
 
 	/**
 	 * This method starts the application
@@ -175,6 +177,7 @@ public class Simulation extends Application {
 	 */
 	private void manualStep() {
 		sampleGrid.createsNewGrid();
+		g.updateGraph();
 		sampleGrid.update();
 	}
 	
