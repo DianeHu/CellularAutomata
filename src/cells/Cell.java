@@ -6,6 +6,7 @@ import java.util.Random;
 
 import cellManager.Grid;
 import cellManager.RectangleGrid;
+import gridPatches.ForagingLand;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 
@@ -16,30 +17,39 @@ import javafx.scene.paint.Color;
  *         neighbors, and tell whether a cell at a specific location is its
  *         neighbor. Since there is no generic cell, the class is abstract.
  */
+/**
+ * @author Madhavi
+ *
+ */
 public abstract class Cell {
 
 	private int rowNum;
 	private int colNum;
 	private List<Cell> neighbors;
 	private Color col;
+	ForagingLand land;
+	private Color strokeCol;
 
 	/**
 	 * @param myRowNum
 	 * @param myColNum
 	 *            The cell is initialized with its location. The constructor also
-	 *            initializes the list of neighbors.
+	 *            initializes the list of neighbors, and also takes in  ForagingLand
 	 */
 	public Cell(int myRowNum, int myColNum) {
 		rowNum = myRowNum;
 		colNum = myColNum;
 		neighbors = new ArrayList<Cell>();
+		strokeCol = Color.DARKGREY;
 	}
+
 
 	/**
 	 * This constructor initializes a cell without its location.
 	 */
 	public Cell() {
 		neighbors = new ArrayList<Cell>();
+		setStrokeColor(Color.DARKGREY);
 	}
 
 	/**
@@ -56,6 +66,24 @@ public abstract class Cell {
 	protected void setColor(Color c) {
 		col = c;
 	}
+	
+	/**
+	 * Sets the stroke color for a cell type
+	 * 
+	 * @param c
+	 *            is the Color associated with the cell type
+	 */
+	protected void setStrokeColor(Color c) {
+		strokeCol = c;
+	}
+	
+
+	/**
+	 * @return the stroke color for a cell type
+	 */
+	public Color getStrokeColor() {
+		return strokeCol;
+	}
 
 	/**
 	 * @return the color associated with the cell type
@@ -70,6 +98,14 @@ public abstract class Cell {
 	 */
 	public void setRow(int row) {
 		rowNum = row;
+	}
+	
+	/**
+	 * @param l
+	 * Set the ForagingLand for Foraging Ant simulation
+	 */
+	public void setLand(ForagingLand l) {
+		land = l;
 	}
 
 	/**
@@ -171,6 +207,36 @@ public abstract class Cell {
 	 */
 	protected List<Cell> getNeighbors() {
 		return neighbors;
+	}
+	
+	/**
+	 * @param c
+	 * @param grid
+	 * Replaces the cell's grid location with a new cell c
+	 */
+	protected void createNewCellOfType(Cell c, Grid grid) {
+		c.setRow(getRow());
+		c.setCol(getCol());
+		grid.addToNewGrid(c);	
+	}
+	
+	/**
+	 * @param emptySpots
+	 * @param grid
+	 * @param satisfied
+	 * Takes in a list of empty spots, a grid, and a boolean that determines whether
+	 * the cell is satisfied in its current position. This method determines how a 
+	 * segregation cell moves based on whether its satistied and whether there are 
+	 * empty locations left in the grid.
+	 */
+	protected void segregationMove(List<Cell> emptySpots, Grid grid, boolean satisfied) {
+		if (!satisfied) {
+			if (!moveToRandomPlace(emptySpots, grid)) {
+				grid.addToNewGrid(this);
+			}
+		} else {
+			grid.addToNewGrid(this);
+		}
 	}
 
 }

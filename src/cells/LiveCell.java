@@ -5,6 +5,7 @@ import java.util.List;
 
 import cellManager.Grid;
 import cellManager.RectangleGrid;
+import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 /**
@@ -14,12 +15,7 @@ import javafx.scene.paint.Color;
  */
 public class LiveCell extends Cell {
 
-	/**
-	 * @param myRowNum
-	 * @param myColNum
-	 * 
-	 *            Constructor that takes in a specific row and column number.
-	 */
+	
 	public LiveCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setColor(Color.DARKCYAN);
@@ -45,18 +41,6 @@ public class LiveCell extends Cell {
 	}
 
 	/**
-	 * @param root
-	 *            Checks the number of live neighbors. If number of live neighbors
-	 *            indicates over or underpopulation, then replace the current live
-	 *            cell with a dead one. Subsequently resets the number of live
-	 *            neighbors to zero.
-	 */
-	private void dieOut(Grid grid) {
-		Cell newCell = new DeadCell(this.getRow(), this.getCol());
-		grid.addToNewGrid(newCell);
-	}
-
-	/**
 	 * @return Returns whether or not a live cell should die based on over or
 	 *         underpopulation.
 	 */
@@ -79,7 +63,7 @@ public class LiveCell extends Cell {
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		if (shouldDie()) {
-			dieOut(grid);
+			createNewCellOfType(new DeadCell(),grid);
 		} else {
 			grid.addToNewGrid(this);
 		}

@@ -5,6 +5,7 @@ import java.util.List;
 
 import cellManager.Grid;
 import cellManager.RectangleGrid;
+import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 /**
@@ -22,6 +23,7 @@ public class TreeCell extends Cell {
 	 */
 	private static double probCatch;
 
+	
 	/**
 	 * @param myRowNum
 	 * @param myColNum
@@ -32,6 +34,7 @@ public class TreeCell extends Cell {
 		super(myRowNum, myColNum);
 		setColor(Color.FORESTGREEN);
 	}
+
 
 	/**
 	 * Constructor that does not specify row and column number.
@@ -72,8 +75,7 @@ public class TreeCell extends Cell {
 	private void burn(Grid grid) {
 		double test = Math.random();
 		if (test < getNumNeighborsOfType(new BurningTreeCell()) * probCatch) {
-			Cell newCell = new BurningTreeCell(this.getRow(), this.getCol());
-			grid.addToNewGrid(newCell);
+			createNewCellOfType(new BurningTreeCell(), grid);
 		} else {
 			grid.addToNewGrid(this);
 		}

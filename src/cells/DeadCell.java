@@ -5,6 +5,7 @@ import java.util.List;
 
 import cellManager.Grid;
 import cellManager.RectangleGrid;
+import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 /**
@@ -14,6 +15,7 @@ import javafx.scene.paint.Color;
  */
 public class DeadCell extends Cell {
 
+	
 	/**
 	 * @param myRowNum
 	 * @param myColNum
@@ -24,6 +26,8 @@ public class DeadCell extends Cell {
 		super(myRowNum, myColNum);
 		setColor(Color.BLACK);
 	}
+
+
 
 	/**
 	 * Constructor for DeadCell that does not specify row or column number
@@ -45,6 +49,7 @@ public class DeadCell extends Cell {
 	}
 
 	/**
+<<<<<<< HEAD
 	 * @param root
 	 *            Replaces dead cell with live one.
 	 */
@@ -54,6 +59,8 @@ public class DeadCell extends Cell {
 	}
 
 	/**
+=======
+>>>>>>> b5034da7114a68f2b4b450686142df19beee4e11
 	 * @return
 	 * 
 	 * 		Checks the number of live neighbors. If the number is exactly three,
@@ -78,7 +85,7 @@ public class DeadCell extends Cell {
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		if (shouldResurrect()) {
-			resurrectCell(grid);
+			createNewCellOfType(new LiveCell(),grid);
 		} else {
 			grid.addToNewGrid(this);
 		}

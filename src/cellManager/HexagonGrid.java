@@ -150,8 +150,8 @@ public class HexagonGrid extends Grid{
 	protected void horizontalWrapping(Cell cell, List<Cell> neighbors) {
 		if (cell.getCol() == 0) {		
 			neighbors.add(getCurrentGrid()[cell.getRow()][getNumCols()-1]);
-			if(cell.getRow()!=0) {
-				neighbors.add(getCurrentGrid()[cell.getRow()-1][getNumCols()-1]);
+			if(cell.getRow()!=getNumRows()-1) {
+				neighbors.add(getCurrentGrid()[cell.getRow()+1][getNumCols()-1]);
 			}
 		}
 		if (cell.getCol() == getNumCols() - 1) {
@@ -173,8 +173,10 @@ public class HexagonGrid extends Grid{
 
 	protected void verticalWrapping(Cell cell, List<Cell> neighbors) {
 		if (cell.getRow() == 0) {
-			neighbors.add(getCurrentGrid()[getNumRows()-1][cell.getCol()]);
 			if(maxNeighbors) {
+				neighbors.add(getCurrentGrid()[getNumRows()-1][cell.getCol()]);
+			}
+			if(cell.getCol()%2==0) {
 				if(cell.getCol()!=0) {
 					neighbors.add(getCurrentGrid()[getNumRows()-1][cell.getCol()-1]);
 				}
@@ -184,8 +186,10 @@ public class HexagonGrid extends Grid{
 			}
 		}
 		if (cell.getRow() == getNumRows() - 1) {
-			neighbors.add(getCurrentGrid()[0][cell.getCol()]);
 			if(maxNeighbors) {
+				neighbors.add(getCurrentGrid()[0][cell.getCol()]);
+			}
+			if(cell.getCol()%2!=0) {
 				if(cell.getCol()!=0) {
 					neighbors.add(getCurrentGrid()[0][cell.getCol()-1]);
 				}

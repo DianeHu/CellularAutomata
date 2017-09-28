@@ -5,6 +5,7 @@ import java.util.List;
 
 import cellManager.Grid;
 import cellManager.RectangleGrid;
+import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 /**
@@ -21,13 +22,7 @@ public class EmptyLandCell extends Cell {
 	 * not being instantiated with appropriate threshold values.
 	 */
 	private static double probGrow;
-
-	/**
-	 * @param myRowNum
-	 * @param myColNum
-	 * 
-	 *            Makes new EmptyLandCell, extension of superclass Cell.
-	 */
+	
 	public EmptyLandCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setColor(Color.BROWN);
@@ -63,16 +58,6 @@ public class EmptyLandCell extends Cell {
 	}
 
 	/**
-	 * @param root
-	 * @param cell
-	 *            Place a new tree in the current empty spot's location.
-	 */
-	private void growTree(Grid grid) {
-		Cell newCell = new TreeCell(this.getRow(), this.getCol());
-		grid.addToNewGrid(newCell);
-	}
-
-	/**
 	 * @return Returns true if by a certain probability threshold a new tree should
 	 *         grow.
 	 */
@@ -96,7 +81,7 @@ public class EmptyLandCell extends Cell {
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		if (shouldGrow()) {
-			growTree(grid);
+			createNewCellOfType(new TreeCell(),grid);
 		} else {
 			grid.addToNewGrid(this);
 		}

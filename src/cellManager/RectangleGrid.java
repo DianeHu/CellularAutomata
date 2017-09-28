@@ -38,8 +38,8 @@ public class RectangleGrid extends Grid {
 
 	public static final int SIZE = 400;
 	private Rectangle[][] blocks;
-	private boolean toroidal = true;
-	private boolean maxNeighbors = true;
+	private boolean toroidal = false;
+	private boolean maxNeighbors = false;
 
 	/**
 	 * @param r

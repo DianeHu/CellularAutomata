@@ -5,6 +5,7 @@ import java.util.List;
 
 import cellManager.Grid;
 import cellManager.RectangleGrid;
+import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 /**
@@ -16,7 +17,7 @@ import javafx.scene.paint.Color;
 public class OrangeSchellingCell extends Cell {
 
 	private double threshold;
-
+	
 	public OrangeSchellingCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setColor(Color.DARKORANGE);
@@ -59,13 +60,8 @@ public class OrangeSchellingCell extends Cell {
 		double numBlue = (double) getNumNeighborsOfType(new BlueSchellingCell());
 		double numOrange = (double) getNumNeighborsOfType(new OrangeSchellingCell());
 		boolean satisfied = numOrange / (numOrange + numBlue) >= threshold | numOrange + numBlue == 0;
-		if (!satisfied) {
-			if (!moveToRandomPlace(emptySpots, grid)) {
-				grid.addToNewGrid(this);
-			}
-		} else {
-			grid.addToNewGrid(this);
-		}
+		segregationMove(emptySpots, grid, satisfied);
 	}
+
 
 }
