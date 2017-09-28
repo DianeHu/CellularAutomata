@@ -4,6 +4,7 @@ import java.io.File;
 
 import XMLClasses.GridConfiguration;
 import XMLClasses.XMLException;
+import XMLClasses.XMLExporter;
 import XMLClasses.XMLReader;
 import cellManager.Grid;
 import javafx.animation.KeyFrame;
@@ -62,13 +63,24 @@ public class Simulation extends Application {
 	private static Button slowerButton;
 	private static Button resetButton;
 	private static Button stepButton;
+	private static Button saveButton;
 	private static double timePassing = SECOND_DELAY;
 	private GridPane emptyPane = new GridPane();
 	private BorderPane screenBorder = new BorderPane();
 	private Timeline animation = new Timeline();
 	private Group root;
 	private boolean isFirstTime = true;
-
+	private XMLExporter XMLOutput;
+	private static String simType;
+	private static String nRows;
+	private static String nCols;
+	private static String cellConfig;
+	private static String pCatch;
+	private static String pGrow;
+	private static String segThreshold;
+	private static String fBreedTurns;
+	private static String sBreedTurns;
+	private static String sStarveTurns;
 	/**
 	 * This method starts the application
 	 */
@@ -88,6 +100,7 @@ public class Simulation extends Application {
 		
 		fileChooserButton = (Button) hboxTop.getChildren().get(0);
 		startButton = (Button) hboxTop.getChildren().get(1);
+		saveButton = (Button) hboxTop.getChildren().get(2);
 		
 		Rectangle temp = new Rectangle();
 		temp.setWidth(GRID_DISPLAY_SIZE);
@@ -135,8 +148,7 @@ public class Simulation extends Application {
 			try {
 				startSimulation(s);
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				ErrorMessages.createErrors("Failed to Start\nChoose Valid Configuration File");
 			}
 		});
 
@@ -146,6 +158,7 @@ public class Simulation extends Application {
 		fasterButton.setOnAction(e -> faster());
 		resetButton.setOnAction(e -> reset());
 		stepButton.setOnAction(e -> manualStep());
+		saveButton.setOnAction(e -> save(simType, nRows, nCols, cellConfig, pCatch, pGrow, segThreshold, fBreedTurns, sBreedTurns, sStarveTurns));
 	}
 
 	/**
@@ -175,8 +188,10 @@ public class Simulation extends Application {
 			XMLConfiguration = InputConfiguration;
 		} else {
 			// nothing selected, so quit the application
+			ErrorMessages.createErrors("No File Chosen");
 			Platform.exit();
 		}
+
 	}
 
 	/**
@@ -247,6 +262,11 @@ public class Simulation extends Application {
 		animation.setRate(timePassing);
 
 	}
+	
+	private void save(String sT, String nR, String nC, String cC, String pC, String pG, String sT1, String fB, String sB, String sS) {
+		XMLOutput = new XMLExporter(sT, nR, nC, cC, pC, pG, sT1, fB, sB, sS);
+		XMLOutput.buildXML();
+	}
 
 	/**
 	 * This method steps through the simulation at half the speed
@@ -276,6 +296,7 @@ public class Simulation extends Application {
 		screenBorder.setRight(vboxRight);
 		screenBorder.setCenter(emptyPane);
 		timePassing = SECOND_DELAY;
+		
 	}
 
 	public static void main(String[] args) {

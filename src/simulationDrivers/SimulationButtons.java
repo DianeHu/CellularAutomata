@@ -24,6 +24,7 @@ public class SimulationButtons {
 	private static Button slowerButton;
 	private static Button resetButton;
 	private static Button stepButton;
+	private static Button saveButton;
 	private static int SCREEN_SIZE = 200 + OFFSET;
 
 	// initializes the resources used to get text Strings
@@ -39,8 +40,9 @@ public class SimulationButtons {
 		fileChooserButton = new Button(myResources.getString("choose"));
 		hbox.getChildren().add(fileChooserButton);
 		startButton = new Button(myResources.getString("start"));
-		// startButton.setTranslateX(200);
+		saveButton = new Button("save");
 		hbox.getChildren().add(startButton);
+		hbox.getChildren().add(saveButton);
 		hbox.setPadding(new Insets(OFFSET));
 		hbox.setSpacing(OFFSET);
 	}
@@ -53,7 +55,7 @@ public class SimulationButtons {
 	public static void initializeRight(VBox vbox) {
 		vbox.setPadding(new Insets(OFFSET));
 		vbox.setSpacing(OFFSET);
-
+		
 		pauseButton = new Button(myResources.getString("pauseButton"));
 		vbox.getChildren().add(pauseButton);
 		pauseButton.setTranslateY(SCREEN_SIZE - OFFSET * 5);
