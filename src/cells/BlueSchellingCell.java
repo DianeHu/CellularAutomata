@@ -16,11 +16,12 @@ import javafx.scene.paint.Color;
  */
 public class BlueSchellingCell extends Cell {
 	private double threshold;
-
-	public BlueSchellingCell(int myRowNum, int myColNum, ForagingLand l) {
-		super(myRowNum, myColNum, l);
+	
+	public BlueSchellingCell(int myRowNum, int myColNum) {
+		super(myRowNum, myColNum);
 		setColor(Color.NAVY);
 	}
+
 
 	public BlueSchellingCell() {
 		super();

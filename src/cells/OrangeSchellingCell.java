@@ -5,6 +5,7 @@ import java.util.List;
 
 import cellManager.Grid;
 import cellManager.RectangleGrid;
+import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 /**
@@ -16,7 +17,7 @@ import javafx.scene.paint.Color;
 public class OrangeSchellingCell extends Cell {
 
 	private double threshold;
-
+	
 	public OrangeSchellingCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setColor(Color.DARKORANGE);

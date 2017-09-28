@@ -22,15 +22,9 @@ public class EmptyLandCell extends Cell {
 	 * not being instantiated with appropriate threshold values.
 	 */
 	private static double probGrow;
-
-	/**
-	 * @param myRowNum
-	 * @param myColNum
-	 * 
-	 *            Makes new EmptyLandCell, extension of superclass Cell.
-	 */
-	public EmptyLandCell(int myRowNum, int myColNum, ForagingLand l) {
-		super(myRowNum, myColNum, l);
+	
+	public EmptyLandCell(int myRowNum, int myColNum) {
+		super(myRowNum, myColNum);
 		setColor(Color.BROWN);
 	}
 

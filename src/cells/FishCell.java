@@ -18,9 +18,9 @@ public class FishCell extends Cell {
 	private static int breedTurns;
 	private int numTurns;
 	private boolean eaten;
-
-	public FishCell(int myRowNum, int myColNum, ForagingLand l) {
-		super(myRowNum, myColNum, l);
+	
+	public FishCell(int myRowNum, int myColNum) {
+		super(myRowNum, myColNum);
 		setColor(Color.PALEGREEN);
 	}
 

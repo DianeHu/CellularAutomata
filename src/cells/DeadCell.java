@@ -15,16 +15,19 @@ import javafx.scene.paint.Color;
  */
 public class DeadCell extends Cell {
 
+	
 	/**
 	 * @param myRowNum
 	 * @param myColNum
 	 * 
 	 *            Makes new DeadCell, extension of superclass Cell.
 	 */
-	public DeadCell(int myRowNum, int myColNum, ForagingLand l) {
-		super(myRowNum, myColNum, l);
+	public DeadCell(int myRowNum, int myColNum) {
+		super(myRowNum, myColNum);
 		setColor(Color.BLACK);
 	}
+
+
 
 	/**
 	 * Constructor for DeadCell that does not specify row or column number

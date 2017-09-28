@@ -52,7 +52,7 @@ public class Simulation extends Application {
 	private Group splash = new Group();
 	private Group simulationScreen = new Group();
 	private Scene myScene;
-	private HexagonGrid sampleGrid;
+	private RectangleGrid sampleGrid;
 	private Stage myStage;
 	private GridConfiguration XMLConfiguration;
 	private static Button fileChooserButton;
@@ -223,7 +223,7 @@ public class Simulation extends Application {
 	 */
 	private Scene setSimulation(GridConfiguration xml) {
 		root = new Group();
-		sampleGrid = new HexagonGrid(root, xml);
+		sampleGrid = new RectangleGrid(root, xml);
 		sampleGrid.initialize();
 		screenBorder.setCenter(root);
 		

@@ -14,10 +14,8 @@ import cells.EmptyCell;
 import cells.EmptyLandCell;
 import cells.FishCell;
 import cells.FoodCell;
-import cells.ForagingCell;
 import cells.HomeCell;
 import cells.LiveCell;
-import cells.LocationCell;
 import cells.OrangeSchellingCell;
 import cells.SharkCell;
 import cells.TreeCell;
@@ -338,14 +336,9 @@ public abstract class Grid {
 				Cell c = simMap.get(states[i][j]).copy();
 				c.setRow(i);
 				c.setCol(j);
-				if(c instanceof ForagingCell) {
-					((ForagingCell) c).setLand(land);
-				}
 				currentGrid[i][j] = c;
 				blocks[i][j].setFill(c.getColor());
-				if(c instanceof LocationCell) {
-					blocks[i][j].setStroke(c.getColor());
-				}
+				blocks[i][j].setStroke(c.getStrokeColor());
 				GridPane.setConstraints(blocks[i][j], j, i);
 				pane.getChildren().add(blocks[i][j]);
 			}

@@ -19,16 +19,12 @@ import javafx.scene.paint.Color;
  */
 public class EmptyCell extends Cell {
 
-	/**
-	 * @param myRowNum
-	 * @param myColNum
-	 * 
-	 *            Constructor for a cell that specifies row and column number
-	 */
-	public EmptyCell(int myRowNum, int myColNum, ForagingLand l) {
-		super(myRowNum, myColNum, l);
+	
+	public EmptyCell(int myRowNum, int myColNum) {
+		super(myRowNum, myColNum);
 		setColor(Color.FLORALWHITE);
 	}
+
 
 	/**
 	 * Constructor for a cell that does not specify row or column number

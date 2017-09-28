@@ -16,30 +16,39 @@ import javafx.scene.paint.Color;
  *         neighbors, and tell whether a cell at a specific location is its
  *         neighbor. Since there is no generic cell, the class is abstract.
  */
+/**
+ * @author Madhavi
+ *
+ */
 public abstract class Cell {
 
 	private int rowNum;
 	private int colNum;
 	private List<Cell> neighbors;
 	private Color col;
+	ForagingLand land;
+	private Color strokeCol;
 
 	/**
 	 * @param myRowNum
 	 * @param myColNum
 	 *            The cell is initialized with its location. The constructor also
-	 *            initializes the list of neighbors.
+	 *            initializes the list of neighbors, and also takes in  ForagingLand
 	 */
-	public Cell(int myRowNum, int myColNum, ForagingLand l) {
+	public Cell(int myRowNum, int myColNum) {
 		rowNum = myRowNum;
 		colNum = myColNum;
 		neighbors = new ArrayList<Cell>();
+		strokeCol = Color.DARKGREY;
 	}
+
 
 	/**
 	 * This constructor initializes a cell without its location.
 	 */
 	public Cell() {
 		neighbors = new ArrayList<Cell>();
+		setStrokeColor(Color.DARKGREY);
 	}
 
 	/**
@@ -56,6 +65,24 @@ public abstract class Cell {
 	protected void setColor(Color c) {
 		col = c;
 	}
+	
+	/**
+	 * Sets the stroke color for a cell type
+	 * 
+	 * @param c
+	 *            is the Color associated with the cell type
+	 */
+	protected void setStrokeColor(Color c) {
+		strokeCol = c;
+	}
+	
+
+	/**
+	 * @return the stroke color for a cell type
+	 */
+	public Color getStrokeColor() {
+		return strokeCol;
+	}
 
 	/**
 	 * @return the color associated with the cell type
@@ -70,6 +97,14 @@ public abstract class Cell {
 	 */
 	public void setRow(int row) {
 		rowNum = row;
+	}
+	
+	/**
+	 * @param l
+	 * Set the ForagingLand for Foraging Ant simulation
+	 */
+	public void setLand(ForagingLand l) {
+		land = l;
 	}
 
 	/**

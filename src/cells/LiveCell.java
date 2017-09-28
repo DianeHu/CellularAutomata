@@ -5,6 +5,7 @@ import java.util.List;
 
 import cellManager.Grid;
 import cellManager.RectangleGrid;
+import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 /**
@@ -14,12 +15,7 @@ import javafx.scene.paint.Color;
  */
 public class LiveCell extends Cell {
 
-	/**
-	 * @param myRowNum
-	 * @param myColNum
-	 * 
-	 *            Constructor that takes in a specific row and column number.
-	 */
+	
 	public LiveCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setColor(Color.DARKCYAN);

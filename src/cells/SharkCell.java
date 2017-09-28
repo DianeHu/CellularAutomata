@@ -6,6 +6,7 @@ import java.util.Random;
 
 import cellManager.Grid;
 import cellManager.RectangleGrid;
+import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 /**
@@ -20,10 +21,12 @@ public class SharkCell extends Cell {
 	private int numBreedTurns;
 	private int numStarveTurns;
 
+	
 	public SharkCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setColor(Color.SLATEGREY);
 	}
+
 
 	public SharkCell() {
 		super();

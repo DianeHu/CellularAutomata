@@ -22,10 +22,11 @@ public class BurningTreeCell extends Cell {
 	 *            Constructor for BurningTreeCell that takes in a row and column
 	 *            number.
 	 */
-	public BurningTreeCell(int myRowNum, int myColNum, ForagingLand l) {
-		super(myRowNum, myColNum, l);
+	public BurningTreeCell(int myRowNum, int myColNum) {
+		super(myRowNum, myColNum);
 		setColor(Color.DARKORANGE);
 	}
+
 
 	/**
 	 * Constructor for BurningTreeCell that does not specify row or column number.
@@ -46,16 +47,6 @@ public class BurningTreeCell extends Cell {
 		return newCell;
 	}
 
-
-	/**
-	 * @param root
-	 *            Replaces the current burning cell with an empty cell.
-	 */
-	public void burnOut(Grid newGrid) {
-		EmptyLandCell newCell = new EmptyLandCell();
-		newGrid.addToNewGrid(newCell);
-	}
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -66,7 +57,7 @@ public class BurningTreeCell extends Cell {
 	 */
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
-		burnOut(grid);
+		createNewCellOfType(new EmptyLandCell(),grid);
 	}
 
 }
