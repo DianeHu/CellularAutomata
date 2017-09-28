@@ -6,21 +6,16 @@ import cellManager.Grid;
 import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
-public class AntCell extends Cell implements ForagingCell{
+public class AntCell extends Cell{
 
 	private ForagingLand land;
 	private boolean facingVertPositive;
 	private boolean facingHorizontalPositive;
 	private boolean goingHome;
 	
-	public AntCell(int myRowNum, int myColNum, ForagingLand l){
+	public AntCell(int myRowNum, int myColNum){
 		super(myRowNum, myColNum);
 		setColor(Color.DARKRED);
-		land = l;
-	}
-	
-	public void setLand(ForagingLand l) {
-		land = l;
 	}
 	
 	public AntCell() {

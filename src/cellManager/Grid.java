@@ -3,6 +3,7 @@ package cellManager;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import XMLClasses.GridConfiguration;
 import cells.AntCell;
@@ -14,16 +15,21 @@ import cells.EmptyCell;
 import cells.EmptyLandCell;
 import cells.FishCell;
 import cells.FoodCell;
-import cells.ForagingCell;
 import cells.HomeCell;
 import cells.LiveCell;
-import cells.LocationCell;
 import cells.OrangeSchellingCell;
 import cells.SharkCell;
 import cells.TreeCell;
 import gridPatches.ForagingLand;
 import javafx.scene.Group;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
@@ -45,6 +51,7 @@ public abstract class Grid {
 	private GridConfiguration gridConfig;
 	private int numRows;
 	private int numCols;
+	private double gridCellCount;
 	private double cellWidth;
 	private double cellHeight;
 	private String simulationType;
@@ -54,7 +61,10 @@ public abstract class Grid {
 	private Map<Character, Cell> waTor = new HashMap<>();
 	private Map<Character, Cell> foragingAnts = new HashMap<>();
 	private Map<Character, Cell> simMap = new HashMap<>();
-	private GridPane pane = new GridPane();
+	private Pane pane = new GridPane();
+	private Map<String, Integer> countMap = new HashMap<>();
+	private ScrollPane gridScroll;
+	private final ScrollBar sc = new ScrollBar();
 	private ForagingLand land;
 
 	/**
@@ -93,6 +103,46 @@ public abstract class Grid {
 	 */
 	protected GridConfiguration getGridConfig() {
 		return gridConfig;
+	}
+
+	public double percentTree() {
+		return countMap.get("cells.TreeCell") / gridCellCount;
+	}
+
+	public double percentBurning() {
+		return countMap.get("cells.BurningTreeCell") / gridCellCount;
+	}
+
+	public double percentLand() {
+		return countMap.get("cells.EmptyLandCell") / gridCellCount;
+	}
+
+	public double percentSharks() {
+		return countMap.get("cells.SharkCell") / gridCellCount;
+	}
+
+	public double percentFish() {
+		return countMap.get("cells.FishCell") / gridCellCount;
+	}
+
+	public double percentBS() {
+		return countMap.get("cells.LiveCell") / gridCellCount;
+	}
+
+	public double percentOS() {
+		return countMap.get("cells.OrangeSchellingCell") / gridCellCount;
+	}
+
+	public double percentEmpty() {
+		return countMap.get("cells.EmptyCell") / gridCellCount;
+	}
+
+	public double percentLive() {
+		return countMap.get("cells.LiveCell") / gridCellCount;
+	}
+
+	public double percentDead() {
+		return countMap.get("cells.DeadCell") / gridCellCount;
 	}
 
 	/**
@@ -147,12 +197,30 @@ public abstract class Grid {
 		waTor.put('f', fCell);
 		waTor.put('s', sCell);
 		waTor.put('e', eCell);
-		
+
 		foragingAnts.put('h',hCell);
 		foragingAnts.put('f',foCell);
 		foragingAnts.put('a',aCell);
+		
+		initCountMap();
 	}
 
+	private void initCountMap() {
+		countMap.put("cells.BlueSchellingCell", 0);
+		countMap.put("cells.OrangeSchellingCell", 0);
+		countMap.put("cells.LiveCell", 0);
+		countMap.put("cells.DeadCell", 0);
+		countMap.put("cells.TreeCell", 0);
+		countMap.put("cells.BurningTreeCell", 0);
+		countMap.put("cells.EmptyLandCell", 0);
+		countMap.put("cells.EmptyCell", 0);
+		countMap.put("cells.SharkCell", 0);
+		countMap.put("cells.FishCell", 0);
+	}
+
+	public String getSimType() {
+		return gridConfig.getSimulationType();
+	}
 	/**
 	 * Switches which map is being used to map characters to cell types based off of
 	 * the simulation string read from the XML file
@@ -186,6 +254,10 @@ public abstract class Grid {
 		return simMap;
 	}
 
+	private void updateCounts(Cell c) {
+		countMap.put(c.getClass().getName(), countMap.get(c.getClass().getName()) + 1);
+	}
+
 	/**
 	 * @return Returns the gridpane initialized. Creates the mappings of characters
 	 *         to cells, sets the appropriate maps, and sets up the 2D arrays
@@ -194,6 +266,7 @@ public abstract class Grid {
 	public void initialize() {
 		numRows = gridConfig.getNumRows();
 		numCols = gridConfig.getNumCols();
+		gridCellCount = numRows * numCols;
 		createMaps();
 		setCurrSimulationMap();
 		cellWidth = SIZE / numCols;
@@ -205,11 +278,6 @@ public abstract class Grid {
 		setShapes();
 		setInitialStates();
 	}
-
-/*	protected void setCellDimensions(int numcols, int numrows) {
-		
-	}*/
-	
 	/**
 	 * @return the number of rows in the grid
 	 */
@@ -305,7 +373,6 @@ public abstract class Grid {
 	 */
 	protected abstract void setNeighborsForCell(Cell cell);
 
-
 	/**
 	 * @param grid-
 	 *            a 2D matrix of cells Takes in a 2D matrix of cells and sets them
@@ -338,24 +405,20 @@ public abstract class Grid {
 				Cell c = simMap.get(states[i][j]).copy();
 				c.setRow(i);
 				c.setCol(j);
-				if(c instanceof ForagingCell) {
-					((ForagingCell) c).setLand(land);
-				}
+				//updateCounts(c);
 				currentGrid[i][j] = c;
 				blocks[i][j].setFill(c.getColor());
-				if(c instanceof LocationCell) {
-					blocks[i][j].setStroke(c.getColor());
-				}
+				blocks[i][j].setStroke(c.getStrokeColor());
 				GridPane.setConstraints(blocks[i][j], j, i);
 				pane.getChildren().add(blocks[i][j]);
 			}
 		}
-
+		/*gridScroll = new ScrollPane();
+		gridScroll.setContent(pane);
+		gridScroll.setHbarPolicy(ScrollBarPolicy.ALWAYS);
+		gridScroll.setVbarPolicy(ScrollBarPolicy.ALWAYS);*/
 		root.getChildren().add(pane);
 	}
-
-	
-
 
 	/**
 	 * This method goes through each cell and has it perform its interactions in
@@ -368,6 +431,7 @@ public abstract class Grid {
 			for (int j = 0; j < currentGrid[i].length; j++) {
 				ArrayList<Cell> empty = getEmptyCells();
 				Cell c = currentGrid[i][j];
+				updateCounts(c);
 				c.moveCell(empty, this);
 			}
 		}
@@ -395,12 +459,14 @@ public abstract class Grid {
 	 * the new state so that it can be built up again.
 	 */
 	public void update() {
+		for(Entry<String, Integer> entry : countMap.entrySet()) {
+			countMap.put(entry.getKey(), 0);
+		}
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
 				Cell c = newGrid[i][j];
 				blocks[i][j].setFill(c.getColor());
 				currentGrid[i][j] = newGrid[i][j];
-				
 			}
 		}
 		empty(newGrid);

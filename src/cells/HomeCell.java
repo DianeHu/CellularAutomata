@@ -6,20 +6,20 @@ import cellManager.Grid;
 import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
-public class HomeCell extends Cell implements ForagingCell,LocationCell{
+public class HomeCell extends Cell{
 	
 	private ForagingLand land;
 	
-	public HomeCell(int myRowNum, int myColNum, ForagingLand l) {
+	public HomeCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setColor(Color.PLUM);
-		land = l;
-		
+		setStrokeColor(getColor());
 	}
 	
 	public HomeCell() {
 		super();
 		setColor(Color.GOLDENROD);
+		setStrokeColor(getColor());
 	}
 
 	public void setLand(ForagingLand l) {

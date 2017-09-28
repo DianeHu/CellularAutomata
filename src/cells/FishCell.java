@@ -5,6 +5,7 @@ import java.util.List;
 
 import cellManager.Grid;
 import cellManager.RectangleGrid;
+import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 /**
@@ -17,7 +18,7 @@ public class FishCell extends Cell {
 	private static int breedTurns;
 	private int numTurns;
 	private boolean eaten;
-
+	
 	public FishCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setColor(Color.PALEGREEN);
@@ -51,7 +52,8 @@ public class FishCell extends Cell {
 	 *            the newGrid.
 	 */
 	private void breed(List<Cell> emptySpots, Grid grid) {
-		FishCell newfish = new FishCell(getRow(), getCol());
+		FishCell newfish = new FishCell();
+		newfish.setRow(getRow()); newfish.setCol(getCol());
 		if (moveToRandomPlace(emptySpots, grid)) {
 			numTurns = -1;
 			grid.addToNewGrid(newfish);
