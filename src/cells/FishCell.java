@@ -1,8 +1,11 @@
 package cells;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cellManager.Grid;
+import cellManager.RectangleGrid;
+import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 /**
@@ -15,7 +18,7 @@ public class FishCell extends Cell {
 	private static int breedTurns;
 	private int numTurns;
 	private boolean eaten;
-
+	
 	public FishCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setColor(Color.PALEGREEN);
@@ -41,16 +44,6 @@ public class FishCell extends Cell {
 		breedTurns = n;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see cells.Cell#isNeighbor(int, int, int, int)
-	 */
-	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
-		return super.isNeighborTorus(otherRowNum, otherColNum, numRows, numCols);
-	}
-
 	/**
 	 * @param emptySpots
 	 * @param grid
@@ -58,8 +51,9 @@ public class FishCell extends Cell {
 	 *            list of empty spots. The Grid object parameter is used to update
 	 *            the newGrid.
 	 */
-	private void breed(ArrayList<Cell> emptySpots, Grid grid) {
-		FishCell newfish = new FishCell(getRow(), getCol());
+	private void breed(List<Cell> emptySpots, Grid grid) {
+		FishCell newfish = new FishCell();
+		newfish.setRow(getRow()); newfish.setCol(getCol());
 		if (moveToRandomPlace(emptySpots, grid)) {
 			numTurns = -1;
 			grid.addToNewGrid(newfish);
@@ -89,8 +83,8 @@ public class FishCell extends Cell {
 	 * @see cells.Cell#moveCell(java.util.ArrayList, cellManager.Grid)
 	 */
 	@Override
-	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
-		ArrayList<Cell> emptyNeighbors = getEmptyNeighbors();
+	public void moveCell(List<Cell> emptySpots, Grid grid) {
+		List<Cell> emptyNeighbors = getEmptyNeighbors();
 		if (numTurns >= breedTurns) {
 			breed(emptyNeighbors, grid);
 		}

@@ -7,18 +7,31 @@ import XMLClasses.XMLException;
 import XMLClasses.XMLExporter;
 import XMLClasses.XMLReader;
 import cellManager.Grid;
+import cellManager.HexagonGrid;
+import cellManager.RectangleGrid;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -41,20 +54,25 @@ public class Simulation extends Application {
 	private static final int GRID_DISPLAY_SIZE = 400;
 	private static final String DATA_FILE_EXTENSION = "*.xml";
 	private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
-	private static final int SIZE = 500;
-	private static final Color BACKGROUND = Color.BLACK;
+	private static final int SIZE = 800;
+	private static final int VERT_SIZE = 650;
+	private static final int HORIZONTAL_SIZE = 550;
+	private static final Color BACKGROUND = Color.TRANSPARENT;
 	private static final String TITLE = "SIMULATION";
 	private static final int FRAMES_PER_SECOND = 2;
 	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private static double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	private HBox hboxTop = new HBox();
 	private VBox vboxRight = new VBox();
+	private HBox hboxBottom = new HBox();
 	private Group splash = new Group();
 	private Group simulationScreen = new Group();
 	private Scene myScene;
-	private Grid sampleGrid;
+	private RectangleGrid sampleGrid;
 	private Stage myStage;
 	private GridConfiguration XMLConfiguration;
+	private static TextField threshold;
+	private static Button submit;
 	private static final int OFFSET = 7;
 	private static int SCREEN_SIZE = 200 + OFFSET;
 	private static double timePassing = SECOND_DELAY;
@@ -63,6 +81,9 @@ public class Simulation extends Application {
 	private Timeline animation = new Timeline();
 	private Group root;
 	private boolean isFirstTime = true;
+	private Graph g;
+	private ScrollPane gridScroll;
+	private final ScrollBar sc = new ScrollBar();
 	private XMLExporter XMLOutput;
 	private static String simType;
 	private static String nRows;
@@ -98,32 +119,41 @@ public class Simulation extends Application {
 		GridPane.setColumnIndex(temp, 0);
 		emptyPane.getChildren().add(temp);
 		
-		SimulationButtons.makeButtonH("Choose XML File for Configuration", e->openFile(s), hboxTop, SCREEN_SIZE, OFFSET*hboxTop.getChildren().size());
-		SimulationButtons.makeButtonH("Start Simulation", e->startMethod(s), hboxTop, SCREEN_SIZE, OFFSET*hboxTop.getChildren().size());
-		SimulationButtons.makeButtonH("Save", e->save(simType, nRows, nCols, cellConfig, pCatch, pGrow, segThreshold, fBreedTurns, sBreedTurns, sStarveTurns), hboxTop, SCREEN_SIZE, OFFSET*hboxTop.getChildren().size());
+		SimulationButtons.makeButtonH("Choose XML File for Configuration", e->openFile(s), hboxTop, SCREEN_SIZE);
+		SimulationButtons.makeButtonH("Start Simulation", e->startMethod(s), hboxTop, SCREEN_SIZE);
+		SimulationButtons.makeButtonH("Save", e->save(simType, nRows, nCols, cellConfig, pCatch, pGrow, segThreshold, fBreedTurns, sBreedTurns, sStarveTurns), 
+				hboxTop, SCREEN_SIZE);
 		
-		SimulationButtons.makeButtonV("Pause", e->pause(), vboxRight, SCREEN_SIZE, OFFSET*vboxRight.getChildren().size());
-		SimulationButtons.makeButtonV("Resume", e->resume(), vboxRight, SCREEN_SIZE, OFFSET*vboxRight.getChildren().size());
-		SimulationButtons.makeButtonV("Speed Up", e->faster(), vboxRight, SCREEN_SIZE, OFFSET*vboxRight.getChildren().size());
-		SimulationButtons.makeButtonV("Slow Down", e->slower(), vboxRight, SCREEN_SIZE, OFFSET*vboxRight.getChildren().size());
-		SimulationButtons.makeButtonV("Reset", e->reset(), vboxRight, SCREEN_SIZE, OFFSET*vboxRight.getChildren().size());
-		SimulationButtons.makeButtonV("Step", e->manualStep(), vboxRight, SCREEN_SIZE, OFFSET*vboxRight.getChildren().size());
-		
+		SimulationButtons.makeButtonV("Pause", e->pause(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeButtonV("Resume", e->resume(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeButtonV("Speed Up", e->faster(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeButtonV("Slow Down", e->slower(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeButtonV("Reset", e->reset(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeButtonV("Step", e->manualStep(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeTextField("Input threshold", vboxRight, SCREEN_SIZE);
 		hboxTop.setPadding(new Insets(OFFSET));
 		hboxTop.setSpacing(OFFSET);
 		
 		vboxRight.setPadding(new Insets(OFFSET));
 		vboxRight.setSpacing(OFFSET);
 		
-		screenBorder.setCenter(emptyPane);
+		screenBorder.setLeft(emptyPane);
 		screenBorder.setTop(hboxTop);
-		screenBorder.setRight(vboxRight);
-		
+		screenBorder.setCenter(vboxRight);
+		//screenBorder.setCenter(hboxCenter);
+		screenBorder.setBottom(hboxBottom);
+		//HBox.setHgrow(g.getLineChart(), Priority.ALWAYS); 
+		//screenBorder.setPrefSize(SIZE, SIZE);
+		screenBorder.setPrefSize(HORIZONTAL_SIZE, VERT_SIZE);
+		screenBorder.getStyleClass().add("pane");
 		splash.getChildren().add(screenBorder);
+		splash.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
 		
-		setUpStage(s, new Scene(splash, SIZE, SIZE, BACKGROUND));
+		Scene scene = new Scene(splash, HORIZONTAL_SIZE, VERT_SIZE);
+		setUpStage(s, scene);
+		scene.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
 	}
-
+	
 	private void setUpStage(Stage s, Scene scene) {
 		myStage = s;
 		myStage.setScene(scene);
@@ -145,6 +175,7 @@ public class Simulation extends Application {
 	 */
 	private void manualStep() {
 		sampleGrid.createsNewGrid();
+		g.updateGraph();
 		sampleGrid.update();
 	}
 	
@@ -170,8 +201,6 @@ public class Simulation extends Application {
 			Platform.exit();
 		}
 
-	}
-
 	/**
 	 * @param s
 	 * @throws Exception
@@ -195,13 +224,18 @@ public class Simulation extends Application {
 	 */
 	private Scene setSimulation() {
 		root = new Group();
-		sampleGrid = new Grid(root, XMLConfiguration);
+		sampleGrid = new RectangleGrid(root, XMLConfiguration);
 		sampleGrid.initialize();
-		screenBorder.setCenter(root);
+		g = new Graph(sampleGrid);
+		g.addToBox(hboxBottom);
+		screenBorder.setLeft(root);
+		screenBorder.getStyleClass().add("pane");
 		
 		if (isFirstTime == true) {
 			simulationScreen.getChildren().add(screenBorder);
-			myScene = new Scene(simulationScreen, SIZE, SIZE, BACKGROUND);
+			simulationScreen.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
+			myScene = new Scene(simulationScreen, HORIZONTAL_SIZE, VERT_SIZE, BACKGROUND);
+			myScene.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
 		}
 		isFirstTime = false;
 		
@@ -215,6 +249,7 @@ public class Simulation extends Application {
 	 */
 	private void step(double elapsedTime) {
 		sampleGrid.createsNewGrid();
+		g.updateGraph();
 		sampleGrid.update();
 	}
 
@@ -271,8 +306,10 @@ public class Simulation extends Application {
 	*/
 	private void reset() {
 		screenBorder.getChildren().remove(root);
-		screenBorder.setRight(vboxRight);
-		screenBorder.setCenter(emptyPane);
+		screenBorder.setCenter(vboxRight);
+		screenBorder.setLeft(emptyPane);
+		screenBorder.getStyleClass().add("pane");
+		//vboxRight.getChildren().clear();
 		timePassing = SECOND_DELAY;
 		
 	}

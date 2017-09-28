@@ -1,9 +1,12 @@
 package cells;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import cellManager.Grid;
+import cellManager.RectangleGrid;
+import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 /**
@@ -18,10 +21,12 @@ public class SharkCell extends Cell {
 	private int numBreedTurns;
 	private int numStarveTurns;
 
+	
 	public SharkCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setColor(Color.SLATEGREY);
 	}
+
 
 	public SharkCell() {
 		super();
@@ -59,15 +64,6 @@ public class SharkCell extends Cell {
 		starveTurns = n;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see cells.Cell#isNeighbor(int, int, int, int)
-	 */
-	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
-		return super.isNeighborTorus(otherRowNum, otherColNum, numRows, numCols);
-	}
 
 	/**
 	 * @param emptySpots
@@ -76,7 +72,7 @@ public class SharkCell extends Cell {
 	 *            the list of empty spots. The Grid object parameter is used to
 	 *            update the newGrid.
 	 */
-	private void breed(ArrayList<Cell> emptySpots, Grid grid) {
+	private void breed(List<Cell> emptySpots, Grid grid) {
 		SharkCell newshark = new SharkCell(getRow(), getCol());
 		if (moveToRandomPlace(emptySpots, grid)) {
 			numBreedTurns = -1;
@@ -91,7 +87,7 @@ public class SharkCell extends Cell {
 	 *         one of them to eat. grid is used to check for collisions by seeing if
 	 *         another shark has already eaten the fish.
 	 */
-	public boolean eatFish(ArrayList<FishCell> fish, Grid grid) {
+	public boolean eatFish(List<FishCell> fish, Grid grid) {
 		boolean moved = false;
 		while (!moved) {
 			int numFish = fish.size();
@@ -116,8 +112,8 @@ public class SharkCell extends Cell {
 	/**
 	 * @return a list of fish included in the neighbors
 	 */
-	private ArrayList<FishCell> getNeighboringFish() {
-		ArrayList<FishCell> neighborfish = new ArrayList<FishCell>();
+	private List<FishCell> getNeighboringFish() {
+		List<FishCell> neighborfish = new ArrayList<FishCell>();
 		for (Cell c : getNeighbors()) {
 			if (c instanceof FishCell) {
 				FishCell f = (FishCell) c;
@@ -133,10 +129,10 @@ public class SharkCell extends Cell {
 	 * @see cells.Cell#moveCell(java.util.ArrayList, cellManager.Grid)
 	 */
 	@Override
-	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
+	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		if (numStarveTurns < starveTurns) {
-			ArrayList<Cell> emptyNeighbors = getEmptyNeighbors();
-			ArrayList<FishCell> neighborfish = getNeighboringFish();
+			List<Cell> emptyNeighbors = getEmptyNeighbors();
+			List<FishCell> neighborfish = getNeighboringFish();
 
 			if (eatFish(neighborfish, grid)) {
 				numStarveTurns = 0;

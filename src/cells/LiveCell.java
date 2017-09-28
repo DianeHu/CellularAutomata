@@ -1,8 +1,11 @@
 package cells;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cellManager.Grid;
+import cellManager.RectangleGrid;
+import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 /**
@@ -12,12 +15,7 @@ import javafx.scene.paint.Color;
  */
 public class LiveCell extends Cell {
 
-	/**
-	 * @param myRowNum
-	 * @param myColNum
-	 * 
-	 *            Constructor that takes in a specific row and column number.
-	 */
+	
 	public LiveCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setColor(Color.DARKCYAN);
@@ -34,19 +32,6 @@ public class LiveCell extends Cell {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see cells.Cell#isNeighbor(int, int, int, int)
-	 * 
-	 * Overrides Cell superclass isNeighbor to account for all 8 surrounding
-	 * neighbors.
-	 */
-	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
-		return super.isNeighbor8(otherRowNum, otherColNum);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see cells.Cell#copy()
 	 */
 	@Override
@@ -56,23 +41,11 @@ public class LiveCell extends Cell {
 	}
 
 	/**
-	 * @param root
-	 *            Checks the number of live neighbors. If number of live neighbors
-	 *            indicates over or underpopulation, then replace the current live
-	 *            cell with a dead one. Subsequently resets the number of live
-	 *            neighbors to zero.
-	 */
-	private void dieOut(Grid newGrid) {
-		Cell newCell = new DeadCell(this.getRow(), this.getCol());
-		newGrid.addToNewGrid(newCell);
-	}
-
-	/**
 	 * @return Returns whether or not a live cell should die based on over or
 	 *         underpopulation.
 	 */
 	private boolean shouldDie() {
-		if (checkNumLiveNeighbors() < 2 || checkNumLiveNeighbors() > 3) {
+		if ((getNumNeighborsOfType(new LiveCell())) < 2 || getNumNeighborsOfType(new LiveCell()) > 3) {
 			return true;
 		}
 		return false;
@@ -88,9 +61,9 @@ public class LiveCell extends Cell {
 	 * generation.
 	 */
 	@Override
-	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
+	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		if (shouldDie()) {
-			dieOut(grid);
+			createNewCellOfType(new DeadCell(),grid);
 		} else {
 			grid.addToNewGrid(this);
 		}

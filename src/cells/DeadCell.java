@@ -1,8 +1,11 @@
 package cells;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cellManager.Grid;
+import cellManager.RectangleGrid;
+import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 /**
@@ -12,6 +15,7 @@ import javafx.scene.paint.Color;
  */
 public class DeadCell extends Cell {
 
+	
 	/**
 	 * @param myRowNum
 	 * @param myColNum
@@ -22,6 +26,8 @@ public class DeadCell extends Cell {
 		super(myRowNum, myColNum);
 		setColor(Color.BLACK);
 	}
+
+
 
 	/**
 	 * Constructor for DeadCell that does not specify row or column number
@@ -42,29 +48,19 @@ public class DeadCell extends Cell {
 		return newCell;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see cells.Cell#isNeighbor(int, int)
-	 * 
-	 * Overrides superclass abstract method to return all eight surrounding
-	 * neighbors of cell.
-	 */
-	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
-		return super.isNeighbor8(otherRowNum, otherColNum);
-	}
-
 	/**
+<<<<<<< HEAD
 	 * @param root
 	 *            Replaces dead cell with live one.
 	 */
-	private void resurrectCell(Grid newGrid) {
+	private void resurrectCell(Grid grid) {
 		Cell newCell = new LiveCell(this.getRow(), this.getCol());
-		newGrid.addToNewGrid(newCell);
+		grid.addToNewGrid(newCell);
 	}
 
 	/**
+=======
+>>>>>>> b5034da7114a68f2b4b450686142df19beee4e11
 	 * @return
 	 * 
 	 * 		Checks the number of live neighbors. If the number is exactly three,
@@ -72,7 +68,7 @@ public class DeadCell extends Cell {
 	 *         reproduction.
 	 */
 	private boolean shouldResurrect() {
-		if (checkNumLiveNeighbors() == 3) {
+		if (getNumNeighborsOfType(new LiveCell()) == 3) {
 			return true;
 		}
 		return false;
@@ -87,9 +83,9 @@ public class DeadCell extends Cell {
 	 * replace with live one, otherwise keep dead cell in next grid.
 	 */
 	@Override
-	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
+	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		if (shouldResurrect()) {
-			resurrectCell(grid);
+			createNewCellOfType(new LiveCell(),grid);
 		} else {
 			grid.addToNewGrid(this);
 		}

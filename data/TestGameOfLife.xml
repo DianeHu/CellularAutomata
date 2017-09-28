@@ -1,0 +1,11 @@
+<GridConfiguration>
+  <simulationType>Segregation</simulationType><numRows>10</numRows>
+  <numCols>15</numCols>
+  <cellConfiguration>GameOfLife</cellConfiguration>
+  <probCatch>.5</probCatch>
+  <probGrow>.5</probGrow>
+  <segregationThreshold>.3</segregationThreshold>
+  <fishBreedTurns>5</fishBreedTurns>
+  <sharkBreedTurns>5</sharkBreedTurns>
+  <sharkStarveTurns>5</sharkStarveTurns>
+  </GridConfiguration>

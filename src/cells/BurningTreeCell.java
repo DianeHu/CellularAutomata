@@ -1,8 +1,11 @@
 package cells;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cellManager.Grid;
+import cellManager.RectangleGrid;
+import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 /**
@@ -23,6 +26,7 @@ public class BurningTreeCell extends Cell {
 		super(myRowNum, myColNum);
 		setColor(Color.DARKORANGE);
 	}
+
 
 	/**
 	 * Constructor for BurningTreeCell that does not specify row or column number.
@@ -46,36 +50,14 @@ public class BurningTreeCell extends Cell {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see cells.Cell#isNeighbor(int, int)
-	 * 
-	 * This method overrides the superclass method to only account for the compass
-	 * directions (North, South, East, West) as neighbors.
-	 */
-	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
-		return super.isNeighbor4(otherRowNum, otherColNum);
-	}
-
-	/**
-	 * @param root
-	 *            Replaces the current burning cell with an empty cell.
-	 */
-	public void burnOut(Grid newGrid) {
-		EmptyLandCell newCell = new EmptyLandCell(getRow(), getCol());
-		newGrid.addToNewGrid(newCell);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see cells.Cell#moveCell(java.util.ArrayList, cellManager.Grid)
 	 * 
 	 * Overrides superclass moveCell method to burn out BurningTreeCells at each
 	 * step.
 	 */
 	@Override
-	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
-		burnOut(grid);
+	public void moveCell(List<Cell> emptySpots, Grid grid) {
+		createNewCellOfType(new EmptyLandCell(),grid);
 	}
 
 }

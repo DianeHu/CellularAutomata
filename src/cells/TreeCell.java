@@ -1,8 +1,11 @@
 package cells;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cellManager.Grid;
+import cellManager.RectangleGrid;
+import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 /**
@@ -20,6 +23,7 @@ public class TreeCell extends Cell {
 	 */
 	private static double probCatch;
 
+	
 	/**
 	 * @param myRowNum
 	 * @param myColNum
@@ -30,6 +34,7 @@ public class TreeCell extends Cell {
 		super(myRowNum, myColNum);
 		setColor(Color.FORESTGREEN);
 	}
+
 
 	/**
 	 * Constructor that does not specify row and column number.
@@ -60,18 +65,6 @@ public class TreeCell extends Cell {
 		return newCell;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see cells.Cell#isSurroundingNeighbor(int, int) This method overrides the
-	 * superclass method to only account for the compass directions (North, South,
-	 * East, West) as neighbors
-	 */
-	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
-		return super.isNeighbor4(otherRowNum, otherColNum);
-	}
-
 	/**
 	 * @param root
 	 *            If current cell experiences a threat of fire, then if a random
@@ -79,13 +72,12 @@ public class TreeCell extends Cell {
 	 *            the probability of catching fire, the current cell starts to burn.
 	 *            If cell doesn't burn, then cell persists into next grid.
 	 */
-	private void burn(Grid newGrid) {
+	private void burn(Grid grid) {
 		double test = Math.random();
-		if (test < getNumBurningNeighbors() * probCatch) {
-			Cell newCell = new BurningTreeCell(this.getRow(), this.getCol());
-			newGrid.addToNewGrid(newCell);
+		if (test < getNumNeighborsOfType(new BurningTreeCell()) * probCatch) {
+			createNewCellOfType(new BurningTreeCell(), grid);
 		} else {
-			newGrid.addToNewGrid(this);
+			grid.addToNewGrid(this);
 		}
 	}
 
@@ -112,7 +104,7 @@ public class TreeCell extends Cell {
 	 * threat.
 	 */
 	@Override
-	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
+	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		if (checkFireThreat()) {
 			burn(grid);
 		} else {
