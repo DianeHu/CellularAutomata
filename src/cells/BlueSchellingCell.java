@@ -58,13 +58,7 @@ public class BlueSchellingCell extends Cell {
 		double numBlue = (double) getNumNeighborsOfType(new BlueSchellingCell());
 		double numOrange = (double) getNumNeighborsOfType(new OrangeSchellingCell());
 		boolean satisfied = numBlue / (numOrange + numBlue) >= threshold | numOrange + numBlue == 0;
-		if (!satisfied) {
-			if (!moveToRandomPlace(emptySpots, grid)) {
-				grid.addToNewGrid(this);
-			}
-		} else {
-			grid.addToNewGrid(this);
-		}
+		segregationMove(emptySpots, grid, satisfied);
 	}
 
 }

@@ -63,16 +63,6 @@ public class EmptyLandCell extends Cell {
 	}
 
 	/**
-	 * @param root
-	 * @param cell
-	 *            Place a new tree in the current empty spot's location.
-	 */
-	private void growTree(Grid grid) {
-		Cell newCell = new TreeCell(this.getRow(), this.getCol());
-		grid.addToNewGrid(newCell);
-	}
-
-	/**
 	 * @return Returns true if by a certain probability threshold a new tree should
 	 *         grow.
 	 */
@@ -96,7 +86,7 @@ public class EmptyLandCell extends Cell {
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		if (shouldGrow()) {
-			growTree(grid);
+			createNewCellOfType(new TreeCell(),grid);
 		} else {
 			grid.addToNewGrid(this);
 		}

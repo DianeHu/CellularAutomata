@@ -171,5 +171,35 @@ public abstract class Cell {
 	protected List<Cell> getNeighbors() {
 		return neighbors;
 	}
+	
+	/**
+	 * @param c
+	 * @param grid
+	 * Replaces the cell's grid location with a new cell c
+	 */
+	protected void createNewCellOfType(Cell c, Grid grid) {
+		c.setRow(getRow());
+		c.setCol(getCol());
+		grid.addToNewGrid(c);	
+	}
+	
+	/**
+	 * @param emptySpots
+	 * @param grid
+	 * @param satisfied
+	 * Takes in a list of empty spots, a grid, and a boolean that determines whether
+	 * the cell is satisfied in its current position. This method determines how a 
+	 * segregation cell moves based on whether its satistied and whether there are 
+	 * empty locations left in the grid.
+	 */
+	protected void segregationMove(List<Cell> emptySpots, Grid grid, boolean satisfied) {
+		if (!satisfied) {
+			if (!moveToRandomPlace(emptySpots, grid)) {
+				grid.addToNewGrid(this);
+			}
+		} else {
+			grid.addToNewGrid(this);
+		}
+	}
 
 }
