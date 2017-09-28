@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import XMLClasses.GridConfiguration;
+import cells.AntCell;
 import cells.BlueSchellingCell;
 import cells.BurningTreeCell;
 import cells.Cell;
@@ -12,14 +13,19 @@ import cells.DeadCell;
 import cells.EmptyCell;
 import cells.EmptyLandCell;
 import cells.FishCell;
+import cells.FoodCell;
+import cells.ForagingCell;
+import cells.HomeCell;
 import cells.LiveCell;
+import cells.LocationCell;
 import cells.OrangeSchellingCell;
 import cells.SharkCell;
 import cells.TreeCell;
+import gridPatches.ForagingLand;
 import javafx.scene.Group;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 /**
  * @author Madhavi Rajiv
@@ -29,25 +35,27 @@ import javafx.scene.shape.Rectangle;
  *         the nature of the simulation, and takes in a Group root to edit the
  *         scene based on the states of the cells.
  */
-public class Grid {
+public abstract class Grid {
 
-	public static final int SIZE = 400;
+	public static final int SIZE = 350;
 	private Group root;
 	private Cell[][] currentGrid;
 	private Cell[][] newGrid;
-	private Rectangle[][] blocks;
+	private Shape[][] blocks;
 	private GridConfiguration gridConfig;
 	private int numRows;
 	private int numCols;
-	private int cellWidth;
-	private int cellHeight;
+	private double cellWidth;
+	private double cellHeight;
 	private String simulationType;
 	private Map<Character, Cell> segregation = new HashMap<>();
 	private Map<Character, Cell> gameOfLife = new HashMap<>();
 	private Map<Character, Cell> spreadingWildfire = new HashMap<>();
 	private Map<Character, Cell> waTor = new HashMap<>();
+	private Map<Character, Cell> foragingAnts = new HashMap<>();
 	private Map<Character, Cell> simMap = new HashMap<>();
 	private GridPane pane = new GridPane();
+	private ForagingLand land;
 
 	/**
 	 * @param r
@@ -60,6 +68,32 @@ public class Grid {
 		root = r;
 		gridConfig = g;
 	}
+	
+	/**
+	 * @return the root used to add shapes to the scene
+	 */
+	protected Group getRoot() {
+		return root;
+	}
+	
+	/**
+	 * @param shapes- takes in a list of shapes to set blocks to
+	 */
+	protected void setBlocks(Shape[][] shapes) {
+		blocks = new Shape[numRows][numCols];
+		for(int i = 0; i<numRows; i++) {
+			for(int j = 0; j<numCols; j++) {
+				blocks[i][j] = shapes[i][j];
+			}
+		}
+	}
+	
+	/**
+	 * @return the GridConfiguration used to get information from the XML file
+	 */
+	protected GridConfiguration getGridConfig() {
+		return gridConfig;
+	}
 
 	/**
 	 * Maps different cell types to different characters based on the simulation
@@ -67,7 +101,7 @@ public class Grid {
 	 * to a character has its parameters set as well so that these parameters can be
 	 * passed on when the cell is copied later.
 	 */
-	private void createMaps() {
+	protected void createMaps() {
 		BlueSchellingCell bCell = new BlueSchellingCell();
 		bCell.setThreshold(gridConfig.getSegregationThreshold());
 
@@ -94,6 +128,10 @@ public class Grid {
 		SharkCell sCell = new SharkCell();
 		sCell.setBreedTurns(gridConfig.getSharkBreedTurns());
 		sCell.setStarveTurns(gridConfig.getSharkStarveTurns());
+		
+		HomeCell hCell = new HomeCell();
+		FoodCell foCell = new FoodCell();
+		AntCell aCell = new AntCell();
 
 		segregation.put('b', bCell);
 		segregation.put('o', oCell);
@@ -109,13 +147,17 @@ public class Grid {
 		waTor.put('f', fCell);
 		waTor.put('s', sCell);
 		waTor.put('e', eCell);
+		
+		foragingAnts.put('h',hCell);
+		foragingAnts.put('f',foCell);
+		foragingAnts.put('a',aCell);
 	}
 
 	/**
 	 * Switches which map is being used to map characters to cell types based off of
 	 * the simulation string read from the XML file
 	 */
-	private void setCurrSimulationMap() {
+	protected void setCurrSimulationMap() {
 		simulationType = gridConfig.getSimulationType();
 		switch (simulationType) {
 		case ("Segregation"):
@@ -130,7 +172,18 @@ public class Grid {
 		case ("GameOfLife"):
 			simMap = gameOfLife;
 			break;
+		case ("ForagingAnts"):
+			simMap = foragingAnts;
+			land = new ForagingLand(getNumRows(),getNumCols());
+			break;
 		}
+	}
+	
+	/**
+	 * @return The map mapping each character to a cell type
+	 */
+	protected Map<Character,Cell> getSimMap() {
+		return simMap;
 	}
 
 	/**
@@ -139,24 +192,119 @@ public class Grid {
 	 *         backing the gridpane.
 	 */
 	public void initialize() {
-		createMaps();
-		setCurrSimulationMap();
 		numRows = gridConfig.getNumRows();
 		numCols = gridConfig.getNumCols();
+		createMaps();
+		setCurrSimulationMap();
 		cellWidth = SIZE / numCols;
 		cellHeight = SIZE / numRows;
-
 		currentGrid = new Cell[numRows][numCols];
 		newGrid = new Cell[numRows][numCols];
-		blocks = new Rectangle[numRows][numCols];
-
 		empty(currentGrid);
 		empty(newGrid);
-		setRectangles();
+		setShapes();
 		setInitialStates();
-
-		// read from xml to create initial state
 	}
+
+/*	protected void setCellDimensions(int numcols, int numrows) {
+		
+	}*/
+	
+	/**
+	 * @return the number of rows in the grid
+	 */
+	protected int getNumRows() {
+		return numRows;
+	}
+	
+	
+	/**
+	 * @param n is used to set the number of rows
+	 */
+	protected void setNumRows(int n) {
+		numRows = n;
+	}
+	
+	/**
+	 * @return the number of cols in the grid
+	 */
+	protected int getNumCols() {
+		return numCols;
+	}
+	
+	
+	/**
+	 * @param n is used to set the number of rows
+	 */
+	protected void setNumCols(int n) {
+		numCols = n;
+	}
+	
+	/**
+	 * @return the calculated width of the cell
+	 */
+	protected double getCellWidth() {
+		return cellWidth;
+	}
+	
+	/**
+	 * @param width is the calculated cellWidth
+	 */
+	protected void setCellWidth(double width) {
+		cellWidth = width;
+	}
+	
+	/**
+	 * @return the calculated height of the cell
+	 */
+	protected double getCellHeight() {
+		return cellHeight;
+	}
+	
+	/**
+	 * @param height is the calculated cellHeight
+	 */
+	protected void setCellHeight(double height) {
+		cellWidth = height;
+	}
+	
+	/**
+	 * @return the grid of cells describing the current state
+	 */
+	protected Cell[][] getCurrentGrid() {
+		return currentGrid;
+	}
+	
+	/**
+	 * @return the grid of cells describing the next state
+	 */
+	protected Cell[][] getNewGrid() {
+		return newGrid;
+	}
+	
+	/**
+	 * This methods sets the list of neighbors for each cell by checking which of
+	 * its adjacent cells are considered neighbors by the algorithm used for its
+	 * respective cell type.
+	 */
+	protected void setNeighbors() {
+		for (int i = 0; i < getNumRows(); i++) {
+			for (int j = 0; j < getNumCols(); j++) {
+				Cell c = getCurrentGrid()[i][j];
+				setNeighborsForCell(c);
+			}
+		}
+	}
+
+	
+	/**
+	 * @param cell
+	 *            is an individual Cell type This method sets a list of neighbors
+	 *            for a single cell.
+	 * 
+	 */
+	protected abstract void setNeighborsForCell(Cell cell);
+
 
 	/**
 	 * @param grid-
@@ -172,26 +320,16 @@ public class Grid {
 	}
 
 	/**
-	 * Creates the a grid of blank rectangles which represents the cells.
+	 * Creates the a grid of blank shapes which represents the cells.
 	 */
-	private void setRectangles() {
-
-		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numCols; j++) {
-				Rectangle r = new Rectangle(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
-				r.setStroke(Color.DARKGREY);
-				blocks[i][j] = r;
-			}
-		}
-
-	}
+	protected abstract void setShapes();
 
 	/**
 	 * Colors in the grid of rectangles based off of which cell type exists at each
 	 * location in the initial state read from the XML file through GridConfig.
 	 * Updates the gridpane with the rectangle colors, and displays the gridpane.
 	 */
-	private void setInitialStates() {
+	protected void setInitialStates() {
 
 		char[][] states = gridConfig.getCellConfiguration();
 
@@ -200,8 +338,14 @@ public class Grid {
 				Cell c = simMap.get(states[i][j]).copy();
 				c.setRow(i);
 				c.setCol(j);
+				if(c instanceof ForagingCell) {
+					((ForagingCell) c).setLand(land);
+				}
 				currentGrid[i][j] = c;
 				blocks[i][j].setFill(c.getColor());
+				if(c instanceof LocationCell) {
+					blocks[i][j].setStroke(c.getColor());
+				}
 				GridPane.setConstraints(blocks[i][j], j, i);
 				pane.getChildren().add(blocks[i][j]);
 			}
@@ -210,84 +354,8 @@ public class Grid {
 		root.getChildren().add(pane);
 	}
 
-	/**
-	 * This methods sets the list of neighbors for each cell by checking which of
-	 * its adjacent cells are considered neighbors by the algorithm used for its
-	 * respective cell type.
-	 */
+	
 
-	private void setNeighbors() {
-		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numCols; j++) {
-				Cell c = currentGrid[i][j];
-				setNeighborsForCell(c);
-			}
-		}
-	}
-
-	/**
-	 * @param cell
-	 *            is an individual Cell type This method sets a list of neighbors
-	 *            for a single cell.
-	 * 
-	 */
-	private void setNeighborsForCell(Cell cell) {
-		ArrayList<Cell> neighbors = new ArrayList<Cell>();
-		getAdjacentNeighbors(cell, neighbors);
-		getWrappedNeighbors(cell, neighbors);
-		cell.setNeighbors(neighbors);
-	}
-
-	/**
-	 * @param cell
-	 * @param neighbors
-	 *            This method takes in a cell and edits its list of neighbors to
-	 *            include adjacent neighbors which are neighbors according to the
-	 *            cell type's isNeighbor() algorithm.
-	 */
-	private void getAdjacentNeighbors(Cell cell, ArrayList<Cell> neighbors) {
-		int row = cell.getRow();
-		int col = cell.getCol();
-		for (int i = -1; i < 2; i++) {
-			for (int j = -1; j < 2; j++) {
-				if (row + i < numRows & row + i > -1 & col + j < numCols & col + j > -1) {
-					if (cell.isNeighbor(row + i, col + j, numRows, numCols)) {
-						neighbors.add(currentGrid[row + i][col + j]);
-					}
-				}
-			}
-		}
-	}
-
-	/**
-	 * @param cell
-	 * @param neighbors
-	 *            This method takes in a cell and edits its list of neighbors to
-	 *            include wrapped neighbors which are neighbors according to the
-	 *            cell type's isNeighbor() algorithm.
-	 */
-	private void getWrappedNeighbors(Cell cell, ArrayList<Cell> neighbors) {
-		if (cell.getRow() == 0) {
-			if (cell.isNeighbor(numRows - 1, cell.getCol(), numRows, numCols)) {
-				neighbors.add(currentGrid[numRows - 1][cell.getCol()]);
-			}
-		}
-		if (cell.getRow() == numRows - 1) {
-			if (cell.isNeighbor(0, cell.getCol(), numRows, numCols)) {
-				neighbors.add(currentGrid[0][cell.getCol()]);
-			}
-		}
-		if (cell.getCol() == 0) {
-			if (cell.isNeighbor(cell.getRow(), numCols - 1, numRows, numCols)) {
-				neighbors.add(currentGrid[cell.getRow()][numCols - 1]);
-			}
-		}
-		if (cell.getCol() == numCols - 1) {
-			if (cell.isNeighbor(cell.getRow(), 0, numRows, numCols)) {
-				neighbors.add(currentGrid[cell.getRow()][0]);
-			}
-		}
-	}
 
 	/**
 	 * This method goes through each cell and has it perform its interactions in
@@ -332,6 +400,7 @@ public class Grid {
 				Cell c = newGrid[i][j];
 				blocks[i][j].setFill(c.getColor());
 				currentGrid[i][j] = newGrid[i][j];
+				
 			}
 		}
 		empty(newGrid);

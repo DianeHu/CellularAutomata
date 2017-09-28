@@ -1,8 +1,10 @@
 package cells;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cellManager.Grid;
+import cellManager.RectangleGrid;
 import javafx.scene.paint.Color;
 
 /**
@@ -51,17 +53,6 @@ public class EmptyLandCell extends Cell {
 		return newCell;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see cells.Cell#isSurroundingNeighbor(int, int) This method overrides the
-	 * superclass method to account for all 8 surrounding neighbors.
-	 */
-	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
-		return super.isNeighbor8(otherRowNum, otherColNum);
-	}
-
 	/**
 	 * @param num
 	 * 
@@ -69,16 +60,6 @@ public class EmptyLandCell extends Cell {
 	 */
 	public void setThreshold(double num) {
 		probGrow = num;
-	}
-
-	/**
-	 * @param root
-	 * @param cell
-	 *            Place a new tree in the current empty spot's location.
-	 */
-	private void growTree(Grid newGrid) {
-		Cell newCell = new TreeCell(this.getRow(), this.getCol());
-		newGrid.addToNewGrid(newCell);
 	}
 
 	/**
@@ -103,9 +84,9 @@ public class EmptyLandCell extends Cell {
 	 * otherwise the current emptyLandCell persists into the next grid.
 	 */
 	@Override
-	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
+	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		if (shouldGrow()) {
-			growTree(grid);
+			createNewCellOfType(new TreeCell(),grid);
 		} else {
 			grid.addToNewGrid(this);
 		}

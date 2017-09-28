@@ -1,8 +1,10 @@
 package cells;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cellManager.Grid;
+import cellManager.RectangleGrid;
 import javafx.scene.paint.Color;
 
 /**
@@ -49,24 +51,13 @@ public class EmptyCell extends Cell {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see cells.Cell#isNeighbor(int, int, int, int)
-	 * 
-	 * Overrides isNeighbor method to return all 8 adjacent neighbors
-	 */
-	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
-		return super.isNeighbor8(otherRowNum, otherColNum);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see cells.Cell#moveCell(java.util.ArrayList, cellManager.Grid)
 	 * 
 	 * Included as a do-nothing method, since in the cell superclass moveCell is
 	 * abstracted. Empty cells don't move, so no behavior is necessary
 	 */
 	@Override
-	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
+	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		// do nothing
 	}
 
