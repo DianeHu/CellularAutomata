@@ -11,11 +11,11 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -55,15 +55,8 @@ public class Simulation extends Application {
 	private Grid sampleGrid;
 	private Stage myStage;
 	private GridConfiguration XMLConfiguration;
-	private static Button fileChooserButton;
-	private static Button startButton;
-	private static Button pauseButton;
-	private static Button resumeButton;
-	private static Button fasterButton;
-	private static Button slowerButton;
-	private static Button resetButton;
-	private static Button stepButton;
-	private static Button saveButton;
+	private static final int OFFSET = 7;
+	private static int SCREEN_SIZE = 200 + OFFSET;
 	private static double timePassing = SECOND_DELAY;
 	private GridPane emptyPane = new GridPane();
 	private BorderPane screenBorder = new BorderPane();
@@ -95,12 +88,6 @@ public class Simulation extends Application {
 	 *             startSplash and addEvents methods
 	 */
 	public void addButtonsToBorder(Stage s) throws Exception {	
-		SimulationButtons.initializeTop(hboxTop);
-		SimulationButtons.initializeRight(vboxRight);
-		
-		fileChooserButton = (Button) hboxTop.getChildren().get(0);
-		startButton = (Button) hboxTop.getChildren().get(1);
-		saveButton = (Button) hboxTop.getChildren().get(2);
 		
 		Rectangle temp = new Rectangle();
 		temp.setWidth(GRID_DISPLAY_SIZE);
@@ -111,21 +98,30 @@ public class Simulation extends Application {
 		GridPane.setColumnIndex(temp, 0);
 		emptyPane.getChildren().add(temp);
 		
-		pauseButton = (Button) vboxRight.getChildren().get(0);
-		resumeButton = (Button) vboxRight.getChildren().get(1);
-		fasterButton = (Button) vboxRight.getChildren().get(2);
-		slowerButton = (Button) vboxRight.getChildren().get(3);
-		resetButton = (Button) vboxRight.getChildren().get(4);
-		stepButton = (Button) vboxRight.getChildren().get(5);
+		SimulationButtons.makeButtonH("Choose XML File for Configuration", e->openFile(s), hboxTop, SCREEN_SIZE, OFFSET*hboxTop.getChildren().size());
+		SimulationButtons.makeButtonH("Start Simulation", e->startMethod(s), hboxTop, SCREEN_SIZE, OFFSET*hboxTop.getChildren().size());
+		SimulationButtons.makeButtonH("Save", e->save(simType, nRows, nCols, cellConfig, pCatch, pGrow, segThreshold, fBreedTurns, sBreedTurns, sStarveTurns), hboxTop, SCREEN_SIZE, OFFSET*hboxTop.getChildren().size());
+		
+		SimulationButtons.makeButtonV("Pause", e->pause(), vboxRight, SCREEN_SIZE, OFFSET*vboxRight.getChildren().size());
+		SimulationButtons.makeButtonV("Resume", e->resume(), vboxRight, SCREEN_SIZE, OFFSET*vboxRight.getChildren().size());
+		SimulationButtons.makeButtonV("Speed Up", e->faster(), vboxRight, SCREEN_SIZE, OFFSET*vboxRight.getChildren().size());
+		SimulationButtons.makeButtonV("Slow Down", e->slower(), vboxRight, SCREEN_SIZE, OFFSET*vboxRight.getChildren().size());
+		SimulationButtons.makeButtonV("Reset", e->reset(), vboxRight, SCREEN_SIZE, OFFSET*vboxRight.getChildren().size());
+		SimulationButtons.makeButtonV("Step", e->manualStep(), vboxRight, SCREEN_SIZE, OFFSET*vboxRight.getChildren().size());
+		
+		hboxTop.setPadding(new Insets(OFFSET));
+		hboxTop.setSpacing(OFFSET);
+		
+		vboxRight.setPadding(new Insets(OFFSET));
+		vboxRight.setSpacing(OFFSET);
 		
 		screenBorder.setCenter(emptyPane);
 		screenBorder.setTop(hboxTop);
 		screenBorder.setRight(vboxRight);
+		
 		splash.getChildren().add(screenBorder);
 		
 		setUpStage(s, new Scene(splash, SIZE, SIZE, BACKGROUND));
-		addEvents(s);
-
 	}
 
 	private void setUpStage(Stage s, Scene scene) {
@@ -134,31 +130,13 @@ public class Simulation extends Application {
 		myStage.setTitle(TITLE);
 		myStage.show();
 	}
-
-	/**
-	 * @param s
-	 *            This method adds functionality to each button. This method calls
-	 *            openFile, startSimulation, pause, resume, slower, faster, reset,
-	 *            and manualStep
-	 */
-	private void addEvents(Stage s) {
-
-		fileChooserButton.setOnAction(e -> openFile(s));
-		startButton.setOnAction(e -> {
-			try {
-				startSimulation(s);
-			} catch (Exception e1) {
-				ErrorMessages.createErrors("Failed to Start\nChoose Valid Configuration File");
-			}
-		});
-
-		pauseButton.setOnAction(e -> pause());
-		resumeButton.setOnAction(e -> resume());
-		slowerButton.setOnAction(e -> slower());
-		fasterButton.setOnAction(e -> faster());
-		resetButton.setOnAction(e -> reset());
-		stepButton.setOnAction(e -> manualStep());
-		saveButton.setOnAction(e -> save(simType, nRows, nCols, cellConfig, pCatch, pGrow, segThreshold, fBreedTurns, sBreedTurns, sStarveTurns));
+	
+	private void startMethod(Stage s) {
+		try {
+			startSimulation(s);
+		} catch (Exception e1) {
+			ErrorMessages.createErrors("Failed to Start\nChoose Valid Configuration File");
+		}
 	}
 
 	/**
