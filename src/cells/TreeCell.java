@@ -1,6 +1,7 @@
 package cells;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cellManager.Grid;
 import cellManager.RectangleGrid;
@@ -61,18 +62,6 @@ public class TreeCell extends Cell {
 		return newCell;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see cells.Cell#isSurroundingNeighbor(int, int) This method overrides the
-	 * superclass method to only account for the compass directions (North, South,
-	 * East, West) as neighbors
-	 */
-	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
-		return super.isNeighbor4(otherRowNum, otherColNum);
-	}
-
 	/**
 	 * @param root
 	 *            If current cell experiences a threat of fire, then if a random
@@ -82,7 +71,7 @@ public class TreeCell extends Cell {
 	 */
 	private void burn(Grid grid) {
 		double test = Math.random();
-		if (test < getNumBurningNeighbors() * probCatch) {
+		if (test < getNumNeighborsOfType(new BurningTreeCell()) * probCatch) {
 			Cell newCell = new BurningTreeCell(this.getRow(), this.getCol());
 			grid.addToNewGrid(newCell);
 		} else {
@@ -113,7 +102,7 @@ public class TreeCell extends Cell {
 	 * threat.
 	 */
 	@Override
-	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
+	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		if (checkFireThreat()) {
 			burn(grid);
 		} else {

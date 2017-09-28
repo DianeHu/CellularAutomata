@@ -6,11 +6,13 @@ import XMLClasses.GridConfiguration;
 import XMLClasses.XMLException;
 import XMLClasses.XMLReader;
 import cellManager.Grid;
+import cellManager.HexagonGrid;
 import cellManager.RectangleGrid;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -22,6 +24,7 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -63,7 +66,7 @@ public class Simulation extends Application {
 	private Group splash = new Group();
 	private Group simulationScreen = new Group();
 	private Scene myScene;
-	private Grid sampleGrid;
+	private HexagonGrid sampleGrid;
 	private Stage myStage;
 	private GridConfiguration XMLConfiguration;
 	private static Button fileChooserButton;
@@ -82,6 +85,7 @@ public class Simulation extends Application {
 	private boolean isFirstTime = true;
 	private Graph g;
 	private ScrollPane gridScroll;
+	private final ScrollBar sc = new ScrollBar();
 
 	/**
 	 * This method starts the application
@@ -226,11 +230,12 @@ public class Simulation extends Application {
 	 */
 	private Scene setSimulation() {
 		root = new Group();
-		sampleGrid = new RectangleGrid(root, XMLConfiguration);
+		sampleGrid = new HexagonGrid(root, XMLConfiguration);
 		sampleGrid.initialize();
 		g = new Graph(sampleGrid);
 		g.addToBox(hboxBottom);
 		screenBorder.setLeft(root);
+		root.getChildren().add(sc);
 		screenBorder.getStyleClass().add("pane");
 		
 		if (isFirstTime == true) {

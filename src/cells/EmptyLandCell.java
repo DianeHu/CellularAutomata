@@ -1,6 +1,7 @@
 package cells;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cellManager.Grid;
 import cellManager.RectangleGrid;
@@ -52,17 +53,6 @@ public class EmptyLandCell extends Cell {
 		return newCell;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see cells.Cell#isSurroundingNeighbor(int, int) This method overrides the
-	 * superclass method to account for all 8 surrounding neighbors.
-	 */
-	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
-		return super.isNeighbor8(otherRowNum, otherColNum);
-	}
-
 	/**
 	 * @param num
 	 * 
@@ -104,7 +94,7 @@ public class EmptyLandCell extends Cell {
 	 * otherwise the current emptyLandCell persists into the next grid.
 	 */
 	@Override
-	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
+	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		if (shouldGrow()) {
 			growTree(grid);
 		} else {

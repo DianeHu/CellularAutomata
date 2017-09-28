@@ -1,6 +1,7 @@
 package cells;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cellManager.Grid;
 import cellManager.RectangleGrid;
@@ -43,19 +44,6 @@ public class DeadCell extends Cell {
 		return newCell;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see cells.Cell#isNeighbor(int, int)
-	 * 
-	 * Overrides superclass abstract method to return all eight surrounding
-	 * neighbors of cell.
-	 */
-	@Override
-	public boolean isNeighbor(int otherRowNum, int otherColNum, int numRows, int numCols) {
-		return super.isNeighbor8(otherRowNum, otherColNum);
-	}
-
 	/**
 	 * @param root
 	 *            Replaces dead cell with live one.
@@ -73,7 +61,7 @@ public class DeadCell extends Cell {
 	 *         reproduction.
 	 */
 	private boolean shouldResurrect() {
-		if (checkNumLiveNeighbors() == 3) {
+		if (getNumNeighborsOfType(new LiveCell()) == 3) {
 			return true;
 		}
 		return false;
@@ -88,7 +76,7 @@ public class DeadCell extends Cell {
 	 * replace with live one, otherwise keep dead cell in next grid.
 	 */
 	@Override
-	public void moveCell(ArrayList<Cell> emptySpots, Grid grid) {
+	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		if (shouldResurrect()) {
 			resurrectCell(grid);
 		} else {

@@ -18,6 +18,7 @@ import cells.OrangeSchellingCell;
 import cells.SharkCell;
 import cells.TreeCell;
 import javafx.scene.Group;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.ScrollPane.ScrollBarPolicy;
 import javafx.scene.layout.AnchorPane;
@@ -25,6 +26,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 /**
@@ -37,7 +39,7 @@ import javafx.scene.shape.Shape;
  */
 public abstract class Grid {
 
-	public static final int SIZE = 400;
+	public static final int SIZE = 350;
 	private Group root;
 	private Cell[][] currentGrid;
 	private Cell[][] newGrid;
@@ -54,9 +56,10 @@ public abstract class Grid {
 	private Map<Character, Cell> spreadingWildfire = new HashMap<>();
 	private Map<Character, Cell> waTor = new HashMap<>();
 	private Map<Character, Cell> simMap = new HashMap<>();
-	private Pane pane = new AnchorPane();
+	private Pane pane = new GridPane();
 	private Map<String, Integer> countMap = new HashMap<>();
 	private ScrollPane gridScroll;
+	private final ScrollBar sc = new ScrollBar();
 
 	/**
 	 * @param r
@@ -69,25 +72,31 @@ public abstract class Grid {
 		root = r;
 		gridConfig = g;
 	}
-
+	
 	/**
 	 * @return the root used to add shapes to the scene
 	 */
 	protected Group getRoot() {
 		return root;
 	}
-
+	
 	/**
-	 * @param shapes-
-	 *            takes in a list of shapes to set blocks to
+	 * @param shapes- takes in a list of shapes to set blocks to
 	 */
 	protected void setBlocks(Shape[][] shapes) {
 		blocks = new Shape[numRows][numCols];
-		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numCols; j++) {
+		for(int i = 0; i<numRows; i++) {
+			for(int j = 0; j<numCols; j++) {
 				blocks[i][j] = shapes[i][j];
 			}
 		}
+	}
+	
+	/**
+	 * @return the GridConfiguration used to get information from the XML file
+	 */
+	protected GridConfiguration getGridConfig() {
+		return gridConfig;
 	}
 
 	public double percentTree() {
@@ -128,13 +137,6 @@ public abstract class Grid {
 
 	public double percentDead() {
 		return countMap.get("cells.DeadCell") / gridCellCount;
-	}
-
-	/**
-	 * @return the GridConfiguration used to get information from the XML file
-	 */
-	protected GridConfiguration getGridConfig() {
-		return gridConfig;
 	}
 
 	/**
@@ -227,16 +229,16 @@ public abstract class Grid {
 			break;
 		}
 	}
-
-	private void updateCounts(Cell c) {
-		countMap.put(c.getClass().getName(), countMap.get(c.getClass().getName()) + 1);
-	}
-
+	
 	/**
 	 * @return The map mapping each character to a cell type
 	 */
-	protected Map<Character, Cell> getSimMap() {
+	protected Map<Character,Cell> getSimMap() {
 		return simMap;
+	}
+
+	private void updateCounts(Cell c) {
+		countMap.put(c.getClass().getName(), countMap.get(c.getClass().getName()) + 1);
 	}
 
 	/**
@@ -252,7 +254,6 @@ public abstract class Grid {
 		gridCellCount = numRows * numCols;
 		cellWidth = SIZE / numCols;
 		cellHeight = SIZE / numRows;
-
 		currentGrid = new Cell[numRows][numCols];
 		newGrid = new Cell[numRows][numCols];
 		empty(currentGrid);
@@ -260,87 +261,100 @@ public abstract class Grid {
 		setShapes();
 		setInitialStates();
 	}
-
 	/**
 	 * @return the number of rows in the grid
 	 */
 	protected int getNumRows() {
 		return numRows;
 	}
-
+	
+	
 	/**
-	 * @param n
-	 *            is used to set the number of rows
+	 * @param n is used to set the number of rows
 	 */
 	protected void setNumRows(int n) {
 		numRows = n;
 	}
-
+	
 	/**
 	 * @return the number of cols in the grid
 	 */
 	protected int getNumCols() {
 		return numCols;
 	}
-
+	
+	
 	/**
-	 * @param n
-	 *            is used to set the number of rows
+	 * @param n is used to set the number of rows
 	 */
 	protected void setNumCols(int n) {
 		numCols = n;
 	}
-
+	
 	/**
 	 * @return the calculated width of the cell
 	 */
 	protected double getCellWidth() {
 		return cellWidth;
 	}
-
+	
 	/**
-	 * @param width
-	 *            is the calculated cellWidth
+	 * @param width is the calculated cellWidth
 	 */
 	protected void setCellWidth(double width) {
 		cellWidth = width;
 	}
-
+	
 	/**
 	 * @return the calculated height of the cell
 	 */
 	protected double getCellHeight() {
 		return cellHeight;
 	}
-
+	
 	/**
-	 * @param height
-	 *            is the calculated cellHeight
+	 * @param height is the calculated cellHeight
 	 */
 	protected void setCellHeight(double height) {
 		cellWidth = height;
 	}
-
+	
 	/**
 	 * @return the grid of cells describing the current state
 	 */
 	protected Cell[][] getCurrentGrid() {
 		return currentGrid;
 	}
-
+	
 	/**
 	 * @return the grid of cells describing the next state
 	 */
 	protected Cell[][] getNewGrid() {
 		return newGrid;
 	}
-
+	
 	/**
 	 * This methods sets the list of neighbors for each cell by checking which of
 	 * its adjacent cells are considered neighbors by the algorithm used for its
 	 * respective cell type.
 	 */
-	protected abstract void setNeighbors();
+	protected void setNeighbors() {
+		for (int i = 0; i < getNumRows(); i++) {
+			for (int j = 0; j < getNumCols(); j++) {
+				Cell c = getCurrentGrid()[i][j];
+				setNeighborsForCell(c);
+			}
+		}
+	}
+
+	
+	/**
+	 * @param cell
+	 *            is an individual Cell type This method sets a list of neighbors
+	 *            for a single cell.
+	 * 
+	 */
+	protected abstract void setNeighborsForCell(Cell cell);
 
 	/**
 	 * @param grid-
@@ -381,11 +395,11 @@ public abstract class Grid {
 				pane.getChildren().add(blocks[i][j]);
 			}
 		}
-		gridScroll = new ScrollPane();
+		/*gridScroll = new ScrollPane();
 		gridScroll.setContent(pane);
 		gridScroll.setHbarPolicy(ScrollBarPolicy.ALWAYS);
-		gridScroll.setVbarPolicy(ScrollBarPolicy.ALWAYS);
-		root.getChildren().add(gridScroll);
+		gridScroll.setVbarPolicy(ScrollBarPolicy.ALWAYS);*/
+		root.getChildren().add(pane);
 	}
 
 	/**
@@ -436,6 +450,7 @@ public abstract class Grid {
 				Cell c = newGrid[i][j];
 				blocks[i][j].setFill(c.getColor());
 				currentGrid[i][j] = newGrid[i][j];
+				//System.out.println(c.getClass().getName());
 			}
 		}
 		empty(newGrid);
