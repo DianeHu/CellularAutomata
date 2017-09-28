@@ -26,6 +26,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -77,6 +78,8 @@ public class Simulation extends Application {
 	private static Button slowerButton;
 	private static Button resetButton;
 	private static Button stepButton;
+	private static TextField threshold;
+	private static Button submit;
 	private static double timePassing = SECOND_DELAY;
 	private GridPane emptyPane = new GridPane();
 	private BorderPane screenBorder = new BorderPane();
@@ -122,6 +125,8 @@ public class Simulation extends Application {
 		slowerButton = (Button) vboxRight.getChildren().get(3);
 		resetButton = (Button) vboxRight.getChildren().get(4);
 		stepButton = (Button) vboxRight.getChildren().get(5);
+		threshold = (TextField) vboxRight.getChildren().get(6);
+		submit = (Button) vboxRight.getChildren().get(7);
 		
 		screenBorder.setLeft(emptyPane);
 		screenBorder.setTop(hboxTop);

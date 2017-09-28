@@ -4,6 +4,7 @@ import java.util.ResourceBundle;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
@@ -24,6 +25,8 @@ public class SimulationButtons {
 	private static Button slowerButton;
 	private static Button resetButton;
 	private static Button stepButton;
+	private static TextField threshold;
+	private static Button submit;
 	private static int SCREEN_SIZE = 200 + OFFSET;
 
 	// initializes the resources used to get text Strings
@@ -77,6 +80,15 @@ public class SimulationButtons {
 		stepButton = new Button(myResources.getString("stepButton"));
 		vbox.getChildren().add(stepButton);
 		stepButton.setTranslateY(SCREEN_SIZE);
+		
+		threshold = new TextField();
+		threshold.setPromptText("Input threshold");
+		vbox.getChildren().add(threshold);
+		threshold.setTranslateY(OFFSET*3-SCREEN_SIZE);
+		
+		submit = new Button("Submit");
+		vbox.getChildren().add(submit);
+		submit.setTranslateY(OFFSET*4-SCREEN_SIZE);
 	}
 
 }
