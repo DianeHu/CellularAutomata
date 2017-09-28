@@ -444,13 +444,11 @@ public abstract class Grid {
 		for(Entry<String, Integer> entry : countMap.entrySet()) {
 			countMap.put(entry.getKey(), 0);
 		}
-		System.out.println("updated");
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
 				Cell c = newGrid[i][j];
 				blocks[i][j].setFill(c.getColor());
 				currentGrid[i][j] = newGrid[i][j];
-				//System.out.println(c.getClass().getName());
 			}
 		}
 		empty(newGrid);

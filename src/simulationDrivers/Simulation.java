@@ -4,6 +4,7 @@ import java.io.File;
 
 import XMLClasses.GridConfiguration;
 import XMLClasses.XMLException;
+import XMLClasses.XMLExporter;
 import XMLClasses.XMLReader;
 import cellManager.Grid;
 import cellManager.HexagonGrid;
@@ -67,19 +68,13 @@ public class Simulation extends Application {
 	private Group splash = new Group();
 	private Group simulationScreen = new Group();
 	private Scene myScene;
-	private HexagonGrid sampleGrid;
+	private RectangleGrid sampleGrid;
 	private Stage myStage;
 	private GridConfiguration XMLConfiguration;
-	private static Button fileChooserButton;
-	private static Button startButton;
-	private static Button pauseButton;
-	private static Button resumeButton;
-	private static Button fasterButton;
-	private static Button slowerButton;
-	private static Button resetButton;
-	private static Button stepButton;
 	private static TextField threshold;
 	private static Button submit;
+	private static final int OFFSET = 7;
+	private static int SCREEN_SIZE = 200 + OFFSET;
 	private static double timePassing = SECOND_DELAY;
 	private GridPane emptyPane = new GridPane();
 	private BorderPane screenBorder = new BorderPane();
@@ -89,7 +84,17 @@ public class Simulation extends Application {
 	private Graph g;
 	private ScrollPane gridScroll;
 	private final ScrollBar sc = new ScrollBar();
-
+	private XMLExporter XMLOutput;
+	private static String simType;
+	private static String nRows;
+	private static String nCols;
+	private static String cellConfig;
+	private static String pCatch;
+	private static String pGrow;
+	private static String segThreshold;
+	private static String fBreedTurns;
+	private static String sBreedTurns;
+	private static String sStarveTurns;
 	/**
 	 * This method starts the application
 	 */
@@ -104,11 +109,6 @@ public class Simulation extends Application {
 	 *             startSplash and addEvents methods
 	 */
 	public void addButtonsToBorder(Stage s) throws Exception {	
-		SimulationButtons.initializeTop(hboxTop);
-		SimulationButtons.initializeRight(vboxRight);
-		
-		fileChooserButton = (Button) hboxTop.getChildren().get(0);
-		startButton = (Button) hboxTop.getChildren().get(1);
 		
 		Rectangle temp = new Rectangle();
 		temp.setWidth(GRID_DISPLAY_SIZE);
@@ -119,14 +119,23 @@ public class Simulation extends Application {
 		GridPane.setColumnIndex(temp, 0);
 		emptyPane.getChildren().add(temp);
 		
-		pauseButton = (Button) vboxRight.getChildren().get(0);
-		resumeButton = (Button) vboxRight.getChildren().get(1);
-		fasterButton = (Button) vboxRight.getChildren().get(2);
-		slowerButton = (Button) vboxRight.getChildren().get(3);
-		resetButton = (Button) vboxRight.getChildren().get(4);
-		stepButton = (Button) vboxRight.getChildren().get(5);
-		threshold = (TextField) vboxRight.getChildren().get(6);
-		submit = (Button) vboxRight.getChildren().get(7);
+		SimulationButtons.makeButtonH("Choose XML File for Configuration", e->openFile(s), hboxTop, SCREEN_SIZE);
+		SimulationButtons.makeButtonH("Start Simulation", e->startMethod(s), hboxTop, SCREEN_SIZE);
+		SimulationButtons.makeButtonH("Save", e->save(simType, nRows, nCols, cellConfig, pCatch, pGrow, segThreshold, fBreedTurns, sBreedTurns, sStarveTurns), 
+				hboxTop, SCREEN_SIZE);
+		
+		SimulationButtons.makeButtonV("Pause", e->pause(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeButtonV("Resume", e->resume(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeButtonV("Speed Up", e->faster(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeButtonV("Slow Down", e->slower(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeButtonV("Reset", e->reset(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeButtonV("Step", e->manualStep(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeTextField("Input threshold", vboxRight, SCREEN_SIZE);
+		hboxTop.setPadding(new Insets(OFFSET));
+		hboxTop.setSpacing(OFFSET);
+		
+		vboxRight.setPadding(new Insets(OFFSET));
+		vboxRight.setSpacing(OFFSET);
 		
 		screenBorder.setLeft(emptyPane);
 		screenBorder.setTop(hboxTop);
@@ -143,8 +152,6 @@ public class Simulation extends Application {
 		Scene scene = new Scene(splash, HORIZONTAL_SIZE, VERT_SIZE);
 		setUpStage(s, scene);
 		scene.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
-		addEvents(s);
-
 	}
 	
 	private void setUpStage(Stage s, Scene scene) {
@@ -153,31 +160,13 @@ public class Simulation extends Application {
 		myStage.setTitle(TITLE);
 		myStage.show();
 	}
-
-	/**
-	 * @param s
-	 *            This method adds functionality to each button. This method calls
-	 *            openFile, startSimulation, pause, resume, slower, faster, reset,
-	 *            and manualStep
-	 */
-	private void addEvents(Stage s) {
-
-		fileChooserButton.setOnAction(e -> openFile(s));
-		startButton.setOnAction(e -> {
-			try {
-				startSimulation(s);
-			} catch (Exception e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-		});
-
-		pauseButton.setOnAction(e -> pause());
-		resumeButton.setOnAction(e -> resume());
-		slowerButton.setOnAction(e -> slower());
-		fasterButton.setOnAction(e -> faster());
-		resetButton.setOnAction(e -> reset());
-		stepButton.setOnAction(e -> manualStep());
+	
+	private void startMethod(Stage s) {
+		try {
+			startSimulation(s);
+		} catch (Exception e1) {
+			ErrorMessages.createErrors("Failed to Start\nChoose Valid Configuration File");
+		}
 	}
 
 	/**
@@ -208,6 +197,7 @@ public class Simulation extends Application {
 			XMLConfiguration = InputConfiguration;
 		} else {
 			// nothing selected, so quit the application
+			ErrorMessages.createErrors("No File Chosen");
 			Platform.exit();
 		}
 	}
@@ -235,12 +225,11 @@ public class Simulation extends Application {
 	 */
 	private Scene setSimulation() {
 		root = new Group();
-		sampleGrid = new HexagonGrid(root, XMLConfiguration);
+		sampleGrid = new RectangleGrid(root, XMLConfiguration);
 		sampleGrid.initialize();
 		g = new Graph(sampleGrid);
 		g.addToBox(hboxBottom);
 		screenBorder.setLeft(root);
-		root.getChildren().add(sc);
 		screenBorder.getStyleClass().add("pane");
 		
 		if (isFirstTime == true) {
@@ -287,6 +276,11 @@ public class Simulation extends Application {
 		animation.setRate(timePassing);
 
 	}
+	
+	private void save(String sT, String nR, String nC, String cC, String pC, String pG, String sT1, String fB, String sB, String sS) {
+		XMLOutput = new XMLExporter(sT, nR, nC, cC, pC, pG, sT1, fB, sB, sS);
+		XMLOutput.buildXML();
+	}
 
 	/**
 	 * This method steps through the simulation at half the speed
@@ -318,6 +312,7 @@ public class Simulation extends Application {
 		screenBorder.getStyleClass().add("pane");
 		//vboxRight.getChildren().clear();
 		timePassing = SECOND_DELAY;
+		
 	}
 
 	public static void main(String[] args) {

@@ -51,10 +51,7 @@ public class Graph {
 			series2.getData().add(new XYChart.Data<Number, Number>(step, 100 * g.percentDead()));
 			break;
 		case ("SpreadingWildfire"):
-			//series1.getData().add(new XYChart.Data<Number, Number>(step, 100 * g.percentTree()));
-			Data<Number, Number> temp = new XYChart.Data<Number, Number>(step, 100 * g.percentTree());
-			series1.getData().add(temp);
-			System.out.println(temp);
+			series1.getData().add(new XYChart.Data<Number, Number>(step, 100 * g.percentTree()));
 			series2.getData().add(new XYChart.Data<Number, Number>(step, 100 * g.percentBurning()));
 			series3.getData().add(new XYChart.Data<Number, Number>(step, 100 * g.percentLand()));
 		case ("Wator"):
