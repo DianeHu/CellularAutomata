@@ -11,7 +11,7 @@ public class HomeCell extends Cell implements ForagingCell,LocationCell{
 	private ForagingLand land;
 	
 	public HomeCell(int myRowNum, int myColNum, ForagingLand l) {
-		super(myRowNum, myColNum);
+		super(myRowNum, myColNum,l);
 		setColor(Color.PLUM);
 		land = l;
 		

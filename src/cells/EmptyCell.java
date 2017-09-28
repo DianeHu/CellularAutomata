@@ -5,6 +5,7 @@ import java.util.List;
 
 import cellManager.Grid;
 import cellManager.RectangleGrid;
+import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 /**
@@ -24,8 +25,8 @@ public class EmptyCell extends Cell {
 	 * 
 	 *            Constructor for a cell that specifies row and column number
 	 */
-	public EmptyCell(int myRowNum, int myColNum) {
-		super(myRowNum, myColNum);
+	public EmptyCell(int myRowNum, int myColNum, ForagingLand l) {
+		super(myRowNum, myColNum, l);
 		setColor(Color.FLORALWHITE);
 	}
 

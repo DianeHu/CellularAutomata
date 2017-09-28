@@ -5,6 +5,7 @@ import java.util.List;
 
 import cellManager.Grid;
 import cellManager.RectangleGrid;
+import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 /**
@@ -21,8 +22,8 @@ public class BurningTreeCell extends Cell {
 	 *            Constructor for BurningTreeCell that takes in a row and column
 	 *            number.
 	 */
-	public BurningTreeCell(int myRowNum, int myColNum) {
-		super(myRowNum, myColNum);
+	public BurningTreeCell(int myRowNum, int myColNum, ForagingLand l) {
+		super(myRowNum, myColNum, l);
 		setColor(Color.DARKORANGE);
 	}
 
@@ -51,7 +52,7 @@ public class BurningTreeCell extends Cell {
 	 *            Replaces the current burning cell with an empty cell.
 	 */
 	public void burnOut(Grid newGrid) {
-		EmptyLandCell newCell = new EmptyLandCell(getRow(), getCol());
+		EmptyLandCell newCell = new EmptyLandCell();
 		newGrid.addToNewGrid(newCell);
 	}
 

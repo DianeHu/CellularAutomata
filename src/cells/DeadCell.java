@@ -5,6 +5,7 @@ import java.util.List;
 
 import cellManager.Grid;
 import cellManager.RectangleGrid;
+import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 /**
@@ -20,8 +21,8 @@ public class DeadCell extends Cell {
 	 * 
 	 *            Makes new DeadCell, extension of superclass Cell.
 	 */
-	public DeadCell(int myRowNum, int myColNum) {
-		super(myRowNum, myColNum);
+	public DeadCell(int myRowNum, int myColNum, ForagingLand l) {
+		super(myRowNum, myColNum, l);
 		setColor(Color.BLACK);
 	}
 

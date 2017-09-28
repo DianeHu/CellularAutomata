@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import cellManager.Grid;
+import gridPatches.ForagingLand;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 
@@ -28,7 +29,7 @@ public abstract class Cell {
 	 *            The cell is initialized with its location. The constructor also
 	 *            initializes the list of neighbors.
 	 */
-	public Cell(int myRowNum, int myColNum) {
+	public Cell(int myRowNum, int myColNum, ForagingLand l) {
 		rowNum = myRowNum;
 		colNum = myColNum;
 		neighbors = new ArrayList<Cell>();

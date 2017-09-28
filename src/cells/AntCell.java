@@ -14,7 +14,7 @@ public class AntCell extends Cell implements ForagingCell{
 	private boolean goingHome;
 	
 	public AntCell(int myRowNum, int myColNum, ForagingLand l){
-		super(myRowNum, myColNum);
+		super(myRowNum, myColNum,l);
 		setColor(Color.DARKRED);
 		land = l;
 	}

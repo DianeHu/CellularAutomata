@@ -11,7 +11,7 @@ public class FoodCell extends Cell implements ForagingCell,LocationCell{
 	private ForagingLand land;
 	
 	public FoodCell(int myRowNum, int myColNum, ForagingLand l) {
-		super(myRowNum, myColNum);
+		super(myRowNum, myColNum,l);
 		setColor(Color.GOLDENROD);
 		land = l;
 	}
