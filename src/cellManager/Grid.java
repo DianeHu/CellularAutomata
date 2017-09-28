@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import XMLClasses.GridConfiguration;
+import cells.AntCell;
 import cells.BlueSchellingCell;
 import cells.BurningTreeCell;
 import cells.Cell;
@@ -12,10 +13,15 @@ import cells.DeadCell;
 import cells.EmptyCell;
 import cells.EmptyLandCell;
 import cells.FishCell;
+import cells.FoodCell;
+import cells.ForagingCell;
+import cells.HomeCell;
 import cells.LiveCell;
+import cells.LocationCell;
 import cells.OrangeSchellingCell;
 import cells.SharkCell;
 import cells.TreeCell;
+import gridPatches.ForagingLand;
 import javafx.scene.Group;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
@@ -46,8 +52,10 @@ public abstract class Grid {
 	private Map<Character, Cell> gameOfLife = new HashMap<>();
 	private Map<Character, Cell> spreadingWildfire = new HashMap<>();
 	private Map<Character, Cell> waTor = new HashMap<>();
+	private Map<Character, Cell> foragingAnts = new HashMap<>();
 	private Map<Character, Cell> simMap = new HashMap<>();
 	private GridPane pane = new GridPane();
+	private ForagingLand land;
 
 	/**
 	 * @param r
@@ -120,6 +128,10 @@ public abstract class Grid {
 		SharkCell sCell = new SharkCell();
 		sCell.setBreedTurns(gridConfig.getSharkBreedTurns());
 		sCell.setStarveTurns(gridConfig.getSharkStarveTurns());
+		
+		HomeCell hCell = new HomeCell();
+		FoodCell foCell = new FoodCell();
+		AntCell aCell = new AntCell();
 
 		segregation.put('b', bCell);
 		segregation.put('o', oCell);
@@ -135,6 +147,10 @@ public abstract class Grid {
 		waTor.put('f', fCell);
 		waTor.put('s', sCell);
 		waTor.put('e', eCell);
+		
+		foragingAnts.put('h',hCell);
+		foragingAnts.put('f',foCell);
+		foragingAnts.put('a',aCell);
 	}
 
 	/**
@@ -156,6 +172,10 @@ public abstract class Grid {
 		case ("GameOfLife"):
 			simMap = gameOfLife;
 			break;
+		case ("ForagingAnts"):
+			simMap = foragingAnts;
+			land = new ForagingLand(getNumRows(),getNumCols());
+			break;
 		}
 	}
 	
@@ -172,10 +192,10 @@ public abstract class Grid {
 	 *         backing the gridpane.
 	 */
 	public void initialize() {
-		createMaps();
-		setCurrSimulationMap();
 		numRows = gridConfig.getNumRows();
 		numCols = gridConfig.getNumCols();
+		createMaps();
+		setCurrSimulationMap();
 		cellWidth = SIZE / numCols;
 		cellHeight = SIZE / numRows;
 		currentGrid = new Cell[numRows][numCols];
@@ -318,8 +338,14 @@ public abstract class Grid {
 				Cell c = simMap.get(states[i][j]).copy();
 				c.setRow(i);
 				c.setCol(j);
+				if(c instanceof ForagingCell) {
+					((ForagingCell) c).setLand(land);
+				}
 				currentGrid[i][j] = c;
 				blocks[i][j].setFill(c.getColor());
+				if(c instanceof LocationCell) {
+					blocks[i][j].setStroke(c.getColor());
+				}
 				GridPane.setConstraints(blocks[i][j], j, i);
 				pane.getChildren().add(blocks[i][j]);
 			}
@@ -374,7 +400,7 @@ public abstract class Grid {
 				Cell c = newGrid[i][j];
 				blocks[i][j].setFill(c.getColor());
 				currentGrid[i][j] = newGrid[i][j];
-				//System.out.println(c.getClass().getName());
+				
 			}
 		}
 		empty(newGrid);
