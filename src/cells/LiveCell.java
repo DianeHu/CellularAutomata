@@ -61,7 +61,7 @@ public class LiveCell extends Cell {
 	 *         underpopulation.
 	 */
 	private boolean shouldDie() {
-		if (checkNumLiveNeighbors() < 2 || checkNumLiveNeighbors() > 3) {
+		if ((getNumNeighborsOfType(new LiveCell())) < 2 || getNumNeighborsOfType(new LiveCell()) > 3) {
 			return true;
 		}
 		return false;

@@ -109,50 +109,16 @@ public abstract class Cell {
 	public void setNeighbors(List<Cell> n) {
 		neighbors = n;
 	}
-
-	/**
-	 * @return the number of neighbors which are instances of BlueSchellingCell
-	 */
-	protected int getNumBlueNeighbors() {
-		int sum = 0;
-		for (Cell c : neighbors) {
-			if (c instanceof BlueSchellingCell) {
-				sum++;
-			}
-		}
-		return sum;
-	}
-
-	/**
-	 * @return the number of neighbors which are instances of OrangeSchellingCell
-	 */
-	protected int getNumOrangeNeighbors() {
-		int sum = 0;
-		for (Cell c : neighbors) {
-			if (c instanceof OrangeSchellingCell) {
-				sum++;
-			}
-		}
-		return sum;
-	}
 	
+	/**
+	 * @param cell
+	 * @return the number of neighbors a cell has of the type of the 
+	 * cell passed in through the parameter
+	 */
 	protected int getNumNeighborsOfType(Cell cell) {
 		int sum = 0;
 		for (Cell c : neighbors) {
 			if (c.getClass().getName()==cell.getClass().getName()) {
-				sum++;
-			}
-		}
-		return sum;
-	}
-
-	/**
-	 * @return the number of neighbors which are instances of BurningTreeCell
-	 */
-	protected int getNumBurningNeighbors() {
-		int sum = 0;
-		for (Cell c : neighbors) {
-			if (c instanceof BurningTreeCell) {
 				sum++;
 			}
 		}
@@ -197,19 +163,6 @@ public abstract class Cell {
 			}
 		}
 		return emptyNeighbors;
-	}
-
-	/**
-	 * @return the number of neighbors which are instances of LiveCell
-	 */
-	protected int checkNumLiveNeighbors() {
-		int numLiveNeighbors = 0;
-		for (Cell c : neighbors) {
-			if (c instanceof LiveCell) {
-				numLiveNeighbors++;
-			}
-		}
-		return numLiveNeighbors;
 	}
 
 	/**

@@ -61,7 +61,7 @@ public class DeadCell extends Cell {
 	 *         reproduction.
 	 */
 	private boolean shouldResurrect() {
-		if (checkNumLiveNeighbors() == 3) {
+		if (getNumNeighborsOfType(new LiveCell()) == 3) {
 			return true;
 		}
 		return false;

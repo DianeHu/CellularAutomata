@@ -7,7 +7,6 @@ import XMLClasses.XMLException;
 import XMLClasses.XMLReader;
 import cellManager.HexagonGrid;
 import cellManager.RectangleGrid;
-import cellManager.TriangleGrid;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;

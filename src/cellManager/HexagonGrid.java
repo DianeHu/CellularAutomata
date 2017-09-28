@@ -94,6 +94,7 @@ public class HexagonGrid extends Grid{
 	private void getAdjacentNeighbors(Cell cell, List<Cell> neighbors) {
 		int row = cell.getRow();
 		int col = cell.getCol();
+		
 		for (int i = -1; i < 2; i++) {
 			for (int j = -1; j < 2; j++) {
 				if (row + i < getNumRows() & row + i > -1 & col + j < getNumCols() & col + j > -1) {
@@ -107,12 +108,30 @@ public class HexagonGrid extends Grid{
 	
 	private boolean isNeighborAdjacent(int currentRow, int currentCol, int otherRow, int otherCol) {
 		if(maxNeighbors) {
-			return (Math.abs(currentRow - otherRow) <= 1 & Math.abs(currentCol - otherCol) <= 1)
-					& !(otherRow == currentRow && otherCol == currentCol);
+			if(currentCol%2!=0) {//downcurve
+				//left,right,up, lower left, lower right,down
+				return (Math.abs(currentRow - otherRow) <= 1 & Math.abs(currentCol - otherCol) <= 1)
+						& !(otherRow == currentRow & otherCol == currentCol) 
+						& !(Math.abs(currentRow - otherRow)==1 & currentCol-otherCol==-1);
+			}
+			//upcurve
+			else {
+				//left, right, up, down, upper left, upper right
+				return (Math.abs(currentRow - otherRow) <= 1 & Math.abs(currentCol - otherCol) <= 1)
+						& !(otherRow == currentRow & otherCol == currentCol) 
+						& !(Math.abs(currentRow - otherRow)==1 & currentCol-otherCol==1);
+			}
 		}
-		else {
-			return (Math.abs(currentRow - otherRow) == 1 & currentCol == otherCol)
-					| (Math.abs(currentCol - otherCol) == 1 & currentRow == otherRow);
+		else { //upcurve- left, right, upper left, upper right 
+			boolean leftOrRight = (currentRow == otherRow) | (Math.abs(currentCol-otherCol)==1);
+			boolean upperLeftOrUpperRight = (currentRow-otherRow==-1) | (Math.abs(currentCol-otherCol)==1);
+			boolean lowerLeftOrLowerRight = (currentRow-otherRow==1) | (Math.abs(currentCol-otherCol)==1);
+			if(currentCol%2!=0) {
+				return leftOrRight | lowerLeftOrLowerRight;
+			}
+			else {
+				return leftOrRight | upperLeftOrUpperRight;
+			}
 		}
 	}
 
@@ -129,26 +148,24 @@ public class HexagonGrid extends Grid{
 	}
 
 	protected void horizontalWrapping(Cell cell, List<Cell> neighbors) {
-		if (cell.getCol() == 0) {
-			
+		if (cell.getCol() == 0) {		
 			neighbors.add(getCurrentGrid()[cell.getRow()][getNumCols()-1]);
-			if(maxNeighbors) {
-				if(cell.getRow()!=0) {
-					neighbors.add(getCurrentGrid()[cell.getRow()-1][getNumCols()-1]);
-				}
-				if(cell.getRow()!=getNumRows()-1) {
-					neighbors.add(getCurrentGrid()[cell.getRow()+1][getNumCols()-1]);
-				}
+			if(cell.getRow()!=0) {
+				neighbors.add(getCurrentGrid()[cell.getRow()-1][getNumCols()-1]);
 			}
 		}
 		if (cell.getCol() == getNumCols() - 1) {
 			neighbors.add(getCurrentGrid()[cell.getRow()][0]);
 			if(maxNeighbors) {
-				if(cell.getRow()!=0) {
-					neighbors.add(getCurrentGrid()[cell.getRow()-1][0]);
+				if(cell.getCol()%2!=0) {
+					if(cell.getRow()!=0) {
+						neighbors.add(getCurrentGrid()[cell.getRow()-1][0]);
+					}
 				}
-				if(cell.getRow()!=getNumRows()-1) {
-					neighbors.add(getCurrentGrid()[cell.getRow()+1][0]);
+				else {
+					if(cell.getRow()!=getNumRows()-1) {
+						neighbors.add(getCurrentGrid()[cell.getRow()+1][0]);
+					}
 				}
 			}
 		}
