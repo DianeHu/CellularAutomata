@@ -79,6 +79,7 @@ public abstract class Cell {
 		strokeCol = c;
 	}
 	
+	public abstract Cell changeType();
 
 	/**
 	 * @return the stroke color for a cell type

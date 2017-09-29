@@ -66,6 +66,7 @@ public abstract class Grid {
 	private ScrollPane gridScroll;
 	private final ScrollBar sc = new ScrollBar();
 	private ForagingLand land;
+	public boolean currentlyPaused;
 
 	/**
 	 * @param r
@@ -84,6 +85,10 @@ public abstract class Grid {
 	 */
 	protected Group getRoot() {
 		return root;
+	}
+	
+	public void setPaused(Boolean b) {
+		currentlyPaused = b;
 	}
 	
 	/**
@@ -418,11 +423,20 @@ public abstract class Grid {
 			for (int j = 0; j < currentGrid[i].length; j++) {
 				ArrayList<Cell> empty = getEmptyCells();
 				Cell c = currentGrid[i][j];
+				if(currentlyPaused == true) {
+					blocks[i][j].setOnMouseClicked(e->changeState(c));
+				}
 				c.setThreshold(threshold1, threshold2, threshold3);
 				updateCounts(c);
 				c.moveCell(empty, this);
 			}
 		}
+	}
+	
+	private void changeState(Cell c) {
+		currentGrid[c.getRow()][c.getCol()] = (c.changeType());
+		addToNewGrid(c.changeType());
+		System.out.println("changed state");
 	}
 
 	/**

@@ -16,7 +16,6 @@ public class SegregationSimulation extends Simulation {
 	
 	public SegregationSimulation(GridConfiguration gC) {
 		super(gC);
-		satisfiedThreshold = gC.getSegregationThreshold();
 	}
 	
 	@Override
@@ -27,6 +26,7 @@ public class SegregationSimulation extends Simulation {
 	@Override
 	protected void makeSimSpecificFields(Stage s) {
 		threshold = SimulationButtons.makeReturnableTextField("Input threshold", vboxRight, 3 * OFFSET - SCREEN_SIZE);
+		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
 	}
 
 	/*private void save(String sT, String nR, String nC, String cC, String pC, String pG, String sT1, String fB,

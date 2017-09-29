@@ -34,6 +34,12 @@ public class EmptyCell extends Cell {
 		setColor(Color.FLORALWHITE);
 	}
 
+	@Override
+	public Cell changeType() {
+		return this;
+		// TODO
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 

@@ -11,6 +11,9 @@ public class Main extends Application{
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		Simulation segSim = new SpreadingWildfireSimulation(g);
+		// TODO: put sim type into new popup screen, right now
+		// any simulation can technically run another (no errors thrown)
+		// since simtype gotten from xml
 		segSim.start(primaryStage);
 	}
 	

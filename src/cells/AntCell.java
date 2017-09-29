@@ -43,4 +43,10 @@ public class AntCell extends Cell{
 		// do nothing
 	}
 
+	@Override
+	public Cell changeType() {
+		return this;
+		// TODO Auto-generated method stub
+	}
+
 }

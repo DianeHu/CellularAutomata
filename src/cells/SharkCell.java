@@ -32,6 +32,12 @@ public class SharkCell extends Cell {
 		super();
 		setColor(Color.SLATEGREY);
 	}
+	
+	@Override
+	public Cell changeType() {
+		FishCell newCell = new FishCell(this.getRow(), this.getCol());
+		return newCell;
+	}
 
 	/*
 	 * (non-Javadoc)

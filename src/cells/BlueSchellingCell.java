@@ -40,6 +40,12 @@ public class BlueSchellingCell extends Cell {
 		newCell.setThreshold(threshold, 0, 0);
 		return newCell;
 	}
+	
+	@Override
+	public Cell changeType() {
+		OrangeSchellingCell newCell = new OrangeSchellingCell(this.getRow(), this.getCol());
+		return newCell.copy();
+	}
 
 	/**
 	 * @param t

@@ -39,6 +39,12 @@ public class LiveCell extends Cell {
 		Cell newCell = new LiveCell();
 		return newCell;
 	}
+	
+	@Override
+	public Cell changeType() {
+		LiveCell newCell = new LiveCell(this.getRow(), this.getCol());
+		return newCell;
+	}
 
 	/**
 	 * @return Returns whether or not a live cell should die based on over or

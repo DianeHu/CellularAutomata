@@ -69,7 +69,7 @@ public abstract class Simulation extends Application {
 	private Scene myScene;
 	protected RectangleGrid sampleGrid;
 	private Stage myStage;
-	private Button submit;
+	protected Button submit;
 	protected GridConfiguration XMLConfiguration;
 	protected static final int OFFSET = 7;
 	protected static int SCREEN_SIZE = 200 + OFFSET;
@@ -148,7 +148,6 @@ public abstract class Simulation extends Application {
 		SimulationButtons.makeButtonV("Reset", e -> reset(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Step", e -> manualStep(), vboxRight, SCREEN_SIZE);
 		makeSimSpecificFields(s);
-		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
 	}
 	
 	protected abstract void makeSimSpecificFields(Stage s);
@@ -253,6 +252,7 @@ public abstract class Simulation extends Application {
 	 */
 	protected void resume() {
 		animation.play();
+		sampleGrid.setPaused(false);
 	}
 
 	protected abstract void userSetThreshold();
@@ -262,6 +262,7 @@ public abstract class Simulation extends Application {
 	 */
 	protected void pause() {
 		animation.pause();
+		sampleGrid.setPaused(true);
 	}
 
 	/**

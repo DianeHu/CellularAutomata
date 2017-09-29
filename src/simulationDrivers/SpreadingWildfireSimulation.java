@@ -31,12 +31,13 @@ public class SpreadingWildfireSimulation extends Simulation {
 	protected void makeSimSpecificFields(Stage s) {
 		probGrow = SimulationButtons.makeReturnableTextField("Input probGrow", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		probCatch = SimulationButtons.makeReturnableTextField("Input probCatch", vboxRight, 3 * OFFSET - SCREEN_SIZE);
+		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
 	}
 	
 	@Override
 	protected void userSetThreshold() {
 		growthProbability = Double.parseDouble(probGrow.getText());
-		growthProbability = Double.parseDouble(probCatch.getText());
+		catchProbability = Double.parseDouble(probCatch.getText());
 	}
 
 	/*private void save(String sT, String nR, String nC, String cC, String pC, String pG, String sT1, String fB,

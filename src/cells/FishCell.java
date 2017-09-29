@@ -76,6 +76,12 @@ public class FishCell extends Cell {
 			grid.removeFromNewGrid(this);
 		}
 	}
+	
+	@Override
+	public Cell changeType() {
+		SharkCell newCell = new SharkCell(this.getRow(), this.getCol());
+		return newCell;
+	}
 
 	/*
 	 * (non-Javadoc)

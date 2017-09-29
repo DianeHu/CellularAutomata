@@ -48,11 +48,17 @@ public class EmptyLandCell extends Cell {
 		return newCell;
 	}
 
+	@Override
+	public Cell changeType() {
+		EmptyLandCell newCell = new EmptyLandCell(this.getRow(), this.getCol());
+		return newCell;
+	}
 	/**
 	 * @param num
 	 * 
 	 *            Setter for probGrow.
 	 */
+	@Override
 	public void setThreshold(double num, double unused1, double unused2) {
 		probGrow = num;
 	}
@@ -63,7 +69,7 @@ public class EmptyLandCell extends Cell {
 	 */
 	private boolean shouldGrow() {
 		double test = Math.random();
-		if (test > (1-probGrow)) {
+		if (test < probGrow) {
 			return true;
 		}
 		return false;

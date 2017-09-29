@@ -2,7 +2,7 @@
   <simulationType>SpreadingWildfire</simulationType><numRows>20</numRows>
   <numCols>20</numCols>
   <cellConfiguration>tbtbtbtbbbtbbtbebeebeeeebttbebebtbebttbebtbebtbebebtbetbebbtebbtebtbetbtebtbettbetbtbebtbebtbbtebtbebbtbbetbbettbeeebtbbbetbebbtebbbeebeebtbebbtbebbtbebbetbtbebtbebtbebbbtbetbetetbebtbebtbbebbbtbebtbetebtbebbbetbbtbebbttttteeeetebtbbetbbbteeetbtbebebtbebbbtbetbebbtetetetetetebtbbbtetbbeeeeetttbebbbtttteeeeeeeebbbbteeebtbbebbbbebtbbebbttebbbetttbbebbbtebbbtebbtbebbbtebtbebtbeeebbebtbetbetbebtebtbeb</cellConfiguration>
-  <probCatch>0.5</probCatch>
+  <probCatch>0.8</probCatch>
   <probGrow>0.5</probGrow>
   <segregationThreshold>.3</segregationThreshold>
   <fishBreedTurns>5</fishBreedTurns>

@@ -49,7 +49,6 @@ public class DeadCell extends Cell {
 	}
 
 	/**
-<<<<<<< HEAD
 	 * @param root
 	 *            Replaces dead cell with live one.
 	 */
@@ -89,7 +88,11 @@ public class DeadCell extends Cell {
 		}
 	}
 
-
+	@Override
+	public Cell changeType() {
+		LiveCell newCell = new LiveCell(this.getRow(), this.getCol());
+		return newCell;
+	}
 
 	@Override
 	public void setThreshold(double a, double b, double c) {
