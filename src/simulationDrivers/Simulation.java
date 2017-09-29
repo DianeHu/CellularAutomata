@@ -54,7 +54,6 @@ public abstract class Simulation extends Application {
 	private static final int GRID_DISPLAY_SIZE = 400;
 	private static final String DATA_FILE_EXTENSION = "*.xml";
 	private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
-	private static final int SIZE = 800;
 	private static final int VERT_SIZE = 650;
 	private static final int HORIZONTAL_SIZE = 550;
 	private static final Color BACKGROUND = Color.TRANSPARENT;
@@ -71,8 +70,6 @@ public abstract class Simulation extends Application {
 	protected RectangleGrid sampleGrid;
 	private Stage myStage;
 	private GridConfiguration XMLConfiguration;
-	private static TextField threshold;
-	protected static Button submit;
 	protected static final int OFFSET = 7;
 	protected static int SCREEN_SIZE = 200 + OFFSET;
 	private static double timePassing = SECOND_DELAY;
@@ -82,19 +79,9 @@ public abstract class Simulation extends Application {
 	private Group root;
 	private boolean isFirstTime = true;
 	protected Graph g;
-	private ScrollPane gridScroll;
-	private final ScrollBar sc = new ScrollBar();
+	//private ScrollPane gridScroll;
+	//private final ScrollBar sc = new ScrollBar();
 	private XMLExporter XMLOutput;
-	private static String simType;
-	private static String nRows;
-	private static String nCols;
-	private static String cellConfig;
-	private static String pCatch;
-	private static String pGrow;
-	private static String segThreshold;
-	private static String fBreedTurns;
-	private static String sBreedTurns;
-	private static String sStarveTurns;
 	private double simThreshold = 0.5;
 	
 	public Simulation(GridConfiguration gC) {
@@ -257,9 +244,7 @@ public abstract class Simulation extends Application {
 		animation.play();
 	}
 
-	protected void userSetThreshold() {
-		simThreshold = Double.parseDouble(threshold.getText());
-	}
+	protected abstract void userSetThreshold();
 
 	/**
 	 * This method pauses the simulation

@@ -11,15 +11,17 @@ import javafx.stage.Stage;
  * @author Diane Hu This class holds most of the front end processing. This
  *         class essentially runs the simulations.
  */
-public class SpreadingWildfireSimulation extends Simulation {
+public class WatorSimulation extends Simulation {
 
-	private TextField probGrow;
-	private TextField probCatch;
-	private double growthProbability = 0.5;
-	private double catchProbability = 0.5;
+	private TextField fishBreed;
+	private TextField sharkBreed;
+	private TextField sharkStarve;
+	private double fBreedTurns = 5;
+	private double sBreedTurns = 5;
+	private double starveTurns = 5;
 	private Button submit;
 	
-	public SpreadingWildfireSimulation(GridConfiguration gC) {
+	public WatorSimulation(GridConfiguration gC) {
 		super(gC);
 	}
 
@@ -37,15 +39,17 @@ public class SpreadingWildfireSimulation extends Simulation {
 		SimulationButtons.makeButtonV("Reset", e -> reset(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Step", e -> manualStep(), vboxRight, SCREEN_SIZE);
 
-		probGrow = SimulationButtons.makeReturnableTextField("Input probGrow", vboxRight, 3 * OFFSET - SCREEN_SIZE);
-		probCatch = SimulationButtons.makeReturnableTextField("Input probCatch", vboxRight, 3 * OFFSET - SCREEN_SIZE);
+		fishBreed = SimulationButtons.makeReturnableTextField("Input fishBreed", vboxRight, 3 * OFFSET - SCREEN_SIZE);
+		sharkBreed = SimulationButtons.makeReturnableTextField("Input sharkBreed", vboxRight, 3 * OFFSET - SCREEN_SIZE);
+		sharkStarve = SimulationButtons.makeReturnableTextField("Input sharkStarve", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
 	}
 	
 	@Override
 	protected void userSetThreshold() {
-		growthProbability = Double.parseDouble(probGrow.getText());
-		growthProbability = Double.parseDouble(probCatch.getText());
+		fBreedTurns = Double.parseDouble(fishBreed.getText());
+		sBreedTurns = Double.parseDouble(sharkBreed.getText());
+		starveTurns = Double.parseDouble(sharkStarve.getText());
 	}
 
 	/*private void save(String sT, String nR, String nC, String cC, String pC, String pG, String sT1, String fB,
@@ -56,7 +60,7 @@ public class SpreadingWildfireSimulation extends Simulation {
 	
 	@Override
 	protected void step(double elapsedTime) {
-		sampleGrid.createsNewGrid(growthProbability, catchProbability, 0);
+		sampleGrid.createsNewGrid(fBreedTurns, sBreedTurns, starveTurns);
 		g.updateGraph();
 		sampleGrid.update();
 	}

@@ -1,46 +1,9 @@
 package simulationDrivers;
 
-import java.io.File;
-
 import XMLClasses.GridConfiguration;
-import XMLClasses.XMLException;
-import XMLClasses.XMLExporter;
-import XMLClasses.XMLReader;
-import cellManager.Grid;
-import cellManager.HexagonGrid;
-import cellManager.RectangleGrid;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.geometry.Insets;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Series;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.stage.FileChooser;
-import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-
 /**
  * 
  * @author Tyler Yam
@@ -49,18 +12,16 @@ import javafx.util.Duration;
  */
 public class SegregationSimulation extends Simulation {
 
-	private HBox hboxTop = new HBox();
-	private VBox vboxRight = new VBox();
-	private static final int OFFSET = 7;
-	private static int SCREEN_SIZE = 200 + OFFSET;
 	private TextField threshold;
+	private double satisfiedThreshold = 0.5;
 	private Button submit;
 	
 	public SegregationSimulation(GridConfiguration gC) {
-		setXML(gC);
+		super(gC);
 	}
-
-	private void makeButtons(Stage s) {
+	
+	@Override
+	protected void makeButtons(Stage s) {
 		SimulationButtons.makeButtonH("Choose XML File for Configuration", e -> openFile(s), hboxTop, SCREEN_SIZE);
 		SimulationButtons.makeButtonH("Start Simulation", e -> startMethod(s), hboxTop, SCREEN_SIZE);
 		//SimulationButtons.makeButtonH("Save", e -> save(simType, nRows, nCols, cellConfig, pCatch, pGrow, segThreshold,
@@ -83,8 +44,16 @@ public class SegregationSimulation extends Simulation {
 		XMLOutput.buildXML();
 	}*/
 
-	public static void main(String[] args) {
-		launch(args);
+	@Override
+	protected void step(double elapsedTime) {
+		sampleGrid.createsNewGrid(satisfiedThreshold, 0, 0);
+		g.updateGraph();
+		sampleGrid.update();
+	}
+
+	@Override
+	protected void userSetThreshold() {
+		satisfiedThreshold = Double.parseDouble(threshold.getText());
 	}
 
 }

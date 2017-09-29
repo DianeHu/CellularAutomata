@@ -10,9 +10,8 @@ public class Main extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Simulation segSim = new SpreadingWildfireSimulation(g);
+		Simulation segSim = new WatorSimulation(g);
 		segSim.start(primaryStage);
-		
 	}
 	
 	public static void main(String[] args) {
