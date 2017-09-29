@@ -200,7 +200,6 @@ public class Simulation extends Application {
 			ErrorMessages.createErrors("No File Chosen");
 			Platform.exit();
 		}
-	}
 
 	/**
 	 * @param s
