@@ -139,7 +139,23 @@ public abstract class Simulation extends Application {
 		scene.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
 	}
 
-	protected abstract void makeButtons(Stage s);
+	private void makeButtons(Stage s) {
+		SimulationButtons.makeButtonH("Choose XML File for Configuration", e -> openFile(s), hboxTop, SCREEN_SIZE);
+		SimulationButtons.makeButtonH("Start Simulation", e -> startMethod(s), hboxTop, SCREEN_SIZE);
+		//SimulationButtons.makeButtonH("Save", e -> save(simType, nRows, nCols, cellConfig, pCatch, pGrow, segThreshold,
+		//		fBreedTurns, sBreedTurns, sStarveTurns), hboxTop, SCREEN_SIZE);
+
+		SimulationButtons.makeButtonV("Pause", e -> pause(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeButtonV("Resume", e -> resume(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeButtonV("Speed Up", e -> faster(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeButtonV("Slow Down", e -> slower(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeButtonV("Reset", e -> reset(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeButtonV("Step", e -> manualStep(), vboxRight, SCREEN_SIZE);
+		
+		makeSimSpecificFields(s);
+	}
+	
+	protected abstract void makeSimSpecificFields(Stage s);
 	
 	private void setUpStage(Stage s, Scene scene) {
 		myStage = s;
