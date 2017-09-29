@@ -50,6 +50,11 @@ public class LiveCell extends Cell {
 		}
 		return false;
 	}
+	
+	@Override
+	public void setThreshold(double t, double unused1, double unused2) {
+		// do nothing
+	}
 
 	/*
 	 * (non-Javadoc)

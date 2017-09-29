@@ -44,7 +44,7 @@ public class EmptyLandCell extends Cell {
 	@Override
 	public Cell copy() {
 		EmptyLandCell newCell = new EmptyLandCell();
-		newCell.setThreshold(probGrow);
+		newCell.setThreshold(probGrow, 0, 0);
 		return newCell;
 	}
 
@@ -53,7 +53,7 @@ public class EmptyLandCell extends Cell {
 	 * 
 	 *            Setter for probGrow.
 	 */
-	public void setThreshold(double num) {
+	public void setThreshold(double num, double unused1, double unused2) {
 		probGrow = num;
 	}
 

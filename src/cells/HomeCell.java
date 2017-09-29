@@ -38,4 +38,9 @@ public class HomeCell extends Cell{
 		
 	}
 
+	@Override
+	public void setThreshold(double t, double unused1, double unused2) {
+		// TODO Auto-generated method stub
+	}
+
 }

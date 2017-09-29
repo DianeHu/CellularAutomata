@@ -153,20 +153,20 @@ public abstract class Grid {
 	 */
 	protected void createMaps() {
 		BlueSchellingCell bCell = new BlueSchellingCell();
-		bCell.setThreshold(gridConfig.getSegregationThreshold());
+		bCell.setThreshold(gridConfig.getSegregationThreshold(), 0, 0);
 
 		OrangeSchellingCell oCell = new OrangeSchellingCell();
-		oCell.setThreshold(gridConfig.getSegregationThreshold());
+		oCell.setThreshold(gridConfig.getSegregationThreshold(), 0, 0);
 
 		TreeCell tCell = new TreeCell();
-		tCell.setThreshold(gridConfig.getProbCatch());
+		tCell.setThreshold(0, gridConfig.getProbCatch(), 0);
 
 		BurningTreeCell bTCell = new BurningTreeCell();
 
 		EmptyCell eCell = new EmptyCell();
 
 		EmptyLandCell eLCell = new EmptyLandCell();
-		eLCell.setThreshold(gridConfig.getProbGrow());
+		eLCell.setThreshold(gridConfig.getProbGrow(), 0, 0);
 
 		LiveCell lCell = new LiveCell();
 
@@ -425,12 +425,13 @@ public abstract class Grid {
 	 * order to create the new grid, a 2D matrix of cells which describes the next
 	 * state.
 	 */
-	public void createsNewGrid() {
+	public void createsNewGrid(double threshold1, double threshold2, double threshold3) {
 		setNeighbors();
 		for (int i = 0; i < currentGrid.length; i++) {
 			for (int j = 0; j < currentGrid[i].length; j++) {
 				ArrayList<Cell> empty = getEmptyCells();
 				Cell c = currentGrid[i][j];
+				c.setThreshold(threshold1, threshold2, threshold3);
 				updateCounts(c);
 				c.moveCell(empty, this);
 			}

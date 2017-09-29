@@ -16,8 +16,8 @@ import javafx.scene.paint.Color;
  *         with its surroundings.
  */
 public class SharkCell extends Cell {
-	private static int breedTurns;
-	private static int starveTurns;
+	private static double breedTurns;
+	private static double starveTurns;
 	private int numBreedTurns;
 	private int numStarveTurns;
 
@@ -51,7 +51,7 @@ public class SharkCell extends Cell {
 	 *            This sets the number of turns a shark needs to take before it can
 	 *            breed to n
 	 */
-	public void setBreedTurns(int n) {
+	public void setBreedTurns(double n) {
 		breedTurns = n;
 	}
 
@@ -60,7 +60,7 @@ public class SharkCell extends Cell {
 	 *            This sets the number of turns a shark takes without eating before
 	 *            it starves to n
 	 */
-	public void setStarveTurns(int n) {
+	public void setStarveTurns(double n) {
 		starveTurns = n;
 	}
 
@@ -148,5 +148,12 @@ public class SharkCell extends Cell {
 
 			numBreedTurns++;
 		}
+	}
+
+
+	@Override
+	public void setThreshold(double unused1, double bTurns, double sTurns) {
+		breedTurns = bTurns;
+		starveTurns = sTurns;
 	}
 }

@@ -46,6 +46,11 @@ public class BurningTreeCell extends Cell {
 		BurningTreeCell newCell = new BurningTreeCell();
 		return newCell;
 	}
+	
+	@Override
+	public void setThreshold(double a, double b, double c) {
+		// do nothing
+	}
 
 	/*
 	 * (non-Javadoc)

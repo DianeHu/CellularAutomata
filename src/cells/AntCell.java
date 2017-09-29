@@ -38,4 +38,9 @@ public class AntCell extends Cell{
 		
 	}
 
+	@Override
+	public void setThreshold(double a, double b, double c) {
+		// do nothing
+	}
+
 }

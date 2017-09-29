@@ -58,4 +58,10 @@ public class EmptyCell extends Cell {
 		// do nothing
 	}
 
+
+	@Override
+	public void setThreshold(double a, double b, double c) {
+		// do nothing
+	}
+
 }

@@ -15,7 +15,7 @@ import javafx.scene.paint.Color;
  *         with its surroundings.
  */
 public class FishCell extends Cell {
-	private static int breedTurns;
+	private static double breedTurns;
 	private int numTurns;
 	private boolean eaten;
 	
@@ -40,7 +40,7 @@ public class FishCell extends Cell {
 	 * @param n
 	 *            Sets the number of turns before the fish breeds as n
 	 */
-	public void setBreedTurns(int n) {
+	public void setBreedTurns(double n) {
 		breedTurns = n;
 	}
 
@@ -94,5 +94,10 @@ public class FishCell extends Cell {
 			}
 		}
 		numTurns++;
+	}
+
+	@Override
+	public void setThreshold(double bTurns, double unused1, double unused2) {
+		breedTurns = bTurns;
 	}
 }

@@ -88,4 +88,11 @@ public class DeadCell extends Cell {
 			grid.addToNewGrid(this);
 		}
 	}
+
+
+
+	@Override
+	public void setThreshold(double a, double b, double c) {
+		// do nothing
+	}
 }
