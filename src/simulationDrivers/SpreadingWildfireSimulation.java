@@ -1,7 +1,6 @@
 package simulationDrivers;
 
 import XMLClasses.GridConfiguration;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -15,19 +14,23 @@ public class SpreadingWildfireSimulation extends Simulation {
 
 	private TextField probGrow;
 	private TextField probCatch;
-	private double growthProbability = 0.5;
-	private double catchProbability = 0.5;
-	private Button submit;
+	private double growthProbability;
+	private double catchProbability;
 	
 	public SpreadingWildfireSimulation(GridConfiguration gC) {
 		super(gC);
 	}
 	
 	@Override
+	protected void setUpThresholds() {
+		growthProbability = XMLConfiguration.getProbGrow();
+		catchProbability = XMLConfiguration.getProbCatch();
+	}
+	
+	@Override
 	protected void makeSimSpecificFields(Stage s) {
 		probGrow = SimulationButtons.makeReturnableTextField("Input probGrow", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		probCatch = SimulationButtons.makeReturnableTextField("Input probCatch", vboxRight, 3 * OFFSET - SCREEN_SIZE);
-		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
 	}
 	
 	@Override
@@ -41,6 +44,13 @@ public class SpreadingWildfireSimulation extends Simulation {
 		XMLOutput = new XMLExporter(sT, nR, nC, cC, pC, pG, sT1, fB, sB, sS);
 		XMLOutput.buildXML();
 	}*/
+	
+	@Override
+	protected void manualStep() {
+		sampleGrid.createsNewGrid(growthProbability, catchProbability, 0);
+		g.updateGraph();
+		sampleGrid.update();
+	}
 	
 	@Override
 	protected void step(double elapsedTime) {

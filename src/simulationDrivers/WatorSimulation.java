@@ -1,7 +1,6 @@
 package simulationDrivers;
 
 import XMLClasses.GridConfiguration;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -16,13 +15,19 @@ public class WatorSimulation extends Simulation {
 	private TextField fishBreed;
 	private TextField sharkBreed;
 	private TextField sharkStarve;
-	private double fBreedTurns = 5;
-	private double sBreedTurns = 5;
-	private double starveTurns = 5;
-	private Button submit;
+	private double fBreedTurns;
+	private double sBreedTurns;
+	private double starveTurns;
 	
 	public WatorSimulation(GridConfiguration gC) {
 		super(gC);
+	}
+	
+	@Override
+	protected void setUpThresholds() {
+		fBreedTurns = XMLConfiguration.getFishBreedTurns();
+		sBreedTurns = XMLConfiguration.getSharkBreedTurns();
+		starveTurns = XMLConfiguration.getSharkStarveTurns();
 	}
 	
 	@Override
@@ -30,7 +35,6 @@ public class WatorSimulation extends Simulation {
 		fishBreed = SimulationButtons.makeReturnableTextField("Input fishBreed", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		sharkBreed = SimulationButtons.makeReturnableTextField("Input sharkBreed", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		sharkStarve = SimulationButtons.makeReturnableTextField("Input sharkStarve", vboxRight, 3 * OFFSET - SCREEN_SIZE);
-		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
 	}
 	
 	@Override
@@ -45,6 +49,13 @@ public class WatorSimulation extends Simulation {
 		XMLOutput = new XMLExporter(sT, nR, nC, cC, pC, pG, sT1, fB, sB, sS);
 		XMLOutput.buildXML();
 	}*/
+	
+	@Override
+	protected void manualStep() {
+		sampleGrid.createsNewGrid(fBreedTurns, sBreedTurns, starveTurns);
+		g.updateGraph();
+		sampleGrid.update();
+	}
 	
 	@Override
 	protected void step(double elapsedTime) {

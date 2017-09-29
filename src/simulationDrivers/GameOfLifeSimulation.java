@@ -22,6 +22,11 @@ public class GameOfLifeSimulation extends Simulation {
 	}*/
 	
 	@Override
+	protected void setUpThresholds() {
+		// do nothing
+	}
+	
+	@Override
 	protected void step(double elapsedTime) {
 		sampleGrid.createsNewGrid(0, 0, 0);
 		g.updateGraph();
@@ -36,5 +41,12 @@ public class GameOfLifeSimulation extends Simulation {
 	@Override
 	protected void makeSimSpecificFields(Stage s) {
 		// do nothing
+	}
+
+	@Override
+	protected void manualStep() {
+		sampleGrid.createsNewGrid(0, 0, 0);
+		g.updateGraph();
+		sampleGrid.update();
 	}
 }

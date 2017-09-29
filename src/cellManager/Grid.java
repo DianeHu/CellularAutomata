@@ -153,36 +153,23 @@ public abstract class Grid {
 	 */
 	protected void createMaps() {
 		BlueSchellingCell bCell = new BlueSchellingCell();
-		bCell.setThreshold(gridConfig.getSegregationThreshold(), 0, 0);
-
 		OrangeSchellingCell oCell = new OrangeSchellingCell();
-		oCell.setThreshold(gridConfig.getSegregationThreshold(), 0, 0);
-
-		TreeCell tCell = new TreeCell();
-		tCell.setThreshold(0, gridConfig.getProbCatch(), 0);
-
-		BurningTreeCell bTCell = new BurningTreeCell();
-
 		EmptyCell eCell = new EmptyCell();
-
+		
+		TreeCell tCell = new TreeCell();
+		BurningTreeCell bTCell = new BurningTreeCell();
 		EmptyLandCell eLCell = new EmptyLandCell();
-		eLCell.setThreshold(gridConfig.getProbGrow(), 0, 0);
-
+		
 		LiveCell lCell = new LiveCell();
-
 		DeadCell dCell = new DeadCell();
-
+		
 		FishCell fCell = new FishCell();
-		fCell.setBreedTurns(gridConfig.getFishBreedTurns());
-
-		SharkCell sCell = new SharkCell();
-		sCell.setBreedTurns(gridConfig.getSharkBreedTurns());
-		sCell.setStarveTurns(gridConfig.getSharkStarveTurns());
+		SharkCell sCell = new SharkCell();	
 		
 		HomeCell hCell = new HomeCell();
 		FoodCell foCell = new FoodCell();
 		AntCell aCell = new AntCell();
-
+		
 		segregation.put('b', bCell);
 		segregation.put('o', oCell);
 		segregation.put('e', eCell);

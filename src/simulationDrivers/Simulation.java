@@ -69,7 +69,8 @@ public abstract class Simulation extends Application {
 	private Scene myScene;
 	protected RectangleGrid sampleGrid;
 	private Stage myStage;
-	private GridConfiguration XMLConfiguration;
+	private Button submit;
+	protected GridConfiguration XMLConfiguration;
 	protected static final int OFFSET = 7;
 	protected static int SCREEN_SIZE = 200 + OFFSET;
 	private static double timePassing = SECOND_DELAY;
@@ -82,10 +83,9 @@ public abstract class Simulation extends Application {
 	//private ScrollPane gridScroll;
 	//private final ScrollBar sc = new ScrollBar();
 	private XMLExporter XMLOutput;
-	private double simThreshold = 0.5;
 	
 	public Simulation(GridConfiguration gC) {
-		setXML(gC);
+		XMLConfiguration = gC;
 	}
 
 	/**
@@ -93,10 +93,6 @@ public abstract class Simulation extends Application {
 	 */
 	public void start(Stage primaryStage) throws Exception {
 		addButtonsToBorder(primaryStage);
-	}
-	
-	public void setXML(GridConfiguration gC) {
-		XMLConfiguration = gC;
 	}
 
 	/**
@@ -151,8 +147,8 @@ public abstract class Simulation extends Application {
 		SimulationButtons.makeButtonV("Slow Down", e -> slower(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Reset", e -> reset(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Step", e -> manualStep(), vboxRight, SCREEN_SIZE);
-		
 		makeSimSpecificFields(s);
+		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
 	}
 	
 	protected abstract void makeSimSpecificFields(Stage s);
@@ -176,11 +172,7 @@ public abstract class Simulation extends Application {
 	 * This method allows the stepButton to step through our grid every time it is
 	 * click
 	 */
-	protected void manualStep() {
-		sampleGrid.createsNewGrid(simThreshold, 0, 0);
-		g.updateGraph();
-		sampleGrid.update();
-	}
+	protected abstract void manualStep();
 
 	/**
 	 * @param s
@@ -214,12 +206,15 @@ public abstract class Simulation extends Application {
 
 		// attach scene to the stage and display it
 		setUpStage(s, setSimulation());
+		setUpThresholds();
 		// attach "game loop" to timeline to play it
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(timePassing));
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.getKeyFrames().add(frame);
 		animation.play();
 	}
+	
+	protected abstract void setUpThresholds();
 
 	/**
 	 * @param xml

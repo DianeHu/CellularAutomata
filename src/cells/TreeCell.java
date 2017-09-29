@@ -74,7 +74,7 @@ public class TreeCell extends Cell {
 	 */
 	private void burn(Grid grid) {
 		double test = Math.random();
-		if (test < getNumNeighborsOfType(new BurningTreeCell()) * probCatch) {
+		if (test > getNumNeighborsOfType(new BurningTreeCell()) * (1-probCatch)) {
 			createNewCellOfType(new BurningTreeCell(), grid);
 		} else {
 			grid.addToNewGrid(this);

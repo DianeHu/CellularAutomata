@@ -63,7 +63,7 @@ public class EmptyLandCell extends Cell {
 	 */
 	private boolean shouldGrow() {
 		double test = Math.random();
-		if (test < probGrow) {
+		if (test > (1-probGrow)) {
 			return true;
 		}
 		return false;
