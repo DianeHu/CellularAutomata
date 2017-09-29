@@ -59,8 +59,6 @@ public class DeadCell extends Cell {
 	}
 
 	/**
-=======
->>>>>>> b5034da7114a68f2b4b450686142df19beee4e11
 	 * @return
 	 * 
 	 * 		Checks the number of live neighbors. If the number is exactly three,
