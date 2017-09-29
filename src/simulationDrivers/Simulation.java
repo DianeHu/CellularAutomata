@@ -200,6 +200,7 @@ public class Simulation extends Application {
 			ErrorMessages.createErrors("No File Chosen");
 			Platform.exit();
 		}
+	}
 
 	/**
 	 * @param s
@@ -248,9 +249,9 @@ public class Simulation extends Application {
 	 *            simulation runs
 	 */
 	private void step(double elapsedTime) {
-		sampleGrid.createsNewGrid();
+		//sampleGrid.createsNewGrid();
 		g.updateGraph();
-		sampleGrid.update();
+		//sampleGrid.update();
 	}
 
 	/**

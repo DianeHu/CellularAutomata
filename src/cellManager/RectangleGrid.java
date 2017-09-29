@@ -130,7 +130,7 @@ public class RectangleGrid extends Grid {
 		int col = cell.getCol();
 		for (int i = -1; i < 2; i++) {
 			for (int j = -1; j < 2; j++) {
-				if (row + i < getNumRows() & row + i > -1 & col + j < getNumCols() & col + j > -1) {
+				if (row + i < getNumRows() & row + i > -1 & (col + j) < getNumCols() & (col + j) > -1) {
 					if (isNeighborAdjacent(cell.getRow(), cell.getCol(), row + i, col + j)) {
 						neighbors.add(getCurrentGrid()[row + i][col + j]);
 					}
@@ -141,7 +141,7 @@ public class RectangleGrid extends Grid {
 
 	private boolean isNeighborAdjacent(int currentRow, int currentCol, int otherRow, int otherCol) {
 		if (maxNeighbors) {
-			return (Math.abs(currentRow - otherRow) <= 1 & Math.abs(currentCol - otherCol) <= 1)
+			return (Math.abs(currentRow - otherRow) <= 1 && Math.abs(currentCol - otherCol) <= 1)
 					& !(otherRow == currentRow && otherCol == currentCol);
 		} else {
 			return (Math.abs(currentRow - otherRow) == 1 & currentCol == otherCol)
