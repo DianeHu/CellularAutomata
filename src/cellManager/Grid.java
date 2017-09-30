@@ -57,7 +57,7 @@ public abstract class Grid {
 	private double gridCellCount;
 	private double cellWidth;
 	private double cellHeight;
-	private String simulationType;
+	private String simulationType= "ForagingAnts";
 	private Map<Character, Cell> segregation = new HashMap<>();
 	private Map<Character, Cell> gameOfLife = new HashMap<>();
 	private Map<Character, Cell> spreadingWildfire = new HashMap<>();
@@ -434,6 +434,9 @@ public abstract class Grid {
 				c.setThreshold(threshold1, threshold2, threshold3);
 				updateCounts(c);
 				c.moveCell(empty, this);
+				if(land!=null) {
+					land.evaporate();
+				}
 			}
 		}
 	}
