@@ -109,6 +109,7 @@ public class Simulation extends Application {
 		screenBorder.setCenter(emptyPane);
 		screenBorder.setTop(hboxTop);
 		screenBorder.setRight(vboxRight);
+		screenBorder.getStyleClass().add("pane");
 		
 		startSplash(s);
 		splash.getChildren().add(screenBorder);
@@ -186,6 +187,7 @@ public class Simulation extends Application {
 		myStage = s;
 		Scene scene = setUpSplash();
 		myStage.setScene(scene);
+		scene.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
 		myStage.setTitle(TITLE);
 		myStage.show();
 		// attach "game loop" to timeline to play it
@@ -206,6 +208,7 @@ public class Simulation extends Application {
 		// attach scene to the stage and display it
 		myStage = s;
 		Scene scene = setSimulation(XMLConfiguration);
+		scene.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
 		myStage.setScene(scene);
 		myStage.setTitle(TITLE);
 		myStage.show();
@@ -230,6 +233,7 @@ public class Simulation extends Application {
 		if (isFirstTime == true) {
 			simulationScreen.getChildren().add(screenBorder);
 			myScene = new Scene(simulationScreen, SIZE, SIZE, BACKGROUND);
+			myScene.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
 		}
 		isFirstTime = false;
 		
@@ -241,6 +245,7 @@ public class Simulation extends Application {
 	 */
 	private Scene setUpSplash() {
 		myScene = new Scene(splash, SIZE, SIZE, BACKGROUND);
+		myScene.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
 		return myScene;
 	}
 
