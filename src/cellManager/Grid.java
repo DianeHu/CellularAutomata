@@ -193,6 +193,7 @@ public abstract class Grid {
 		waTor.put('e', eCell);
 
 		foragingAnts.put('a',aCell);
+		foragingAnts.put('e',eFCell);
 		
 		initCountMap();
 	}
@@ -398,7 +399,6 @@ public abstract class Grid {
 				c.setRow(i);
 				c.setCol(j);
 				c.setLand(land);
-				c.setPositionInLand();
 				currentGrid[i][j] = c;
 				blocks[i][j].setFill(c.getColor());
 				blocks[i][j].setStroke(c.getStrokeColor());

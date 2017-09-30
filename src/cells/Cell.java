@@ -23,12 +23,15 @@ import javafx.scene.paint.Color;
  */
 public abstract class Cell {
 
+	private static final Color HOME_LOC_COLOR = Color.PLUM;
+	private static final Color FOOD_LOC_COLOR = Color.GOLDENROD;
+	private static final Color REGULAR_STROKE_COLOR = Color.DARKGREY;
 	private int rowNum;
 	private int colNum;
 	private List<Cell> neighbors;
 	private Color col;
-	private ForagingLand land;
 	private Color strokeCol;
+	private ForagingLand land;
 
 	/**
 	 * @param myRowNum
@@ -40,7 +43,7 @@ public abstract class Cell {
 		rowNum = myRowNum;
 		colNum = myColNum;
 		neighbors = new ArrayList<Cell>();
-		strokeCol = Color.DARKGREY;
+		strokeCol = REGULAR_STROKE_COLOR;
 	}
 
 
@@ -49,7 +52,7 @@ public abstract class Cell {
 	 */
 	public Cell() {
 		neighbors = new ArrayList<Cell>();
-		setStrokeColor(Color.DARKGREY);
+		setStrokeColor(REGULAR_STROKE_COLOR);
 	}
 
 	/**
@@ -108,7 +111,7 @@ public abstract class Cell {
 	 * Set the ForagingLand for Foraging Ant simulation
 	 */
 	public void setLand(ForagingLand l) {
-		land = l;
+		//do nothing
 	}
 
 	/**
@@ -246,18 +249,16 @@ public abstract class Cell {
 		return land;
 	}
 	
-	public void setPositionInLand() {
-		//do nothing
-	}
-	
 	protected void setStrokeIfAtLocation() {
 		if (getLand().atHome(getRow(), getCol())){
-			setStrokeColor(Color.PLUM);
+			setStrokeColor(HOME_LOC_COLOR);
 		}
-		if (getLand().atFoodSource(getRow(), getCol())){
-			setStrokeColor(Color.GOLDENROD);
+		else if (getLand().atFoodSource(getRow(), getCol())){
+			setStrokeColor(FOOD_LOC_COLOR);
+		}
+		else {
+			setStrokeColor(REGULAR_STROKE_COLOR);
 		}
 	}
-	
 
 }
