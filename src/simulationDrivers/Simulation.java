@@ -3,6 +3,8 @@ package simulationDrivers;
 import java.io.File;
 
 import XMLClasses.GridConfiguration;
+import XMLClasses.SpreadingWildfireConfiguration;
+import XMLClasses.SpreadingWildfireReader;
 import XMLClasses.XMLException;
 import XMLClasses.XMLExporter;
 import XMLClasses.XMLReader;
@@ -180,10 +182,10 @@ public abstract class Simulation extends Application {
 	 */
 	protected void openFile(Stage s) {
 		File dataFile = myChooser.showOpenDialog(s);
-		GridConfiguration InputConfiguration = null;
+		SpreadingWildfireConfiguration InputConfiguration = null;
 		if (dataFile != null) {
 			try {
-				InputConfiguration = new XMLReader().getGridConfiguration(dataFile);
+				InputConfiguration = new SpreadingWildfireReader().getGridConfiguration(dataFile);
 			} catch (XMLException e) {
 				Alert a = new Alert(AlertType.ERROR);
 				a.setContentText(e.getMessage());
@@ -196,7 +198,7 @@ public abstract class Simulation extends Application {
 			Platform.exit();
 		}
 	}
-
+	
 	/**
 	 * @param s
 	 * @throws Exception
@@ -275,12 +277,11 @@ public abstract class Simulation extends Application {
 		timePassing *= 2;
 		animation.setRate(timePassing);
 	}
-
-	private void save(String sT, String nR, String nC, String cC, String pC, String pG, String sT1, String fB,
-			String sB, String sS) {
+	
+	/*private void save(String sT, String nR, String nC, String cC, String pC, String pG, String sT1, String fB, String sB, String sS) {
 		XMLOutput = new XMLExporter(sT, nR, nC, cC, pC, pG, sT1, fB, sB, sS);
 		XMLOutput.buildXML();
-	}
+	}*/
 
 	/**
 	 * This method steps through the simulation at half the speed

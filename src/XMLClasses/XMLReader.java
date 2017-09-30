@@ -24,7 +24,7 @@ import XMLClasses.GridConfiguration;
  * Source Code from Rhondu Smithwick and Robert C. Duvall
  * This class will read in XMLs
  */
-public class XMLReader {
+public abstract class XMLReader {
 
     private final DocumentBuilder DOCUMENT_BUILDER;
 
@@ -44,22 +44,22 @@ public class XMLReader {
      * Source Code from Rhondu Smithwick and Robert C. Duvall
      * Stores XML values a GridConfiguration
      */
-    public GridConfiguration getGridConfiguration (File dataFile) {
+    /*public GridConfiguration getGridConfiguration (File dataFile) {
         Element root = getRootElement(dataFile);
         if (! isValidFile(root, GridConfiguration.DATA_TYPE)) {
             throw new XMLException("XML file does not represent %s", GridConfiguration.DATA_TYPE);
         }
         // Stores the data with its field for gridConfiguration
         Map<String, String> results = new HashMap<>();
-        for (String field : GridConfiguration.DATA_FIELDS) {
+        for (String field : GridConfiguration.myDataFields) {
             results.put(field, getTextValue(root, field));
         }
        return new GridConfiguration(results);
-    }
+    }*/
 
 
     // Get root element of an XML file
-    private Element getRootElement (File xmlFile) {
+    protected Element getRootElement (File xmlFile) {
         try {
             DOCUMENT_BUILDER.reset();
             Document xmlDocument = DOCUMENT_BUILDER.parse(xmlFile);
@@ -71,12 +71,12 @@ public class XMLReader {
     }
 
     // Returns if this is a valid XML file for the specified object type
-    private boolean isValidFile (Element root, String type) {
+    protected boolean isValidFile (Element root, String type) {
         return root.getTagName().equals(type);
     }
 
     // Get value of Element's text
-    private String getTextValue (Element e, String tagName) {
+    protected String getTextValue (Element e, String tagName) {
         NodeList nodeList = e.getElementsByTagName(tagName);
         if (nodeList != null && nodeList.getLength() > 0) {
             return nodeList.item(0).getTextContent();

@@ -1,6 +1,6 @@
 package simulationDrivers;
 
-import XMLClasses.GridConfiguration;
+import XMLClasses.SpreadingWildfireConfiguration;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -17,14 +17,14 @@ public class SpreadingWildfireSimulation extends Simulation {
 	private double growthProbability;
 	private double catchProbability;
 	
-	public SpreadingWildfireSimulation(GridConfiguration gC) {
+	public SpreadingWildfireSimulation(SpreadingWildfireConfiguration gC) {
 		super(gC);
 	}
 	
 	@Override
 	protected void setUpThresholds() {
-		growthProbability = XMLConfiguration.getProbGrow();
-		catchProbability = XMLConfiguration.getProbCatch();
+		growthProbability = ((SpreadingWildfireConfiguration) XMLConfiguration).getProbGrow();
+		catchProbability = ((SpreadingWildfireConfiguration) XMLConfiguration).getProbCatch();
 	}
 	
 	@Override

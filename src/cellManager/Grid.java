@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import XMLClasses.GridConfiguration;
+import XMLClasses.SpreadingWildfireConfiguration;
 import cells.AntCell;
 import cells.BlueSchellingCell;
 import cells.BurningTreeCell;
@@ -160,7 +161,6 @@ public abstract class Grid {
 		BlueSchellingCell bCell = new BlueSchellingCell();
 		OrangeSchellingCell oCell = new OrangeSchellingCell();
 		EmptyCell eCell = new EmptyCell();
-		
 		TreeCell tCell = new TreeCell();
 		BurningTreeCell bTCell = new BurningTreeCell();
 		EmptyLandCell eLCell = new EmptyLandCell();

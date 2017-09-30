@@ -1,6 +1,7 @@
 package simulationDrivers;
 
 import XMLClasses.GridConfiguration;
+import XMLClasses.SegregationConfiguration;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 /**
@@ -14,13 +15,13 @@ public class SegregationSimulation extends Simulation {
 	private TextField threshold;
 	private double satisfiedThreshold;
 	
-	public SegregationSimulation(GridConfiguration gC) {
+	public SegregationSimulation(SegregationConfiguration gC) {
 		super(gC);
 	}
 	
 	@Override
 	protected void setUpThresholds() {
-		satisfiedThreshold = XMLConfiguration.getSegregationThreshold();
+		satisfiedThreshold = ((SegregationConfiguration) XMLConfiguration).getSegregationThreshold();
 	}
 	
 	@Override

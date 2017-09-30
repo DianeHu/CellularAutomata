@@ -4,8 +4,4 @@
   <cellConfiguration>tbtbtbtbbbtbbtbebeebeeeebttbebebtbebttbebtbebtbebebtbetbebbtebbtebtbetbtebtbettbetbtbebtbebtbbtebtbebbtbbetbbettbeeebtbbbetbebbtebbbeebeebtbebbtbebbtbebbetbtbebtbebtbebbbtbetbetetbebtbebtbbebbbtbebtbetebtbebbbetbbtbebbttttteeeetebtbbetbbbteeetbtbebebtbebbbtbetbebbtetetetetetebtbbbtetbbeeeeetttbebbbtttteeeeeeeebbbbteeebtbbebbbbebtbbebbttebbbetttbbebbbtebbbtebbtbebbbtebtbebtbeeebbebtbetbetbebtebtbeb</cellConfiguration>
   <probCatch>0.8</probCatch>
   <probGrow>0.5</probGrow>
-  <segregationThreshold>.3</segregationThreshold>
-  <fishBreedTurns>5</fishBreedTurns>
-  <sharkBreedTurns>5</sharkBreedTurns>
-  <sharkStarveTurns>5</sharkStarveTurns>
   </GridConfiguration>

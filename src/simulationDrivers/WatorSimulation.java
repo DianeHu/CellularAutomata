@@ -1,6 +1,7 @@
 package simulationDrivers;
 
 import XMLClasses.GridConfiguration;
+import XMLClasses.WatorConfiguration;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -19,15 +20,15 @@ public class WatorSimulation extends Simulation {
 	private double sBreedTurns;
 	private double starveTurns;
 	
-	public WatorSimulation(GridConfiguration gC) {
+	public WatorSimulation(WatorConfiguration gC) {
 		super(gC);
 	}
 	
 	@Override
 	protected void setUpThresholds() {
-		fBreedTurns = XMLConfiguration.getFishBreedTurns();
-		sBreedTurns = XMLConfiguration.getSharkBreedTurns();
-		starveTurns = XMLConfiguration.getSharkStarveTurns();
+		fBreedTurns = ((WatorConfiguration) XMLConfiguration).getFishBreedTurns();
+		sBreedTurns = ((WatorConfiguration) XMLConfiguration).getSharkBreedTurns();
+		starveTurns = ((WatorConfiguration) XMLConfiguration).getSharkStarveTurns();
 	}
 	
 	@Override
