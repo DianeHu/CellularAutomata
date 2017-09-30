@@ -1,7 +1,7 @@
 <GridConfiguration>
-  <simulationType>Wator</simulationType><numRows>9</numRows>
-  <numCols>9</numCols>
-  <cellConfiguration>ssfffsfsfsffsfsfsffsfsfsfsfffsfsfsfsfsfffsssfsfffsfsffffsfsfsfffsfsfffsfsfsfsfsfsfsfsfsffsfsfsfsfsfsfsfsfsf</cellConfiguration>
+  <simulationType>Wator</simulationType><numRows>3</numRows>
+  <numCols>3</numCols>
+  <cellConfiguration>eeesfeeee</cellConfiguration>
   <probCatch>.5</probCatch>
   <probGrow>.5</probGrow>
   <segregationThreshold>.3</segregationThreshold>

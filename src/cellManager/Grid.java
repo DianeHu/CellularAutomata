@@ -2,10 +2,11 @@ package cellManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import XMLClasses.GridConfiguration;
-import cells.AntCell;
+import cells.AntGroupCell;
 import cells.BlueSchellingCell;
 import cells.BurningTreeCell;
 import cells.Cell;
@@ -13,8 +14,6 @@ import cells.DeadCell;
 import cells.EmptyCell;
 import cells.EmptyLandCell;
 import cells.FishCell;
-import cells.FoodCell;
-import cells.HomeCell;
 import cells.LiveCell;
 import cells.OrangeSchellingCell;
 import cells.SharkCell;
@@ -54,6 +53,8 @@ public abstract class Grid {
 	private Map<Character, Cell> simMap = new HashMap<>();
 	private GridPane pane = new GridPane();
 	private ForagingLand land;
+	private int[] homeLoc = {0,0};
+	private int[] foodLoc = {2,2};
 
 	/**
 	 * @param r
@@ -127,9 +128,8 @@ public abstract class Grid {
 		sCell.setBreedTurns(gridConfig.getSharkBreedTurns());
 		sCell.setStarveTurns(gridConfig.getSharkStarveTurns());
 		
-		HomeCell hCell = new HomeCell();
-		FoodCell foCell = new FoodCell();
-		AntCell aCell = new AntCell();
+		
+		AntGroupCell aCell = new AntGroupCell();
 
 		segregation.put('b', bCell);
 		segregation.put('o', oCell);
@@ -146,8 +146,6 @@ public abstract class Grid {
 		waTor.put('s', sCell);
 		waTor.put('e', eCell);
 		
-		foragingAnts.put('h',hCell);
-		foragingAnts.put('f',foCell);
 		foragingAnts.put('a',aCell);
 	}
 
@@ -172,7 +170,7 @@ public abstract class Grid {
 			break;
 		case ("ForagingAnts"):
 			simMap = foragingAnts;
-			land = new ForagingLand(getNumRows(),getNumCols());
+			land = new ForagingLand(getNumRows(),getNumCols(),homeLoc,foodLoc);
 			break;
 		}
 	}
@@ -336,11 +334,14 @@ public abstract class Grid {
 				Cell c = simMap.get(states[i][j]).copy();
 				c.setRow(i);
 				c.setCol(j);
+				c.setLand(land);
+				c.setPositionInLand();
 				currentGrid[i][j] = c;
 				blocks[i][j].setFill(c.getColor());
 				blocks[i][j].setStroke(c.getStrokeColor());
 				GridPane.setConstraints(blocks[i][j], j, i);
 				pane.getChildren().add(blocks[i][j]);
+				System.out.println(i + " " + j + " " + c.getClass().getName());
 			}
 		}
 
@@ -391,6 +392,7 @@ public abstract class Grid {
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
 				Cell c = newGrid[i][j];
+				c.setRow(i);c.setCol(j);
 				blocks[i][j].setFill(c.getColor());
 				currentGrid[i][j] = newGrid[i][j];
 				
