@@ -15,21 +15,24 @@ public class ForagingAntsExporter extends XMLExporter{
 	}
 
 	Element maxAnts;
-	Element evaporationRate;
-	Element homeLoc;
-	Element foodLoc;
+	Element homeLocX;
+	Element homeLocY;
+	Element foodLocX;
+	Element foodLocY;
 	String mAnts;
-	String eRate;
-	String hLoc;
-	String fLoc;
+	String hLocX;
+	String hLocY;
+	String fLocX;
+	String fLocY;
 	
 
-	public ForagingAntsExporter(String nR, String nC, String cC, String mA, String eR, String hL,String fL) {
+	public ForagingAntsExporter(String nR, String nC, String cC, String mA, String hLX,String hLY,String fLX,String fLY) {
 		super(nR, nC, cC);
 		mAnts=mA;
-		eRate=eR;
-		hLoc=hL;
-		fLoc=fL;
+		hLocX=hLX;
+		hLocY=hLY;
+		fLocX=fLX;
+		fLocY=fLY;
 	}
 	
 	public void buildXML() {
@@ -44,9 +47,10 @@ public class ForagingAntsExporter extends XMLExporter{
 	          addUniversalElements(doc, GridConfiguration);
 	          
 	          addChildrenToDataType(doc, GridConfiguration, maxAnts, "maxAnts", mAnts);
-	          addChildrenToDataType(doc, GridConfiguration, evaporationRate, "evaporationRate", eRate);
-	          addChildrenToDataType(doc, GridConfiguration, homeLoc, "homeLoc", hLoc);
-	          addChildrenToDataType(doc, GridConfiguration, foodLoc, "foodLoc", fLoc);
+	          addChildrenToDataType(doc, GridConfiguration, homeLocX, "homeLocX", hLocX);
+	          addChildrenToDataType(doc, GridConfiguration, homeLocY, "homeLocY", hLocY);
+	          addChildrenToDataType(doc, GridConfiguration, foodLocX, "foodLocX", fLocX);
+	          addChildrenToDataType(doc, GridConfiguration, foodLocY, "foodLocY", fLocY);
 	        
 	          writeXML(doc);
 	          
