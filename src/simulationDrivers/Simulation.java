@@ -3,6 +3,8 @@ package simulationDrivers;
 import java.io.File;
 
 import XMLClasses.GridConfiguration;
+import XMLClasses.SpreadingWildfireConfiguration;
+import XMLClasses.SpreadingWildfireReader;
 import XMLClasses.XMLException;
 import XMLClasses.XMLExporter;
 import XMLClasses.XMLReader;
@@ -70,7 +72,7 @@ public class Simulation extends Application {
 	private Scene myScene;
 	private RectangleGrid sampleGrid;
 	private Stage myStage;
-	private GridConfiguration XMLConfiguration;
+	private SpreadingWildfireConfiguration XMLConfiguration;
 	private static TextField threshold;
 	private static Button submit;
 	private static final int OFFSET = 7;
@@ -185,10 +187,10 @@ public class Simulation extends Application {
 	 */
 	private void openFile(Stage s) {
 		File dataFile = myChooser.showOpenDialog(s);
-		GridConfiguration InputConfiguration = null;
+		SpreadingWildfireConfiguration InputConfiguration = null;
 		if (dataFile != null) {
 			try {
-				InputConfiguration = new XMLReader().getGridConfiguration(dataFile);
+				InputConfiguration = new SpreadingWildfireReader().getGridConfiguration(dataFile);
 			} catch (XMLException e) {
 				Alert a = new Alert(AlertType.ERROR);
 				a.setContentText(e.getMessage());
@@ -200,7 +202,7 @@ public class Simulation extends Application {
 			ErrorMessages.createErrors("No File Chosen");
 			Platform.exit();
 		}
-
+	}
 	/**
 	 * @param s
 	 * @throws Exception
@@ -277,8 +279,8 @@ public class Simulation extends Application {
 	}
 	
 	private void save(String sT, String nR, String nC, String cC, String pC, String pG, String sT1, String fB, String sB, String sS) {
-		XMLOutput = new XMLExporter(sT, nR, nC, cC, pC, pG, sT1, fB, sB, sS);
-		XMLOutput.buildXML();
+		//XMLOutput = new XMLExporter(sT, nR, nC, cC, pC, pG, sT1, fB, sB, sS);
+		//XMLOutput.buildXML();
 	}
 
 	/**

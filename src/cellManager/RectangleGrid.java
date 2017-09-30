@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import XMLClasses.GridConfiguration;
+import XMLClasses.SpreadingWildfireConfiguration;
 import cells.BlueSchellingCell;
 import cells.BurningTreeCell;
 import cells.Cell;
@@ -49,7 +50,7 @@ public class RectangleGrid extends Grid {
 	 *            XML file
 	 */
 	public RectangleGrid(Group r, GridConfiguration g) {
-		super(r, g);
+		super(r, (SpreadingWildfireConfiguration) g);
 	}
 
 	/**

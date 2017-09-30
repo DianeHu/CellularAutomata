@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import XMLClasses.GridConfiguration;
+import XMLClasses.SpreadingWildfireConfiguration;
 import cells.AntCell;
 import cells.BlueSchellingCell;
 import cells.BurningTreeCell;
@@ -48,7 +49,7 @@ public abstract class Grid {
 	private Cell[][] currentGrid;
 	private Cell[][] newGrid;
 	private Shape[][] blocks;
-	private GridConfiguration gridConfig;
+	private SpreadingWildfireConfiguration gridConfig;
 	private int numRows;
 	private int numCols;
 	private double gridCellCount;
@@ -74,7 +75,7 @@ public abstract class Grid {
 	 *            - This is the GridConfiguration used to get information from the
 	 *            XML file
 	 */
-	public Grid(Group r, GridConfiguration g) {
+	public Grid(Group r, SpreadingWildfireConfiguration g) {
 		root = r;
 		gridConfig = g;
 	}
@@ -153,10 +154,10 @@ public abstract class Grid {
 	 */
 	protected void createMaps() {
 		BlueSchellingCell bCell = new BlueSchellingCell();
-		bCell.setThreshold(gridConfig.getSegregationThreshold());
+		//bCell.setThreshold(gridConfig.getSegregationThreshold());
 
-		OrangeSchellingCell oCell = new OrangeSchellingCell();
-		oCell.setThreshold(gridConfig.getSegregationThreshold());
+		//OrangeSchellingCell oCell = new OrangeSchellingCell();
+		//oCell.setThreshold(gridConfig.getSegregationThreshold());
 
 		TreeCell tCell = new TreeCell();
 		tCell.setThreshold(gridConfig.getProbCatch());
@@ -173,18 +174,18 @@ public abstract class Grid {
 		DeadCell dCell = new DeadCell();
 
 		FishCell fCell = new FishCell();
-		fCell.setBreedTurns(gridConfig.getFishBreedTurns());
+		//fCell.setBreedTurns(gridConfig.getFishBreedTurns());
 
 		SharkCell sCell = new SharkCell();
-		sCell.setBreedTurns(gridConfig.getSharkBreedTurns());
-		sCell.setStarveTurns(gridConfig.getSharkStarveTurns());
+		//sCell.setBreedTurns(gridConfig.getSharkBreedTurns());
+		//sCell.setStarveTurns(gridConfig.getSharkStarveTurns());
 		
 		HomeCell hCell = new HomeCell();
 		FoodCell foCell = new FoodCell();
 		AntCell aCell = new AntCell();
 
 		segregation.put('b', bCell);
-		segregation.put('o', oCell);
+		//segregation.put('o', oCell);
 		segregation.put('e', eCell);
 
 		gameOfLife.put('l', lCell);
