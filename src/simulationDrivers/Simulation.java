@@ -259,8 +259,8 @@ public abstract class Simulation extends Application {
 	private Scene setSimulation() {
 		root = new Group();
 		sampleGrid = new RectangleGrid(root, XMLConfiguration);
-		sampleGrid.initialize();
 		sampleGrid.setSimType(simType);
+		sampleGrid.initialize();
 		g = new Graph(sampleGrid);
 		g.addToBox(hboxBottom);
 		screenBorder.setLeft(root);
