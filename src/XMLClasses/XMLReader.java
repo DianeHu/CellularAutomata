@@ -8,9 +8,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import XMLClasses.GridConfiguration;
+import simulationDrivers.ErrorMessages;
 
 
 /**
@@ -44,19 +42,6 @@ public abstract class XMLReader {
      * Source Code from Rhondu Smithwick and Robert C. Duvall
      * Stores XML values a GridConfiguration
      */
-    /*public GridConfiguration getGridConfiguration (File dataFile) {
-        Element root = getRootElement(dataFile);
-        if (! isValidFile(root, GridConfiguration.DATA_TYPE)) {
-            throw new XMLException("XML file does not represent %s", GridConfiguration.DATA_TYPE);
-        }
-        // Stores the data with its field for gridConfiguration
-        Map<String, String> results = new HashMap<>();
-        for (String field : GridConfiguration.myDataFields) {
-            results.put(field, getTextValue(root, field));
-        }
-       return new GridConfiguration(results);
-    }*/
-
 
     // Get root element of an XML file
     protected Element getRootElement (File xmlFile) {
@@ -82,6 +67,8 @@ public abstract class XMLReader {
             return nodeList.item(0).getTextContent();
         }
         else {
+        	
+        	ErrorMessages.createErrors("Element is lack text");
 
             return "Sorry, Do not pass go";
         }

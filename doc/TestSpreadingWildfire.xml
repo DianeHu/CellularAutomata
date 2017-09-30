@@ -1,5 +1,5 @@
 <GridConfiguration>
-  <simulationType>SpreadingWildfire</simulationType><numRows>20</numRows>
+  <numRows>20</numRows>
   <numCols>20</numCols>
   <cellConfiguration>tbtbtbtbbbtbbtbebeebeeeebttbebebtbebttbebtbebtbebebtbetbebbtebbtebtbetbtebtbettbetbtbebtbebtbbtebtbebbtbbetbbettbeeebtbbbetbebbtebbbeebeebtbebbtbebbtbebbetbtbebtbebtbebbbtbetbetetbebtbebtbbebbbtbebtbetebtbebbbetbbtbebbttttteeeetebtbbetbbbteeetbtbebebtbebbbtbetbebbtetetetetetebtbbbtetbbeeeeetttbebbbtttteeeeeeeebbbbteeebtbbebbbbebtbbebbttebbbetttbbebbbtebbbtebbtbebbbtebtbebtbeeebbebtbetbetbebtebtbeb</cellConfiguration>
   <probCatch>0.8</probCatch>

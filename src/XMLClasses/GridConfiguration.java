@@ -14,13 +14,9 @@ public abstract class GridConfiguration {
     public static final String DATA_TYPE = "GridConfiguration";
     // List of names of data fields
     public static List<String> myDataFields = new ArrayList<>(Arrays.asList(new String[]{
-        "simulationType",
     	"numRows",
         "numCols",
         "cellConfiguration"
-        //"fishBreedTurns",
-        //"sharkBreedTurns",
-        //"sharkStarveTurns",
     }));
 
     // Stores actual data values
@@ -36,10 +32,6 @@ public abstract class GridConfiguration {
     	myDataFields.add(s);
     }
     
-    // returns simulation type
-    public String getSimulationType () {
-        return getMyDataValues().get("simulationType");
-    }
     // returns number of rows
     public int getNumRows () {
         return Integer.parseInt(getMyDataValues().get("numRows"));

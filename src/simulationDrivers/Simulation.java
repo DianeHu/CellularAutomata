@@ -7,6 +7,7 @@ import XMLClasses.GridConfiguration;
 import XMLClasses.SegregationReader;
 import XMLClasses.SpreadingWildfireConfiguration;
 import XMLClasses.SpreadingWildfireReader;
+import XMLClasses.WatorConfiguration;
 import XMLClasses.WatorReader;
 import XMLClasses.XMLException;
 import XMLClasses.XMLExporter;
@@ -176,8 +177,8 @@ public abstract class Simulation extends Application {
 		try {
 			startSimulation(s);
 		} catch (Exception e1) {
-			//ErrorMessages.createErrors("Failed to Start\nChoose Valid Configuration File");
 			e1.printStackTrace();
+			//ErrorMessages.createErrors("Failed to Start\nChoose Valid Configuration File");
 		}
 	}
 
