@@ -44,9 +44,13 @@ public class SegregationSimulation extends Simulation {
 	
 	@Override
 	protected void step(double elapsedTime) {
-		sampleGrid.createsNewGrid(satisfiedThreshold, 0, 0);
-		g.updateGraph();
-		sampleGrid.update();
+		if(isPaused == false) {
+			manualStep();
+		} else {
+			sampleGrid.createPausedGrid(satisfiedThreshold, 0, 0);
+			g.updateGraph();
+			sampleGrid.update();
+		}
 	}
 
 	@Override

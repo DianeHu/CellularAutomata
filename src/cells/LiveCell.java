@@ -42,7 +42,7 @@ public class LiveCell extends Cell {
 	
 	@Override
 	public Cell changeType() {
-		LiveCell newCell = new LiveCell(this.getRow(), this.getCol());
+		DeadCell newCell = new DeadCell(this.getRow(), this.getCol());
 		return newCell;
 	}
 

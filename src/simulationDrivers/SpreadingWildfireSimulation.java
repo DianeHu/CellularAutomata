@@ -55,8 +55,12 @@ public class SpreadingWildfireSimulation extends Simulation {
 	
 	@Override
 	protected void step(double elapsedTime) {
-		sampleGrid.createsNewGrid(growthProbability, catchProbability, 0);
-		g.updateGraph();
-		sampleGrid.update();
+		if(isPaused == false) {
+			manualStep();
+		} else {
+			sampleGrid.createPausedGrid(growthProbability, catchProbability, 0);
+			g.updateGraph();
+			sampleGrid.update();
+		}
 	}
 }

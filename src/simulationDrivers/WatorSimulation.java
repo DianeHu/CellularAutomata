@@ -60,8 +60,12 @@ public class WatorSimulation extends Simulation {
 	
 	@Override
 	protected void step(double elapsedTime) {
-		sampleGrid.createsNewGrid(fBreedTurns, sBreedTurns, starveTurns);
-		g.updateGraph();
-		sampleGrid.update();
+		if(isPaused == false) {
+			manualStep();
+		} else {
+			sampleGrid.createPausedGrid(fBreedTurns, sBreedTurns, starveTurns);
+			g.updateGraph();
+			sampleGrid.update();
+		}
 	}
 }

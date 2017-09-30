@@ -80,6 +80,7 @@ public abstract class Simulation extends Application {
 	private Group root;
 	private boolean isFirstTime = true;
 	protected Graph g;
+	protected boolean isPaused = false;
 	//private ScrollPane gridScroll;
 	//private final ScrollBar sc = new ScrollBar();
 	private XMLExporter XMLOutput;
@@ -251,8 +252,9 @@ public abstract class Simulation extends Application {
 	 * This method resumes the simulation after it is paused
 	 */
 	protected void resume() {
-		animation.play();
-		sampleGrid.setPaused(false);
+		//animation.play();
+		//sampleGrid.setPaused(false);
+		isPaused = false;
 	}
 
 	protected abstract void userSetThreshold();
@@ -261,8 +263,9 @@ public abstract class Simulation extends Application {
 	 * This method pauses the simulation
 	 */
 	protected void pause() {
-		animation.pause();
-		sampleGrid.setPaused(true);
+		//animation.pause();
+		//sampleGrid.setPaused(true);
+		isPaused = true;
 	}
 
 	/**

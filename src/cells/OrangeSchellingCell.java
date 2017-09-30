@@ -39,7 +39,7 @@ public class OrangeSchellingCell extends Cell {
 	@Override
 	public Cell changeType() {
 		BlueSchellingCell newCell = new BlueSchellingCell(this.getRow(), this.getCol());
-		return newCell.copy();
+		return newCell;
 	}
 	
 	/*

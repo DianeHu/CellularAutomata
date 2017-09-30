@@ -28,9 +28,13 @@ public class GameOfLifeSimulation extends Simulation {
 	
 	@Override
 	protected void step(double elapsedTime) {
-		sampleGrid.createsNewGrid(0, 0, 0);
-		g.updateGraph();
-		sampleGrid.update();
+		if(isPaused == false) {
+			manualStep();
+		} else {
+			sampleGrid.createPausedGrid(0, 0, 0);
+			g.updateGraph();
+			sampleGrid.update();
+		}
 	}
 
 	@Override

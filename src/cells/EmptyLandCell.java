@@ -50,7 +50,7 @@ public class EmptyLandCell extends Cell {
 
 	@Override
 	public Cell changeType() {
-		EmptyLandCell newCell = new EmptyLandCell(this.getRow(), this.getCol());
+		TreeCell newCell = new TreeCell(this.getRow(), this.getCol());
 		return newCell;
 	}
 	/**

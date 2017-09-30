@@ -423,12 +423,21 @@ public abstract class Grid {
 			for (int j = 0; j < currentGrid[i].length; j++) {
 				ArrayList<Cell> empty = getEmptyCells();
 				Cell c = currentGrid[i][j];
-				if(currentlyPaused == true) {
-					blocks[i][j].setOnMouseClicked(e->changeState(c));
-				}
 				c.setThreshold(threshold1, threshold2, threshold3);
 				updateCounts(c);
 				c.moveCell(empty, this);
+			}
+		}
+	}
+	
+	public void createPausedGrid(double threshold1, double threshold2, double threshold3) {
+		for(int i = 0; i < currentGrid.length; i++) {
+			for(int j = 0; j < currentGrid[i].length; j++) {
+				Cell c = currentGrid[i][j];
+				blocks[i][j].setOnMouseClicked(e->changeState(c));
+				c.setThreshold(threshold1, threshold2, threshold3);
+				newGrid[i][j] = c;
+				updateCounts(c);
 			}
 		}
 	}
