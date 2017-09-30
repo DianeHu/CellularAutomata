@@ -2,6 +2,8 @@ package simulationDrivers;
 
 import XMLClasses.GridConfiguration;
 import XMLClasses.WatorConfiguration;
+import cellManager.Grid;
+import cellManager.RectangleGrid;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -20,8 +22,8 @@ public class WatorSimulation extends Simulation {
 	private double sBreedTurns;
 	private double starveTurns;
 	
-	public WatorSimulation(WatorConfiguration gC) {
-		super(gC);
+	public WatorSimulation(GridConfiguration gC, Grid g) {
+		super(gC, g);
 	}
 	
 	@Override
@@ -32,10 +34,16 @@ public class WatorSimulation extends Simulation {
 	}
 	
 	@Override
+	public Simulation copy() {
+		WatorConfiguration wG = null;
+		return new WatorSimulation(wG, sampleGrid);
+	}
+	
+	@Override
 	protected void makeSimSpecificFields(Stage s) {
-		fishBreed = SimulationButtons.makeReturnableTextField("Input fishBreed", vboxRight, 3 * OFFSET - SCREEN_SIZE);
-		sharkBreed = SimulationButtons.makeReturnableTextField("Input sharkBreed", vboxRight, 3 * OFFSET - SCREEN_SIZE);
-		sharkStarve = SimulationButtons.makeReturnableTextField("Input sharkStarve", vboxRight, 3 * OFFSET - SCREEN_SIZE);
+		fishBreed = SimulationButtons.makeReturnableTextFieldV("Input fishBreed", vboxRight, 3 * OFFSET - SCREEN_SIZE);
+		sharkBreed = SimulationButtons.makeReturnableTextFieldV("Input sharkBreed", vboxRight, 3 * OFFSET - SCREEN_SIZE);
+		sharkStarve = SimulationButtons.makeReturnableTextFieldV("Input sharkStarve", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
 	}
 	

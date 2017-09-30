@@ -211,14 +211,17 @@ public abstract class Grid {
 	}
 
 	public String getSimType() {
-		return gridConfig.getSimulationType();
+		return simulationType;
+	}
+	
+	public void setSimType(String s) {
+		simulationType = s;
 	}
 	/**
 	 * Switches which map is being used to map characters to cell types based off of
 	 * the simulation string read from the XML file
 	 */
 	protected void setCurrSimulationMap() {
-		simulationType = gridConfig.getSimulationType();
 		switch (simulationType) {
 		case ("Segregation"):
 			simMap = segregation;

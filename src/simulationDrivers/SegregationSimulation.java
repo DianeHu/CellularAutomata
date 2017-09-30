@@ -2,6 +2,8 @@ package simulationDrivers;
 
 import XMLClasses.GridConfiguration;
 import XMLClasses.SegregationConfiguration;
+import cellManager.Grid;
+import cellManager.RectangleGrid;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 /**
@@ -15,8 +17,8 @@ public class SegregationSimulation extends Simulation {
 	private TextField threshold;
 	private double satisfiedThreshold;
 	
-	public SegregationSimulation(SegregationConfiguration gC) {
-		super(gC);
+	public SegregationSimulation(GridConfiguration gC, Grid g) {
+		super(gC, g);
 	}
 	
 	@Override
@@ -25,8 +27,14 @@ public class SegregationSimulation extends Simulation {
 	}
 	
 	@Override
+	public Simulation copy() {
+		SegregationConfiguration sC = null;
+		return new SegregationSimulation(sC, sampleGrid);
+	}
+	
+	@Override
 	protected void makeSimSpecificFields(Stage s) {
-		threshold = SimulationButtons.makeReturnableTextField("Input threshold", vboxRight, 3 * OFFSET - SCREEN_SIZE);
+		threshold = SimulationButtons.makeReturnableTextFieldV("Input threshold", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
 	}
 
