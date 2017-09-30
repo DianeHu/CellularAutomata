@@ -67,10 +67,7 @@ public abstract class XMLReader {
             return nodeList.item(0).getTextContent();
         }
         else {
-        	
-        	ErrorMessages.createErrors("Element is lack text");
-
-            return "Sorry, Do not pass go";
+        	return "Doesn't work";
         }
     }
 

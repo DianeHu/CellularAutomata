@@ -118,7 +118,7 @@ public class AntCell extends Cell {
 
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
-		getLand().addPheromones(getRow(), getCol(), hasFood);
+		getLand().addPheromones(getRow(), getCol(), hasFood,getNeighbors());
 		List<Integer> coordinates = getLand().getNewCoordinates(getDirectionNeighbors(),hasFood,maxAnts,this);
 		int newrow = coordinates.get(0);
 		int newcol = coordinates.get(1);
@@ -165,10 +165,12 @@ public class AntCell extends Cell {
 		}
 		if (getLand().atHome(newrow, newcol)) {
 			hasFood = false;
+			getLand().topOffHome();
 			// top off
 		}
 		if (getLand().atFoodSource(newrow, newcol)) {
 			hasFood = true;
+			getLand().topOffFood();
 			// top off
 		}
 	}
