@@ -3,7 +3,8 @@
   <numCols>6</numCols>
   <cellConfiguration>aaeeaeaaeaeaeaeaeeaeeaaeeeeaeaeaeaeaeeeaaeaeeaaaeeeeeeeeaaeeaaaeaea</cellConfiguration>
   <maxAnts>5</maxAnts>
-  <evaporationRate>10</evaporationRate>
-  <homeLoc>10</homeLoc>
-  <foodLoc>30</foodLoc>
+  <homeLocX>0</homeLocX>
+  <homeLocY>1</homeLocY>
+  <foodLocX>0</foodLocX>
+  <foodLocY>3</foodLocY>
   </GridConfiguration>
