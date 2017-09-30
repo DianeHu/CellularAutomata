@@ -434,6 +434,9 @@ public abstract class Grid {
 				c.setThreshold(threshold1, threshold2, threshold3);
 				updateCounts(c);
 				c.moveCell(empty, this);
+				if(land!=null) {
+					land.evaporate();
+				}
 			}
 		}
 	}

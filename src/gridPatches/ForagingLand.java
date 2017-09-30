@@ -7,6 +7,7 @@ import cells.AntGroupCell;
 import cells.Cell;
 
 public class ForagingLand implements Land{
+	private static final int MAX_NUM_PHER = 10;
 	PheromoneLocation[][] foodPheromones;
 	PheromoneLocation[][] homePheromones;
 	int[] homeLoc; //[r,c]
@@ -73,15 +74,27 @@ public class ForagingLand implements Land{
 		return row==foodLoc[0] & col==foodLoc[1];
 	}
 	
-	public void addPheromones(int row, int col,boolean hasFood) {
+	public void addPheromones(int row, int col,boolean hasFood, List<Cell> neighbors) {
 		if(hasFood) {
-			foodPheromones[row][col].addNew();
+			PheromoneLocation l = foodPheromones[row][col];
+			int desired = getDesiredNumPheromones(foodPheromones,neighbors);
+			addPheromonesUntilAt(l, desired);
 		}
 		else {
-			homePheromones[row][col].addNew();
+			PheromoneLocation l = homePheromones[row][col];
+			int desired = getDesiredNumPheromones(homePheromones,neighbors);
+			addPheromonesUntilAt(l, desired);
 		}
 	}
 	
+	private int getDesiredNumPheromones(PheromoneLocation pher[][],List<Cell> neighbors) {
+		int max = 0;
+		for(Cell c: neighbors) {
+			//if
+		}
+		return 0;
+	}
+
 	public void evaporate() {
 		for(int i = 0; i<homePheromones[0].length; i++) {
 			for(int j = 0; j<homePheromones.length; j++) {
@@ -91,4 +104,19 @@ public class ForagingLand implements Land{
 		}
 	}
 	
+	public void topOffHome() {
+		PheromoneLocation h = homePheromones[homeLoc[0]][homeLoc[1]];
+		addPheromonesUntilAt(h,MAX_NUM_PHER);
+	}
+
+	protected void addPheromonesUntilAt(PheromoneLocation h, int num) {
+		while(h.getNumPheromones()<num) {
+			h.addNew();
+		}
+	}
+	
+	public void topOffFood() {
+		PheromoneLocation f = foodPheromones[foodLoc[0]][foodLoc[1]];
+		addPheromonesUntilAt(f,MAX_NUM_PHER);
+	}
 }
