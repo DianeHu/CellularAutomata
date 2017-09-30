@@ -67,7 +67,8 @@ public abstract class XMLReader {
             return nodeList.item(0).getTextContent();
         }
         else {
-        	return "Doesn't work";
+        	throw new XMLException("missing text");
+        	//return "Doesn't work";
         }
     }
 

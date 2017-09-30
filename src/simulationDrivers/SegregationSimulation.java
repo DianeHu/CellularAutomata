@@ -27,6 +27,11 @@ public class SegregationSimulation extends Simulation {
 	}
 	
 	@Override
+	protected Graph createGraph(Grid g) {
+		return new SegregationGraph(g);
+	}
+	
+	@Override
 	public Simulation copy() {
 		SegregationConfiguration sC = null;
 		return new SegregationSimulation(sC, sampleGrid);

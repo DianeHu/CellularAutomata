@@ -261,7 +261,7 @@ public abstract class Simulation extends Application {
 		sampleGrid = new RectangleGrid(root, XMLConfiguration);
 		sampleGrid.setSimType(simType);
 		sampleGrid.initialize();
-		g = new Graph(sampleGrid);
+		g = createGraph(sampleGrid);
 		g.addToBox(hboxBottom);
 		screenBorder.setLeft(root);
 		screenBorder.getStyleClass().add("pane");
@@ -276,6 +276,8 @@ public abstract class Simulation extends Application {
 
 		return myScene;
 	}
+	
+	protected abstract Graph createGraph(Grid g);
 
 	/**
 	 * @param elapsedTime

@@ -29,6 +29,12 @@ public class SpreadingWildfireSimulation extends Simulation {
 		SpreadingWildfireConfiguration sWC = null;
 		return new SpreadingWildfireSimulation(sWC, sampleGrid);
 	}
+	
+	@Override
+	protected Graph createGraph(Grid g) {
+		return new SpreadingWildfireGraph(g);
+	}
+	
 	@Override
 	protected void setUpThresholds() {
 		growthProbability = ((SpreadingWildfireConfiguration) XMLConfiguration).getProbGrow();

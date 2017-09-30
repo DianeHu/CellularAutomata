@@ -30,6 +30,11 @@ public class GameOfLifeSimulation extends Simulation {
 	}
 	
 	@Override
+	protected Graph createGraph(Grid g) {
+		return new GameOfLifeGraph(g);
+	}
+	
+	@Override
 	public Simulation copy() {
 		GameOfLifeConfiguration golC = null;
 		return new GameOfLifeSimulation(golC, sampleGrid);

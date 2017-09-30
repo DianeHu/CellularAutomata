@@ -34,6 +34,11 @@ public class WatorSimulation extends Simulation {
 	}
 	
 	@Override
+	protected Graph createGraph(Grid g) {
+		return new WatorGraph(g);
+	}
+	
+	@Override
 	public Simulation copy() {
 		WatorConfiguration wG = null;
 		return new WatorSimulation(wG, sampleGrid);

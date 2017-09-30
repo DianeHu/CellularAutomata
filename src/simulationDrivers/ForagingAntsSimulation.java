@@ -21,6 +21,11 @@ public class ForagingAntsSimulation extends Simulation {
 	}
 	
 	@Override
+	protected Graph createGraph(Grid g) {
+		return new ForagingAntsGraph(g);
+	}
+	
+	@Override
 	protected void setUpThresholds() {
 		maxAnts = ((ForagingAntsConfiguration) XMLConfiguration).getMaxAnts();
 	}
