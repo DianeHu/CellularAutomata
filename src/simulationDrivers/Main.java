@@ -106,7 +106,7 @@ public class Main extends Application{
 		pickSimByName.put("SpreadingWildfire", new SpreadingWildfireSimulation(sWG, recGrid));
 		pickSimByName.put("GameOfLife", new GameOfLifeSimulation(gofC, recGrid));
 		pickSimByName.put("Segregation", new SegregationSimulation(sC, recGrid));
-		pickSimByName.put("ForagingAnts",new ForagingAntsSimulation(faC,recGrid));
+		pickSimByName.put("ForagingAnts", new ForagingAntsSimulation(faC, recGrid));
 	}
 	
 	public static void main(String[] args) {
