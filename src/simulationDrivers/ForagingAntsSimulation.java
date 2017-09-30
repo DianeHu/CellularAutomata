@@ -28,7 +28,7 @@ public class ForagingAntsSimulation extends Simulation {
 	@Override
 	public Simulation copy() {
 		ForagingAntsConfiguration fC = null;
-		return new SegregationSimulation(fC, sampleGrid);
+		return new ForagingAntsSimulation(fC, sampleGrid);
 	}
 	
 	@Override
