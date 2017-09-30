@@ -108,7 +108,7 @@ public abstract class Cell {
 	 * Set the ForagingLand for Foraging Ant simulation
 	 */
 	public void setLand(ForagingLand l) {
-		land = l;
+		// do nothing
 	}
 
 	/**
@@ -244,10 +244,6 @@ public abstract class Cell {
 	
 	protected ForagingLand getLand() {
 		return land;
-	}
-	
-	public void setPositionInLand() {
-		//do nothing
 	}
 	
 	protected void setStrokeIfAtLocation() {

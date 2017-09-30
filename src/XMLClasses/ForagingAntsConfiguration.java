@@ -18,26 +18,26 @@ public class ForagingAntsConfiguration extends GridConfiguration {
         return Double.parseDouble(GridConfiguration.getMyDataValues().get("evaporationRate"));
     }
     // returns number of turns shark starve for Wator simulation
-    public int[] getForagingLandX () {
+    public int[] getHomeLoc () {
         
-    	String[] xCoordinatesString = GridConfiguration.getMyDataValues().get("foragingLandX").split("\\a");
-    	int[] xCoordinates = new int[xCoordinatesString.length];
-    	for(int i = 0;i<xCoordinatesString.length;i++)
+    	String[] coordinatesString = GridConfiguration.getMyDataValues().get("foragingLandX").split("\\a");
+    	int[] coordinates = new int[coordinatesString.length];
+    	for(int i = 0;i<coordinatesString.length;i++)
     	{
-    		xCoordinates[i] = Integer.parseInt(xCoordinatesString[i]);
+    		coordinates[i] = Integer.parseInt(coordinatesString[i]);
     	}
-    	return xCoordinates;
+    	return coordinates;
     }
     
-public int[] getForagingLandY () {
+public int[] getFoodLoc () {
         
-    	String[] yCoordinatesString = GridConfiguration.getMyDataValues().get("foragingLandY").split("\\a");
-    	int[] yCoordinates = new int[yCoordinatesString.length];
-    	for(int i = 0;i<yCoordinatesString.length;i++)
+    	String[] coordinatesString = GridConfiguration.getMyDataValues().get("foragingLandY").split("\\a");
+    	int[] coordinates = new int[coordinatesString.length];
+    	for(int i = 0;i<coordinatesString.length;i++)
     	{
-    		yCoordinates[i] = Integer.parseInt(yCoordinatesString[i]);
+    		coordinates[i] = Integer.parseInt(coordinatesString[i]);
     	}
-    	return yCoordinates;
+    	return coordinates;
     }
 
 

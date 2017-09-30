@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import XMLClasses.GridConfiguration;
 import XMLClasses.SpreadingWildfireConfiguration;
+import XMLClasses.ForagingAntsConfiguration;
 import cells.AntCell;
 import cells.AntGroupCell;
 import cells.BlueSchellingCell;
@@ -238,7 +239,9 @@ public abstract class Grid {
 			break;
 		case ("ForagingAnts"):
 			simMap = foragingAnts;
-			land = new ForagingLand(getNumRows(),getNumCols(),homeLoc,foodLoc);
+			land = new ForagingLand(getNumRows(),getNumCols(),
+					((ForagingAntsConfiguration) gridConfig).getHomeLoc(),
+					((ForagingAntsConfiguration) gridConfig).getFoodLoc());
 			break;
 		}
 	}
@@ -402,7 +405,6 @@ public abstract class Grid {
 				c.setRow(i);
 				c.setCol(j);
 				c.setLand(land);
-				c.setPositionInLand();
 				currentGrid[i][j] = c;
 				blocks[i][j].setFill(c.getColor());
 				blocks[i][j].setStroke(c.getStrokeColor());

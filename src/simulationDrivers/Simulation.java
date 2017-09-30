@@ -6,6 +6,7 @@ import XMLClasses.GameOfLifeReader;
 import XMLClasses.GridConfiguration;
 import XMLClasses.SegregationReader;
 import XMLClasses.SpreadingWildfireConfiguration;
+import XMLClasses.ForagingAntsConfiguration;
 import XMLClasses.SpreadingWildfireReader;
 import XMLClasses.WatorConfiguration;
 import XMLClasses.WatorReader;

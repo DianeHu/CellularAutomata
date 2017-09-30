@@ -11,6 +11,7 @@ public class AntGroupCell extends Cell{
 
 	private ForagingLand land;
 	private List<AntCell> ants;
+	private double maxAnts;
 
 	
 	public AntGroupCell(int myRowNum, int myColNum){
@@ -63,8 +64,7 @@ public class AntGroupCell extends Cell{
 
 	@Override
 	public void setThreshold(double a, double b, double c) {
-		// TODO Auto-generated method stub
-		
+		maxAnts = a;
 	}
 
 	@Override

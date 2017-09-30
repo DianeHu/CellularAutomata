@@ -26,11 +26,11 @@ public class Graph {
 	private Map<Series<Number, Number>, String> watorMap = new HashMap<>();
 	private Map<Series<Number, Number>, String> lifeMap = new HashMap<>();
 	private Map<Series<Number, Number>, String> simMap = new HashMap<>();
+	private Map<Series<Number, Number>, String> forAntsMap = new HashMap<>();
 
 	public Graph(Grid newGrid) {
 		g = newGrid;
-		//simType = newGrid.getSimType();
-		simType = "Wator";
+		simType = newGrid.getSimType();
 		lineChart = createContent();
 	}
 
@@ -55,10 +55,17 @@ public class Graph {
 			series1.getData().add(new XYChart.Data<Number, Number>(step, 100 * g.percentTree()));
 			series2.getData().add(new XYChart.Data<Number, Number>(step, 100 * g.percentBurning()));
 			series3.getData().add(new XYChart.Data<Number, Number>(step, 100 * g.percentLand()));
+			break;
 		case ("Wator"):
 			series1.getData().add(new XYChart.Data<Number, Number>(step, 100 * g.percentSharks()));
 			series2.getData().add(new XYChart.Data<Number, Number>(step, 100 * g.percentFish()));
 			series3.getData().add(new XYChart.Data<Number, Number>(step, 100 * g.percentEmpty()));
+			break;
+		case ("ForagingAnts"):
+			series1.getData().add(new XYChart.Data<Number, Number>(step, 0));
+			series2.getData().add(new XYChart.Data<Number, Number>(step, 0));
+			series3.getData().add(new XYChart.Data<Number, Number>(step, 0));
+			break;
 		}
 	}
 
@@ -84,13 +91,13 @@ public class Graph {
 		yAxis.setLabel("Population %");
 		xAxis.setTickLabelFill(Color.WHITE);
 		yAxis.setTickLabelFill(Color.WHITE);
-		//xAxis.setStyle("-fx-text-fill: #000000");
-		//yAxis.setStyle("-fx-text-fill: #000000");
-		//xAxis.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
-		//yAxis.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
+		// xAxis.setStyle("-fx-text-fill: #000000");
+		// yAxis.setStyle("-fx-text-fill: #000000");
+		// xAxis.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
+		// yAxis.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
 		lineChart = new LineChart<Number, Number>(xAxis, yAxis);
-		//lineChart.setStyle("-fx-stroke: #000000");
-		//lineChart.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
+		// lineChart.setStyle("-fx-stroke: #000000");
+		// lineChart.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
 		lineChart.setTitle("Population Monitor");
 		lineChart.setMaxSize(400, 200);
 		initMaps();
@@ -101,10 +108,10 @@ public class Graph {
 		// series2.getNode().setStyle(".orangechart");
 
 		lineChart.getData().addAll(series1, series2);
-		if(series3 != null) {
+		if (series3 != null) {
 			lineChart.getData().add(series3);
 		}
-		
+
 		lineChart.setLegendSide(Side.RIGHT);
 		lineChart.setLegendVisible(false);
 		return lineChart;
@@ -125,6 +132,10 @@ public class Graph {
 		watorMap.put(series1, "Shark Cell");
 		watorMap.put(series2, "Fish Cell");
 		watorMap.put(series3, "Empty Cell");
+
+		forAntsMap.put(series1, "a");
+		forAntsMap.put(series2, "b");
+		forAntsMap.put(series3, "c");
 	}
 
 	private void chooseMap() {
@@ -140,13 +151,17 @@ public class Graph {
 			break;
 		case ("Wator"):
 			simMap = watorMap;
+			break;
+		case ("ForagingAnts"):
+			simMap = forAntsMap;
+			break;
 		}
 	}
 
 	private void contentInitializer() {
 		series1.setName(simMap.get(series1));
 		series2.setName(simMap.get(series2));
-		if(simMap.get(series3) != null) {
+		if (simMap.get(series3) != null) {
 			series3.setName(simMap.get(series3));
 		}
 	}
