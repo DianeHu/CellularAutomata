@@ -49,7 +49,6 @@ public class DeadCell extends Cell {
 	}
 
 	/**
-<<<<<<< HEAD
 	 * @param root
 	 *            Replaces dead cell with live one.
 	 */
@@ -59,8 +58,6 @@ public class DeadCell extends Cell {
 	}
 
 	/**
-=======
->>>>>>> b5034da7114a68f2b4b450686142df19beee4e11
 	 * @return
 	 * 
 	 * 		Checks the number of live neighbors. If the number is exactly three,
@@ -89,5 +86,16 @@ public class DeadCell extends Cell {
 		} else {
 			grid.addToNewGrid(this);
 		}
+	}
+
+	@Override
+	public Cell changeType() {
+		LiveCell newCell = new LiveCell(this.getRow(), this.getCol());
+		return newCell;
+	}
+
+	@Override
+	public void setThreshold(double a, double b, double c) {
+		// do nothing
 	}
 }

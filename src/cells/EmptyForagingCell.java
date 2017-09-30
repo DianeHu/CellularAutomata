@@ -17,10 +17,10 @@ import javafx.scene.paint.Color;
  *         works as a signal for the fact that another cell type could move into
  *         its location.
  */
-public class EmptyCell extends Cell {
+public class EmptyForagingCell extends Cell {
 
 	
-	public EmptyCell(int myRowNum, int myColNum) {
+	public EmptyForagingCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setColor(Color.FLORALWHITE);
 	}
@@ -29,17 +29,11 @@ public class EmptyCell extends Cell {
 	/**
 	 * Constructor for a cell that does not specify row or column number
 	 */
-	public EmptyCell() {
+	public EmptyForagingCell() {
 		super();
 		setColor(Color.FLORALWHITE);
 	}
 
-	@Override
-	public Cell changeType() {
-		return this;
-		// TODO
-	}
-	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -61,13 +55,24 @@ public class EmptyCell extends Cell {
 	 */
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
-		// do nothing
+		setStrokeIfAtLocation();
 	}
 
 
 	@Override
 	public void setThreshold(double a, double b, double c) {
-		// do nothing
+		// TODO Auto-generated method stub
+		
 	}
+
+
+	@Override
+	public Cell changeType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	
 
 }

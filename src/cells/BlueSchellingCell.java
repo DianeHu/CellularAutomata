@@ -6,6 +6,7 @@ import java.util.List;
 import cellManager.Grid;
 import cellManager.RectangleGrid;
 import gridPatches.ForagingLand;
+import javafx.beans.value.ChangeListener;
 import javafx.scene.paint.Color;
 
 /**
@@ -36,7 +37,13 @@ public class BlueSchellingCell extends Cell {
 	@Override
 	public Cell copy() {
 		BlueSchellingCell newCell = new BlueSchellingCell();
-		newCell.setThreshold(threshold);
+		newCell.setThreshold(threshold, 0, 0);
+		return newCell;
+	}
+	
+	@Override
+	public Cell changeType() {
+		OrangeSchellingCell newCell = new OrangeSchellingCell(this.getRow(), this.getCol());
 		return newCell;
 	}
 
@@ -44,7 +51,7 @@ public class BlueSchellingCell extends Cell {
 	 * @param t
 	 *            Sets the threshold proportion for being unsatisfied as t
 	 */
-	public void setThreshold(double t) {
+	public void setThreshold(double t, double unused1, double unused2) {
 		threshold = t;
 	}
 

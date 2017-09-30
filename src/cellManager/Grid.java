@@ -2,20 +2,22 @@ package cellManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import XMLClasses.GridConfiguration;
+import XMLClasses.SpreadingWildfireConfiguration;
 import cells.AntCell;
+import cells.AntGroupCell;
 import cells.BlueSchellingCell;
 import cells.BurningTreeCell;
 import cells.Cell;
 import cells.DeadCell;
 import cells.EmptyCell;
+import cells.EmptyForagingCell;
 import cells.EmptyLandCell;
 import cells.FishCell;
-import cells.FoodCell;
-import cells.HomeCell;
 import cells.LiveCell;
 import cells.OrangeSchellingCell;
 import cells.SharkCell;
@@ -66,6 +68,9 @@ public abstract class Grid {
 	private ScrollPane gridScroll;
 	private final ScrollBar sc = new ScrollBar();
 	private ForagingLand land;
+	public boolean currentlyPaused;
+	private int[] homeLoc = {0,0};
+	private int[] foodLoc = {2,2};
 
 	/**
 	 * @param r
@@ -84,6 +89,10 @@ public abstract class Grid {
 	 */
 	protected Group getRoot() {
 		return root;
+	}
+	
+	public void setPaused(Boolean b) {
+		currentlyPaused = b;
 	}
 	
 	/**
@@ -153,35 +162,20 @@ public abstract class Grid {
 	 */
 	protected void createMaps() {
 		BlueSchellingCell bCell = new BlueSchellingCell();
-		bCell.setThreshold(gridConfig.getSegregationThreshold());
-
 		OrangeSchellingCell oCell = new OrangeSchellingCell();
-		oCell.setThreshold(gridConfig.getSegregationThreshold());
-
-		TreeCell tCell = new TreeCell();
-		tCell.setThreshold(gridConfig.getProbCatch());
-
-		BurningTreeCell bTCell = new BurningTreeCell();
-
 		EmptyCell eCell = new EmptyCell();
-
+		TreeCell tCell = new TreeCell();
+		BurningTreeCell bTCell = new BurningTreeCell();
 		EmptyLandCell eLCell = new EmptyLandCell();
-		eLCell.setThreshold(gridConfig.getProbGrow());
-
-		LiveCell lCell = new LiveCell();
-
-		DeadCell dCell = new DeadCell();
-
-		FishCell fCell = new FishCell();
-		fCell.setBreedTurns(gridConfig.getFishBreedTurns());
-
-		SharkCell sCell = new SharkCell();
-		sCell.setBreedTurns(gridConfig.getSharkBreedTurns());
-		sCell.setStarveTurns(gridConfig.getSharkStarveTurns());
 		
-		HomeCell hCell = new HomeCell();
-		FoodCell foCell = new FoodCell();
-		AntCell aCell = new AntCell();
+		LiveCell lCell = new LiveCell();
+		DeadCell dCell = new DeadCell();
+		
+		FishCell fCell = new FishCell();
+		SharkCell sCell = new SharkCell();	
+		
+		AntGroupCell aCell = new AntGroupCell();
+		EmptyForagingCell eFCell = new EmptyForagingCell();
 
 		segregation.put('b', bCell);
 		segregation.put('o', oCell);
@@ -198,8 +192,6 @@ public abstract class Grid {
 		waTor.put('s', sCell);
 		waTor.put('e', eCell);
 
-		foragingAnts.put('h',hCell);
-		foragingAnts.put('f',foCell);
 		foragingAnts.put('a',aCell);
 		
 		initCountMap();
@@ -242,7 +234,7 @@ public abstract class Grid {
 			break;
 		case ("ForagingAnts"):
 			simMap = foragingAnts;
-			land = new ForagingLand(getNumRows(),getNumCols());
+			land = new ForagingLand(getNumRows(),getNumCols(),homeLoc,foodLoc);
 			break;
 		}
 	}
@@ -405,7 +397,8 @@ public abstract class Grid {
 				Cell c = simMap.get(states[i][j]).copy();
 				c.setRow(i);
 				c.setCol(j);
-				//updateCounts(c);
+				c.setLand(land);
+				c.setPositionInLand();
 				currentGrid[i][j] = c;
 				blocks[i][j].setFill(c.getColor());
 				blocks[i][j].setStroke(c.getStrokeColor());
@@ -425,16 +418,35 @@ public abstract class Grid {
 	 * order to create the new grid, a 2D matrix of cells which describes the next
 	 * state.
 	 */
-	public void createsNewGrid() {
+	public void createsNewGrid(double threshold1, double threshold2, double threshold3) {
 		setNeighbors();
 		for (int i = 0; i < currentGrid.length; i++) {
 			for (int j = 0; j < currentGrid[i].length; j++) {
 				ArrayList<Cell> empty = getEmptyCells();
 				Cell c = currentGrid[i][j];
+				c.setThreshold(threshold1, threshold2, threshold3);
 				updateCounts(c);
 				c.moveCell(empty, this);
 			}
 		}
+	}
+	
+	public void createPausedGrid(double threshold1, double threshold2, double threshold3) {
+		for(int i = 0; i < currentGrid.length; i++) {
+			for(int j = 0; j < currentGrid[i].length; j++) {
+				Cell c = currentGrid[i][j];
+				blocks[i][j].setOnMouseClicked(e->changeState(c));
+				c.setThreshold(threshold1, threshold2, threshold3);
+				newGrid[i][j] = c;
+				updateCounts(c);
+			}
+		}
+	}
+	
+	private void changeState(Cell c) {
+		currentGrid[c.getRow()][c.getCol()] = (c.changeType());
+		addToNewGrid(c.changeType());
+		System.out.println("changed state");
 	}
 
 	/**
@@ -465,6 +477,7 @@ public abstract class Grid {
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
 				Cell c = newGrid[i][j];
+				c.setRow(i);c.setCol(j);
 				blocks[i][j].setFill(c.getColor());
 				currentGrid[i][j] = newGrid[i][j];
 			}

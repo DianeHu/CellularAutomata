@@ -39,6 +39,12 @@ public class LiveCell extends Cell {
 		Cell newCell = new LiveCell();
 		return newCell;
 	}
+	
+	@Override
+	public Cell changeType() {
+		DeadCell newCell = new DeadCell(this.getRow(), this.getCol());
+		return newCell;
+	}
 
 	/**
 	 * @return Returns whether or not a live cell should die based on over or
@@ -49,6 +55,11 @@ public class LiveCell extends Cell {
 			return true;
 		}
 		return false;
+	}
+	
+	@Override
+	public void setThreshold(double t, double unused1, double unused2) {
+		// do nothing
 	}
 
 	/*

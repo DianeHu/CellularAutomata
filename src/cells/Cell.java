@@ -27,7 +27,7 @@ public abstract class Cell {
 	private int colNum;
 	private List<Cell> neighbors;
 	private Color col;
-	ForagingLand land;
+	private ForagingLand land;
 	private Color strokeCol;
 
 	/**
@@ -67,6 +67,8 @@ public abstract class Cell {
 		col = c;
 	}
 	
+	public abstract void setThreshold(double a, double b, double c);
+	
 	/**
 	 * Sets the stroke color for a cell type
 	 * 
@@ -77,6 +79,7 @@ public abstract class Cell {
 		strokeCol = c;
 	}
 	
+	public abstract Cell changeType();
 
 	/**
 	 * @return the stroke color for a cell type
@@ -180,8 +183,8 @@ public abstract class Cell {
 			if (grid.newGridContainsCellAt(testLoc.getRow(), testLoc.getCol())) {
 				spots.remove(testLoc);
 			} else {
-				rowNum = testLoc.getRow();
-				colNum = testLoc.getCol();
+				setRow(testLoc.getRow());
+				setCol(testLoc.getCol());
 				grid.addToNewGrid(this);
 				moved = true;
 			}
@@ -238,5 +241,23 @@ public abstract class Cell {
 			grid.addToNewGrid(this);
 		}
 	}
+	
+	protected ForagingLand getLand() {
+		return land;
+	}
+	
+	public void setPositionInLand() {
+		//do nothing
+	}
+	
+	protected void setStrokeIfAtLocation() {
+		if (getLand().atHome(getRow(), getCol())){
+			setStrokeColor(Color.PLUM);
+		}
+		if (getLand().atFoodSource(getRow(), getCol())){
+			setStrokeColor(Color.GOLDENROD);
+		}
+	}
+	
 
 }

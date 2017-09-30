@@ -32,10 +32,16 @@ public class OrangeSchellingCell extends Cell {
 	 * @param t
 	 *            Sets the threshold proportion for being unsatisfied as t
 	 */
-	public void setThreshold(double t) {
+	public void setThreshold(double t, double unused1, double unused2) {
 		threshold = t;
 	}
 
+	@Override
+	public Cell changeType() {
+		BlueSchellingCell newCell = new BlueSchellingCell(this.getRow(), this.getCol());
+		return newCell;
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -44,7 +50,7 @@ public class OrangeSchellingCell extends Cell {
 	@Override
 	public Cell copy() {
 		OrangeSchellingCell newCell = new OrangeSchellingCell();
-		newCell.setThreshold(threshold);
+		newCell.setThreshold(threshold, 0, 0);
 		return newCell;
 	}
 
