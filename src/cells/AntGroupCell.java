@@ -4,12 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cellManager.Grid;
-import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 public class AntGroupCell extends Cell{
 
-	private ForagingLand land;
+
 	private List<AntCell> ants;
 	private int maxAnts;
 
@@ -34,13 +33,6 @@ public class AntGroupCell extends Cell{
 		return newCell;
 	}
 	
-	/**
-	 * @param l
-	 * Set the ForagingLand for Foraging Ant simulation
-	 */
-	public void setLand(ForagingLand l) {
-		land = l;
-	}
 
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
@@ -48,7 +40,7 @@ public class AntGroupCell extends Cell{
 		for(AntCell ant: ants) {
 			ant.setRow(getRow());
 			ant.setCol(getCol());
-			ant.setLand(land);
+			ant.setLand(getLand());
 			ant.setNeighbors(getNeighbors());
 			ant.moveCell(emptySpots,grid);
 		}
