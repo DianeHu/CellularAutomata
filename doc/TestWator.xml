@@ -1,5 +1,6 @@
 <GridConfiguration>
-  <simulationType>Wator</simulationType><numRows>9</numRows>
+  <simulationType>Wator</simulationType>
+  <numRows>9</numRows>
   <numCols>9</numCols>
   <cellConfiguration>ssfffsfsfsffsfsfsffsfsfsfsfffsfsfsfsfsfffsssfsfffsfsffffsfsfsfffsfsfffsfsfsfsfsfsfsfsfsffsfsfsfsfsfsfsfsfsf</cellConfiguration>
   <fishBreedTurns>5</fishBreedTurns>

@@ -18,6 +18,9 @@ public class WatorReader extends XMLReader {
         }
         // Stores the data with its field for gridConfiguration
         Map<String, String> results = new HashMap<>();
+        GridConfiguration.addToDataFields("fishBreedTurns");
+		GridConfiguration.addToDataFields("sharkBreedTurns");
+		GridConfiguration.addToDataFields("sharkStarveTurns");
         for (String field : GridConfiguration.myDataFields) {
             results.put(field, getTextValue(root, field));
         }

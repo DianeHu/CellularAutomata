@@ -5,6 +5,8 @@ import java.io.File;
 import XMLClasses.GridConfiguration;
 import XMLClasses.SpreadingWildfireConfiguration;
 import XMLClasses.SpreadingWildfireReader;
+import XMLClasses.WatorConfiguration;
+import XMLClasses.WatorReader;
 import XMLClasses.XMLException;
 import XMLClasses.XMLExporter;
 import XMLClasses.XMLReader;
@@ -166,7 +168,8 @@ public abstract class Simulation extends Application {
 		try {
 			startSimulation(s);
 		} catch (Exception e1) {
-			ErrorMessages.createErrors("Failed to Start\nChoose Valid Configuration File");
+			e1.printStackTrace();
+			//ErrorMessages.createErrors("Failed to Start\nChoose Valid Configuration File");
 		}
 	}
 
@@ -182,10 +185,11 @@ public abstract class Simulation extends Application {
 	 */
 	protected void openFile(Stage s) {
 		File dataFile = myChooser.showOpenDialog(s);
-		SpreadingWildfireConfiguration InputConfiguration = null;
+		GridConfiguration InputConfiguration = null;
 		if (dataFile != null) {
 			try {
-				InputConfiguration = new SpreadingWildfireReader().getGridConfiguration(dataFile);
+				InputConfiguration = new WatorReader().getGridConfiguration(dataFile);
+				//////////
 			} catch (XMLException e) {
 				Alert a = new Alert(AlertType.ERROR);
 				a.setContentText(e.getMessage());

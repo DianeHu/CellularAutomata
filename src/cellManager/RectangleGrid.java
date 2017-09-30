@@ -50,7 +50,7 @@ public class RectangleGrid extends Grid {
 	 *            XML file
 	 */
 	public RectangleGrid(Group r, GridConfiguration g) {
-		super(r, (SpreadingWildfireConfiguration) g);
+		super(r, (GridConfiguration) g);
 	}
 
 	/**

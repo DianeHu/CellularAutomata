@@ -1,5 +1,6 @@
 <GridConfiguration>
-  <simulationType>Segregation</simulationType><numRows>10</numRows>
+  <simulationType>Segregation</simulationType>
+  <numRows>10</numRows>
   <numCols>15</numCols>
   <cellConfiguration>bbbbooooooooooooooeeeeeeeeeboeoboboboeooeobobeoeboobeoboeoeobboeoobeobobeoboboeboeobeoeooobooeoeobeeobeeeooooobbbbbbbbbboeboebooobobbbbeooobeobeoebobb</cellConfiguration>
   <segregationThreshold>.3</segregationThreshold>

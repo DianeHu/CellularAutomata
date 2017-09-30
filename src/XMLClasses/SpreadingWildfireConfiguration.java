@@ -6,8 +6,6 @@ public class SpreadingWildfireConfiguration extends GridConfiguration{
 
 	public SpreadingWildfireConfiguration(Map<String, String> dataValues) {
 		super(dataValues);
-		//GridConfiguration.addToDataFields("probCatch");
-		//GridConfiguration.addToDataFields("probGrow");
 	}
 	
 	// returns probability of catching on fire for BurningTree simulation
