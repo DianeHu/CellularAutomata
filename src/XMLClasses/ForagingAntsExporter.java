@@ -8,18 +8,28 @@ import org.w3c.dom.Element;
 
 import simulationDrivers.ErrorMessages;
 
-public class SpreadingWildfireExporter extends XMLExporter {
-
-	Element probCatch;
-	Element probGrow;
-	String pCatch;
-	String pGrow;
+public class ForagingAntsExporter extends XMLExporter{
 	
-	public SpreadingWildfireExporter(String nR, String nC, String cC, String pC, String pG) {
+	public ForagingAntsExporter(String nR, String nC, String cC) {
 		super(nR, nC, cC);
-		pCatch = pC;
-		pGrow = pG;
-		// TODO Auto-generated constructor stub
+	}
+
+	Element maxAnts;
+	Element evaporationRate;
+	Element foragingLandX;
+	Element foragingLandY;
+	String mAnts;
+	String eRate;
+	String fLandX;
+	String fLandY;
+	
+
+	public ForagingAntsExporter(String nR, String nC, String cC, String mA, String eR, String fLX,String fLY) {
+		super(nR, nC, cC);
+		mAnts=mA;
+		eRate=eR;
+		fLandX=fLX;
+		fLandY=fLY;
 	}
 	
 	public void buildXML() {
@@ -30,12 +40,13 @@ public class SpreadingWildfireExporter extends XMLExporter {
 	          // root element
 	          Element GridConfiguration = doc.createElement("GridConfiguration");
 	          doc.appendChild(GridConfiguration);
-	         
 	    
 	          addUniversalElements(doc, GridConfiguration);
 	          
-	          addChildrenToDataType(doc, GridConfiguration, probCatch, "probCatch", pCatch);
-	          addChildrenToDataType(doc, GridConfiguration, probGrow, "probGrow", pGrow);
+	          addChildrenToDataType(doc, GridConfiguration, maxAnts, "maxAnts", mAnts);
+	          addChildrenToDataType(doc, GridConfiguration, evaporationRate, "evaporationRate", eRate);
+	          addChildrenToDataType(doc, GridConfiguration, foragingLandX, "foragingLandX", fLandX);
+	          addChildrenToDataType(doc, GridConfiguration, foragingLandY, "foragingLandY", fLandY);
 	        
 	          writeXML(doc);
 	          

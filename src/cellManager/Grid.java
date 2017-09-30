@@ -209,16 +209,16 @@ public abstract class Grid {
 		countMap.put("cells.SharkCell", 0);
 		countMap.put("cells.FishCell", 0);
 	}
-
+	/*
 	public String getSimType() {
 		return gridConfig.getSimulationType();
-	}
+	}*/
 	/**
 	 * Switches which map is being used to map characters to cell types based off of
 	 * the simulation string read from the XML file
 	 */
 	protected void setCurrSimulationMap() {
-		simulationType = gridConfig.getSimulationType();
+		simulationType = "Wator";//CHANGE
 		switch (simulationType) {
 		case ("Segregation"):
 			simMap = segregation;

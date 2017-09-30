@@ -29,7 +29,8 @@ public class Graph {
 
 	public Graph(Grid newGrid) {
 		g = newGrid;
-		simType = newGrid.getSimType();
+		//simType = newGrid.getSimType();
+		simType = "Wator";
 		lineChart = createContent();
 	}
 

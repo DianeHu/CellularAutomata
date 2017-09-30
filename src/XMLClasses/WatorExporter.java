@@ -9,11 +9,20 @@ import org.w3c.dom.Element;
 import simulationDrivers.ErrorMessages;
 
 public class WatorExporter extends XMLExporter{
+	
+	Element fishBreedTurns;
+	Element sharkBreedTurns;
+	Element sharkStarveTurns;
+	String fBreedTurns;
+	String sBreedTurns;
+	String sStarveTurns;
+	
 
-	public WatorExporter(String sT, String nR, String nC, String cC, String pC, String pG, String sT1, String fB,
-			String sB, String sS) {
-		super(sT, nR, nC, cC, pC, pG, sT1, fB, sB, sS);
-		// TODO Auto-generated constructor stub
+	public WatorExporter(String nR, String nC, String cC, String fB, String sB, String sS) {
+		super(nR, nC, cC);
+		fBreedTurns=fB;
+		sBreedTurns=sB;
+		sStarveTurns = sS;
 	}
 	
 	public void buildXML() {
