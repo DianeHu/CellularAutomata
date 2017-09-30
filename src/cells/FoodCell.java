@@ -33,7 +33,19 @@ public class FoodCell extends Cell{
 	}
 
 	@Override
+	public Cell changeType() {
+		return this;
+		// TODO
+	}
+	
+	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setThreshold(double a, double b, double c) {
 		// TODO Auto-generated method stub
 		
 	}

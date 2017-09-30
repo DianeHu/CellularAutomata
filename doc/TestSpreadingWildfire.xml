@@ -2,6 +2,6 @@
   <simulationType>SpreadingWildfire</simulationType><numRows>20</numRows>
   <numCols>20</numCols>
   <cellConfiguration>tbtbtbtbbbtbbtbebeebeeeebttbebebtbebttbebtbebtbebebtbetbebbtebbtebtbetbtebtbettbetbtbebtbebtbbtebtbebbtbbetbbettbeeebtbbbetbebbtebbbeebeebtbebbtbebbtbebbetbtbebtbebtbebbbtbetbetetbebtbebtbbebbbtbebtbetebtbebbbetbbtbebbttttteeeetebtbbetbbbteeetbtbebebtbebbbtbetbebbtetetetetetebtbbbtetbbeeeeetttbebbbtttteeeeeeeebbbbteeebtbbebbbbebtbbebbttebbbetttbbebbbtebbbtebbtbebbbtebtbebtbeeebbebtbetbetbebtebtbeb</cellConfiguration>
-  <probCatch>.5</probCatch>
-  <probGrow>.5</probGrow>
+  <probCatch>0.8</probCatch>
+  <probGrow>0.5</probGrow>
   </GridConfiguration>

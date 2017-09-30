@@ -31,11 +31,22 @@ public class HomeCell extends Cell{
 		HomeCell newCell = new HomeCell();
 		return newCell;
 	}
+	
+	@Override
+	public Cell changeType() {
+		return this;
+		// TODO
+	}
 
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void setThreshold(double t, double unused1, double unused2) {
+		// TODO Auto-generated method stub
 	}
 
 }

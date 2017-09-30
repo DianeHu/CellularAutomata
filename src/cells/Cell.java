@@ -67,6 +67,8 @@ public abstract class Cell {
 		col = c;
 	}
 	
+	public abstract void setThreshold(double a, double b, double c);
+	
 	/**
 	 * Sets the stroke color for a cell type
 	 * 
@@ -77,6 +79,7 @@ public abstract class Cell {
 		strokeCol = c;
 	}
 	
+	public abstract Cell changeType();
 
 	/**
 	 * @return the stroke color for a cell type

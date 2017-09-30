@@ -35,6 +35,12 @@ public class BurningTreeCell extends Cell {
 		super();
 		setColor(Color.DARKORANGE);
 	}
+	
+	@Override 
+	public Cell changeType() {
+		TreeCell newCell = new TreeCell(this.getRow(), this.getCol());
+		return newCell;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -45,6 +51,11 @@ public class BurningTreeCell extends Cell {
 	public Cell copy() {
 		BurningTreeCell newCell = new BurningTreeCell();
 		return newCell;
+	}
+	
+	@Override
+	public void setThreshold(double a, double b, double c) {
+		// do nothing
 	}
 
 	/*

@@ -38,4 +38,15 @@ public class AntCell extends Cell{
 		
 	}
 
+	@Override
+	public void setThreshold(double a, double b, double c) {
+		// do nothing
+	}
+
+	@Override
+	public Cell changeType() {
+		return this;
+		// TODO Auto-generated method stub
+	}
+
 }

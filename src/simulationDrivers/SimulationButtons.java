@@ -28,7 +28,14 @@ public class SimulationButtons {
 		sampleButton.setOnAction(handler);
 		vbox.getChildren().add(sampleButton);
 		sampleButton.setTranslateY(screenSize);
-
+	}
+	
+	public static Button makeReturnableButtonV(String name, EventHandler<ActionEvent> handler, VBox vbox, int screenSize) {
+		Button sampleButton = new Button(name);
+		sampleButton.setOnAction(handler);
+		vbox.getChildren().add(sampleButton);
+		sampleButton.setTranslateY(screenSize);
+		return sampleButton;
 	}
 	
 	public static void makeTextField(String content, VBox vbox, int screenSize) {
@@ -36,6 +43,14 @@ public class SimulationButtons {
 		sampleText.setPromptText(content);
 		vbox.getChildren().add(sampleText);
 		sampleText.setTranslateY(screenSize);
+	}
+	
+	public static TextField makeReturnableTextField(String content, VBox vbox, int screenSize) {
+		TextField sampleText = new TextField();
+		sampleText.setPromptText(content);
+		vbox.getChildren().add(sampleText);
+		sampleText.setTranslateY(screenSize);
+		return sampleText;
 	}
 
 	public static void makeButtonH(String name, EventHandler<ActionEvent> handler, HBox hbox, int screenSize) {

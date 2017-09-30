@@ -34,6 +34,12 @@ public class EmptyCell extends Cell {
 		setColor(Color.FLORALWHITE);
 	}
 
+	@Override
+	public Cell changeType() {
+		return this;
+		// TODO
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -55,6 +61,12 @@ public class EmptyCell extends Cell {
 	 */
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
+		// do nothing
+	}
+
+
+	@Override
+	public void setThreshold(double a, double b, double c) {
 		// do nothing
 	}
 

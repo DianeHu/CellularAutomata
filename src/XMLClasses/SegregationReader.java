@@ -18,6 +18,7 @@ public class SegregationReader extends XMLReader {
         }
         // Stores the data with its field for gridConfiguration
         Map<String, String> results = new HashMap<>();
+        GridConfiguration.addToDataFields("segregationThreshold");
         for (String field : GridConfiguration.myDataFields) {
             results.put(field, getTextValue(root, field));
         }

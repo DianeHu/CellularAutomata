@@ -6,6 +6,7 @@ import java.util.List;
 import cellManager.Grid;
 import cellManager.RectangleGrid;
 import gridPatches.ForagingLand;
+import javafx.scene.Node;
 import javafx.scene.paint.Color;
 
 /**
@@ -35,7 +36,6 @@ public class TreeCell extends Cell {
 		setColor(Color.FORESTGREEN);
 	}
 
-
 	/**
 	 * Constructor that does not specify row and column number.
 	 */
@@ -49,7 +49,7 @@ public class TreeCell extends Cell {
 	 * 
 	 *            Setter for probCatch.
 	 */
-	public void setThreshold(double num) {
+	public void setThreshold(double unused1, double num, double unused2) {
 		probCatch = num;
 	}
 
@@ -61,7 +61,13 @@ public class TreeCell extends Cell {
 	@Override
 	public Cell copy() {
 		TreeCell newCell = new TreeCell();
-		newCell.setThreshold(probCatch);
+		newCell.setThreshold(0, probCatch, 0);
+		return newCell;
+	}
+	
+	@Override
+	public Cell changeType() {
+		BurningTreeCell newCell = new BurningTreeCell(this.getRow(), this.getCol());
 		return newCell;
 	}
 
