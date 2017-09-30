@@ -10,9 +10,11 @@ import simulationDrivers.ErrorMessages;
 
 public class SegregationExporter extends XMLExporter {
 
-	public SegregationExporter(String sT, String nR, String nC, String cC, String pC, String pG, String sT1, String fB,
-			String sB, String sS) {
-		super(sT, nR, nC, cC, pC, pG, sT1, fB, sB, sS);
+	private Element segregationThreshold;
+	private String segThreshold;
+	public SegregationExporter(String nR, String nC, String cC, String sT) {
+		super(nR, nC, cC);
+		segThreshold = sT;
 	}
 	public void buildXML() {
 

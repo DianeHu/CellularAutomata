@@ -10,7 +10,7 @@ public class AntGroupCell extends Cell{
 
 
 	private List<AntCell> ants;
-	private int maxAnts;
+	private double maxAnts;
 
 	
 	public AntGroupCell(int myRowNum, int myColNum){
@@ -64,8 +64,7 @@ public class AntGroupCell extends Cell{
 
 	@Override
 	public void setThreshold(double a, double b, double c) {
-		maxAnts = (int)a;
-		
+		maxAnts = a;
 	}
 
 	@Override
