@@ -20,8 +20,8 @@ public class ForagingAntsReader extends XMLReader {
         Map<String, String> results = new HashMap<>();
         GridConfiguration.addToDataFields("maxAnts");
 		GridConfiguration.addToDataFields("evaporationRate");
-		GridConfiguration.addToDataFields("HomeLoc");
-		GridConfiguration.addToDataFields("FoodLoc");
+		GridConfiguration.addToDataFields("homeLoc");
+		GridConfiguration.addToDataFields("foodLoc");
         for (String field : GridConfiguration.myDataFields) {
             results.put(field, getTextValue(root, field));
         }

@@ -225,6 +225,7 @@ public abstract class Grid {
 	 * the simulation string read from the XML file
 	 */
 	protected void setCurrSimulationMap() {
+		simulationType = "Wator";
 		switch (simulationType) {
 		case ("Segregation"):
 			simMap = segregation;
