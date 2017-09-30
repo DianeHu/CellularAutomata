@@ -18,7 +18,7 @@ public class Main extends Application{
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		Simulation segSim = new SegregationSimulation(sC);
+		Simulation segSim = new WatorSimulation(wG);
 		// TODO: put sim type into new popup screen, right now
 		// any simulation can technically run another (no errors thrown)
 		// since simtype gotten from xml

@@ -11,16 +11,16 @@ public class WatorConfiguration extends GridConfiguration {
 		GridConfiguration.addToDataFields("sharkStarveTurns");
 	}
 	// returns number of turns fish breed for Wator simulation
-    public int getFishBreedTurns () {
-        return Integer.parseInt(getMyDataValues().get("fishBreedTurns"));
+    public double getFishBreedTurns () {
+        return Double.parseDouble(GridConfiguration.getMyDataValues().get("fishBreedTurns"));
     }
     // returns number of turns shark breed for Wator simulation
-    public int getSharkBreedTurns () {
-        return Integer.parseInt(getMyDataValues().get("sharkBreedTurns"));
+    public double getSharkBreedTurns () {
+        return Double.parseDouble(GridConfiguration.getMyDataValues().get("sharkBreedTurns"));
     }
     // returns number of turns shark starve for Wator simulation
-    public int getSharkStarveTurns () {
-        return Integer.parseInt(getMyDataValues().get("sharkStarveTurns"));
+    public double getSharkStarveTurns () {
+        return Double.parseDouble(GridConfiguration.getMyDataValues().get("sharkStarveTurns"));
     }
 
 
