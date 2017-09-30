@@ -33,6 +33,14 @@ public class AntGroupCell extends Cell{
 		AntGroupCell newCell = new AntGroupCell();
 		return newCell;
 	}
+	
+	/**
+	 * @param l
+	 * Set the ForagingLand for Foraging Ant simulation
+	 */
+	public void setLand(ForagingLand l) {
+		land = l;
+	}
 
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {

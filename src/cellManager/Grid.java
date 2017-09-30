@@ -194,6 +194,7 @@ public abstract class Grid {
 		waTor.put('e', eCell);
 
 		foragingAnts.put('a',aCell);
+		foragingAnts.put('e',eFCell);
 		
 		initCountMap();
 	}
