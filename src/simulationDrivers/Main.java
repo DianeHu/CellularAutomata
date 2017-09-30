@@ -3,6 +3,7 @@ package simulationDrivers;
 import java.util.HashMap;
 import java.util.Map;
 
+import XMLClasses.ForagingAntsConfiguration;
 import XMLClasses.GameOfLifeConfiguration;
 import XMLClasses.GridConfiguration;
 import XMLClasses.SegregationConfiguration;
@@ -32,6 +33,7 @@ public class Main extends Application{
 	private static SpreadingWildfireConfiguration sWG = null;
 	private static GameOfLifeConfiguration gofC = null;
 	private static SegregationConfiguration sC = null;
+	private static ForagingAntsConfiguration faC = null;
 	private Stage myStage = new Stage();
 	private TextField simType = new TextField();
 	private HBox hbox = new HBox();
@@ -104,6 +106,7 @@ public class Main extends Application{
 		pickSimByName.put("SpreadingWildfire", new SpreadingWildfireSimulation(sWG, recGrid));
 		pickSimByName.put("GameOfLife", new GameOfLifeSimulation(gofC, recGrid));
 		pickSimByName.put("Segregation", new SegregationSimulation(sC, recGrid));
+		pickSimByName.put("ForagingAnts", new ForagingAntsSimulation(faC, recGrid));
 	}
 	
 	public static void main(String[] args) {

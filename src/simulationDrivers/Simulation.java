@@ -6,6 +6,8 @@ import XMLClasses.GameOfLifeReader;
 import XMLClasses.GridConfiguration;
 import XMLClasses.SegregationReader;
 import XMLClasses.SpreadingWildfireConfiguration;
+import XMLClasses.ForagingAntsConfiguration;
+import XMLClasses.ForagingAntsReader;
 import XMLClasses.SpreadingWildfireReader;
 import XMLClasses.WatorConfiguration;
 import XMLClasses.WatorReader;
@@ -178,7 +180,8 @@ public abstract class Simulation extends Application {
 			startSimulation(s);
 		} catch (Exception e1) {
 			e1.printStackTrace();
-			//ErrorMessages.createErrors("Failed to Start\nChoose Valid Configuration File");
+			// ErrorMessages.createErrors("Failed to Start\nChoose Valid Configuration
+			// File");
 		}
 	}
 
@@ -200,12 +203,19 @@ public abstract class Simulation extends Application {
 				switch (simType) {
 				case ("Wator"):
 					InputConfiguration = new WatorReader().getGridConfiguration(dataFile);
+					break;
 				case ("SpreadingWildfire"):
 					InputConfiguration = new SpreadingWildfireReader().getGridConfiguration(dataFile);
+					break;
 				case ("GameOfLife"):
 					InputConfiguration = new GameOfLifeReader().getGridConfiguration(dataFile);
+					break;
 				case ("Segregation"):
 					InputConfiguration = new SegregationReader().getGridConfiguration(dataFile);
+					break;
+				case ("ForagingAnts"):
+					InputConfiguration = new ForagingAntsReader().getGridConfiguration(dataFile);
+					break;
 				}
 			} catch (XMLException e) {
 				Alert a = new Alert(AlertType.ERROR);
