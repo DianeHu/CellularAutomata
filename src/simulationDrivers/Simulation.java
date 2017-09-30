@@ -92,7 +92,7 @@ public abstract class Simulation extends Application {
 	private String simType;
 	// private ScrollPane gridScroll;
 	// private final ScrollBar sc = new ScrollBar();
-	private XMLExporter XMLOutput;
+	protected XMLExporter XMLOutput;
 
 	public Simulation(GridConfiguration gC, Grid g) {
 		XMLConfiguration = gC;
@@ -153,10 +153,6 @@ public abstract class Simulation extends Application {
 	private void makeButtons(Stage s) {
 		SimulationButtons.makeButtonH("Choose XML File for Configuration", e -> openFile(s), hboxTop, SCREEN_SIZE);
 		SimulationButtons.makeButtonH("Start Simulation", e -> startMethod(s), hboxTop, SCREEN_SIZE);
-		// SimulationButtons.makeButtonH("Save", e -> save(simType, nRows, nCols,
-		// cellConfig, pCatch, pGrow, segThreshold,
-		// fBreedTurns, sBreedTurns, sStarveTurns), hboxTop, SCREEN_SIZE);
-
 		SimulationButtons.makeButtonV("Pause", e -> pause(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Resume", e -> resume(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Speed Up", e -> faster(), vboxRight, SCREEN_SIZE);

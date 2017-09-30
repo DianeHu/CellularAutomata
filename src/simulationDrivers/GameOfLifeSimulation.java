@@ -1,6 +1,7 @@
 package simulationDrivers;
 
 import XMLClasses.GameOfLifeConfiguration;
+import XMLClasses.GameOfLifeExporter;
 import XMLClasses.GridConfiguration;
 import cellManager.Grid;
 import cellManager.RectangleGrid;
@@ -14,19 +15,17 @@ import javafx.stage.Stage;
  */
 public class GameOfLifeSimulation extends Simulation {
 	
+	private int numRows;
+	private int numCols;
+	
 	public GameOfLifeSimulation(GridConfiguration gC, Grid g) {
 		super(gC, g);
 	}
 	
-	/*private void save(String sT, String nR, String nC, String cC, String pC, String pG, String sT1, String fB,
-			String sB, String sS) {
-		XMLOutput = new XMLExporter(sT, nR, nC, cC, pC, pG, sT1, fB, sB, sS);
-		XMLOutput.buildXML();
-	}*/
-	
 	@Override
 	protected void setUpThresholds() {
-		// do nothing
+		numRows = sampleGrid.getNumRows();
+		numCols = sampleGrid.getNumCols();
 	}
 	
 	@Override
@@ -58,7 +57,14 @@ public class GameOfLifeSimulation extends Simulation {
 
 	@Override
 	protected void makeSimSpecificFields(Stage s) {
-		// do nothing
+		SimulationButtons.makeButtonH("Save", e->save(Integer.toString(numRows), 
+				Integer.toString(numCols), 
+				sampleGrid.getGridConfig()), hboxTop, SCREEN_SIZE);
+	}
+	
+	private void save(String nR, String nC, String cC) {
+		XMLOutput = new GameOfLifeExporter(nR, nC, cC);
+		((GameOfLifeExporter) XMLOutput).buildXML();
 	}
 
 	@Override

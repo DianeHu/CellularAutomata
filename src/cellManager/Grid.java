@@ -64,6 +64,12 @@ public abstract class Grid {
 	private Map<Character, Cell> waTor = new HashMap<>();
 	private Map<Character, Cell> foragingAnts = new HashMap<>();
 	private Map<Character, Cell> simMap = new HashMap<>();
+	private Map<String, String> segConfigStringMap = new HashMap<>();
+	private Map<String, String> gOLConfigStringMap = new HashMap<>();
+	private Map<String, String> fireConfigStringMap = new HashMap<>();
+	private Map<String, String> watorConfigStringMap = new HashMap<>();
+	private Map<String, String> antConfigStringMap = new HashMap<>();
+	private Map<String, String> simulationConfigStringMap = new HashMap<>();
 	private Pane pane = new GridPane();
 	private Map<String, Integer> countMap = new HashMap<>();
 	private ScrollPane gridScroll;
@@ -106,13 +112,6 @@ public abstract class Grid {
 				blocks[i][j] = shapes[i][j];
 			}
 		}
-	}
-	
-	/**
-	 * @return the GridConfiguration used to get information from the XML file
-	 */
-	protected GridConfiguration getGridConfig() {
-		return gridConfig;
 	}
 
 	public double percentTree() {
@@ -176,25 +175,37 @@ public abstract class Grid {
 		SharkCell sCell = new SharkCell();	
 		
 		AntGroupCell aCell = new AntGroupCell();
-		EmptyForagingCell eFCell = new EmptyForagingCell();
 
 		segregation.put('b', bCell);
 		segregation.put('o', oCell);
 		segregation.put('e', eCell);
+		segConfigStringMap.put("cells.BlueSchellingCell", "b");
+		segConfigStringMap.put("cells.OrangeSchellingCell", "o");
+		segConfigStringMap.put("cells.EmptyCell", "e");
 
 		gameOfLife.put('l', lCell);
 		gameOfLife.put('d', dCell);
+		gOLConfigStringMap.put("cells.LiveCell", "l");
+		gOLConfigStringMap.put("cells.DeadCell", "d");
 
 		spreadingWildfire.put('t', tCell);
 		spreadingWildfire.put('b', bTCell);
 		spreadingWildfire.put('e', eLCell);
+		fireConfigStringMap.put("cells.TreeCell", "t");
+		fireConfigStringMap.put("cells.BurningTreeCell", "b");
+		fireConfigStringMap.put("cells.EmptyLandCell", "e");
 
 		waTor.put('f', fCell);
 		waTor.put('s', sCell);
 		waTor.put('e', eCell);
+		watorConfigStringMap.put("cells.FishCell", "f");
+		watorConfigStringMap.put("cells.SharkCell", "s");
+		watorConfigStringMap.put("cells.EmptyCell", "e");
 
 		foragingAnts.put('a',aCell);
-		foragingAnts.put('e',eFCell);
+		foragingAnts.put('e',eCell);
+		antConfigStringMap.put("cells.AntGroupCell", "a");
+		antConfigStringMap.put("cells.EmptyCell", "e");
 		
 		initCountMap();
 	}
@@ -228,18 +239,23 @@ public abstract class Grid {
 		switch (simulationType) {
 		case ("Segregation"):
 			simMap = segregation;
+			simulationConfigStringMap = segConfigStringMap;
 			break;
 		case ("SpreadingWildfire"):
 			simMap = spreadingWildfire;
+			simulationConfigStringMap = fireConfigStringMap;
 			break;
 		case ("Wator"):
 			simMap = waTor;
+			simulationConfigStringMap = watorConfigStringMap;
 			break;
 		case ("GameOfLife"):
 			simMap = gameOfLife;
+			simulationConfigStringMap = gOLConfigStringMap;
 			break;
 		case ("ForagingAnts"):
 			simMap = foragingAnts;
+			simulationConfigStringMap = antConfigStringMap;
 			land = new ForagingLand(getNumRows(),getNumCols(),
 					((ForagingAntsConfiguration) gridConfig).getHomeLoc(),
 					((ForagingAntsConfiguration) gridConfig).getFoodLoc());
@@ -281,7 +297,7 @@ public abstract class Grid {
 	/**
 	 * @return the number of rows in the grid
 	 */
-	protected int getNumRows() {
+	public int getNumRows() {
 		return numRows;
 	}
 	
@@ -296,10 +312,21 @@ public abstract class Grid {
 	/**
 	 * @return the number of cols in the grid
 	 */
-	protected int getNumCols() {
+	public int getNumCols() {
 		return numCols;
 	}
 	
+	public String getGridConfig() {
+		StringBuilder s = new StringBuilder();
+		for(int i = 0; i < numRows; i++) {
+			for(int j = 0; j < numCols; j++) {
+				String currType = simulationConfigStringMap.get(
+						currentGrid[i][j].getClass().getName());
+				s.append(currType);
+			}
+		}
+		return s.toString();
+	}
 	
 	/**
 	 * @param n is used to set the number of rows

@@ -2,6 +2,7 @@ package simulationDrivers;
 
 import XMLClasses.GridConfiguration;
 import XMLClasses.SpreadingWildfireConfiguration;
+import XMLClasses.SpreadingWildfireExporter;
 import cellManager.Grid;
 import cellManager.RectangleGrid;
 import javafx.scene.control.TextField;
@@ -19,6 +20,8 @@ public class SpreadingWildfireSimulation extends Simulation {
 	private TextField probCatch;
 	private double growthProbability;
 	private double catchProbability;
+	private int numRows;
+	private int numCols;
 	
 	public SpreadingWildfireSimulation(GridConfiguration gC, Grid g) {
 		super(gC, g);
@@ -37,12 +40,17 @@ public class SpreadingWildfireSimulation extends Simulation {
 	
 	@Override
 	protected void setUpThresholds() {
+		numRows = sampleGrid.getNumRows();
+		numCols = sampleGrid.getNumCols();
 		growthProbability = ((SpreadingWildfireConfiguration) XMLConfiguration).getProbGrow();
 		catchProbability = ((SpreadingWildfireConfiguration) XMLConfiguration).getProbCatch();
 	}
 	
 	@Override
 	protected void makeSimSpecificFields(Stage s) {
+		SimulationButtons.makeButtonH("Save", e->save(Integer.toString(numRows), 
+				Integer.toString(numCols), sampleGrid.getGridConfig(), 
+				Double.toString(catchProbability), Double.toString(growthProbability)), hboxTop, SCREEN_SIZE);
 		probGrow = SimulationButtons.makeReturnableTextFieldV("Input probGrow", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		probCatch = SimulationButtons.makeReturnableTextFieldV("Input probCatch", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
@@ -54,11 +62,10 @@ public class SpreadingWildfireSimulation extends Simulation {
 		catchProbability = Double.parseDouble(probCatch.getText());
 	}
 
-	/*private void save(String sT, String nR, String nC, String cC, String pC, String pG, String sT1, String fB,
-			String sB, String sS) {
-		XMLOutput = new XMLExporter(sT, nR, nC, cC, pC, pG, sT1, fB, sB, sS);
-		XMLOutput.buildXML();
-	}*/
+	private void save(String nR, String nC, String cC, String pC, String pG) {
+		XMLOutput = new SpreadingWildfireExporter(nR, nC, cC, pC, pG);
+		((SpreadingWildfireExporter) XMLOutput).buildXML();
+	}
 	
 	@Override
 	protected void manualStep() {

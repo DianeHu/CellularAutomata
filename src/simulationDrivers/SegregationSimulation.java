@@ -2,6 +2,7 @@ package simulationDrivers;
 
 import XMLClasses.GridConfiguration;
 import XMLClasses.SegregationConfiguration;
+import XMLClasses.SegregationExporter;
 import cellManager.Grid;
 import cellManager.RectangleGrid;
 import javafx.scene.control.TextField;
@@ -16,6 +17,8 @@ public class SegregationSimulation extends Simulation {
 
 	private TextField threshold;
 	private double satisfiedThreshold;
+	private int numRows;
+	private int numCols;
 	
 	public SegregationSimulation(GridConfiguration gC, Grid g) {
 		super(gC, g);
@@ -23,6 +26,8 @@ public class SegregationSimulation extends Simulation {
 	
 	@Override
 	protected void setUpThresholds() {
+		numRows = sampleGrid.getNumRows();
+		numCols = sampleGrid.getNumCols();
 		satisfiedThreshold = ((SegregationConfiguration) XMLConfiguration).getSegregationThreshold();
 	}
 	
@@ -39,15 +44,16 @@ public class SegregationSimulation extends Simulation {
 	
 	@Override
 	protected void makeSimSpecificFields(Stage s) {
+		SimulationButtons.makeButtonH("Save", e->save(Integer.toString(numRows), 
+				Integer.toString(numCols), sampleGrid.getGridConfig(), Double.toString(satisfiedThreshold)), hboxTop, SCREEN_SIZE);
 		threshold = SimulationButtons.makeReturnableTextFieldV("Input threshold", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
 	}
 
-	/*private void save(String sT, String nR, String nC, String cC, String pC, String pG, String sT1, String fB,
-			String sB, String sS) {
-		XMLOutput = new XMLExporter(sT, nR, nC, cC, pC, pG, sT1, fB, sB, sS);
-		XMLOutput.buildXML();
-	}*/
+	private void save(String nR, String nC, String cC, String sT) {
+		XMLOutput = new SegregationExporter(nR, nC, cC, sT);
+		((SegregationExporter) XMLOutput).buildXML();
+	}
 
 	@Override
 	protected void manualStep() {

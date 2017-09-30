@@ -2,6 +2,8 @@ package simulationDrivers;
 
 import XMLClasses.GridConfiguration;
 import XMLClasses.WatorConfiguration;
+import XMLClasses.WatorExporter;
+import XMLClasses.XMLExporter;
 import cellManager.Grid;
 import cellManager.RectangleGrid;
 import javafx.scene.control.TextField;
@@ -21,6 +23,8 @@ public class WatorSimulation extends Simulation {
 	private double fBreedTurns;
 	private double sBreedTurns;
 	private double starveTurns;
+	private int numRows;
+	private int numCols;
 	
 	public WatorSimulation(GridConfiguration gC, Grid g) {
 		super(gC, g);
@@ -28,6 +32,8 @@ public class WatorSimulation extends Simulation {
 	
 	@Override
 	protected void setUpThresholds() {
+		numRows = sampleGrid.getNumRows();
+		numCols = sampleGrid.getNumCols();
 		fBreedTurns = ((WatorConfiguration) XMLConfiguration).getFishBreedTurns();
 		sBreedTurns = ((WatorConfiguration) XMLConfiguration).getSharkBreedTurns();
 		starveTurns = ((WatorConfiguration) XMLConfiguration).getSharkStarveTurns();
@@ -46,6 +52,10 @@ public class WatorSimulation extends Simulation {
 	
 	@Override
 	protected void makeSimSpecificFields(Stage s) {
+		SimulationButtons.makeButtonH("Save", e->save(Integer.toString(numRows), 
+				Integer.toString(numCols), sampleGrid.getGridConfig(), 
+				Double.toString(fBreedTurns), Double.toString(sBreedTurns),
+				Double.toString(starveTurns)), hboxTop, SCREEN_SIZE);
 		fishBreed = SimulationButtons.makeReturnableTextFieldV("Input fishBreed", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		sharkBreed = SimulationButtons.makeReturnableTextFieldV("Input sharkBreed", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		sharkStarve = SimulationButtons.makeReturnableTextFieldV("Input sharkStarve", vboxRight, 3 * OFFSET - SCREEN_SIZE);
@@ -59,11 +69,10 @@ public class WatorSimulation extends Simulation {
 		starveTurns = Double.parseDouble(sharkStarve.getText());
 	}
 
-	/*private void save(String sT, String nR, String nC, String cC, String pC, String pG, String sT1, String fB,
-			String sB, String sS) {
-		XMLOutput = new XMLExporter(sT, nR, nC, cC, pC, pG, sT1, fB, sB, sS);
-		XMLOutput.buildXML();
-	}*/
+	private void save(String nR, String nC, String cC, String fB, String sB, String sS) {
+		XMLOutput = new WatorExporter(nR, nC, cC, fB, sB, sS);
+		((WatorExporter) XMLOutput).buildXML();
+	}
 	
 	@Override
 	protected void manualStep() {
