@@ -2,21 +2,22 @@ package cellManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import XMLClasses.GridConfiguration;
 import XMLClasses.SpreadingWildfireConfiguration;
 import cells.AntCell;
+import cells.AntGroupCell;
 import cells.BlueSchellingCell;
 import cells.BurningTreeCell;
 import cells.Cell;
 import cells.DeadCell;
 import cells.EmptyCell;
+import cells.EmptyForagingCell;
 import cells.EmptyLandCell;
 import cells.FishCell;
-import cells.FoodCell;
-import cells.HomeCell;
 import cells.LiveCell;
 import cells.OrangeSchellingCell;
 import cells.SharkCell;
@@ -68,6 +69,8 @@ public abstract class Grid {
 	private final ScrollBar sc = new ScrollBar();
 	private ForagingLand land;
 	public boolean currentlyPaused;
+	private int[] homeLoc = {0,0};
+	private int[] foodLoc = {2,2};
 
 	/**
 	 * @param r
@@ -171,10 +174,9 @@ public abstract class Grid {
 		FishCell fCell = new FishCell();
 		SharkCell sCell = new SharkCell();	
 		
-		HomeCell hCell = new HomeCell();
-		FoodCell foCell = new FoodCell();
-		AntCell aCell = new AntCell();
-		
+		AntGroupCell aCell = new AntGroupCell();
+		EmptyForagingCell eFCell = new EmptyForagingCell();
+
 		segregation.put('b', bCell);
 		segregation.put('o', oCell);
 		segregation.put('e', eCell);
@@ -190,8 +192,6 @@ public abstract class Grid {
 		waTor.put('s', sCell);
 		waTor.put('e', eCell);
 
-		foragingAnts.put('h',hCell);
-		foragingAnts.put('f',foCell);
 		foragingAnts.put('a',aCell);
 		
 		initCountMap();
@@ -234,7 +234,7 @@ public abstract class Grid {
 			break;
 		case ("ForagingAnts"):
 			simMap = foragingAnts;
-			land = new ForagingLand(getNumRows(),getNumCols());
+			land = new ForagingLand(getNumRows(),getNumCols(),homeLoc,foodLoc);
 			break;
 		}
 	}
@@ -397,7 +397,8 @@ public abstract class Grid {
 				Cell c = simMap.get(states[i][j]).copy();
 				c.setRow(i);
 				c.setCol(j);
-				//updateCounts(c);
+				c.setLand(land);
+				c.setPositionInLand();
 				currentGrid[i][j] = c;
 				blocks[i][j].setFill(c.getColor());
 				blocks[i][j].setStroke(c.getStrokeColor());
@@ -476,6 +477,7 @@ public abstract class Grid {
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
 				Cell c = newGrid[i][j];
+				c.setRow(i);c.setCol(j);
 				blocks[i][j].setFill(c.getColor());
 				currentGrid[i][j] = newGrid[i][j];
 			}
