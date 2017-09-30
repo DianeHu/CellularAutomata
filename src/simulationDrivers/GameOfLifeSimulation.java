@@ -1,6 +1,9 @@
 package simulationDrivers;
 
+import XMLClasses.GameOfLifeConfiguration;
 import XMLClasses.GridConfiguration;
+import cellManager.Grid;
+import cellManager.RectangleGrid;
 import javafx.stage.Stage;
 
 /**
@@ -11,8 +14,8 @@ import javafx.stage.Stage;
  */
 public class GameOfLifeSimulation extends Simulation {
 	
-	public GameOfLifeSimulation(GridConfiguration gC) {
-		super(gC);
+	public GameOfLifeSimulation(GridConfiguration gC, Grid g) {
+		super(gC, g);
 	}
 	
 	/*private void save(String sT, String nR, String nC, String cC, String pC, String pG, String sT1, String fB,
@@ -24,6 +27,12 @@ public class GameOfLifeSimulation extends Simulation {
 	@Override
 	protected void setUpThresholds() {
 		// do nothing
+	}
+	
+	@Override
+	public Simulation copy() {
+		GameOfLifeConfiguration golC = null;
+		return new GameOfLifeSimulation(golC, sampleGrid);
 	}
 	
 	@Override

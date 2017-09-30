@@ -2,7 +2,9 @@ package simulationDrivers;
 
 import java.io.File;
 
+import XMLClasses.GameOfLifeReader;
 import XMLClasses.GridConfiguration;
+import XMLClasses.SegregationReader;
 import XMLClasses.SpreadingWildfireConfiguration;
 import XMLClasses.SpreadingWildfireReader;
 import XMLClasses.WatorConfiguration;
@@ -71,7 +73,7 @@ public abstract class Simulation extends Application {
 	private Group splash = new Group();
 	private Group simulationScreen = new Group();
 	private Scene myScene;
-	protected RectangleGrid sampleGrid;
+	protected Grid sampleGrid;
 	private Stage myStage;
 	protected Button submit;
 	protected GridConfiguration XMLConfiguration;
@@ -85,12 +87,14 @@ public abstract class Simulation extends Application {
 	private boolean isFirstTime = true;
 	protected Graph g;
 	protected boolean isPaused = false;
-	//private ScrollPane gridScroll;
-	//private final ScrollBar sc = new ScrollBar();
+	private String simType;
+	// private ScrollPane gridScroll;
+	// private final ScrollBar sc = new ScrollBar();
 	private XMLExporter XMLOutput;
-	
-	public Simulation(GridConfiguration gC) {
+
+	public Simulation(GridConfiguration gC, Grid g) {
 		XMLConfiguration = gC;
+		sampleGrid = g;
 	}
 
 	/**
@@ -140,11 +144,16 @@ public abstract class Simulation extends Application {
 		scene.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
 	}
 
+	public void setSimType(String s) {
+		simType = s;
+	}
+
 	private void makeButtons(Stage s) {
 		SimulationButtons.makeButtonH("Choose XML File for Configuration", e -> openFile(s), hboxTop, SCREEN_SIZE);
 		SimulationButtons.makeButtonH("Start Simulation", e -> startMethod(s), hboxTop, SCREEN_SIZE);
-		//SimulationButtons.makeButtonH("Save", e -> save(simType, nRows, nCols, cellConfig, pCatch, pGrow, segThreshold,
-		//		fBreedTurns, sBreedTurns, sStarveTurns), hboxTop, SCREEN_SIZE);
+		// SimulationButtons.makeButtonH("Save", e -> save(simType, nRows, nCols,
+		// cellConfig, pCatch, pGrow, segThreshold,
+		// fBreedTurns, sBreedTurns, sStarveTurns), hboxTop, SCREEN_SIZE);
 
 		SimulationButtons.makeButtonV("Pause", e -> pause(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Resume", e -> resume(), vboxRight, SCREEN_SIZE);
@@ -154,9 +163,9 @@ public abstract class Simulation extends Application {
 		SimulationButtons.makeButtonV("Step", e -> manualStep(), vboxRight, SCREEN_SIZE);
 		makeSimSpecificFields(s);
 	}
-	
+
 	protected abstract void makeSimSpecificFields(Stage s);
-	
+
 	private void setUpStage(Stage s, Scene scene) {
 		myStage = s;
 		myStage.setScene(scene);
@@ -188,8 +197,16 @@ public abstract class Simulation extends Application {
 		GridConfiguration InputConfiguration = null;
 		if (dataFile != null) {
 			try {
-				InputConfiguration = new WatorReader().getGridConfiguration(dataFile);
-				//////////
+				switch (simType) {
+				case ("Wator"):
+					InputConfiguration = new WatorReader().getGridConfiguration(dataFile);
+				case ("SpreadingWildfire"):
+					InputConfiguration = new SpreadingWildfireReader().getGridConfiguration(dataFile);
+				case ("GameOfLife"):
+					InputConfiguration = new GameOfLifeReader().getGridConfiguration(dataFile);
+				case ("Segregation"):
+					InputConfiguration = new SegregationReader().getGridConfiguration(dataFile);
+				}
 			} catch (XMLException e) {
 				Alert a = new Alert(AlertType.ERROR);
 				a.setContentText(e.getMessage());
@@ -202,7 +219,9 @@ public abstract class Simulation extends Application {
 			Platform.exit();
 		}
 	}
-	
+
+	public abstract Simulation copy();
+
 	/**
 	 * @param s
 	 * @throws Exception
@@ -219,7 +238,7 @@ public abstract class Simulation extends Application {
 		animation.getKeyFrames().add(frame);
 		animation.play();
 	}
-	
+
 	protected abstract void setUpThresholds();
 
 	/**
@@ -258,8 +277,8 @@ public abstract class Simulation extends Application {
 	 * This method resumes the simulation after it is paused
 	 */
 	protected void resume() {
-		//animation.play();
-		//sampleGrid.setPaused(false);
+		// animation.play();
+		// sampleGrid.setPaused(false);
 		isPaused = false;
 	}
 
@@ -269,8 +288,8 @@ public abstract class Simulation extends Application {
 	 * This method pauses the simulation
 	 */
 	protected void pause() {
-		//animation.pause();
-		//sampleGrid.setPaused(true);
+		// animation.pause();
+		// sampleGrid.setPaused(true);
 		isPaused = true;
 	}
 
@@ -281,11 +300,12 @@ public abstract class Simulation extends Application {
 		timePassing *= 2;
 		animation.setRate(timePassing);
 	}
-	
-	/*private void save(String sT, String nR, String nC, String cC, String pC, String pG, String sT1, String fB, String sB, String sS) {
-		XMLOutput = new XMLExporter(sT, nR, nC, cC, pC, pG, sT1, fB, sB, sS);
-		XMLOutput.buildXML();
-	}*/
+
+	/*
+	 * private void save(String sT, String nR, String nC, String cC, String pC,
+	 * String pG, String sT1, String fB, String sB, String sS) { XMLOutput = new
+	 * XMLExporter(sT, nR, nC, cC, pC, pG, sT1, fB, sB, sS); XMLOutput.buildXML(); }
+	 */
 
 	/**
 	 * This method steps through the simulation at half the speed
