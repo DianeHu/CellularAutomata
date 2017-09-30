@@ -38,20 +38,35 @@ public class SimulationButtons {
 		return sampleButton;
 	}
 	
-	public static void makeTextField(String content, VBox vbox, int screenSize) {
+	public static Button makeReturnableButtonH(String name, EventHandler<ActionEvent> handler, HBox hbox, int screenSize) {
+		Button sampleButton = new Button(name);
+		sampleButton.setOnAction(handler);
+		hbox.getChildren().add(sampleButton);
+		return sampleButton;
+	}
+	
+	public static void makeTextFieldV(String content, VBox vbox, int screenSize) {
 		TextField sampleText = new TextField();
 		sampleText.setPromptText(content);
 		vbox.getChildren().add(sampleText);
 		sampleText.setTranslateY(screenSize);
 	}
 	
-	public static TextField makeReturnableTextField(String content, VBox vbox, int screenSize) {
+	public static TextField makeReturnableTextFieldV(String content, VBox vbox, int screenSize) {
 		TextField sampleText = new TextField();
 		sampleText.setPromptText(content);
 		vbox.getChildren().add(sampleText);
 		sampleText.setTranslateY(screenSize);
 		return sampleText;
 	}
+	
+	public static TextField makeReturnableTextFieldH(String content, HBox hbox, int screenSize) {
+		TextField sampleText = new TextField();
+		sampleText.setPromptText(content);
+		hbox.getChildren().add(sampleText);
+		return sampleText;
+	}
+	
 
 	public static void makeButtonH(String name, EventHandler<ActionEvent> handler, HBox hbox, int screenSize) {
 		Button sampleButton = new Button(name);

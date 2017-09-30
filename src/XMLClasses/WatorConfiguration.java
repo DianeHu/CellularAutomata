@@ -6,9 +6,6 @@ public class WatorConfiguration extends GridConfiguration {
 
 	public WatorConfiguration(Map<String, String> dataValues) {
 		super(dataValues);
-		GridConfiguration.addToDataFields("fishBreedTurns");
-		GridConfiguration.addToDataFields("sharkBreedTurns");
-		GridConfiguration.addToDataFields("sharkStarveTurns");
 	}
 	// returns number of turns fish breed for Wator simulation
     public double getFishBreedTurns () {

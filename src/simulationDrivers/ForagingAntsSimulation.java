@@ -1,9 +1,8 @@
 package simulationDrivers;
 
 import XMLClasses.GridConfiguration;
-import XMLClasses.SegregationConfiguration;
+import XMLClasses.ForagingAntsConfiguration;
 import cellManager.Grid;
-import cellManager.RectangleGrid;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 /**
@@ -12,29 +11,29 @@ import javafx.stage.Stage;
  * @author Diane Hu This class holds most of the front end processing. This
  *         class essentially runs the simulations.
  */
-public class SegregationSimulation extends Simulation {
+public class ForagingAntsSimulation extends Simulation {
 
 	private TextField threshold;
-	private double satisfiedThreshold;
+	private double maxAnts;
 	
-	public SegregationSimulation(GridConfiguration gC, Grid g) {
+	public ForagingAntsSimulation(GridConfiguration gC, Grid g) {
 		super(gC, g);
 	}
 	
 	@Override
 	protected void setUpThresholds() {
-		satisfiedThreshold = ((SegregationConfiguration) XMLConfiguration).getSegregationThreshold();
+		maxAnts = ((ForagingAntsConfiguration) XMLConfiguration).getMaxAnts();
 	}
 	
 	@Override
 	public Simulation copy() {
-		SegregationConfiguration sC = null;
-		return new SegregationSimulation(sC, sampleGrid);
+		ForagingAntsConfiguration fC = null;
+		return new SegregationSimulation(fC, sampleGrid);
 	}
 	
 	@Override
 	protected void makeSimSpecificFields(Stage s) {
-		threshold = SimulationButtons.makeReturnableTextFieldV("Input threshold", vboxRight, 3 * OFFSET - SCREEN_SIZE);
+		threshold = SimulationButtons.makeReturnableTextFieldV("Input maxAnts", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
 	}
 
@@ -46,7 +45,7 @@ public class SegregationSimulation extends Simulation {
 
 	@Override
 	protected void manualStep() {
-		sampleGrid.createsNewGrid(satisfiedThreshold, 0, 0);
+		sampleGrid.createsNewGrid(maxAnts, 0, 0);
 		g.updateGraph();
 		sampleGrid.update();
 	}
@@ -56,7 +55,7 @@ public class SegregationSimulation extends Simulation {
 		if(isPaused == false) {
 			manualStep();
 		} else {
-			sampleGrid.createPausedGrid(satisfiedThreshold, 0, 0);
+			sampleGrid.createPausedGrid(maxAnts, 0, 0);
 			g.updateGraph();
 			sampleGrid.update();
 		}
@@ -64,7 +63,7 @@ public class SegregationSimulation extends Simulation {
 
 	@Override
 	protected void userSetThreshold() {
-		satisfiedThreshold = Double.parseDouble(threshold.getText());
+		maxAnts = Double.parseDouble(threshold.getText());
 	}
 
 }
