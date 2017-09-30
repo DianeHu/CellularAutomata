@@ -61,7 +61,7 @@ public abstract class Simulation extends Application {
 	private static final Color EMPTY_DISPLAY_BACKGROUND = Color.LIGHTGRAY;
 	private static final int GRID_DISPLAY_SIZE = 400;
 	private static final String DATA_FILE_EXTENSION = "*.xml";
-	private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
+	//private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
 	private static final int VERT_SIZE = 650;
 	private static final int HORIZONTAL_SIZE = 550;
 	private static final Color BACKGROUND = Color.TRANSPARENT;
@@ -196,6 +196,7 @@ public abstract class Simulation extends Application {
 	 *            This method opens the file chooser to input in an XML
 	 */
 	protected void openFile(Stage s) {
+		FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
 		File dataFile = myChooser.showOpenDialog(s);
 		GridConfiguration InputConfiguration = null;
 		if (dataFile != null) {
@@ -218,15 +219,13 @@ public abstract class Simulation extends Application {
 					break;
 				}
 			} catch (XMLException e) {
-				Alert a = new Alert(AlertType.ERROR);
-				a.setContentText(e.getMessage());
-				a.showAndWait();
+				throw e;
 			}
 			XMLConfiguration = InputConfiguration;
 		} else {
 			// nothing selected, so quit the application
 			ErrorMessages.createErrors("No File Chosen");
-			Platform.exit();
+			//Platform.exit();
 		}
 	}
 

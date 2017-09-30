@@ -240,9 +240,9 @@ public abstract class Grid {
 			break;
 		case ("ForagingAnts"):
 			simMap = foragingAnts;
-			land = new ForagingLand(getNumRows(),getNumCols(),
-					((ForagingAntsConfiguration) gridConfig).getHomeLoc(),
-					((ForagingAntsConfiguration) gridConfig).getFoodLoc());
+		//	land = new ForagingLand(getNumRows(),getNumCols(),
+		//			((ForagingAntsConfiguration) gridConfig).getHomeLoc(),
+			//		((ForagingAntsConfiguration) gridConfig).getFoodLoc());
 			break;
 		}
 	}
