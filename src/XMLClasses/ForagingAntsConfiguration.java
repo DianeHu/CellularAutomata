@@ -20,7 +20,7 @@ public class ForagingAntsConfiguration extends GridConfiguration {
     // returns number of turns shark starve for Wator simulation
     public int[] getHomeLoc () {
         
-    	String[] coordinatesString = GridConfiguration.getMyDataValues().get("foragingLandX").split("\\a");
+    	String[] coordinatesString = GridConfiguration.getMyDataValues().get("homeLoc").split("\\a");
     	int[] coordinates = new int[coordinatesString.length];
     	for(int i = 0;i<coordinatesString.length;i++)
     	{
@@ -31,7 +31,7 @@ public class ForagingAntsConfiguration extends GridConfiguration {
     
 public int[] getFoodLoc () {
         
-    	String[] coordinatesString = GridConfiguration.getMyDataValues().get("foragingLandY").split("\\a");
+    	String[] coordinatesString = GridConfiguration.getMyDataValues().get("foodLoc").split("\\a");
     	int[] coordinates = new int[coordinatesString.length];
     	for(int i = 0;i<coordinatesString.length;i++)
     	{

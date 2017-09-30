@@ -16,20 +16,20 @@ public class ForagingAntsExporter extends XMLExporter{
 
 	Element maxAnts;
 	Element evaporationRate;
-	Element foragingLandX;
-	Element foragingLandY;
+	Element homeLoc;
+	Element foodLoc;
 	String mAnts;
 	String eRate;
-	String fLandX;
-	String fLandY;
+	String hLoc;
+	String fLoc;
 	
 
-	public ForagingAntsExporter(String nR, String nC, String cC, String mA, String eR, String fLX,String fLY) {
+	public ForagingAntsExporter(String nR, String nC, String cC, String mA, String eR, String hL,String fL) {
 		super(nR, nC, cC);
 		mAnts=mA;
 		eRate=eR;
-		fLandX=fLX;
-		fLandY=fLY;
+		hLoc=hL;
+		fLoc=fL;
 	}
 	
 	public void buildXML() {
@@ -45,8 +45,8 @@ public class ForagingAntsExporter extends XMLExporter{
 	          
 	          addChildrenToDataType(doc, GridConfiguration, maxAnts, "maxAnts", mAnts);
 	          addChildrenToDataType(doc, GridConfiguration, evaporationRate, "evaporationRate", eRate);
-	          addChildrenToDataType(doc, GridConfiguration, foragingLandX, "foragingLandX", fLandX);
-	          addChildrenToDataType(doc, GridConfiguration, foragingLandY, "foragingLandY", fLandY);
+	          addChildrenToDataType(doc, GridConfiguration, homeLoc, "homeLoc", hLoc);
+	          addChildrenToDataType(doc, GridConfiguration, foodLoc, "foodLoc", fLoc);
 	        
 	          writeXML(doc);
 	          

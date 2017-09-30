@@ -1,0 +1,9 @@
+<GridConfiguration>
+<numRows>9</numRows>
+  <numCols>9</numCols>
+  <cellConfiguration>ssfffsfsfsffsfsfsffsfsfsfsfffsfsfsfsfsfffsssfsfffsfsffffsfsfsfffsfsfffsfsfsfsfsfsfsfsfsffsfsfsfsfsfsfsfsfsf</cellConfiguration>
+  <maxAnts>5</maxAnts>
+  <evaporationRate>5</evaporationRate>
+  <homeLoc>5</homeLoc>
+  <foodLoc>5</foodLoc>
+  </GridConfiguration>
