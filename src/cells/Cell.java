@@ -111,7 +111,7 @@ public abstract class Cell {
 	 * Set the ForagingLand for Foraging Ant simulation
 	 */
 	public void setLand(ForagingLand l) {
-		//do nothing
+		land = l;
 	}
 
 	/**
