@@ -1,7 +1,14 @@
 package simulationDrivers;
 
 import XMLClasses.GridConfiguration;
+import XMLClasses.SegregationReader;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import XMLClasses.ForagingAntsConfiguration;
+import XMLClasses.ForagingAntsReader;
 import cellManager.Grid;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -15,6 +22,7 @@ public class ForagingAntsSimulation extends Simulation {
 
 	private TextField threshold;
 	private double maxAnts;
+	private ForagingAntsConfiguration XMLConfiguration = null;
 	
 	public ForagingAntsSimulation(GridConfiguration gC, Grid g) {
 		super(gC, g);
@@ -26,8 +34,14 @@ public class ForagingAntsSimulation extends Simulation {
 	}
 	
 	@Override
+	protected GridConfiguration setInputConfig(File dataFile) {
+		XMLConfiguration = new ForagingAntsReader().getGridConfiguration(dataFile);
+		return XMLConfiguration;
+	}
+	
+	@Override
 	protected void setUpThresholds() {
-		maxAnts = ((ForagingAntsConfiguration) XMLConfiguration).getMaxAnts();
+		maxAnts = XMLConfiguration.getMaxAnts();
 	}
 	
 	@Override
@@ -68,7 +82,12 @@ public class ForagingAntsSimulation extends Simulation {
 
 	@Override
 	protected void userSetThreshold() {
-		maxAnts = Double.parseDouble(threshold.getText());
+		if(!(threshold.getText().length()==0))
+		{
+			maxAnts = Double.parseDouble(threshold.getText());
+		}
+		else
+			ErrorMessages.createErrors("Not Enough Inputs");
 	}
 
 }

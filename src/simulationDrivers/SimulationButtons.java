@@ -24,10 +24,11 @@ public class SimulationButtons {
 	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
 
 	public static void makeButtonV(String name, EventHandler<ActionEvent> handler, VBox vbox, int screenSize) {
-		Button sampleButton = new Button(name);
-		sampleButton.setOnAction(handler);
-		vbox.getChildren().add(sampleButton);
-		sampleButton.setTranslateY(screenSize);
+		Button sampleButton = makeReturnableButtonV(name,handler,vbox,screenSize);
+	}
+	
+	public static void makeButtonH(String name, EventHandler<ActionEvent> handler, HBox hbox, int screenSize) {
+		Button sampleButton = makeReturnableButtonH(name,handler,hbox,screenSize);
 	}
 	
 	public static Button makeReturnableButtonV(String name, EventHandler<ActionEvent> handler, VBox vbox, int screenSize) {
@@ -46,10 +47,7 @@ public class SimulationButtons {
 	}
 	
 	public static void makeTextFieldV(String content, VBox vbox, int screenSize) {
-		TextField sampleText = new TextField();
-		sampleText.setPromptText(content);
-		vbox.getChildren().add(sampleText);
-		sampleText.setTranslateY(screenSize);
+		TextField sampleText = makeReturnableTextFieldV(content,vbox,screenSize);
 	}
 	
 	public static TextField makeReturnableTextFieldV(String content, VBox vbox, int screenSize) {
@@ -65,13 +63,6 @@ public class SimulationButtons {
 		sampleText.setPromptText(content);
 		hbox.getChildren().add(sampleText);
 		return sampleText;
-	}
-	
-
-	public static void makeButtonH(String name, EventHandler<ActionEvent> handler, HBox hbox, int screenSize) {
-		Button sampleButton = new Button(name);
-		sampleButton.setOnAction(handler);
-		hbox.getChildren().add(sampleButton);
 	}
 
 }

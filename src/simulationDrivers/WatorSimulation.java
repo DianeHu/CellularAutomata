@@ -1,8 +1,14 @@
 package simulationDrivers;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import XMLClasses.GridConfiguration;
+import XMLClasses.SegregationReader;
 import XMLClasses.WatorConfiguration;
 import XMLClasses.WatorExporter;
+import XMLClasses.WatorReader;
 import XMLClasses.XMLExporter;
 import cellManager.Grid;
 import cellManager.RectangleGrid;
@@ -25,6 +31,7 @@ public class WatorSimulation extends Simulation {
 	private double starveTurns;
 	private int numRows;
 	private int numCols;
+	private WatorConfiguration XMLConfiguration = null;
 	
 	public WatorSimulation(GridConfiguration gC, Grid g) {
 		super(gC, g);
@@ -34,9 +41,9 @@ public class WatorSimulation extends Simulation {
 	protected void setUpThresholds() {
 		numRows = sampleGrid.getNumRows();
 		numCols = sampleGrid.getNumCols();
-		fBreedTurns = ((WatorConfiguration) XMLConfiguration).getFishBreedTurns();
-		sBreedTurns = ((WatorConfiguration) XMLConfiguration).getSharkBreedTurns();
-		starveTurns = ((WatorConfiguration) XMLConfiguration).getSharkStarveTurns();
+		fBreedTurns = XMLConfiguration.getFishBreedTurns();
+		sBreedTurns = XMLConfiguration.getSharkBreedTurns();
+		starveTurns = XMLConfiguration.getSharkStarveTurns();
 	}
 	
 	@Override
@@ -52,7 +59,7 @@ public class WatorSimulation extends Simulation {
 	
 	@Override
 	protected void makeSimSpecificFields(Stage s) {
-		SimulationButtons.makeButtonH("Save", e->save(Integer.toString(numRows), 
+		saveButton = SimulationButtons.makeReturnableButtonH("Save", e->save(Integer.toString(numRows), 
 				Integer.toString(numCols), sampleGrid.getGridConfig(), 
 				Double.toString(fBreedTurns), Double.toString(sBreedTurns),
 				Double.toString(starveTurns)), hboxTop, SCREEN_SIZE);
@@ -63,15 +70,31 @@ public class WatorSimulation extends Simulation {
 	}
 	
 	@Override
+	protected GridConfiguration setInputConfig(File dataFile) {
+		XMLConfiguration = new WatorReader().getGridConfiguration(dataFile);
+		return XMLConfiguration;
+	}
+	
+	@Override
 	protected void userSetThreshold() {
-		fBreedTurns = Double.parseDouble(fishBreed.getText());
-		sBreedTurns = Double.parseDouble(sharkBreed.getText());
-		starveTurns = Double.parseDouble(sharkStarve.getText());
+		if(!(fishBreed.getText().length()==0)||!(sharkBreed.getText().length()==0)||!(sharkStarve.getText().length()==0))
+		{
+			fBreedTurns = Double.parseDouble(fishBreed.getText());
+			sBreedTurns = Double.parseDouble(sharkBreed.getText());
+			starveTurns = Double.parseDouble(sharkStarve.getText());
+		}
+		else
+			ErrorMessages.createErrors("Not Enough Inputs");
 	}
 
 	private void save(String nR, String nC, String cC, String fB, String sB, String sS) {
-		XMLOutput = new WatorExporter(nR, nC, cC, fB, sB, sS);
-		((WatorExporter) XMLOutput).buildXML();
+		try {
+			new WatorExporter(nR, nC, cC, fB, sB, sS).buildXML();
+		}
+		catch(NullPointerException e)
+		{
+			ErrorMessages.createErrors("No Configuration to Save");
+		}
 	}
 	
 	@Override

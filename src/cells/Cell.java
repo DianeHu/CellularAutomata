@@ -26,6 +26,7 @@ public abstract class Cell {
 	private List<Cell> neighbors;
 	private Color col;
 	private ForagingLand land;
+	private int level;
 
 	/**
 	 * @param myRowNum
@@ -224,5 +225,21 @@ public abstract class Cell {
 		return land;
 	}
 	
+	/**
+	 * @return Returns a cell chosen randomly from a cell's list of neighbors
+	 */
+	protected Cell chooseRandomNeighbor() {
+		int numNeigh = neighbors.size();
+		Random rand = new Random();
+		return(neighbors.get(rand.nextInt(numNeigh)));		
+	}
+	
+	protected void setLevel(int n) {
+		level = n;
+	}
+	
+	protected int getLevel() {
+		return level;
+	}
 
 }

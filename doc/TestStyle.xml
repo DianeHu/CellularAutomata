@@ -1,6 +1,6 @@
 <StyleConfiguration>
-	<gridShape>rectangle</gridShape>
-	<edgeShape>50</edgeShape>
-	<gridOutline>yes</gridOutline>
-	<neighborType>yes</neighborType>
+	<gridShape>Hexagon</gridShape>
+	<edgeShape>Toroidal</edgeShape>
+	<gridOutline>Yes</gridOutline>
+	<neighborType>Max</neighborType>
 </StyleConfiguration>
