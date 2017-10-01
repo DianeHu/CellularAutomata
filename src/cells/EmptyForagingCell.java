@@ -22,7 +22,7 @@ public class EmptyForagingCell extends Cell {
 	
 	public EmptyForagingCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
-		setColor(Color.FLORALWHITE);
+		setColor(Color.CYAN);
 	}
 
 
@@ -31,7 +31,7 @@ public class EmptyForagingCell extends Cell {
 	 */
 	public EmptyForagingCell() {
 		super();
-		setColor(Color.FLORALWHITE);
+		setColor(Color.CYAN);
 	}
 
 	/*
@@ -55,7 +55,7 @@ public class EmptyForagingCell extends Cell {
 	 */
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
-		setStrokeIfAtLocation();
+		grid.addToNewGrid(this);
 	}
 
 

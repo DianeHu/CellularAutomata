@@ -5,9 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import cellManager.Grid;
-import cellManager.RectangleGrid;
 import gridPatches.ForagingLand;
-import javafx.scene.Node;
 import javafx.scene.paint.Color;
 
 /**
@@ -23,14 +21,10 @@ import javafx.scene.paint.Color;
  */
 public abstract class Cell {
 
-	private static final Color HOME_LOC_COLOR = Color.PLUM;
-	private static final Color FOOD_LOC_COLOR = Color.GOLDENROD;
-	private static final Color REGULAR_STROKE_COLOR = Color.DARKGREY;
 	private int rowNum;
 	private int colNum;
 	private List<Cell> neighbors;
 	private Color col;
-	private Color strokeCol;
 	private ForagingLand land;
 
 	/**
@@ -43,7 +37,6 @@ public abstract class Cell {
 		rowNum = myRowNum;
 		colNum = myColNum;
 		neighbors = new ArrayList<Cell>();
-		strokeCol = REGULAR_STROKE_COLOR;
 	}
 
 
@@ -52,7 +45,6 @@ public abstract class Cell {
 	 */
 	public Cell() {
 		neighbors = new ArrayList<Cell>();
-		setStrokeColor(REGULAR_STROKE_COLOR);
 	}
 
 	/**
@@ -72,24 +64,7 @@ public abstract class Cell {
 	
 	public abstract void setThreshold(double a, double b, double c);
 	
-	/**
-	 * Sets the stroke color for a cell type
-	 * 
-	 * @param c
-	 *            is the Color associated with the cell type
-	 */
-	protected void setStrokeColor(Color c) {
-		strokeCol = c;
-	}
-	
 	public abstract Cell changeType();
-
-	/**
-	 * @return the stroke color for a cell type
-	 */
-	public Color getStrokeColor() {
-		return strokeCol;
-	}
 
 	/**
 	 * @return the color associated with the cell type
@@ -249,16 +224,5 @@ public abstract class Cell {
 		return land;
 	}
 	
-	protected void setStrokeIfAtLocation() {
-		if (getLand().atHome(getRow(), getCol())){
-			setStrokeColor(HOME_LOC_COLOR);
-		}
-		else if (getLand().atFoodSource(getRow(), getCol())){
-			setStrokeColor(FOOD_LOC_COLOR);
-		}
-		else {
-			setStrokeColor(REGULAR_STROKE_COLOR);
-		}
-	}
 
 }

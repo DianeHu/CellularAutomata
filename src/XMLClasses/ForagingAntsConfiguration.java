@@ -13,31 +13,24 @@ public class ForagingAntsConfiguration extends GridConfiguration {
     public double getMaxAnts () {
         return Double.parseDouble(GridConfiguration.getMyDataValues().get("maxAnts"));
     }
-    // returns number of turns shark breed for Wator simulation
-    public double getEvaporationRate () {
-        return Double.parseDouble(GridConfiguration.getMyDataValues().get("evaporationRate"));
-    }
+    
     // returns number of turns shark starve for Wator simulation
-    public int[] getHomeLoc () {
+    public int getHomeLocX () {
         
-    	String[] coordinatesString = GridConfiguration.getMyDataValues().get("homeLoc").split("\\a");
-    	int[] coordinates = new int[coordinatesString.length];
-    	for(int i = 0;i<coordinatesString.length;i++)
-    	{
-    		coordinates[i] = Integer.parseInt(coordinatesString[i]);
-    	}
-    	return coordinates;
+    	return Integer.parseInt(GridConfiguration.getMyDataValues().get("homeLocX"));
+    }
+    public int getHomeLocY () {
+        
+    	return Integer.parseInt(GridConfiguration.getMyDataValues().get("homeLocY"));
     }
     
-public int[] getFoodLoc () {
+    public int getFoodLocX () {
         
-    	String[] coordinatesString = GridConfiguration.getMyDataValues().get("foodLoc").split("\\a");
-    	int[] coordinates = new int[coordinatesString.length];
-    	for(int i = 0;i<coordinatesString.length;i++)
-    	{
-    		coordinates[i] = Integer.parseInt(coordinatesString[i]);
-    	}
-    	return coordinates;
+    	return Integer.parseInt(GridConfiguration.getMyDataValues().get("foodLocX"));
+    }
+    public int getFoodLocY () {
+        
+    	return Integer.parseInt(GridConfiguration.getMyDataValues().get("foodLocY"));
     }
 
 
