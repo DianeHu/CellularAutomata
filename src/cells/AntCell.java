@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import cellManager.Grid;
-import gridPatches.ForagingLand;
 
 public class AntCell extends Cell {
 
@@ -14,9 +13,16 @@ public class AntCell extends Cell {
 	private boolean hasFood;
 	private double maxAnts;
 	
-	public AntCell(int myRowNum, int myColNum) {
+/*	public AntCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setInitialDirection();
+		System.out.println("initial direction " + Arrays.toString(direction));
+	}*/
+	
+	public AntCell() {
+		super();
+		setInitialDirection();
+		//System.out.println("initial direction " + Arrays.toString(direction));
 	}
 	
 	protected void setMaxAnts(double m) {
@@ -25,7 +31,7 @@ public class AntCell extends Cell {
 
 	protected void setInitialDirection() {
 		direction = new int[2];
-		while(!(direction[0] == 0 & direction[1] == 0)) {
+		while(direction[0] == 0 & direction[1] == 0) {
 			direction[0] = randomDir();
 			direction[1] = randomDir();
 		}
@@ -45,11 +51,6 @@ public class AntCell extends Cell {
 		}
 	}
 
-	public AntCell() {
-		super();
-		setInitialDirection();
-	}
-
 	@Override
 	public Cell copy() {
 		AntGroupCell newCell = new AntGroupCell();
@@ -57,55 +58,57 @@ public class AntCell extends Cell {
 	}
 	
 	private List<Cell> getDirectionNeighbors() {
-		List<Cell> dirNeigh = new ArrayList<Cell>();
-		boolean isNeighbor;
+		List<Cell> dirNeigh = new ArrayList<Cell>();	
 		for(Cell c: getNeighbors()) {
+			boolean toTheSide = false;
 			int row = getRow(); 
 			int col = getCol();
 			int r2 = c.getRow(); 
 			int c2 = c.getCol();
-			isNeighbor = r2==row+direction[0] & c2==col+direction[1];
+			boolean isDirectlyInFront = r2==row+direction[0] & c2==col+direction[1];
 			if(direction[0]==1 & direction[1]==0) {
-				isNeighbor = isNeighbor|
-						(r2==row+1 & c2==col+1)|
+				toTheSide = (r2==row+1 & c2==col+1)|
 						(r2==row+1 & c2==col-1);
+				//System.out.println(toTheSide + " toTheSide for" + r2 + " " +c2);
 			}
 			if(direction[0]==1 & direction[1]==1) {
-				isNeighbor = isNeighbor|
-						(r2==row & c2==col+1)|
+				toTheSide = (r2==row & c2==col+1)|
 						(r2==row+1 & c2==col);
+				//System.out.println(toTheSide + "toTheSide for" + r2 + " " +c2);
 			}
 			if(direction[0]==0 & direction[1]==1) {
-				isNeighbor = isNeighbor|
-						(r2==row-1 & c2==col+1)|
+				toTheSide = (r2==row-1 & c2==col+1)|
 						(r2==row+1 & c2==col+1);
+				//System.out.println(toTheSide + "toTheSide for" + r2 + " " +c2);
 			}
 			if(direction[0]==-1 & direction[1]==1) {
-				isNeighbor = isNeighbor|
-						(r2==row-1 & c2==col)|
+				toTheSide = (r2==row-1 & c2==col)|
 						(r2==row & c2==col+1);
+				//System.out.println(toTheSide + "toTheSide for" + r2 + " " +c2);
 			}
 			if(direction[0]==-1 & direction[1]==-1) {
-				isNeighbor = isNeighbor|
-						(r2==row & c2==col-1)|
+				toTheSide = (r2==row & c2==col-1)|
 						(r2==row-1 & c2==col);
+				//System.out.println(toTheSide + "toTheSide for" + r2 + " " +c2);
 			}
 			if(direction[0]==1 & direction[1]==-1) {
-				isNeighbor = isNeighbor|
-						(r2==row & c2==col-1)|
+				toTheSide = (r2==row & c2==col-1)|
 						(r2==row+1 & c2==col);
+				//System.out.println(toTheSide + "toTheSide for" + r2 + " " +c2);
 			}
 			if(direction[0]==0 & direction[1]==-1) {
-				isNeighbor = isNeighbor|
-						(r2==row-1 & c2==col)|
+				toTheSide = (r2==row-1 & c2==col)|
 						(r2==row+1 & c2==col);
+				//System.out.println(toTheSide + "toTheSide for" + r2 + " " +c2);
 			}
 			if(direction[0]==-1 & direction[1]==0) {
-				isNeighbor = isNeighbor|
-						(r2==row & c2==col+1)|
+				toTheSide = (r2==row & c2==col+1)|
 						(r2==row & c2==col-1);
+				//System.out.println(toTheSide + "toTheSide for" + r2 + " " +c2);
 			}
-			
+
+			boolean isNeighbor = isDirectlyInFront | toTheSide;
+			//System.out.println(r2 + " " + c2 + " " + isNeighbor);
 			addCellIf(isNeighbor,c,dirNeigh);
 		}
 		return dirNeigh;
@@ -120,7 +123,8 @@ public class AntCell extends Cell {
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		getLand().addPheromones(getRow(), getCol(), hasFood,getNeighbors());
-		System.out.println(Arrays.toString(direction));
+		//System.out.println("numneighbors " + getDirectionNeighbors().size());
+		//System.out.println("directions " + Arrays.toString(direction));
 		List<Integer> coordinates = getLand().getNewCoordinates(getDirectionNeighbors(),hasFood,maxAnts,this);
 		int newrow = coordinates.get(0);
 		int newcol = coordinates.get(1);
@@ -139,7 +143,6 @@ public class AntCell extends Cell {
 				direction[1] = -1*(Integer.signum(newcol-getCol()));
 			}
 		}
-		System.out.println("newrow " + newrow + "newcol " + newcol);
 		updateCurrentGroup(grid, newrow, newcol);
 		moveToNewGroup(grid, newrow, newcol);
 
