@@ -18,7 +18,6 @@ import javafx.scene.paint.Color;
  *         its location.
  */
 public class EmptyCell extends Cell {
-
 	
 	public EmptyCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);

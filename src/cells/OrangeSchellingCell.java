@@ -27,7 +27,7 @@ public class OrangeSchellingCell extends Cell {
 		super();
 		setColor(Color.DARKORANGE);
 	}
-
+	
 	/**
 	 * @param t
 	 *            Sets the threshold proportion for being unsatisfied as t

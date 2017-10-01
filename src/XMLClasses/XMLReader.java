@@ -67,7 +67,7 @@ public abstract class XMLReader {
             return nodeList.item(0).getTextContent();
         }
         else {
-        	return "Doesn't work";
+        	throw new XMLException("XML file invalid: does not match simulation type or is incomplete");
         }
     }
 

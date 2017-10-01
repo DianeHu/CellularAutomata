@@ -1,7 +1,15 @@
 package simulationDrivers;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import XMLClasses.GridConfiguration;
+import XMLClasses.SegregationReader;
 import XMLClasses.WatorConfiguration;
+import XMLClasses.WatorExporter;
+import XMLClasses.WatorReader;
+import XMLClasses.XMLExporter;
 import cellManager.Grid;
 import cellManager.RectangleGrid;
 import javafx.scene.control.TextField;
@@ -18,9 +26,16 @@ public class WatorSimulation extends Simulation {
 	private TextField fishBreed;
 	private TextField sharkBreed;
 	private TextField sharkStarve;
+	private TextField fishConc;
+	private TextField sharkConc;
+	private TextField waterConc;
+	private Map<Character, Double> concMap = new HashMap<>();
 	private double fBreedTurns;
 	private double sBreedTurns;
 	private double starveTurns;
+	private int numRows;
+	private int numCols;
+	private WatorConfiguration XMLConfiguration = null;
 	
 	public WatorSimulation(GridConfiguration gC, Grid g) {
 		super(gC, g);
@@ -28,9 +43,16 @@ public class WatorSimulation extends Simulation {
 	
 	@Override
 	protected void setUpThresholds() {
-		fBreedTurns = ((WatorConfiguration) XMLConfiguration).getFishBreedTurns();
-		sBreedTurns = ((WatorConfiguration) XMLConfiguration).getSharkBreedTurns();
-		starveTurns = ((WatorConfiguration) XMLConfiguration).getSharkStarveTurns();
+		numRows = sampleGrid.getNumRows();
+		numCols = sampleGrid.getNumCols();
+		fBreedTurns = XMLConfiguration.getFishBreedTurns();
+		sBreedTurns = XMLConfiguration.getSharkBreedTurns();
+		starveTurns = XMLConfiguration.getSharkStarveTurns();
+	}
+	
+	@Override
+	protected Graph createGraph(Grid g) {
+		return new WatorGraph(g);
 	}
 	
 	@Override
@@ -41,10 +63,32 @@ public class WatorSimulation extends Simulation {
 	
 	@Override
 	protected void makeSimSpecificFields(Stage s) {
+		SimulationButtons.makeButtonH("Save", e->save(Integer.toString(numRows), 
+				Integer.toString(numCols), sampleGrid.getGridConfig(), 
+				Double.toString(fBreedTurns), Double.toString(sBreedTurns),
+				Double.toString(starveTurns)), hboxTop, SCREEN_SIZE);
+		fishConc = SimulationButtons.makeReturnableTextFieldV("Set fish concentration", vboxLeft, -LEFT_OFFSET);
+		sharkConc = SimulationButtons.makeReturnableTextFieldV("Set shark concentration", vboxLeft, -LEFT_OFFSET);
+		waterConc = SimulationButtons.makeReturnableTextFieldV("Set water concentration", vboxLeft, -LEFT_OFFSET);
 		fishBreed = SimulationButtons.makeReturnableTextFieldV("Input fishBreed", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		sharkBreed = SimulationButtons.makeReturnableTextFieldV("Input sharkBreed", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		sharkStarve = SimulationButtons.makeReturnableTextFieldV("Input sharkStarve", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
+	}
+	
+	@Override
+	protected void setConcentrations() {
+		concMap.put('f', Double.parseDouble(fishConc.getText()));
+		concMap.put('s', Double.parseDouble(sharkConc.getText()));
+		concMap.put('e', Double.parseDouble(waterConc.getText()));
+		sampleGrid.setConcMap(concMap);
+		setConc.setDisable(true);
+	}
+	
+	@Override
+	protected GridConfiguration setInputConfig(File dataFile) {
+		XMLConfiguration = new WatorReader().getGridConfiguration(dataFile);
+		return XMLConfiguration;
 	}
 	
 	@Override
@@ -54,11 +98,9 @@ public class WatorSimulation extends Simulation {
 		starveTurns = Double.parseDouble(sharkStarve.getText());
 	}
 
-	/*private void save(String sT, String nR, String nC, String cC, String pC, String pG, String sT1, String fB,
-			String sB, String sS) {
-		XMLOutput = new XMLExporter(sT, nR, nC, cC, pC, pG, sT1, fB, sB, sS);
-		XMLOutput.buildXML();
-	}*/
+	private void save(String nR, String nC, String cC, String fB, String sB, String sS) {
+		new WatorExporter(nR, nC, cC, fB, sB, sS).buildXML();;
+	}
 	
 	@Override
 	protected void manualStep() {

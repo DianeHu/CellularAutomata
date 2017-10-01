@@ -68,7 +68,7 @@ public class Main extends Application{
 			try {
 				setSim();
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
+				ErrorMessages.createErrors("Invalid simulation type entered");
 				e1.printStackTrace();
 			}
 		}, hbox, 3*OFFSET-SCREEN_SIZE);
@@ -84,8 +84,8 @@ public class Main extends Application{
 	private void setSim() throws Exception {
 		Stage newStage = new Stage();
 		simulationSetByUser = simType.getText();
-		recGrid = new RectangleGrid(startScreen, g);
-		hexGrid = new HexagonGrid(startScreen, g);
+		recGrid = new RectangleGrid(startScreen, null);
+		hexGrid = new HexagonGrid(startScreen, null);
 		recGrid.setSimType(simulationSetByUser);
 		hexGrid.setSimType(simulationSetByUser);
 		Simulation s = pickSimByName.get(simulationSetByUser).copy();
