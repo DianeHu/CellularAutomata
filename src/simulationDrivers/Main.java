@@ -64,6 +64,7 @@ public class Main extends Application {
 	private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
 	private StyleConfiguration styler = null;
 	private boolean isRectangle = false;
+	private boolean isStylish = false;
 
 	@Override
 	public void start(Stage myStage) throws Exception {
@@ -86,9 +87,9 @@ public class Main extends Application {
 				setSim();
 			} catch (Exception e1) {
 				ErrorMessages.createErrors("Invalid simulation type entered");
-				//e1.printStackTrace();
 			}
 		}, hbox, 3 * OFFSET - SCREEN_SIZE);
+		submit.setDisable(!isStylish);
 		border.setCenter(hbox);
 		border.getStyleClass().add("pane");
 		border.setPrefSize(SCREEN_SIZE, SCREEN_SIZE);
@@ -112,8 +113,10 @@ public class Main extends Application {
 		if (dataFile != null) {
 			try {
 				styler = new StyleReader().getStyleConfiguration(dataFile);
+				isStylish = true;
+				submit.setDisable(!isStylish);
 			} catch (XMLException e) {
-				throw e;
+				ErrorMessages.createErrors("Invalid Style XML");
 			}
 		} else {
 			ErrorMessages.createErrors("No File Chosen");
