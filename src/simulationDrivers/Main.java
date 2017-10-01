@@ -68,7 +68,7 @@ public class Main extends Application{
 			try {
 				setSim();
 			} catch (Exception e1) {
-				// TODO Auto-generated catch block
+				ErrorMessages.createErrors("Invalid simulation type entered");
 				e1.printStackTrace();
 			}
 		}, hbox, 3*OFFSET-SCREEN_SIZE);

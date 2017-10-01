@@ -28,7 +28,7 @@ public class BlueSchellingCell extends Cell {
 		super();
 		setColor(Color.NAVY);
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 

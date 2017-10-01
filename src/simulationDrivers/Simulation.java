@@ -90,9 +90,10 @@ public abstract class Simulation extends Application {
 	protected Graph g;
 	protected boolean isPaused = false;
 	private String simType;
+	private Button startButton;
 	// private ScrollPane gridScroll;
 	// private final ScrollBar sc = new ScrollBar();
-	private XMLExporter XMLOutput;
+	protected XMLExporter XMLOutput;
 
 	public Simulation(GridConfiguration gC, Grid g) {
 		XMLConfiguration = gC;
@@ -152,11 +153,7 @@ public abstract class Simulation extends Application {
 
 	private void makeButtons(Stage s) {
 		SimulationButtons.makeButtonH("Choose XML File for Configuration", e -> openFile(s), hboxTop, SCREEN_SIZE);
-		SimulationButtons.makeButtonH("Start Simulation", e -> startMethod(s), hboxTop, SCREEN_SIZE);
-		// SimulationButtons.makeButtonH("Save", e -> save(simType, nRows, nCols,
-		// cellConfig, pCatch, pGrow, segThreshold,
-		// fBreedTurns, sBreedTurns, sStarveTurns), hboxTop, SCREEN_SIZE);
-
+		startButton = SimulationButtons.makeReturnableButtonH("Start Simulation", e -> startMethod(s), hboxTop, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Pause", e -> pause(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Resume", e -> resume(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Speed Up", e -> faster(), vboxRight, SCREEN_SIZE);
@@ -178,10 +175,10 @@ public abstract class Simulation extends Application {
 	protected void startMethod(Stage s) {
 		try {
 			startSimulation(s);
+			startButton.setDisable(true);
 		} catch (Exception e1) {
 			e1.printStackTrace();
-			// ErrorMessages.createErrors("Failed to Start\nChoose Valid Configuration
-			// File");
+			ErrorMessages.createErrors("Failed to Start\nChoose Valid Configuration File");
 		}
 	}
 
@@ -196,7 +193,7 @@ public abstract class Simulation extends Application {
 	 *            This method opens the file chooser to input in an XML
 	 */
 	protected void openFile(Stage s) {
-		FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
+		animation.pause();
 		File dataFile = myChooser.showOpenDialog(s);
 		GridConfiguration InputConfiguration = null;
 		if (dataFile != null) {
@@ -222,10 +219,12 @@ public abstract class Simulation extends Application {
 				throw e;
 			}
 			XMLConfiguration = InputConfiguration;
+			startButton.setDisable(false);
+			hboxBottom.getChildren().clear();
 		} else {
 			// nothing selected, so quit the application
 			ErrorMessages.createErrors("No File Chosen");
-			//Platform.exit();
+			startButton.setDisable(true);
 		}
 	}
 
@@ -260,7 +259,7 @@ public abstract class Simulation extends Application {
 		sampleGrid = new RectangleGrid(root, XMLConfiguration);
 		sampleGrid.setSimType(simType);
 		sampleGrid.initialize();
-		g = new Graph(sampleGrid);
+		g = createGraph(sampleGrid);
 		g.addToBox(hboxBottom);
 		screenBorder.setLeft(root);
 		screenBorder.getStyleClass().add("pane");
@@ -275,6 +274,8 @@ public abstract class Simulation extends Application {
 
 		return myScene;
 	}
+	
+	protected abstract Graph createGraph(Grid g);
 
 	/**
 	 * @param elapsedTime
@@ -341,11 +342,12 @@ public abstract class Simulation extends Application {
 	 * This method resets the grid pane so that a new file can be put in
 	 */
 	protected void reset() {
+		startButton.setDisable(false);
 		screenBorder.getChildren().remove(root);
 		screenBorder.setCenter(vboxRight);
 		screenBorder.setLeft(emptyPane);
 		screenBorder.getStyleClass().add("pane");
-		// vboxRight.getChildren().clear();
+		hboxBottom.getChildren().remove(g.getLineChart());
 		timePassing = SECOND_DELAY;
 
 	}
