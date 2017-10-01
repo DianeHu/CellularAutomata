@@ -82,7 +82,12 @@ public class ForagingAntsSimulation extends Simulation {
 
 	@Override
 	protected void userSetThreshold() {
-		maxAnts = Double.parseDouble(threshold.getText());
+		if(!(threshold.getText().length()==0))
+		{
+			maxAnts = Double.parseDouble(threshold.getText());
+		}
+		else
+			ErrorMessages.createErrors("Not Enough Inputs");
 	}
 
 }

@@ -85,7 +85,7 @@ public class Main extends Application {
 				setSim();
 			} catch (Exception e1) {
 				ErrorMessages.createErrors("Invalid simulation type entered");
-				e1.printStackTrace();
+				//e1.printStackTrace();
 			}
 		}, hbox, 3 * OFFSET - SCREEN_SIZE);
 		SimulationButtons.makeButtonH("Choose styling file", e -> openStyleFile(s), hbox, SCREEN_SIZE);

@@ -61,11 +61,9 @@ public class SpreadingWildfireSimulation extends Simulation {
 
 	@Override
 	protected void makeSimSpecificFields(Stage s) {
-		SimulationButtons
-				.makeButtonH("Save",
-						e -> save(Integer.toString(numRows), Integer.toString(numCols), sampleGrid.getGridConfig(),
-								Double.toString(catchProbability), Double.toString(growthProbability)),
-						hboxTop, SCREEN_SIZE);
+		saveButton = SimulationButtons.makeReturnableButtonH("Save", e->save(Integer.toString(numRows), 
+				Integer.toString(numCols), sampleGrid.getGridConfig(), 
+				Double.toString(catchProbability), Double.toString(growthProbability)), hboxTop, SCREEN_SIZE);
 		probGrow = SimulationButtons.makeReturnableTextFieldV("Input probGrow", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		probCatch = SimulationButtons.makeReturnableTextFieldV("Input probCatch", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		submit = SimulationButtons.makeReturnableButtonV("Submit", e -> userSetThreshold(), vboxRight,
@@ -74,8 +72,13 @@ public class SpreadingWildfireSimulation extends Simulation {
 
 	@Override
 	protected void userSetThreshold() {
-		growthProbability = Double.parseDouble(probGrow.getText());
-		catchProbability = Double.parseDouble(probCatch.getText());
+		if(!(probGrow.getText().length()==0)||!(probCatch.getText().length()==0))
+		{
+			growthProbability = Double.parseDouble(probGrow.getText());
+			catchProbability = Double.parseDouble(probCatch.getText());
+		}
+		else
+			ErrorMessages.createErrors("Not Enough Inputs");
 	}
 
 	private void save(String nR, String nC, String cC, String pC, String pG) {
