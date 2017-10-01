@@ -9,22 +9,19 @@ import javafx.scene.paint.Color;
 public class AntGroupCell extends Cell{
 
 
-	private List<AntCell> ants;
+	private List<AntCell> ants = new ArrayList<AntCell>();
 	private double maxAnts;
 
 	
 	public AntGroupCell(int myRowNum, int myColNum){
 		super(myRowNum, myColNum);
 		setColor(Color.INDIANRED);
-		List<AntCell> ants = new ArrayList<AntCell>();
 	}
 	
 	public AntGroupCell() {
 		super();
-		setColor(Color.DARKRED);
-		List<AntCell> ants = new ArrayList<AntCell>();
+		setColor(Color.INDIANRED);
 		ants.add(new AntCell());
-		
 	}
 
 	@Override
@@ -36,15 +33,20 @@ public class AntGroupCell extends Cell{
 
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
-		setStrokeIfAtLocation();
-		for(AntCell ant: ants) {
-			ant.setRow(getRow());
-			ant.setCol(getCol());
-			ant.setLand(getLand());
-			ant.setNeighbors(getNeighbors());
-			ant.moveCell(emptySpots,grid);
+		System.out.println("row " + getRow() + " col " + getCol() + " size "+ ants.size());
+		if(ants.size()>1) {
+			setColor(Color.MAROON);
 		}
-		
+		if(ants.size()>0) {
+			for(AntCell ant: ants) {
+				ant.setRow(getRow());
+				ant.setCol(getCol());
+				ant.setLand(getLand());
+				ant.setNeighbors(getNeighbors());
+				ant.setMaxAnts(maxAnts);
+				ant.moveCell(emptySpots,grid);
+			}
+		}
 	}
 	
 	public void addAnt(AntCell a) {

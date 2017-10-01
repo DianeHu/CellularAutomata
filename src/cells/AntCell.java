@@ -1,6 +1,7 @@
 package cells;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import cellManager.Grid;
@@ -11,14 +12,14 @@ public class AntCell extends Cell {
 	private int[] direction;
 	
 	private boolean hasFood;
-	private int maxAnts;
+	private double maxAnts;
 	
 	public AntCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setInitialDirection();
 	}
 	
-	protected void setMaxAnts(int m) {
+	protected void setMaxAnts(double m) {
 		maxAnts = m;
 	}
 
@@ -119,6 +120,7 @@ public class AntCell extends Cell {
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		getLand().addPheromones(getRow(), getCol(), hasFood,getNeighbors());
+		System.out.println(Arrays.toString(direction));
 		List<Integer> coordinates = getLand().getNewCoordinates(getDirectionNeighbors(),hasFood,maxAnts,this);
 		int newrow = coordinates.get(0);
 		int newcol = coordinates.get(1);
@@ -137,6 +139,7 @@ public class AntCell extends Cell {
 				direction[1] = -1*(Integer.signum(newcol-getCol()));
 			}
 		}
+		System.out.println("newrow " + newrow + "newcol " + newcol);
 		updateCurrentGroup(grid, newrow, newcol);
 		moveToNewGroup(grid, newrow, newcol);
 
@@ -166,12 +169,10 @@ public class AntCell extends Cell {
 		if (getLand().atHome(newrow, newcol)) {
 			hasFood = false;
 			getLand().topOffHome();
-			// top off
 		}
 		if (getLand().atFoodSource(newrow, newcol)) {
 			hasFood = true;
 			getLand().topOffFood();
-			// top off
 		}
 	}
 
@@ -180,9 +181,8 @@ public class AntCell extends Cell {
 			if (grid.getCellInNewGridAt(getRow(), getCol()) instanceof AntGroupCell) {
 				AntGroupCell group = (AntGroupCell) grid.getCellInNewGridAt(getRow(), getCol());
 				group.removeAnt(this);
-				if (group.getNumAnts() == 0) {
-					grid.removeFromNewGrid(group);
-					grid.addToNewGrid(new EmptyForagingCell(getRow(),getCol()));
+				if (group.getNumAnts() != 0) {
+					grid.addToNewGrid(group);
 				}
 			}
 		}

@@ -1,9 +1,10 @@
 <GridConfiguration>
-<numRows>6</numRows>
-  <numCols>6</numCols>
-  <cellConfiguration>aaeeaeaaeaeaeaeaeeaeeaaeeeeaeaeaeaeaeeeaaeaeeaaaeeeeeeeeaaeeaaaeaea</cellConfiguration>
+<numRows>3</numRows>
+  <numCols>3</numCols>
+  <cellConfiguration>aeeeeeeee</cellConfiguration>
   <maxAnts>5</maxAnts>
-  <evaporationRate>10</evaporationRate>
-  <homeLoc>10</homeLoc>
-  <foodLoc>30</foodLoc>
+  <homeLocX>0</homeLocX>
+  <homeLocY>0</homeLocY>
+  <foodLocX>0</foodLocX>
+  <foodLocY>2</foodLocY>
   </GridConfiguration>
