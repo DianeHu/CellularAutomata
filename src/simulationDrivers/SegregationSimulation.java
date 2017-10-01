@@ -27,10 +27,6 @@ public class SegregationSimulation extends Simulation {
 	private int numRows;
 	private int numCols;
 	private SegregationConfiguration sC = null;
-	private Map<Character, Double> concMap = new HashMap<>();
-	private TextField bConc;
-	private TextField oConc;
-	private TextField eConc;
 	
 	public SegregationSimulation(GridConfiguration gC, Grid g) {
 		super(gC, g);
@@ -62,30 +58,14 @@ public class SegregationSimulation extends Simulation {
 	
 	@Override
 	protected void makeSimSpecificFields(Stage s) {
-		SimulationButtons.makeButtonH("Save", e->save(Integer.toString(numRows), 
+		saveButton=SimulationButtons.makeReturnableButtonH("Save", e->save(Integer.toString(numRows), 
 				Integer.toString(numCols), sampleGrid.getGridConfig(), Double.toString(satisfiedThreshold)), hboxTop, SCREEN_SIZE);
-		bConc = SimulationButtons.makeReturnableTextFieldV("Set blue concentration", vboxLeft, -LEFT_OFFSET);
-		oConc = SimulationButtons.makeReturnableTextFieldV("Set orange concentration", vboxLeft, -LEFT_OFFSET);
-		eConc = SimulationButtons.makeReturnableTextFieldV("Set empty concentration", vboxLeft, -LEFT_OFFSET);
 		threshold = SimulationButtons.makeReturnableTextFieldV("Input threshold", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
 	}
 
 	private void save(String nR, String nC, String cC, String sT) {
 		new SegregationExporter(nR, nC, cC, sT).buildXML();
-	}
-	
-	@Override
-	protected void setConcentrations() {
-		concMap.put('b', Double.parseDouble(bConc.getText()));
-		concMap.put('o', Double.parseDouble(oConc.getText()));
-		concMap.put('e', Double.parseDouble(eConc.getText()));
-		Group root = new Group();
-		sampleGrid = new RectangleGrid(root,XMLConfiguration);
-		sampleGrid.setSimType(simType);
-		sampleGrid.initialize();
-		sampleGrid.setConcMap(concMap);
-		setConc.setDisable(true);
 	}
 
 	@Override
@@ -110,7 +90,12 @@ public class SegregationSimulation extends Simulation {
 
 	@Override
 	protected void userSetThreshold() {
-		satisfiedThreshold = Double.parseDouble(threshold.getText());
+		if(!(threshold.getText().length()==0))
+		{
+			satisfiedThreshold = Double.parseDouble(threshold.getText());
+		}
+		else
+			ErrorMessages.createErrors("Not Enough Inputs");
 	}
 
 }

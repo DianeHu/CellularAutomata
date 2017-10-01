@@ -21,9 +21,6 @@ import javafx.stage.Stage;
 public class ForagingAntsSimulation extends Simulation {
 
 	private TextField threshold;
-	private TextField antConc;
-	private TextField emptyConc;
-	private Map<Character, Double> concMap = new HashMap<>();
 	private double maxAnts;
 	private ForagingAntsConfiguration XMLConfiguration = null;
 	
@@ -57,16 +54,6 @@ public class ForagingAntsSimulation extends Simulation {
 	protected void makeSimSpecificFields(Stage s) {
 		threshold = SimulationButtons.makeReturnableTextFieldV("Input maxAnts", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
-		antConc = SimulationButtons.makeReturnableTextFieldV("Set ant concentration", vboxLeft, -LEFT_OFFSET);
-		emptyConc = SimulationButtons.makeReturnableTextFieldV("Set empty concentration", vboxLeft, -LEFT_OFFSET);
-	}
-	
-	@Override
-	protected void setConcentrations() {
-		concMap.put('a', Double.parseDouble(antConc.getText()));
-		concMap.put('e', Double.parseDouble(emptyConc.getText()));
-		sampleGrid.setConcMap(concMap);
-		setConc.setDisable(true);
 	}
 
 	/*private void save(String sT, String nR, String nC, String cC, String pC, String pG, String sT1, String fB,
@@ -95,7 +82,12 @@ public class ForagingAntsSimulation extends Simulation {
 
 	@Override
 	protected void userSetThreshold() {
-		maxAnts = Double.parseDouble(threshold.getText());
+		if(!(threshold.getText().length()==0))
+		{
+			maxAnts = Double.parseDouble(threshold.getText());
+		}
+		else
+			ErrorMessages.createErrors("Not Enough Inputs");
 	}
 
 }

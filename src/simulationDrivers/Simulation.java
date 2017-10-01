@@ -5,6 +5,7 @@ import java.io.File;
 import XMLClasses.GridConfiguration;
 import XMLClasses.XMLException;
 import cellManager.Grid;
+import cellManager.HexagonGrid;
 import cellManager.RectangleGrid;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -41,7 +42,7 @@ public abstract class Simulation extends Application {
 	private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
 	private static final int VERT_SIZE = 650;
 	protected static final int LEFT_OFFSET = 35;
-	private static final int HORIZONTAL_SIZE = 725;
+	private static final int HORIZONTAL_SIZE = 575;
 	private static final Color BACKGROUND = Color.TRANSPARENT;
 	private static final String TITLE = "SIMULATION";
 	private static final int FRAMES_PER_SECOND = 2;
@@ -49,7 +50,6 @@ public abstract class Simulation extends Application {
 	private static double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	protected HBox hboxTop = new HBox();
 	protected VBox vboxRight = new VBox();
-	protected VBox vboxLeft = new VBox();
 	private HBox hboxBottom = new HBox();
 	private Group splash = new Group();
 	private Group simulationScreen = new Group();
@@ -65,15 +65,19 @@ public abstract class Simulation extends Application {
 	private BorderPane screenBorder = new BorderPane();
 	private Timeline animation = new Timeline();
 	private Group root;
-	private boolean isFirstTime = true;
+	protected boolean isFirstTime = true;
 	protected Graph g;
 	protected boolean isPaused = false;
-	protected String simType;
+	protected boolean isStarted = false;
+	private String simType;
 	private Button startButton;
-	protected Button setConc;
 	private Button stepButton;
-	// private ScrollPane gridScroll;
-	// private final ScrollBar sc = new ScrollBar();
+	private Boolean isRectangle = true;
+	private Button resetButton;
+	protected Button saveButton;
+	private Boolean isToroidal = false;
+	private Boolean isMaxNeighbors = true;
+	private Boolean isStroke = true;
 
 	public Simulation(GridConfiguration gC, Grid g) {
 		XMLConfiguration = gC;
@@ -110,17 +114,11 @@ public abstract class Simulation extends Application {
 		vboxRight.setPadding(new Insets(OFFSET));
 		vboxRight.setSpacing(OFFSET);
 		
-		vboxLeft.setPadding(new Insets(OFFSET));
-		vboxLeft.setSpacing(OFFSET);
-		
-		screenBorder.setLeft(vboxLeft);
 		screenBorder.setCenter(emptyPane);
 		screenBorder.setTop(hboxTop);
 		screenBorder.setRight(vboxRight);
-		// screenBorder.setCenter(hboxCenter);
 		screenBorder.setBottom(hboxBottom);
-		// HBox.setHgrow(g.getLineChart(), Priority.ALWAYS);
-		// screenBorder.setPrefSize(SIZE, SIZE);
+
 		screenBorder.setPrefSize(HORIZONTAL_SIZE, VERT_SIZE);
 		screenBorder.getStyleClass().add("pane");
 		splash.getChildren().add(screenBorder);
@@ -134,21 +132,37 @@ public abstract class Simulation extends Application {
 	public void setSimType(String s) {
 		simType = s;
 	}
+	
+	public void setIsRectangle(Boolean b) {
+		isRectangle = b;
+	}
+	
+	public void setMaxNeighbors(Boolean b) {
+		isMaxNeighbors = b;
+	}
+	
+	public void setStrokeFill(Boolean b) {
+		isStroke = b;
+	}
+	
+	public void setIsToroidal(Boolean b) {
+		isToroidal = b;
+	}
 
 	private void makeButtons(Stage s) {
 		SimulationButtons.makeButtonH("Choose XML File for Configuration", e -> openFile(s), hboxTop, SCREEN_SIZE);
 		startButton = SimulationButtons.makeReturnableButtonH("Start Simulation", e -> startMethod(s), hboxTop, SCREEN_SIZE);
-		setConc = SimulationButtons.makeReturnableButtonV("Set conc.", e->setConcentrations(), vboxLeft, OFFSET + 3*LEFT_OFFSET);
 		SimulationButtons.makeButtonV("Pause", e -> pause(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Resume", e -> resume(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Speed Up", e -> faster(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Slow Down", e -> slower(), vboxRight, SCREEN_SIZE);
-		SimulationButtons.makeButtonV("Reset", e -> reset(), vboxRight, SCREEN_SIZE);
+		resetButton=SimulationButtons.makeReturnableButtonV("Reset", e -> reset(), vboxRight, SCREEN_SIZE);
 		stepButton = SimulationButtons.makeReturnableButtonV("Step", e -> manualStep(), vboxRight, SCREEN_SIZE);
+		resetButton.setDisable(!isStarted);
+		stepButton.setDisable(!(isPaused&isStarted));
 		makeSimSpecificFields(s);
+		saveButton.setDisable(!isStarted);
 	}
-
-	protected abstract void setConcentrations();
 	
 	protected abstract void makeSimSpecificFields(Stage s);
 
@@ -162,11 +176,11 @@ public abstract class Simulation extends Application {
 	private void startMethod(Stage s) {
 		try {
 			startSimulation(s);
-			startButton.setDisable(true);
-			setConc.setDisable(true);
-			stepButton.setDisable(true);
+			isStarted = true;
+			startButton.setDisable(isStarted);
+			resetButton.setDisable(!isStarted);
+			saveButton.setDisable(!isStarted);
 		} catch (Exception e1) {
-			e1.printStackTrace();
 			ErrorMessages.createErrors("Failed to Start\nChoose Valid Configuration File");
 		}
 	}
@@ -228,9 +242,16 @@ public abstract class Simulation extends Application {
 	 */
 	private Scene setSimulation() {
 		root = new Group();
-		sampleGrid = new RectangleGrid(root, XMLConfiguration);
+		if(isRectangle) {
+			sampleGrid = new RectangleGrid(root, XMLConfiguration);
+		} else {
+			sampleGrid = new HexagonGrid(root, XMLConfiguration);
+		}
 		sampleGrid.setSimType(simType);
 		sampleGrid.initialize();
+		sampleGrid.setMaxNeighbors(isMaxNeighbors);
+		sampleGrid.setIsStroke(isStroke);
+		sampleGrid.setIsToroidal(isToroidal);
 		g = createGraph(sampleGrid);
 		g.addToBox(hboxBottom);
 		screenBorder.setCenter(root);
@@ -265,6 +286,7 @@ public abstract class Simulation extends Application {
 		// animation.play();
 		// sampleGrid.setPaused(false);
 		isPaused = false;
+		stepButton.setDisable(!(isPaused&&isStarted));
 	}
 
 	protected abstract void userSetThreshold();
@@ -276,7 +298,7 @@ public abstract class Simulation extends Application {
 		// animation.pause();
 		// sampleGrid.setPaused(true);
 		isPaused = true;
-		stepButton.setDisable(false);
+		stepButton.setDisable(!(isPaused&&isStarted));
 	}
 
 	/**
@@ -312,9 +334,7 @@ public abstract class Simulation extends Application {
 	 */
 	private void reset() {
 		startButton.setDisable(false);
-		setConc.setDisable(false);
 		screenBorder.getChildren().remove(root);
-		screenBorder.setLeft(vboxLeft);
 		screenBorder.setRight(vboxRight);
 		screenBorder.setCenter(emptyPane);
 		screenBorder.getStyleClass().add("pane");

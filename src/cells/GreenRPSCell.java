@@ -21,7 +21,6 @@ public class GreenRPSCell extends Cell {
 	@Override
 	public void setThreshold(double a, double b, double c) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
@@ -48,7 +47,6 @@ public class GreenRPSCell extends Cell {
 			grid.addToNewGrid(c.changeType());
 			setLevel(0);
 		}
-
 	}
 
 }

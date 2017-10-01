@@ -7,7 +7,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import XMLClasses.GridConfiguration;
+import XMLClasses.SpreadingWildfireConfiguration;
 import XMLClasses.ForagingAntsConfiguration;
+import cells.AntCell;
 import cells.AntGroupCell;
 import cells.BlueRPSCell;
 import cells.BlueSchellingCell;
@@ -28,9 +30,14 @@ import gridPatches.ForagingLand;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 /**
@@ -76,6 +83,9 @@ public abstract class Grid {
 	public boolean currentlyPaused;
 	private int[] homeLoc = new int[2];
 	private int[] foodLoc = new int[2];
+	private Boolean maxNeighbors;
+	private Boolean isStroke;
+	private Boolean isToroidal;
 
 	/**
 	 * @param r
@@ -98,6 +108,18 @@ public abstract class Grid {
 	
 	public void setPaused(Boolean b) {
 		currentlyPaused = b;
+	}
+	
+	public void setMaxNeighbors(Boolean b) {
+		maxNeighbors = b;
+	}
+	
+	public void setIsStroke(Boolean b) {
+		isStroke = b;
+	}
+	
+	public void setIsToroidal(Boolean b) {
+		isToroidal = b;
 	}
 	
 	/**
@@ -235,10 +257,6 @@ public abstract class Grid {
 	
 	public String getSimType() {
 		return simulationType;
-	}
-	
-	public void setConcMap(Map<Character, Double> cMap) {
-		probabilityMap = cMap;
 	}
 	
 	public void setSimType(String s) {
@@ -445,52 +463,19 @@ public abstract class Grid {
 	 * Updates the gridpane with the rectangle colors, and displays the gridpane.
 	 */
 	protected void setInitialStates() {
+
 		char[][] states = gridConfig.getCellConfiguration();
-/*		if(probabilityMap==null) {
-			states = gridConfig.getCellConfiguration();
-		}		
-		Map<double[],Character> rangeMap= new HashMap<>();
-		if(probabilityMap!=null) {
-			createProbRanges(rangeMap);
-		}*/
+
 		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numCols; j++) {
-/*				Cell c = new EmptyCell();
-				if(probabilityMap!=null) {
-					c = getProbabilisticCell(rangeMap, c);
-				}
-				else{
-					c = simMap.get(states[i][j]).copy();
-				}*/
+			for (int j = 0; j < numCols; j++) {				
 				Cell c = simMap.get(states[i][j]).copy();
 				initializeCell(i, j, c);
 			}
 		}
 		root.getChildren().add(pane);
 	}
-
-	protected Cell getProbabilisticCell(Map<double[], Character> rangeMap, Cell c) {
-		double rand = Math.random();
-		for(double[] range : rangeMap.keySet()) {
-			if(range[0]<= rand & range[1]>= rand) {
-				c = simMap.get(rangeMap.get(range));
-			}
-		}
-		return c;
-	}
-
-	protected void createProbRanges(Map<double[], Character> rangeMap) {
-		double i = 0;
-		for(char c: probabilityMap.keySet()) {
-			double lowerBound = i;
-			double upperBound = probabilityMap.get(c);
-			double[] range = {lowerBound, upperBound};
-			rangeMap.put(range, c);
-			i = i+ probabilityMap.get(c);
-		}
-	}
-
-	protected void initializeCell(int i, int j, Cell c) {
+	
+	private void initializeCell(int i, int j, Cell c) {
 		c.setRow(i);
 		c.setCol(j);
 		c.setLand(land);
@@ -509,6 +494,7 @@ public abstract class Grid {
 		pane.getChildren().add(blocks[i][j]);
 	}
 
+
 	/**
 	 * This method goes through each cell and has it perform its interactions in
 	 * order to create the new grid, a 2D matrix of cells which describes the next
@@ -518,7 +504,7 @@ public abstract class Grid {
 		setNeighbors();
 		for (int i = 0; i < currentGrid.length; i++) {
 			for (int j = 0; j < currentGrid[i].length; j++) {
-				List<Cell> empty = getEmptyCells();
+				ArrayList<Cell> empty = getEmptyCells();
 				Cell c = currentGrid[i][j];
 				//c.setThreshold(threshold1, threshold2, threshold3);
 				c.setThreshold(.3, 0, 0);
@@ -552,8 +538,8 @@ public abstract class Grid {
 	/**
 	 * @return a list of all the empty cells in the current configuration of cells
 	 */
-	private List<Cell> getEmptyCells() {
-		List<Cell> emptyCells = new ArrayList<Cell>();
+	private ArrayList<Cell> getEmptyCells() {
+		ArrayList<Cell> emptyCells = new ArrayList<Cell>();
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
 				Cell c = currentGrid[i][j];

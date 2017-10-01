@@ -26,10 +26,6 @@ public class WatorSimulation extends Simulation {
 	private TextField fishBreed;
 	private TextField sharkBreed;
 	private TextField sharkStarve;
-	private TextField fishConc;
-	private TextField sharkConc;
-	private TextField waterConc;
-	private Map<Character, Double> concMap = new HashMap<>();
 	private double fBreedTurns;
 	private double sBreedTurns;
 	private double starveTurns;
@@ -63,26 +59,14 @@ public class WatorSimulation extends Simulation {
 	
 	@Override
 	protected void makeSimSpecificFields(Stage s) {
-		SimulationButtons.makeButtonH("Save", e->save(Integer.toString(numRows), 
+		saveButton = SimulationButtons.makeReturnableButtonH("Save", e->save(Integer.toString(numRows), 
 				Integer.toString(numCols), sampleGrid.getGridConfig(), 
 				Double.toString(fBreedTurns), Double.toString(sBreedTurns),
 				Double.toString(starveTurns)), hboxTop, SCREEN_SIZE);
-		fishConc = SimulationButtons.makeReturnableTextFieldV("Set fish concentration", vboxLeft, -LEFT_OFFSET);
-		sharkConc = SimulationButtons.makeReturnableTextFieldV("Set shark concentration", vboxLeft, -LEFT_OFFSET);
-		waterConc = SimulationButtons.makeReturnableTextFieldV("Set water concentration", vboxLeft, -LEFT_OFFSET);
 		fishBreed = SimulationButtons.makeReturnableTextFieldV("Input fishBreed", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		sharkBreed = SimulationButtons.makeReturnableTextFieldV("Input sharkBreed", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		sharkStarve = SimulationButtons.makeReturnableTextFieldV("Input sharkStarve", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
-	}
-	
-	@Override
-	protected void setConcentrations() {
-		concMap.put('f', Double.parseDouble(fishConc.getText()));
-		concMap.put('s', Double.parseDouble(sharkConc.getText()));
-		concMap.put('e', Double.parseDouble(waterConc.getText()));
-		sampleGrid.setConcMap(concMap);
-		setConc.setDisable(true);
 	}
 	
 	@Override
@@ -93,13 +77,24 @@ public class WatorSimulation extends Simulation {
 	
 	@Override
 	protected void userSetThreshold() {
-		fBreedTurns = Double.parseDouble(fishBreed.getText());
-		sBreedTurns = Double.parseDouble(sharkBreed.getText());
-		starveTurns = Double.parseDouble(sharkStarve.getText());
+		if(!(fishBreed.getText().length()==0)||!(sharkBreed.getText().length()==0)||!(sharkStarve.getText().length()==0))
+		{
+			fBreedTurns = Double.parseDouble(fishBreed.getText());
+			sBreedTurns = Double.parseDouble(sharkBreed.getText());
+			starveTurns = Double.parseDouble(sharkStarve.getText());
+		}
+		else
+			ErrorMessages.createErrors("Not Enough Inputs");
 	}
 
 	private void save(String nR, String nC, String cC, String fB, String sB, String sS) {
-		new WatorExporter(nR, nC, cC, fB, sB, sS).buildXML();;
+		try {
+			new WatorExporter(nR, nC, cC, fB, sB, sS).buildXML();
+		}
+		catch(NullPointerException e)
+		{
+			ErrorMessages.createErrors("No Configuration to Save");
+		}
 	}
 	
 	@Override
