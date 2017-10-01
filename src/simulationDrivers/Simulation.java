@@ -2,45 +2,22 @@ package simulationDrivers;
 
 import java.io.File;
 
-import XMLClasses.GameOfLifeReader;
 import XMLClasses.GridConfiguration;
-import XMLClasses.SegregationReader;
-import XMLClasses.SpreadingWildfireConfiguration;
-import XMLClasses.ForagingAntsConfiguration;
-import XMLClasses.ForagingAntsReader;
-import XMLClasses.SpreadingWildfireReader;
-import XMLClasses.WatorConfiguration;
-import XMLClasses.WatorReader;
 import XMLClasses.XMLException;
-import XMLClasses.XMLExporter;
-import XMLClasses.XMLReader;
 import cellManager.Grid;
-import cellManager.HexagonGrid;
 import cellManager.RectangleGrid;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -63,7 +40,8 @@ public abstract class Simulation extends Application {
 	private static final String DATA_FILE_EXTENSION = "*.xml";
 	private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
 	private static final int VERT_SIZE = 650;
-	private static final int HORIZONTAL_SIZE = 550;
+	protected static final int LEFT_OFFSET = 35;
+	private static final int HORIZONTAL_SIZE = 725;
 	private static final Color BACKGROUND = Color.TRANSPARENT;
 	private static final String TITLE = "SIMULATION";
 	private static final int FRAMES_PER_SECOND = 2;
@@ -71,6 +49,7 @@ public abstract class Simulation extends Application {
 	private static double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	protected HBox hboxTop = new HBox();
 	protected VBox vboxRight = new VBox();
+	protected VBox vboxLeft = new VBox();
 	private HBox hboxBottom = new HBox();
 	private Group splash = new Group();
 	private Group simulationScreen = new Group();
@@ -91,10 +70,10 @@ public abstract class Simulation extends Application {
 	protected boolean isPaused = false;
 	private String simType;
 	private Button startButton;
+	protected Button setConc;
 	private Button stepButton;
 	// private ScrollPane gridScroll;
 	// private final ScrollBar sc = new ScrollBar();
-	protected XMLExporter XMLOutput;
 
 	public Simulation(GridConfiguration gC, Grid g) {
 		XMLConfiguration = gC;
@@ -114,7 +93,7 @@ public abstract class Simulation extends Application {
 	 *             This method add buttons to the Border Pane and calls the
 	 *             startSplash and addEvents methods
 	 */
-	public void addButtonsToBorder(Stage s) throws Exception {
+	private void addButtonsToBorder(Stage s) throws Exception {
 		Rectangle temp = new Rectangle();
 		temp.setWidth(GRID_DISPLAY_SIZE);
 		temp.setHeight(GRID_DISPLAY_SIZE);
@@ -130,10 +109,14 @@ public abstract class Simulation extends Application {
 
 		vboxRight.setPadding(new Insets(OFFSET));
 		vboxRight.setSpacing(OFFSET);
-
-		screenBorder.setLeft(emptyPane);
+		
+		vboxLeft.setPadding(new Insets(OFFSET));
+		vboxLeft.setSpacing(OFFSET);
+		
+		screenBorder.setLeft(vboxLeft);
+		screenBorder.setCenter(emptyPane);
 		screenBorder.setTop(hboxTop);
-		screenBorder.setCenter(vboxRight);
+		screenBorder.setRight(vboxRight);
 		// screenBorder.setCenter(hboxCenter);
 		screenBorder.setBottom(hboxBottom);
 		// HBox.setHgrow(g.getLineChart(), Priority.ALWAYS);
@@ -155,6 +138,7 @@ public abstract class Simulation extends Application {
 	private void makeButtons(Stage s) {
 		SimulationButtons.makeButtonH("Choose XML File for Configuration", e -> openFile(s), hboxTop, SCREEN_SIZE);
 		startButton = SimulationButtons.makeReturnableButtonH("Start Simulation", e -> startMethod(s), hboxTop, SCREEN_SIZE);
+		setConc = SimulationButtons.makeReturnableButtonV("Set conc.", e->setConcentrations(), vboxLeft, OFFSET + 3*LEFT_OFFSET);
 		SimulationButtons.makeButtonV("Pause", e -> pause(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Resume", e -> resume(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Speed Up", e -> faster(), vboxRight, SCREEN_SIZE);
@@ -164,6 +148,8 @@ public abstract class Simulation extends Application {
 		makeSimSpecificFields(s);
 	}
 
+	protected abstract void setConcentrations();
+	
 	protected abstract void makeSimSpecificFields(Stage s);
 
 	private void setUpStage(Stage s, Scene scene) {
@@ -173,10 +159,11 @@ public abstract class Simulation extends Application {
 		myStage.show();
 	}
 
-	protected void startMethod(Stage s) {
+	private void startMethod(Stage s) {
 		try {
 			startSimulation(s);
 			startButton.setDisable(true);
+			setConc.setDisable(true);
 			stepButton.setDisable(true);
 		} catch (Exception e1) {
 			e1.printStackTrace();
@@ -194,41 +181,24 @@ public abstract class Simulation extends Application {
 	 * @param s
 	 *            This method opens the file chooser to input in an XML
 	 */
-	protected void openFile(Stage s) {
+	private void openFile(Stage s) {
 		animation.pause();
 		File dataFile = myChooser.showOpenDialog(s);
-		GridConfiguration InputConfiguration = null;
 		if (dataFile != null) {
 			try {
-				switch (simType) {
-				case ("Wator"):
-					InputConfiguration = new WatorReader().getGridConfiguration(dataFile);
-					break;
-				case ("SpreadingWildfire"):
-					InputConfiguration = new SpreadingWildfireReader().getGridConfiguration(dataFile);
-					break;
-				case ("GameOfLife"):
-					InputConfiguration = new GameOfLifeReader().getGridConfiguration(dataFile);
-					break;
-				case ("Segregation"):
-					InputConfiguration = new SegregationReader().getGridConfiguration(dataFile);
-					break;
-				case ("ForagingAnts"):
-					InputConfiguration = new ForagingAntsReader().getGridConfiguration(dataFile);
-					break;
-				}
+				XMLConfiguration = setInputConfig(dataFile);
 			} catch (XMLException e) {
 				throw e;
 			}
-			XMLConfiguration = InputConfiguration;
 			startButton.setDisable(false);
 			hboxBottom.getChildren().clear();
 		} else {
-			// nothing selected, so quit the application
 			ErrorMessages.createErrors("No File Chosen");
 			startButton.setDisable(true);
 		}
 	}
+	
+	protected abstract GridConfiguration setInputConfig (File datafile);
 
 	public abstract Simulation copy();
 
@@ -237,7 +207,7 @@ public abstract class Simulation extends Application {
 	 * @throws Exception
 	 *             This method starts the simulation
 	 */
-	public void startSimulation(Stage s) throws Exception {
+	private void startSimulation(Stage s) throws Exception {
 
 		// attach scene to the stage and display it
 		setUpStage(s, setSimulation());
@@ -263,7 +233,7 @@ public abstract class Simulation extends Application {
 		sampleGrid.initialize();
 		g = createGraph(sampleGrid);
 		g.addToBox(hboxBottom);
-		screenBorder.setLeft(root);
+		screenBorder.setCenter(root);
 		screenBorder.getStyleClass().add("pane");
 
 		if (isFirstTime == true) {
@@ -277,6 +247,8 @@ public abstract class Simulation extends Application {
 		return myScene;
 	}
 	
+	//protected abstract void createGrid(Group root);
+	
 	protected abstract Graph createGraph(Grid g);
 
 	/**
@@ -289,7 +261,7 @@ public abstract class Simulation extends Application {
 	/**
 	 * This method resumes the simulation after it is paused
 	 */
-	protected void resume() {
+	private void resume() {
 		// animation.play();
 		// sampleGrid.setPaused(false);
 		isPaused = false;
@@ -300,7 +272,7 @@ public abstract class Simulation extends Application {
 	/**
 	 * This method pauses the simulation
 	 */
-	protected void pause() {
+	private void pause() {
 		// animation.pause();
 		// sampleGrid.setPaused(true);
 		isPaused = true;
@@ -310,21 +282,15 @@ public abstract class Simulation extends Application {
 	/**
 	 * This method steps through the simulation at twice the speed
 	 */
-	protected void faster() {
+	private void faster() {
 		timePassing *= 2;
 		animation.setRate(timePassing);
 	}
 
-	/*
-	 * private void save(String sT, String nR, String nC, String cC, String pC,
-	 * String pG, String sT1, String fB, String sB, String sS) { XMLOutput = new
-	 * XMLExporter(sT, nR, nC, cC, pC, pG, sT1, fB, sB, sS); XMLOutput.buildXML(); }
-	 */
-
 	/**
 	 * This method steps through the simulation at half the speed
 	 */
-	protected void slower() {
+	private void slower() {
 		timePassing *= .5;
 		animation.setRate(timePassing);
 	}
@@ -333,7 +299,7 @@ public abstract class Simulation extends Application {
 	 * @param extensionAccepted
 	 * @return This method makes the FileChooser object
 	 */
-	protected FileChooser makeChooser(String extensionAccepted) {
+	private FileChooser makeChooser(String extensionAccepted) {
 		FileChooser result = new FileChooser();
 		result.setTitle("Open Data File");
 		result.setInitialDirectory(new File(System.getProperty("user.dir")));
@@ -344,11 +310,13 @@ public abstract class Simulation extends Application {
 	/**
 	 * This method resets the grid pane so that a new file can be put in
 	 */
-	protected void reset() {
+	private void reset() {
 		startButton.setDisable(false);
+		setConc.setDisable(false);
 		screenBorder.getChildren().remove(root);
-		screenBorder.setCenter(vboxRight);
-		screenBorder.setLeft(emptyPane);
+		screenBorder.setLeft(vboxLeft);
+		screenBorder.setRight(vboxRight);
+		screenBorder.setCenter(emptyPane);
 		screenBorder.getStyleClass().add("pane");
 		hboxBottom.getChildren().remove(g.getLineChart());
 		timePassing = SECOND_DELAY;

@@ -1,7 +1,14 @@
 package simulationDrivers;
 
 import XMLClasses.GridConfiguration;
+import XMLClasses.SegregationReader;
+
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+
 import XMLClasses.ForagingAntsConfiguration;
+import XMLClasses.ForagingAntsReader;
 import cellManager.Grid;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -14,7 +21,11 @@ import javafx.stage.Stage;
 public class ForagingAntsSimulation extends Simulation {
 
 	private TextField threshold;
+	private TextField antConc;
+	private TextField emptyConc;
+	private Map<Character, Double> concMap = new HashMap<>();
 	private double maxAnts;
+	private ForagingAntsConfiguration XMLConfiguration = null;
 	
 	public ForagingAntsSimulation(GridConfiguration gC, Grid g) {
 		super(gC, g);
@@ -26,8 +37,14 @@ public class ForagingAntsSimulation extends Simulation {
 	}
 	
 	@Override
+	protected GridConfiguration setInputConfig(File dataFile) {
+		XMLConfiguration = new ForagingAntsReader().getGridConfiguration(dataFile);
+		return XMLConfiguration;
+	}
+	
+	@Override
 	protected void setUpThresholds() {
-		maxAnts = ((ForagingAntsConfiguration) XMLConfiguration).getMaxAnts();
+		maxAnts = XMLConfiguration.getMaxAnts();
 	}
 	
 	@Override
@@ -40,6 +57,16 @@ public class ForagingAntsSimulation extends Simulation {
 	protected void makeSimSpecificFields(Stage s) {
 		threshold = SimulationButtons.makeReturnableTextFieldV("Input maxAnts", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
+		antConc = SimulationButtons.makeReturnableTextFieldV("Set ant concentration", vboxLeft, -LEFT_OFFSET);
+		emptyConc = SimulationButtons.makeReturnableTextFieldV("Set empty concentration", vboxLeft, -LEFT_OFFSET);
+	}
+	
+	@Override
+	protected void setConcentrations() {
+		concMap.put('a', Double.parseDouble(antConc.getText()));
+		concMap.put('e', Double.parseDouble(emptyConc.getText()));
+		sampleGrid.setConcMap(concMap);
+		setConc.setDisable(true);
 	}
 
 	/*private void save(String sT, String nR, String nC, String cC, String pC, String pG, String sT1, String fB,

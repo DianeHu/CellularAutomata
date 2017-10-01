@@ -70,6 +70,7 @@ public abstract class Grid {
 	private Map<String, String> fireConfigStringMap = new HashMap<>();
 	private Map<String, String> watorConfigStringMap = new HashMap<>();
 	private Map<String, String> antConfigStringMap = new HashMap<>();
+	private Map<Character, Double> concMap = new HashMap<>();
 	private Map<String, String> simulationConfigStringMap = new HashMap<>();
 	private Pane pane = new GridPane();
 	private Map<String, Integer> countMap = new HashMap<>();
@@ -232,6 +233,10 @@ public abstract class Grid {
 		return simulationType;
 	}
 	
+	public void setConcMap(Map<Character, Double> cMap) {
+		concMap = cMap;
+	}
+	
 	public void setSimType(String s) {
 		simulationType = s;
 	}
@@ -279,8 +284,9 @@ public abstract class Grid {
 		return simMap;
 	}
 
+	
 	private void updateCounts(Cell c) {
-		//countMap.put(c.getClass().getName(), countMap.get(c.getClass().getName()) + 1);
+		countMap.put(c.getClass().getName(), countMap.get(c.getClass().getName()) + 1);
 	}
 
 	/**
