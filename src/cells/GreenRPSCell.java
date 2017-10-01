@@ -27,7 +27,7 @@ public class GreenRPSCell extends Cell {
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		// TODO Auto-generated method stub
-		chooseRandomNeighbor();
+		//chooseRandomNeighbor();
 	}
 
 }

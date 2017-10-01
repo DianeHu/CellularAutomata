@@ -78,16 +78,6 @@ public class RPSSimulation extends Simulation {
 		SimulationButtons.makeButtonH("Save", e->save(Integer.toString(numRows), 
 				Integer.toString(numCols), 
 				sampleGrid.getGridConfig()), hboxTop, SCREEN_SIZE);
-		liveConc = SimulationButtons.makeReturnableTextFieldV("Set live concentration", vboxLeft, -LEFT_OFFSET);
-		deadConc = SimulationButtons.makeReturnableTextFieldV("Set dead concentration", vboxLeft, -LEFT_OFFSET);
-	}
-	
-	@Override
-	protected void setConcentrations() {
-		concMap.put('l', Double.parseDouble(liveConc.getText()));
-		concMap.put('d', Double.parseDouble(deadConc.getText()));
-		sampleGrid.setConcMap(concMap);
-		setConc.setDisable(true);
 	}
 	
 	private void save(String nR, String nC, String cC) {

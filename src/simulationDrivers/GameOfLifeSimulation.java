@@ -24,9 +24,6 @@ public class GameOfLifeSimulation extends Simulation {
 	
 	private int numRows;
 	private int numCols;
-	private TextField liveConc;
-	private TextField deadConc;
-	private Map<Character, Double> concMap = new HashMap<>();
 	private GameOfLifeConfiguration XMLConfiguration = null;
 	
 	public GameOfLifeSimulation(GridConfiguration gC, Grid g) {
@@ -77,16 +74,6 @@ public class GameOfLifeSimulation extends Simulation {
 		SimulationButtons.makeButtonH("Save", e->save(Integer.toString(numRows), 
 				Integer.toString(numCols), 
 				sampleGrid.getGridConfig()), hboxTop, SCREEN_SIZE);
-		liveConc = SimulationButtons.makeReturnableTextFieldV("Set live concentration", vboxLeft, -LEFT_OFFSET);
-		deadConc = SimulationButtons.makeReturnableTextFieldV("Set dead concentration", vboxLeft, -LEFT_OFFSET);
-	}
-	
-	@Override
-	protected void setConcentrations() {
-		concMap.put('l', Double.parseDouble(liveConc.getText()));
-		concMap.put('d', Double.parseDouble(deadConc.getText()));
-		sampleGrid.setConcMap(concMap);
-		setConc.setDisable(true);
 	}
 	
 	private void save(String nR, String nC, String cC) {

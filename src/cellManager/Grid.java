@@ -7,7 +7,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import XMLClasses.GridConfiguration;
+import XMLClasses.SpreadingWildfireConfiguration;
 import XMLClasses.ForagingAntsConfiguration;
+import cells.AntCell;
 import cells.AntGroupCell;
 import cells.BlueSchellingCell;
 import cells.BurningTreeCell;
@@ -24,9 +26,14 @@ import gridPatches.ForagingLand;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ScrollPane.ScrollBarPolicy;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 /**
@@ -431,64 +438,35 @@ public abstract class Grid {
 	 * Updates the gridpane with the rectangle colors, and displays the gridpane.
 	 */
 	protected void setInitialStates() {
+
 		char[][] states = gridConfig.getCellConfiguration();
-		Map<double[],Character> rangeMap= new HashMap<>();
-		if(probabilityMap!=null) {
-			createProbRanges(rangeMap);
-		}
+
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
-				Cell c = new EmptyCell();
-				if(probabilityMap!=null) {
-					c = getProbabilisticCell(rangeMap, c);
+				Cell c = simMap.get(states[i][j]).copy();
+				c.setRow(i);
+				c.setCol(j);
+				c.setLand(land);
+				currentGrid[i][j] = c;
+				blocks[i][j].setFill(c.getColor());
+				Color stroke;
+				if(land!=null) {
+					stroke = land.strokeColorAtLocation(i, j);
+					blocks[i][j].setStrokeWidth(3.0);
 				}
-				else {
-					c = simMap.get(states[i][j]).copy();
+				else{
+					stroke = Color.DARKGREY;
 				}
-				initializeCell(i, j, c);
+				blocks[i][j].setStroke(stroke);
+				GridPane.setConstraints(blocks[i][j], j, i);
+				pane.getChildren().add(blocks[i][j]);
 			}
 		}
+		/*gridScroll = new ScrollPane();
+		gridScroll.setContent(pane);
+		gridScroll.setHbarPolicy(ScrollBarPolicy.ALWAYS);
+		gridScroll.setVbarPolicy(ScrollBarPolicy.ALWAYS);*/
 		root.getChildren().add(pane);
-	}
-
-	protected Cell getProbabilisticCell(Map<double[], Character> rangeMap, Cell c) {
-		double rand = Math.random();
-		for(double[] range : rangeMap.keySet()) {
-			if(range[0]<= rand & range[1]>= rand) {
-				c = simMap.get(rangeMap.get(range));
-			}
-		}
-		return c;
-	}
-
-	protected void createProbRanges(Map<double[], Character> rangeMap) {
-		double i = 0;
-		for(char c: probabilityMap.keySet()) {
-			double lowerBound = i;
-			double upperBound = probabilityMap.get(c);
-			double[] range = {lowerBound, upperBound};
-			rangeMap.put(range, c);
-			i = i+ probabilityMap.get(c);
-		}
-	}
-
-	protected void initializeCell(int i, int j, Cell c) {
-		c.setRow(i);
-		c.setCol(j);
-		c.setLand(land);
-		currentGrid[i][j] = c;
-		blocks[i][j].setFill(c.getColor());
-		Color stroke;
-		if(land!=null) {
-			stroke = land.strokeColorAtLocation(i, j);
-			blocks[i][j].setStrokeWidth(3.0);
-		}
-		else{
-			stroke = Color.DARKGREY;
-		}
-		blocks[i][j].setStroke(stroke);
-		GridPane.setConstraints(blocks[i][j], j, i);
-		pane.getChildren().add(blocks[i][j]);
 	}
 
 	/**
@@ -500,7 +478,7 @@ public abstract class Grid {
 		setNeighbors();
 		for (int i = 0; i < currentGrid.length; i++) {
 			for (int j = 0; j < currentGrid[i].length; j++) {
-				List<Cell> empty = getEmptyCells();
+				ArrayList<Cell> empty = getEmptyCells();
 				Cell c = currentGrid[i][j];
 				c.setThreshold(threshold1, threshold2, threshold3);
 				updateCounts(c);
@@ -533,8 +511,8 @@ public abstract class Grid {
 	/**
 	 * @return a list of all the empty cells in the current configuration of cells
 	 */
-	private List<Cell> getEmptyCells() {
-		List<Cell> emptyCells = new ArrayList<Cell>();
+	private ArrayList<Cell> getEmptyCells() {
+		ArrayList<Cell> emptyCells = new ArrayList<Cell>();
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
 				Cell c = currentGrid[i][j];

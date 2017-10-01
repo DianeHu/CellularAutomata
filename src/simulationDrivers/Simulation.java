@@ -42,7 +42,7 @@ public abstract class Simulation extends Application {
 	private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
 	private static final int VERT_SIZE = 650;
 	protected static final int LEFT_OFFSET = 35;
-	private static final int HORIZONTAL_SIZE = 725;
+	private static final int HORIZONTAL_SIZE = 575;
 	private static final Color BACKGROUND = Color.TRANSPARENT;
 	private static final String TITLE = "SIMULATION";
 	private static final int FRAMES_PER_SECOND = 2;
@@ -50,7 +50,6 @@ public abstract class Simulation extends Application {
 	private static double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	protected HBox hboxTop = new HBox();
 	protected VBox vboxRight = new VBox();
-	protected VBox vboxLeft = new VBox();
 	private HBox hboxBottom = new HBox();
 	private Group splash = new Group();
 	private Group simulationScreen = new Group();
@@ -71,7 +70,6 @@ public abstract class Simulation extends Application {
 	protected boolean isPaused = false;
 	private String simType;
 	private Button startButton;
-	protected Button setConc;
 	private Button stepButton;
 	private Boolean isRectangle = true;
 	
@@ -113,10 +111,6 @@ public abstract class Simulation extends Application {
 		vboxRight.setPadding(new Insets(OFFSET));
 		vboxRight.setSpacing(OFFSET);
 		
-		vboxLeft.setPadding(new Insets(OFFSET));
-		vboxLeft.setSpacing(OFFSET);
-		
-		screenBorder.setLeft(vboxLeft);
 		screenBorder.setCenter(emptyPane);
 		screenBorder.setTop(hboxTop);
 		screenBorder.setRight(vboxRight);
@@ -143,7 +137,6 @@ public abstract class Simulation extends Application {
 	private void makeButtons(Stage s) {
 		SimulationButtons.makeButtonH("Choose XML File for Configuration", e -> openFile(s), hboxTop, SCREEN_SIZE);
 		startButton = SimulationButtons.makeReturnableButtonH("Start Simulation", e -> startMethod(s), hboxTop, SCREEN_SIZE);
-		setConc = SimulationButtons.makeReturnableButtonV("Set conc.", e->setConcentrations(), vboxLeft, OFFSET + 3*LEFT_OFFSET);
 		SimulationButtons.makeButtonV("Pause", e -> pause(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Resume", e -> resume(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Speed Up", e -> faster(), vboxRight, SCREEN_SIZE);
@@ -152,8 +145,6 @@ public abstract class Simulation extends Application {
 		stepButton = SimulationButtons.makeReturnableButtonV("Step", e -> manualStep(), vboxRight, SCREEN_SIZE);
 		makeSimSpecificFields(s);
 	}
-
-	protected abstract void setConcentrations();
 	
 	protected abstract void makeSimSpecificFields(Stage s);
 
@@ -168,7 +159,6 @@ public abstract class Simulation extends Application {
 		try {
 			startSimulation(s);
 			startButton.setDisable(true);
-			setConc.setDisable(true);
 			stepButton.setDisable(true);
 		} catch (Exception e1) {
 			e1.printStackTrace();
@@ -321,9 +311,7 @@ public abstract class Simulation extends Application {
 	 */
 	private void reset() {
 		startButton.setDisable(false);
-		setConc.setDisable(false);
 		screenBorder.getChildren().remove(root);
-		screenBorder.setLeft(vboxLeft);
 		screenBorder.setRight(vboxRight);
 		screenBorder.setCenter(emptyPane);
 		screenBorder.getStyleClass().add("pane");
