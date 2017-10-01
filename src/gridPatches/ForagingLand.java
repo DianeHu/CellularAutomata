@@ -1,43 +1,52 @@
 package gridPatches;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import cells.AntGroupCell;
 import cells.Cell;
+import javafx.scene.paint.Color;
 
 public class ForagingLand implements Land{
+	private static final int EVAPO_RATE = 100;
 	private static final int MAX_NUM_PHER = 10;
 	PheromoneLocation[][] foodPheromones;
 	PheromoneLocation[][] homePheromones;
-	int[] homeLoc; //[r,c]
-	int[] foodLoc; //[r,c]
+	int[] homeLoc = new int[2]; //[r,c]
+	int[] foodLoc= new int[2];
 	
-	public ForagingLand(int numRows, int numCols, int[] home, int[] food){
+	public ForagingLand(int numRows, int numCols,int[] home, int[] food){
 		foodPheromones = new PheromoneLocation[numRows][numCols];
 		homePheromones = new PheromoneLocation[numRows][numCols];
 		initializePheromones();
-		homeLoc[0] = home[0]; homeLoc[1] = home[1];
-		foodLoc[0] = food[0]; foodLoc[1] = food[1];
+		homeLoc = home;
+		foodLoc = food;
+		topOffFood();
+		topOffHome();
 	}
 	
 	private void initializePheromones() {
 		for(int i = 0; i<homePheromones[0].length; i++) {
 			for(int j = 0; j<homePheromones.length; j++) {
-				homePheromones[i][j] = new PheromoneLocation(100);
-				foodPheromones[i][j] = new PheromoneLocation(100);
+				homePheromones[i][j] = new PheromoneLocation(EVAPO_RATE);
+				foodPheromones[i][j] = new PheromoneLocation(EVAPO_RATE);
 			}
 		}		
 	}
 
-	public List<Integer> getNewCoordinates(List<Cell> neighbors,boolean goingHome, int maxAnts, Cell callingCell) {
-		List<Integer> coordinates = new ArrayList<Integer>();
+	public List<Integer> getNewCoordinates(List<Cell> neighbors,boolean goingHome, double maxAnts, Cell callingCell) {
+		List<Integer> coordinates = new ArrayList<Integer>(2);
 		int homePher; int foodPher; int max = 0;
 		boolean moved = false;
 		for(Cell c:neighbors) {
 			homePher = homePheromones[c.getRow()][c.getCol()].getNumPheromones();
 			foodPher = foodPheromones[c.getRow()][c.getCol()].getNumPheromones();
-			if(!(c instanceof AntGroupCell & ((AntGroupCell) c).getNumAnts()>=maxAnts)) {
+			boolean tooManyAnts = false;
+			if(c instanceof AntGroupCell) {
+				tooManyAnts =  ((AntGroupCell) c).getNumAnts()>=maxAnts;
+			}
+			if(!tooManyAnts) {
 				if(goingHome) {
 					if(homePher>=max) {
 						max = homePher; 
@@ -48,11 +57,12 @@ public class ForagingLand implements Land{
 					if(foodPher>=max) {
 						max = foodPher; 
 						setCellCoordinates(coordinates, c);
+						System.out.println(Arrays.toString(coordinates.toArray()));
 					}
 				}			
 				moved = true;
-			}
-			
+			}			
+					
 		}
 		if(!moved) {
 			setCellCoordinates(coordinates,callingCell);
@@ -62,8 +72,8 @@ public class ForagingLand implements Land{
 	}
 
 	private void setCellCoordinates(List<Integer> coordinates, Cell c) {
-		coordinates.add(0,c.getRow());
-		coordinates.add(1,c.getRow());
+		coordinates.add(0, c.getRow());
+		coordinates.add(1, c.getCol());
 	}
 	
 	public boolean atHome(int row, int col) {
@@ -90,7 +100,12 @@ public class ForagingLand implements Land{
 	private int getDesiredNumPheromones(PheromoneLocation pher[][],List<Cell> neighbors) {
 		int max = 0;
 		for(Cell c: neighbors) {
-			//if
+			if(pher[c.getRow()][c.getCol()].getNumPheromones()>=max) {
+				max = pher[c.getRow()][c.getCol()].getNumPheromones();
+			}
+		}
+		if(max>1) {
+			return max-1;
 		}
 		return 0;
 	}
@@ -118,5 +133,17 @@ public class ForagingLand implements Land{
 	public void topOffFood() {
 		PheromoneLocation f = foodPheromones[foodLoc[0]][foodLoc[1]];
 		addPheromonesUntilAt(f,MAX_NUM_PHER);
+	}
+	
+	public Color strokeColorAtLocation(int row, int col) {
+		if(atHome(row,col)) {
+			return Color.CORAL;
+		}
+		if(atFoodSource(row,col)) {
+			return Color.CHARTREUSE;
+		}
+		else {
+			return Color.DARKGREY;
+		}
 	}
 }

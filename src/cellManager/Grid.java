@@ -33,6 +33,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
@@ -70,8 +71,8 @@ public abstract class Grid {
 	private final ScrollBar sc = new ScrollBar();
 	private ForagingLand land;
 	public boolean currentlyPaused;
-	private int[] homeLoc = {0,0};
-	private int[] foodLoc = {2,2};
+	private int[] homeLoc = new int[2];
+	private int[] foodLoc = new int[2];
 
 	/**
 	 * @param r
@@ -240,9 +241,14 @@ public abstract class Grid {
 			break;
 		case ("ForagingAnts"):
 			simMap = foragingAnts;
+			homeLoc[0]= ((ForagingAntsConfiguration) gridConfig).getHomeLocX();
+			homeLoc[1] = ((ForagingAntsConfiguration) gridConfig).getHomeLocY();
+			
+			foodLoc[0]= ((ForagingAntsConfiguration) gridConfig).getFoodLocX();
+			foodLoc[1] = ((ForagingAntsConfiguration) gridConfig).getFoodLocY();
+			
 			land = new ForagingLand(getNumRows(),getNumCols(),
-					((ForagingAntsConfiguration) gridConfig).getHomeLoc(),
-					((ForagingAntsConfiguration) gridConfig).getFoodLoc());
+					homeLoc, foodLoc);
 			break;
 		}
 	}
@@ -255,7 +261,7 @@ public abstract class Grid {
 	}
 
 	private void updateCounts(Cell c) {
-		countMap.put(c.getClass().getName(), countMap.get(c.getClass().getName()) + 1);
+		//countMap.put(c.getClass().getName(), countMap.get(c.getClass().getName()) + 1);
 	}
 
 	/**
@@ -408,7 +414,15 @@ public abstract class Grid {
 				c.setLand(land);
 				currentGrid[i][j] = c;
 				blocks[i][j].setFill(c.getColor());
-				blocks[i][j].setStroke(c.getStrokeColor());
+				Color stroke;
+				if(land!=null) {
+					stroke = land.strokeColorAtLocation(i, j);
+					blocks[i][j].setStrokeWidth(3.0);
+				}
+				else{
+					stroke = Color.DARKGREY;
+				}
+				blocks[i][j].setStroke(stroke);
 				GridPane.setConstraints(blocks[i][j], j, i);
 				pane.getChildren().add(blocks[i][j]);
 			}
