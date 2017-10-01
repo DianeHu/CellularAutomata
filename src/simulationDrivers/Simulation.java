@@ -133,6 +133,18 @@ public abstract class Simulation extends Application {
 	public void setIsRectangle(Boolean b) {
 		isRectangle = b;
 	}
+	
+	public void setMaxNeighbors(Boolean b) {
+		sampleGrid.setMaxNeighbors(b);
+	}
+	
+	public void setStrokeFill(Boolean b) {
+		sampleGrid.setIsStroke(b);
+	}
+	
+	public void setIsToroidal(Boolean b) {
+		sampleGrid.setIsToroidal(b);
+	}
 
 	private void makeButtons(Stage s) {
 		SimulationButtons.makeButtonH("Choose XML File for Configuration", e -> openFile(s), hboxTop, SCREEN_SIZE);

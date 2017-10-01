@@ -134,6 +134,9 @@ public class Main extends Application {
 		hexGrid.setSimType(simulationSetByUser);
 		Simulation s = simMap.get(simulationSetByUser).copy();
 		s.setSimType(simulationSetByUser);
+		s.setMaxNeighbors((styler.getNeighborType() == "Max") ? true : false);
+		s.setStrokeFill((styler.getGridOutline() == "Yes") ? true : false);
+		s.setIsToroidal((styler.getEdgeShape() == "Toroidal") ? true : false);
 		s.setIsRectangle(isRectangle);
 		s.start(newStage);
 	}
