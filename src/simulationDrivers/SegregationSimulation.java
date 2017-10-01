@@ -80,13 +80,18 @@ public class SegregationSimulation extends Simulation {
 		concMap.put('b', Double.parseDouble(bConc.getText()));
 		concMap.put('o', Double.parseDouble(oConc.getText()));
 		concMap.put('e', Double.parseDouble(eConc.getText()));
+		Group root = new Group();
+		sampleGrid = new RectangleGrid(root,XMLConfiguration);
+		sampleGrid.setSimType(simType);
+		sampleGrid.initialize();
 		sampleGrid.setConcMap(concMap);
 		setConc.setDisable(true);
 	}
 
 	@Override
 	protected void manualStep() {
-		sampleGrid.createsNewGrid(satisfiedThreshold, 0, 0);
+		//sampleGrid.createsNewGrid(satisfiedThreshold, 0, 0);
+		sampleGrid.createsNewGrid(.3, 0, 0);
 		g.updateGraph();
 		sampleGrid.update();
 	}

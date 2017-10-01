@@ -68,7 +68,7 @@ public abstract class Simulation extends Application {
 	private boolean isFirstTime = true;
 	protected Graph g;
 	protected boolean isPaused = false;
-	private String simType;
+	protected String simType;
 	private Button startButton;
 	protected Button setConc;
 	private Button stepButton;

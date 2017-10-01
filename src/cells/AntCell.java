@@ -12,17 +12,10 @@ public class AntCell extends Cell {
 	
 	private boolean hasFood;
 	private double maxAnts;
-	
-/*	public AntCell(int myRowNum, int myColNum) {
-		super(myRowNum, myColNum);
-		setInitialDirection();
-		System.out.println("initial direction " + Arrays.toString(direction));
-	}*/
-	
+
 	public AntCell() {
 		super();
 		setInitialDirection();
-		//System.out.println("initial direction " + Arrays.toString(direction));
 	}
 	
 	protected void setMaxAnts(double m) {

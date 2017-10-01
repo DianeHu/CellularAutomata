@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import XMLClasses.GridConfiguration;
 import XMLClasses.ForagingAntsConfiguration;
 import cells.AntGroupCell;
+import cells.BlueRPSCell;
 import cells.BlueSchellingCell;
 import cells.BurningTreeCell;
 import cells.Cell;
@@ -16,10 +17,13 @@ import cells.DeadCell;
 import cells.EmptyCell;
 import cells.EmptyLandCell;
 import cells.FishCell;
+import cells.GreenRPSCell;
 import cells.LiveCell;
 import cells.OrangeSchellingCell;
+import cells.RedRPSCell;
 import cells.SharkCell;
 import cells.TreeCell;
+import cells.WhiteRPSCell;
 import gridPatches.ForagingLand;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollBar;
@@ -62,7 +66,7 @@ public abstract class Grid {
 	private Map<String, String> fireConfigStringMap = new HashMap<>();
 	private Map<String, String> watorConfigStringMap = new HashMap<>();
 	private Map<String, String> antConfigStringMap = new HashMap<>();
-	private Map<Character, Double> concMap = new HashMap<>();
+	private Map<Character, Double> probabilityMap = new HashMap<>();
 	private Map<String, String> simulationConfigStringMap = new HashMap<>();
 	private Pane pane = new GridPane();
 	private Map<String, Integer> countMap = new HashMap<>();
@@ -162,8 +166,12 @@ public abstract class Grid {
 		BurningTreeCell bTCell = new BurningTreeCell();
 		EmptyLandCell eLCell = new EmptyLandCell();
 		
-		LiveCell lCell = new LiveCell();
-		DeadCell dCell = new DeadCell();
+		/*LiveCell lCell = new LiveCell();
+		DeadCell dCell = new DeadCell();*/
+		GreenRPSCell gcell = new GreenRPSCell();
+		RedRPSCell rcell = new RedRPSCell();
+		BlueRPSCell blcell = new BlueRPSCell();
+		WhiteRPSCell wcell = new WhiteRPSCell();
 		
 		FishCell fCell = new FishCell();
 		SharkCell sCell = new SharkCell();	
@@ -174,9 +182,13 @@ public abstract class Grid {
 		segregation.put('o', oCell);
 		segregation.put('e', eCell);
 
-		gameOfLife.put('l', lCell);
-		gameOfLife.put('d', dCell);
-
+  		/*gameOfLife.put('l', lCell);
+  		gameOfLife.put('d', dCell);*/
+		gameOfLife.put('g', gcell);
+		gameOfLife.put('r', rcell);
+		gameOfLife.put('b', blcell);
+		gameOfLife.put('w', wcell);
+		
 		spreadingWildfire.put('t', tCell);
 		spreadingWildfire.put('b', bTCell);
 		spreadingWildfire.put('e', eLCell);
@@ -226,7 +238,7 @@ public abstract class Grid {
 	}
 	
 	public void setConcMap(Map<Character, Double> cMap) {
-		concMap = cMap;
+		probabilityMap = cMap;
 	}
 	
 	public void setSimType(String s) {
@@ -278,7 +290,7 @@ public abstract class Grid {
 
 	
 	private void updateCounts(Cell c) {
-		countMap.put(c.getClass().getName(), countMap.get(c.getClass().getName()) + 1);
+		//countMap.put(c.getClass().getName(), countMap.get(c.getClass().getName()) + 1);
 	}
 
 	/**
@@ -289,6 +301,8 @@ public abstract class Grid {
 	public void initialize() {
 		numRows = gridConfig.getNumRows();
 		numCols = gridConfig.getNumCols();
+		/*numRows = 10;
+		numCols = 10;*/
 		gridCellCount = numRows * numCols;
 		createMaps();
 		setCurrSimulationMap();
@@ -432,19 +446,23 @@ public abstract class Grid {
 	 */
 	protected void setInitialStates() {
 		char[][] states = gridConfig.getCellConfiguration();
+/*		if(probabilityMap==null) {
+			states = gridConfig.getCellConfiguration();
+		}		
 		Map<double[],Character> rangeMap= new HashMap<>();
 		if(probabilityMap!=null) {
 			createProbRanges(rangeMap);
-		}
+		}*/
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
-				Cell c = new EmptyCell();
+/*				Cell c = new EmptyCell();
 				if(probabilityMap!=null) {
 					c = getProbabilisticCell(rangeMap, c);
 				}
-				else {
+				else{
 					c = simMap.get(states[i][j]).copy();
-				}
+				}*/
+				Cell c = simMap.get(states[i][j]).copy();
 				initializeCell(i, j, c);
 			}
 		}
@@ -502,7 +520,8 @@ public abstract class Grid {
 			for (int j = 0; j < currentGrid[i].length; j++) {
 				List<Cell> empty = getEmptyCells();
 				Cell c = currentGrid[i][j];
-				c.setThreshold(threshold1, threshold2, threshold3);
+				//c.setThreshold(threshold1, threshold2, threshold3);
+				c.setThreshold(.3, 0, 0);
 				updateCounts(c);
 				c.moveCell(empty, this);
 				if(land!=null) {
