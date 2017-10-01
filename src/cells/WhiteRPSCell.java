@@ -26,8 +26,9 @@ public class WhiteRPSCell extends Cell {
 
 	@Override
 	public Cell changeType() {
-		// TODO Auto-generated method stub
-		return null;
+		BlueRPSCell newCell = new BlueRPSCell();
+		newCell.setRow(getRow());newCell.setCol(getCol());
+		return newCell;
 	}
 
 	@Override

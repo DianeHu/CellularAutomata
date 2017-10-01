@@ -49,15 +49,6 @@ public class DeadCell extends Cell {
 	}
 
 	/**
-	 * @param root
-	 *            Replaces dead cell with live one.
-	 */
-	private void resurrectCell(Grid grid) {
-		Cell newCell = new LiveCell(this.getRow(), this.getCol());
-		grid.addToNewGrid(newCell);
-	}
-
-	/**
 	 * @return
 	 * 
 	 * 		Checks the number of live neighbors. If the number is exactly three,
