@@ -5,6 +5,7 @@ import java.io.File;
 import XMLClasses.GridConfiguration;
 import XMLClasses.XMLException;
 import cellManager.Grid;
+import cellManager.HexagonGrid;
 import cellManager.RectangleGrid;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -72,6 +73,8 @@ public abstract class Simulation extends Application {
 	private Button startButton;
 	protected Button setConc;
 	private Button stepButton;
+	private Boolean isRectangle = true;
+	
 	// private ScrollPane gridScroll;
 	// private final ScrollBar sc = new ScrollBar();
 
@@ -117,10 +120,8 @@ public abstract class Simulation extends Application {
 		screenBorder.setCenter(emptyPane);
 		screenBorder.setTop(hboxTop);
 		screenBorder.setRight(vboxRight);
-		// screenBorder.setCenter(hboxCenter);
 		screenBorder.setBottom(hboxBottom);
-		// HBox.setHgrow(g.getLineChart(), Priority.ALWAYS);
-		// screenBorder.setPrefSize(SIZE, SIZE);
+
 		screenBorder.setPrefSize(HORIZONTAL_SIZE, VERT_SIZE);
 		screenBorder.getStyleClass().add("pane");
 		splash.getChildren().add(screenBorder);
@@ -133,6 +134,10 @@ public abstract class Simulation extends Application {
 
 	public void setSimType(String s) {
 		simType = s;
+	}
+	
+	public void setIsRectangle(Boolean b) {
+		isRectangle = b;
 	}
 
 	private void makeButtons(Stage s) {
@@ -228,7 +233,11 @@ public abstract class Simulation extends Application {
 	 */
 	private Scene setSimulation() {
 		root = new Group();
-		sampleGrid = new RectangleGrid(root, XMLConfiguration);
+		if(isRectangle == true) {
+			sampleGrid = new RectangleGrid(root, XMLConfiguration);
+		} else {
+			sampleGrid = new HexagonGrid(root, XMLConfiguration);
+		}
 		sampleGrid.setSimType(simType);
 		sampleGrid.initialize();
 		g = createGraph(sampleGrid);
