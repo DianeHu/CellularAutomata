@@ -86,7 +86,7 @@ public class ForagingAntsSimulation extends Simulation {
 	@Override
 	protected void step(double elapsedTime) {
 		if (isPaused == false) {
-
+			manualStep();
 		} else {
 			sampleGrid.createPausedGrid(maxAnts, 0, 0);
 			g.updateGraph();

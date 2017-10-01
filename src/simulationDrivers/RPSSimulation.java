@@ -39,8 +39,7 @@ public class RPSSimulation extends Simulation {
 
 	@Override
 	protected Graph createGraph(Grid g) {
-		// TODO
-		return new GameOfLifeGraph(g);
+		return new RPSGraph(g);
 	}
 
 	@Override
