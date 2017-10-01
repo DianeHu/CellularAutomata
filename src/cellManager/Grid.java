@@ -16,7 +16,6 @@ import cells.BurningTreeCell;
 import cells.Cell;
 import cells.DeadCell;
 import cells.EmptyCell;
-import cells.EmptyForagingCell;
 import cells.EmptyLandCell;
 import cells.FishCell;
 import cells.LiveCell;
@@ -80,6 +79,9 @@ public abstract class Grid {
 	public boolean currentlyPaused;
 	private int[] homeLoc = new int[2];
 	private int[] foodLoc = new int[2];
+	private Boolean maxNeighbors;
+	private Boolean isStroke;
+	private Boolean isToroidal;
 
 	/**
 	 * @param r
@@ -102,6 +104,18 @@ public abstract class Grid {
 	
 	public void setPaused(Boolean b) {
 		currentlyPaused = b;
+	}
+	
+	public void setMaxNeighbors(Boolean b) {
+		maxNeighbors = b;
+	}
+	
+	public void setIsStroke(Boolean b) {
+		isStroke = b;
+	}
+	
+	public void setIsToroidal(Boolean b) {
+		isToroidal = b;
 	}
 	
 	/**
@@ -231,10 +245,6 @@ public abstract class Grid {
 	
 	public String getSimType() {
 		return simulationType;
-	}
-	
-	public void setConcMap(Map<Character, Double> cMap) {
-		concMap = cMap;
 	}
 	
 	public void setSimType(String s) {

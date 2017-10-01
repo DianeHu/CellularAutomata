@@ -14,19 +14,23 @@ import cellManager.RectangleGrid;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+// TODO Actually make this
 /**
  * 
  * @author Tyler Yam
  * @author Diane Hu This class holds most of the front end processing. This
  *         class essentially runs the simulations.
  */
-public class GameOfLifeSimulation extends Simulation {
+public class RPSSimulation extends Simulation {
 	
 	private int numRows;
 	private int numCols;
+	private TextField liveConc;
+	private TextField deadConc;
+	private Map<Character, Double> concMap = new HashMap<>();
 	private GameOfLifeConfiguration XMLConfiguration = null;
 	
-	public GameOfLifeSimulation(GridConfiguration gC, Grid g) {
+	public RPSSimulation(GridConfiguration gC, Grid g) {
 		super(gC, g);
 	}
 	
@@ -71,7 +75,7 @@ public class GameOfLifeSimulation extends Simulation {
 
 	@Override
 	protected void makeSimSpecificFields(Stage s) {
-		saveButton=SimulationButtons.makeReturnableButtonH("Save", e->save(Integer.toString(numRows), 
+		SimulationButtons.makeButtonH("Save", e->save(Integer.toString(numRows), 
 				Integer.toString(numCols), 
 				sampleGrid.getGridConfig()), hboxTop, SCREEN_SIZE);
 	}

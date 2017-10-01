@@ -24,37 +24,33 @@ public class SpreadingWildfireSimulation extends Simulation {
 
 	private TextField probGrow;
 	private TextField probCatch;
-	private TextField treeConc;
-	private TextField bTreeConc;
-	private TextField landConc;
-	private Map<Character, Double> concMap = new HashMap<>();
 	private double growthProbability;
 	private double catchProbability;
 	private int numRows;
 	private int numCols;
 	private SpreadingWildfireConfiguration XMLConfiguration;
-	
+
 	public SpreadingWildfireSimulation(GridConfiguration gC, Grid g) {
 		super(gC, g);
 	}
-	
+
 	@Override
 	public Simulation copy() {
 		SpreadingWildfireConfiguration sWC = null;
 		return new SpreadingWildfireSimulation(sWC, sampleGrid);
 	}
-	
+
 	@Override
 	protected GridConfiguration setInputConfig(File dataFile) {
 		XMLConfiguration = new SpreadingWildfireReader().getGridConfiguration(dataFile);
 		return XMLConfiguration;
 	}
-	
+
 	@Override
 	protected Graph createGraph(Grid g) {
 		return new SpreadingWildfireGraph(g);
 	}
-	
+
 	@Override
 	protected void setUpThresholds() {
 		numRows = sampleGrid.getNumRows();
@@ -62,20 +58,18 @@ public class SpreadingWildfireSimulation extends Simulation {
 		growthProbability = XMLConfiguration.getProbGrow();
 		catchProbability = XMLConfiguration.getProbCatch();
 	}
-	
+
 	@Override
 	protected void makeSimSpecificFields(Stage s) {
 		saveButton = SimulationButtons.makeReturnableButtonH("Save", e->save(Integer.toString(numRows), 
 				Integer.toString(numCols), sampleGrid.getGridConfig(), 
 				Double.toString(catchProbability), Double.toString(growthProbability)), hboxTop, SCREEN_SIZE);
-		treeConc = SimulationButtons.makeReturnableTextFieldV("Set tree concentration", vboxLeft, -LEFT_OFFSET);
-		bTreeConc = SimulationButtons.makeReturnableTextFieldV("Set burning concentration", vboxLeft, -LEFT_OFFSET);
-		landConc = SimulationButtons.makeReturnableTextFieldV("Set land concentration", vboxLeft, -LEFT_OFFSET);
 		probGrow = SimulationButtons.makeReturnableTextFieldV("Input probGrow", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		probCatch = SimulationButtons.makeReturnableTextFieldV("Input probCatch", vboxRight, 3 * OFFSET - SCREEN_SIZE);
-		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
+		submit = SimulationButtons.makeReturnableButtonV("Submit", e -> userSetThreshold(), vboxRight,
+				3 * OFFSET - SCREEN_SIZE);
 	}
-	
+
 	@Override
 	protected void userSetThreshold() {
 		if(!(probGrow.getText().length()==0)||!(probCatch.getText().length()==0))
@@ -86,30 +80,21 @@ public class SpreadingWildfireSimulation extends Simulation {
 		else
 			ErrorMessages.createErrors("Not Enough Inputs");
 	}
-	
-	@Override
-	protected void setConcentrations() {
-		concMap.put('f', Double.parseDouble(treeConc.getText()));
-		concMap.put('s', Double.parseDouble(bTreeConc.getText()));
-		concMap.put('e', Double.parseDouble(landConc.getText()));
-		sampleGrid.setConcMap(concMap);
-		setConc.setDisable(true);
-	}
 
 	private void save(String nR, String nC, String cC, String pC, String pG) {
 		new SpreadingWildfireExporter(nR, nC, cC, pC, pG).buildXML();
 	}
-	
+
 	@Override
 	protected void manualStep() {
 		sampleGrid.createsNewGrid(growthProbability, catchProbability, 0);
 		g.updateGraph();
 		sampleGrid.update();
 	}
-	
+
 	@Override
 	protected void step(double elapsedTime) {
-		if(isPaused == false) {
+		if (isPaused == false) {
 			manualStep();
 		} else {
 			sampleGrid.createPausedGrid(growthProbability, catchProbability, 0);
