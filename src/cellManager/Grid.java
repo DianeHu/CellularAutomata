@@ -179,35 +179,39 @@ public abstract class Grid {
 		segregation.put('b', bCell);
 		segregation.put('o', oCell);
 		segregation.put('e', eCell);
-		segConfigStringMap.put("cells.BlueSchellingCell", "b");
-		segConfigStringMap.put("cells.OrangeSchellingCell", "o");
-		segConfigStringMap.put("cells.EmptyCell", "e");
 
 		gameOfLife.put('l', lCell);
 		gameOfLife.put('d', dCell);
-		gOLConfigStringMap.put("cells.LiveCell", "l");
-		gOLConfigStringMap.put("cells.DeadCell", "d");
 
 		spreadingWildfire.put('t', tCell);
 		spreadingWildfire.put('b', bTCell);
 		spreadingWildfire.put('e', eLCell);
-		fireConfigStringMap.put("cells.TreeCell", "t");
-		fireConfigStringMap.put("cells.BurningTreeCell", "b");
-		fireConfigStringMap.put("cells.EmptyLandCell", "e");
 
 		waTor.put('f', fCell);
 		waTor.put('s', sCell);
 		waTor.put('e', eCell);
-		watorConfigStringMap.put("cells.FishCell", "f");
-		watorConfigStringMap.put("cells.SharkCell", "s");
-		watorConfigStringMap.put("cells.EmptyCell", "e");
 
 		foragingAnts.put('a',aCell);
 		foragingAnts.put('e',eCell);
-		antConfigStringMap.put("cells.AntGroupCell", "a");
-		antConfigStringMap.put("cells.EmptyCell", "e");
+		initExportMap();
 		
 		initCountMap();
+	}
+
+	private void initExportMap() {
+		segConfigStringMap.put("cells.BlueSchellingCell", "b");
+		segConfigStringMap.put("cells.OrangeSchellingCell", "o");
+		segConfigStringMap.put("cells.EmptyCell", "e");
+		gOLConfigStringMap.put("cells.LiveCell", "l");
+		gOLConfigStringMap.put("cells.DeadCell", "d");
+		fireConfigStringMap.put("cells.TreeCell", "t");
+		fireConfigStringMap.put("cells.BurningTreeCell", "b");
+		fireConfigStringMap.put("cells.EmptyLandCell", "e");
+		watorConfigStringMap.put("cells.FishCell", "f");
+		watorConfigStringMap.put("cells.SharkCell", "s");
+		watorConfigStringMap.put("cells.EmptyCell", "e");
+		antConfigStringMap.put("cells.AntGroupCell", "a");
+		antConfigStringMap.put("cells.EmptyCell", "e");
 	}
 
 	private void initCountMap() {
