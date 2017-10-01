@@ -1,10 +1,14 @@
 package simulationDrivers;
 
+import java.io.File;
+
 import XMLClasses.GridConfiguration;
 import XMLClasses.SegregationConfiguration;
 import XMLClasses.SegregationExporter;
+import XMLClasses.SegregationReader;
 import cellManager.Grid;
 import cellManager.RectangleGrid;
+import javafx.scene.Group;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 /**
@@ -19,6 +23,7 @@ public class SegregationSimulation extends Simulation {
 	private double satisfiedThreshold;
 	private int numRows;
 	private int numCols;
+	private SegregationConfiguration sC = null;
 	
 	public SegregationSimulation(GridConfiguration gC, Grid g) {
 		super(gC, g);
@@ -28,7 +33,13 @@ public class SegregationSimulation extends Simulation {
 	protected void setUpThresholds() {
 		numRows = sampleGrid.getNumRows();
 		numCols = sampleGrid.getNumCols();
-		satisfiedThreshold = ((SegregationConfiguration) XMLConfiguration).getSegregationThreshold();
+		satisfiedThreshold = sC.getSegregationThreshold();
+	}
+	
+	@Override
+	protected GridConfiguration setInputConfig(File dataFile) {
+		sC = new SegregationReader().getGridConfiguration(dataFile);
+		return sC;
 	}
 	
 	@Override
@@ -51,8 +62,7 @@ public class SegregationSimulation extends Simulation {
 	}
 
 	private void save(String nR, String nC, String cC, String sT) {
-		XMLOutput = new SegregationExporter(nR, nC, cC, sT);
-		((SegregationExporter) XMLOutput).buildXML();
+		new SegregationExporter(nR, nC, cC, sT).buildXML();
 	}
 
 	@Override

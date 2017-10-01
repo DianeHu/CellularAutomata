@@ -1,8 +1,12 @@
 package simulationDrivers;
 
+import java.io.File;
+
 import XMLClasses.GridConfiguration;
+import XMLClasses.SegregationReader;
 import XMLClasses.SpreadingWildfireConfiguration;
 import XMLClasses.SpreadingWildfireExporter;
+import XMLClasses.SpreadingWildfireReader;
 import cellManager.Grid;
 import cellManager.RectangleGrid;
 import javafx.scene.control.TextField;
@@ -22,6 +26,7 @@ public class SpreadingWildfireSimulation extends Simulation {
 	private double catchProbability;
 	private int numRows;
 	private int numCols;
+	private SpreadingWildfireConfiguration XMLConfiguration;
 	
 	public SpreadingWildfireSimulation(GridConfiguration gC, Grid g) {
 		super(gC, g);
@@ -34,6 +39,12 @@ public class SpreadingWildfireSimulation extends Simulation {
 	}
 	
 	@Override
+	protected GridConfiguration setInputConfig(File dataFile) {
+		XMLConfiguration = new SpreadingWildfireReader().getGridConfiguration(dataFile);
+		return XMLConfiguration;
+	}
+	
+	@Override
 	protected Graph createGraph(Grid g) {
 		return new SpreadingWildfireGraph(g);
 	}
@@ -42,8 +53,8 @@ public class SpreadingWildfireSimulation extends Simulation {
 	protected void setUpThresholds() {
 		numRows = sampleGrid.getNumRows();
 		numCols = sampleGrid.getNumCols();
-		growthProbability = ((SpreadingWildfireConfiguration) XMLConfiguration).getProbGrow();
-		catchProbability = ((SpreadingWildfireConfiguration) XMLConfiguration).getProbCatch();
+		growthProbability = XMLConfiguration.getProbGrow();
+		catchProbability = XMLConfiguration.getProbCatch();
 	}
 	
 	@Override
@@ -63,8 +74,7 @@ public class SpreadingWildfireSimulation extends Simulation {
 	}
 
 	private void save(String nR, String nC, String cC, String pC, String pG) {
-		XMLOutput = new SpreadingWildfireExporter(nR, nC, cC, pC, pG);
-		((SpreadingWildfireExporter) XMLOutput).buildXML();
+		new SpreadingWildfireExporter(nR, nC, cC, pC, pG).buildXML();
 	}
 	
 	@Override

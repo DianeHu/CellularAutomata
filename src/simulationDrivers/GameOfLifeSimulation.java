@@ -1,8 +1,12 @@
 package simulationDrivers;
 
+import java.io.File;
+
 import XMLClasses.GameOfLifeConfiguration;
 import XMLClasses.GameOfLifeExporter;
+import XMLClasses.GameOfLifeReader;
 import XMLClasses.GridConfiguration;
+import XMLClasses.SegregationReader;
 import cellManager.Grid;
 import cellManager.RectangleGrid;
 import javafx.stage.Stage;
@@ -17,6 +21,7 @@ public class GameOfLifeSimulation extends Simulation {
 	
 	private int numRows;
 	private int numCols;
+	private GameOfLifeConfiguration XMLConfiguration = null;
 	
 	public GameOfLifeSimulation(GridConfiguration gC, Grid g) {
 		super(gC, g);
@@ -26,6 +31,12 @@ public class GameOfLifeSimulation extends Simulation {
 	protected void setUpThresholds() {
 		numRows = sampleGrid.getNumRows();
 		numCols = sampleGrid.getNumCols();
+	}
+	
+	@Override
+	protected GridConfiguration setInputConfig(File dataFile) {
+		XMLConfiguration = new GameOfLifeReader().getGridConfiguration(dataFile);
+		return XMLConfiguration;
 	}
 	
 	@Override
@@ -63,8 +74,7 @@ public class GameOfLifeSimulation extends Simulation {
 	}
 	
 	private void save(String nR, String nC, String cC) {
-		XMLOutput = new GameOfLifeExporter(nR, nC, cC);
-		((GameOfLifeExporter) XMLOutput).buildXML();
+		new GameOfLifeExporter(nR, nC, cC).buildXML();
 	}
 
 	@Override

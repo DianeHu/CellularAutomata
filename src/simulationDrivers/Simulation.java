@@ -93,7 +93,6 @@ public abstract class Simulation extends Application {
 	private Button startButton;
 	// private ScrollPane gridScroll;
 	// private final ScrollBar sc = new ScrollBar();
-	protected XMLExporter XMLOutput;
 
 	public Simulation(GridConfiguration gC, Grid g) {
 		XMLConfiguration = gC;
@@ -195,40 +194,23 @@ public abstract class Simulation extends Application {
 	protected void openFile(Stage s) {
 		animation.pause();
 		File dataFile = myChooser.showOpenDialog(s);
-		GridConfiguration InputConfiguration = null;
 		if (dataFile != null) {
 			try {
-				switch (simType) {
-				case ("Wator"):
-					InputConfiguration = new WatorReader().getGridConfiguration(dataFile);
-					break;
-				case ("SpreadingWildfire"):
-					InputConfiguration = new SpreadingWildfireReader().getGridConfiguration(dataFile);
-					break;
-				case ("GameOfLife"):
-					InputConfiguration = new GameOfLifeReader().getGridConfiguration(dataFile);
-					break;
-				case ("Segregation"):
-					InputConfiguration = new SegregationReader().getGridConfiguration(dataFile);
-					break;
-				case ("ForagingAnts"):
-					InputConfiguration = new ForagingAntsReader().getGridConfiguration(dataFile);
-					break;
-				}
+				XMLConfiguration = setInputConfig(dataFile);
 			} catch (XMLException e) {
 				Alert a = new Alert(AlertType.ERROR);
 				a.setContentText(e.getMessage());
 				a.showAndWait();
 			}
-			XMLConfiguration = InputConfiguration;
 			startButton.setDisable(false);
 			hboxBottom.getChildren().clear();
 		} else {
-			// nothing selected, so quit the application
 			ErrorMessages.createErrors("No File Chosen");
 			startButton.setDisable(true);
 		}
 	}
+	
+	protected abstract GridConfiguration setInputConfig (File datafile);
 
 	public abstract Simulation copy();
 
@@ -277,6 +259,8 @@ public abstract class Simulation extends Application {
 		return myScene;
 	}
 	
+	//protected abstract void createGrid(Group root);
+	
 	protected abstract Graph createGraph(Grid g);
 
 	/**
@@ -313,12 +297,6 @@ public abstract class Simulation extends Application {
 		timePassing *= 2;
 		animation.setRate(timePassing);
 	}
-
-	/*
-	 * private void save(String sT, String nR, String nC, String cC, String pC,
-	 * String pG, String sT1, String fB, String sB, String sS) { XMLOutput = new
-	 * XMLExporter(sT, nR, nC, cC, pC, pG, sT1, fB, sB, sS); XMLOutput.buildXML(); }
-	 */
 
 	/**
 	 * This method steps through the simulation at half the speed
