@@ -202,7 +202,7 @@ public abstract class Simulation extends Application {
 			try {
 				XMLConfiguration = setInputConfig(dataFile);
 			} catch (XMLException e) {
-				throw e;
+				ErrorMessages.createErrors("Invalid XML file");
 			}
 			startButton.setDisable(false);
 			hboxBottom.getChildren().clear();

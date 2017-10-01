@@ -8,17 +8,25 @@ import org.w3c.dom.Element;
 
 import simulationDrivers.ErrorMessages;
 
+/**
+ * @author Tyler Yam
+ * This is a subclass of the XMLExporter superclass for the Foraging Ants simulation
+ * This class formats the XML to be export for the user's desires.
+ */
 public class ForagingAntsExporter extends XMLExporter{
-	
-	public ForagingAntsExporter(String nR, String nC, String cC) {
-		super(nR, nC, cC);
-	}
-
+		
+	/**
+	 * The XML Elements specific to the Foraging Ants simulation
+	 */
 	Element maxAnts;
 	Element homeLocX;
 	Element homeLocY;
 	Element foodLocX;
 	Element foodLocY;
+	
+	/**
+	 * Local variables to store variables passed in
+	 */
 	String mAnts;
 	String hLocX;
 	String hLocY;
@@ -26,6 +34,17 @@ public class ForagingAntsExporter extends XMLExporter{
 	String fLocY;
 	
 
+	/**
+	 * @param nR
+	 * @param nC
+	 * @param cC
+	 * @param mA
+	 * @param hLX
+	 * @param hLY
+	 * @param fLX
+	 * @param fLY
+	 * Constructor for ForagingAntsExporter
+	 */
 	public ForagingAntsExporter(String nR, String nC, String cC, String mA, String hLX,String hLY,String fLX,String fLY) {
 		super(nR, nC, cC);
 		mAnts=mA;
@@ -35,12 +54,14 @@ public class ForagingAntsExporter extends XMLExporter{
 		fLocY=fLY;
 	}
 	
+	/**
+	 * Builds the XML documents with the Foraging Ant specific elements
+	 */
 	public void buildXML() {
 
 	       try {
 	          Document doc = XMLExporter.buildDocument();
 	         
-	          // root element
 	          Element GridConfiguration = doc.createElement("GridConfiguration");
 	          doc.appendChild(GridConfiguration);
 	    
