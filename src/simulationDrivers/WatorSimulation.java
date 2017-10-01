@@ -63,7 +63,7 @@ public class WatorSimulation extends Simulation {
 	
 	@Override
 	protected void makeSimSpecificFields(Stage s) {
-		SimulationButtons.makeButtonH("Save", e->save(Integer.toString(numRows), 
+		saveButton = SimulationButtons.makeReturnableButtonH("Save", e->save(Integer.toString(numRows), 
 				Integer.toString(numCols), sampleGrid.getGridConfig(), 
 				Double.toString(fBreedTurns), Double.toString(sBreedTurns),
 				Double.toString(starveTurns)), hboxTop, SCREEN_SIZE);
@@ -93,13 +93,24 @@ public class WatorSimulation extends Simulation {
 	
 	@Override
 	protected void userSetThreshold() {
-		fBreedTurns = Double.parseDouble(fishBreed.getText());
-		sBreedTurns = Double.parseDouble(sharkBreed.getText());
-		starveTurns = Double.parseDouble(sharkStarve.getText());
+		if(!(fishBreed.getText().length()==0)||!(sharkBreed.getText().length()==0)||!(sharkStarve.getText().length()==0))
+		{
+			fBreedTurns = Double.parseDouble(fishBreed.getText());
+			sBreedTurns = Double.parseDouble(sharkBreed.getText());
+			starveTurns = Double.parseDouble(sharkStarve.getText());
+		}
+		else
+			ErrorMessages.createErrors("Not Enough Inputs");
 	}
 
 	private void save(String nR, String nC, String cC, String fB, String sB, String sS) {
-		new WatorExporter(nR, nC, cC, fB, sB, sS).buildXML();;
+		try {
+			new WatorExporter(nR, nC, cC, fB, sB, sS).buildXML();
+		}
+		catch(NullPointerException e)
+		{
+			ErrorMessages.createErrors("No Configuration to Save");
+		}
 	}
 	
 	@Override

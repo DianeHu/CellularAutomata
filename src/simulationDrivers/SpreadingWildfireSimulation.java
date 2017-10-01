@@ -65,7 +65,7 @@ public class SpreadingWildfireSimulation extends Simulation {
 	
 	@Override
 	protected void makeSimSpecificFields(Stage s) {
-		SimulationButtons.makeButtonH("Save", e->save(Integer.toString(numRows), 
+		saveButton = SimulationButtons.makeReturnableButtonH("Save", e->save(Integer.toString(numRows), 
 				Integer.toString(numCols), sampleGrid.getGridConfig(), 
 				Double.toString(catchProbability), Double.toString(growthProbability)), hboxTop, SCREEN_SIZE);
 		treeConc = SimulationButtons.makeReturnableTextFieldV("Set tree concentration", vboxLeft, -LEFT_OFFSET);
@@ -78,8 +78,13 @@ public class SpreadingWildfireSimulation extends Simulation {
 	
 	@Override
 	protected void userSetThreshold() {
-		growthProbability = Double.parseDouble(probGrow.getText());
-		catchProbability = Double.parseDouble(probCatch.getText());
+		if(!(probGrow.getText().length()==0)||!(probCatch.getText().length()==0))
+		{
+			growthProbability = Double.parseDouble(probGrow.getText());
+			catchProbability = Double.parseDouble(probCatch.getText());
+		}
+		else
+			ErrorMessages.createErrors("Not Enough Inputs");
 	}
 	
 	@Override

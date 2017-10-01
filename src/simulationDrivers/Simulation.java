@@ -65,13 +65,16 @@ public abstract class Simulation extends Application {
 	private BorderPane screenBorder = new BorderPane();
 	private Timeline animation = new Timeline();
 	private Group root;
-	private boolean isFirstTime = true;
+	protected boolean isFirstTime = false;
 	protected Graph g;
 	protected boolean isPaused = false;
+	protected boolean isStarted = false;
 	private String simType;
 	private Button startButton;
 	protected Button setConc;
 	private Button stepButton;
+	private Button resetButton;
+	protected Button saveButton;
 	// private ScrollPane gridScroll;
 	// private final ScrollBar sc = new ScrollBar();
 
@@ -143,9 +146,12 @@ public abstract class Simulation extends Application {
 		SimulationButtons.makeButtonV("Resume", e -> resume(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Speed Up", e -> faster(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Slow Down", e -> slower(), vboxRight, SCREEN_SIZE);
-		SimulationButtons.makeButtonV("Reset", e -> reset(), vboxRight, SCREEN_SIZE);
+		resetButton=SimulationButtons.makeReturnableButtonV("Reset", e -> reset(), vboxRight, SCREEN_SIZE);
 		stepButton = SimulationButtons.makeReturnableButtonV("Step", e -> manualStep(), vboxRight, SCREEN_SIZE);
+		resetButton.setDisable(!isStarted);
+		stepButton.setDisable(!(isPaused&isStarted));
 		makeSimSpecificFields(s);
+		saveButton.setDisable(!isFirstTime);
 	}
 
 	protected abstract void setConcentrations();
@@ -162,11 +168,12 @@ public abstract class Simulation extends Application {
 	private void startMethod(Stage s) {
 		try {
 			startSimulation(s);
-			startButton.setDisable(true);
-			setConc.setDisable(true);
-			stepButton.setDisable(true);
+			isStarted = true;
+			startButton.setDisable(isStarted);
+			setConc.setDisable(isStarted);
+			saveButton.setDisable(!isStarted);
 		} catch (Exception e1) {
-			e1.printStackTrace();
+			//e1.printStackTrace();
 			ErrorMessages.createErrors("Failed to Start\nChoose Valid Configuration File");
 		}
 	}
@@ -276,7 +283,7 @@ public abstract class Simulation extends Application {
 		// animation.pause();
 		// sampleGrid.setPaused(true);
 		isPaused = true;
-		stepButton.setDisable(false);
+		stepButton.setDisable(!(isPaused&&isStarted));
 	}
 
 	/**

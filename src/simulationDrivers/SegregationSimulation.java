@@ -62,7 +62,7 @@ public class SegregationSimulation extends Simulation {
 	
 	@Override
 	protected void makeSimSpecificFields(Stage s) {
-		SimulationButtons.makeButtonH("Save", e->save(Integer.toString(numRows), 
+		saveButton=SimulationButtons.makeReturnableButtonH("Save", e->save(Integer.toString(numRows), 
 				Integer.toString(numCols), sampleGrid.getGridConfig(), Double.toString(satisfiedThreshold)), hboxTop, SCREEN_SIZE);
 		bConc = SimulationButtons.makeReturnableTextFieldV("Set blue concentration", vboxLeft, -LEFT_OFFSET);
 		oConc = SimulationButtons.makeReturnableTextFieldV("Set orange concentration", vboxLeft, -LEFT_OFFSET);
@@ -105,7 +105,12 @@ public class SegregationSimulation extends Simulation {
 
 	@Override
 	protected void userSetThreshold() {
-		satisfiedThreshold = Double.parseDouble(threshold.getText());
+		if(!(threshold.getText().length()==0))
+		{
+			satisfiedThreshold = Double.parseDouble(threshold.getText());
+		}
+		else
+			ErrorMessages.createErrors("Not Enough Inputs");
 	}
 
 }

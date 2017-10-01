@@ -74,19 +74,25 @@ public class GameOfLifeSimulation extends Simulation {
 
 	@Override
 	protected void makeSimSpecificFields(Stage s) {
-		SimulationButtons.makeButtonH("Save", e->save(Integer.toString(numRows), 
+		saveButton=SimulationButtons.makeReturnableButtonH("Save", e->save(Integer.toString(numRows), 
 				Integer.toString(numCols), 
 				sampleGrid.getGridConfig()), hboxTop, SCREEN_SIZE);
+		
 		liveConc = SimulationButtons.makeReturnableTextFieldV("Set live concentration", vboxLeft, -LEFT_OFFSET);
 		deadConc = SimulationButtons.makeReturnableTextFieldV("Set dead concentration", vboxLeft, -LEFT_OFFSET);
 	}
 	
 	@Override
 	protected void setConcentrations() {
-		concMap.put('l', Double.parseDouble(liveConc.getText()));
-		concMap.put('d', Double.parseDouble(deadConc.getText()));
-		sampleGrid.setConcMap(concMap);
-		setConc.setDisable(true);
+		if(!(liveConc.getText().length()==0)||!(deadConc.getText().length()==0))
+		{
+			concMap.put('l', Double.parseDouble(liveConc.getText()));
+			concMap.put('d', Double.parseDouble(deadConc.getText()));
+			sampleGrid.setConcMap(concMap);
+			setConc.setDisable(true);
+		}
+		else 
+			ErrorMessages.createErrors("Not enough inputs");
 	}
 	
 	private void save(String nR, String nC, String cC) {
