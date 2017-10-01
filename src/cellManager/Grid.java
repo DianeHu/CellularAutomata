@@ -7,16 +7,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import XMLClasses.GridConfiguration;
-import XMLClasses.SpreadingWildfireConfiguration;
 import XMLClasses.ForagingAntsConfiguration;
-import cells.AntCell;
 import cells.AntGroupCell;
 import cells.BlueSchellingCell;
 import cells.BurningTreeCell;
 import cells.Cell;
 import cells.DeadCell;
 import cells.EmptyCell;
-import cells.EmptyForagingCell;
 import cells.EmptyLandCell;
 import cells.FishCell;
 import cells.LiveCell;
@@ -27,14 +24,9 @@ import gridPatches.ForagingLand;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 /**
@@ -65,6 +57,13 @@ public abstract class Grid {
 	private Map<Character, Cell> waTor = new HashMap<>();
 	private Map<Character, Cell> foragingAnts = new HashMap<>();
 	private Map<Character, Cell> simMap = new HashMap<>();
+	private Map<String, String> segConfigStringMap = new HashMap<>();
+	private Map<String, String> gOLConfigStringMap = new HashMap<>();
+	private Map<String, String> fireConfigStringMap = new HashMap<>();
+	private Map<String, String> watorConfigStringMap = new HashMap<>();
+	private Map<String, String> antConfigStringMap = new HashMap<>();
+	private Map<String, String> simulationConfigStringMap = new HashMap<>();
+	private Map<Character, Double> probabilityMap = new HashMap<>();
 	private Pane pane = new GridPane();
 	private Map<String, Integer> countMap = new HashMap<>();
 	private ScrollPane gridScroll;
@@ -108,13 +107,6 @@ public abstract class Grid {
 			}
 		}
 	}
-	
-	/**
-	 * @return the GridConfiguration used to get information from the XML file
-	 */
-	protected GridConfiguration getGridConfig() {
-		return gridConfig;
-	}
 
 	public double percentTree() {
 		return countMap.get("cells.TreeCell") / gridCellCount;
@@ -155,19 +147,6 @@ public abstract class Grid {
 	public double percentDead() {
 		return countMap.get("cells.DeadCell") / gridCellCount;
 	}
-	
-	private void initCountMap() {
-		countMap.put("cells.BlueSchellingCell", 0);
-		countMap.put("cells.OrangeSchellingCell", 0);
-		countMap.put("cells.LiveCell", 0);
-		countMap.put("cells.DeadCell", 0);
-		countMap.put("cells.TreeCell", 0);
-		countMap.put("cells.BurningTreeCell", 0);
-		countMap.put("cells.EmptyLandCell", 0);
-		countMap.put("cells.EmptyCell", 0);
-		countMap.put("cells.SharkCell", 0);
-		countMap.put("cells.FishCell", 0);
-	}
 
 	/**
 	 * Maps different cell types to different characters based on the simulation
@@ -190,7 +169,6 @@ public abstract class Grid {
 		SharkCell sCell = new SharkCell();	
 		
 		AntGroupCell aCell = new AntGroupCell();
-		EmptyForagingCell eFCell = new EmptyForagingCell();
 
 		segregation.put('b', bCell);
 		segregation.put('o', oCell);
@@ -208,13 +186,40 @@ public abstract class Grid {
 		waTor.put('e', eCell);
 
 		foragingAnts.put('a',aCell);
-		foragingAnts.put('e',eFCell);
+		foragingAnts.put('e',eCell);
+		initExportMap();
 		
 		initCountMap();
 	}
-	
-	
 
+	private void initExportMap() {
+		segConfigStringMap.put("cells.BlueSchellingCell", "b");
+		segConfigStringMap.put("cells.OrangeSchellingCell", "o");
+		segConfigStringMap.put("cells.EmptyCell", "e");
+		gOLConfigStringMap.put("cells.LiveCell", "l");
+		gOLConfigStringMap.put("cells.DeadCell", "d");
+		fireConfigStringMap.put("cells.TreeCell", "t");
+		fireConfigStringMap.put("cells.BurningTreeCell", "b");
+		fireConfigStringMap.put("cells.EmptyLandCell", "e");
+		watorConfigStringMap.put("cells.FishCell", "f");
+		watorConfigStringMap.put("cells.SharkCell", "s");
+		watorConfigStringMap.put("cells.EmptyCell", "e");
+		antConfigStringMap.put("cells.AntGroupCell", "a");
+		antConfigStringMap.put("cells.EmptyCell", "e");
+	}
+
+	private void initCountMap() {
+		countMap.put("cells.BlueSchellingCell", 0);
+		countMap.put("cells.OrangeSchellingCell", 0);
+		countMap.put("cells.LiveCell", 0);
+		countMap.put("cells.DeadCell", 0);
+		countMap.put("cells.TreeCell", 0);
+		countMap.put("cells.BurningTreeCell", 0);
+		countMap.put("cells.EmptyLandCell", 0);
+		countMap.put("cells.EmptyCell", 0);
+		countMap.put("cells.SharkCell", 0);
+		countMap.put("cells.FishCell", 0);
+	}
 	
 	public String getSimType() {
 		return simulationType;
@@ -232,24 +237,28 @@ public abstract class Grid {
 		switch (simulationType) {
 		case ("Segregation"):
 			simMap = segregation;
+			simulationConfigStringMap = segConfigStringMap;
 			break;
 		case ("SpreadingWildfire"):
 			simMap = spreadingWildfire;
+			simulationConfigStringMap = fireConfigStringMap;
 			break;
 		case ("Wator"):
 			simMap = waTor;
+			simulationConfigStringMap = watorConfigStringMap;
 			break;
 		case ("GameOfLife"):
 			simMap = gameOfLife;
+			simulationConfigStringMap = gOLConfigStringMap;
 			break;
 		case ("ForagingAnts"):
 			simMap = foragingAnts;
+			simulationConfigStringMap = antConfigStringMap;
 			homeLoc[0]= ((ForagingAntsConfiguration) gridConfig).getHomeLocX();
 			homeLoc[1] = ((ForagingAntsConfiguration) gridConfig).getHomeLocY();
 			
 			foodLoc[0]= ((ForagingAntsConfiguration) gridConfig).getFoodLocX();
 			foodLoc[1] = ((ForagingAntsConfiguration) gridConfig).getFoodLocY();
-			
 			land = new ForagingLand(getNumRows(),getNumCols(),
 					homeLoc, foodLoc);
 			break;
@@ -264,7 +273,7 @@ public abstract class Grid {
 	}
 
 	private void updateCounts(Cell c) {
-		//countMap.put(c.getClass().getName(), countMap.get(c.getClass().getName()) + 1);
+		countMap.put(c.getClass().getName(), countMap.get(c.getClass().getName()) + 1);
 	}
 
 	/**
@@ -290,7 +299,7 @@ public abstract class Grid {
 	/**
 	 * @return the number of rows in the grid
 	 */
-	protected int getNumRows() {
+	public int getNumRows() {
 		return numRows;
 	}
 	
@@ -305,10 +314,21 @@ public abstract class Grid {
 	/**
 	 * @return the number of cols in the grid
 	 */
-	protected int getNumCols() {
+	public int getNumCols() {
 		return numCols;
 	}
 	
+	public String getGridConfig() {
+		StringBuilder s = new StringBuilder();
+		for(int i = 0; i < numRows; i++) {
+			for(int j = 0; j < numCols; j++) {
+				String currType = simulationConfigStringMap.get(
+						currentGrid[i][j].getClass().getName());
+				s.append(currType);
+			}
+		}
+		return s.toString();
+	}
 	
 	/**
 	 * @param n is used to set the number of rows
@@ -406,35 +426,64 @@ public abstract class Grid {
 	 * Updates the gridpane with the rectangle colors, and displays the gridpane.
 	 */
 	protected void setInitialStates() {
-
 		char[][] states = gridConfig.getCellConfiguration();
-
+		Map<double[],Character> rangeMap= new HashMap<>();
+		if(probabilityMap!=null) {
+			createProbRanges(rangeMap);
+		}
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
-				Cell c = simMap.get(states[i][j]).copy();
-				c.setRow(i);
-				c.setCol(j);
-				c.setLand(land);
-				currentGrid[i][j] = c;
-				blocks[i][j].setFill(c.getColor());
-				Color stroke;
-				if(land!=null) {
-					stroke = land.strokeColorAtLocation(i, j);
-					blocks[i][j].setStrokeWidth(3.0);
+				Cell c = new EmptyCell();
+				if(probabilityMap!=null) {
+					c = getProbabilisticCell(rangeMap, c);
 				}
-				else{
-					stroke = Color.DARKGREY;
+				else {
+					c = simMap.get(states[i][j]).copy();
 				}
-				blocks[i][j].setStroke(stroke);
-				GridPane.setConstraints(blocks[i][j], j, i);
-				pane.getChildren().add(blocks[i][j]);
+				initializeCell(i, j, c);
 			}
 		}
-		/*gridScroll = new ScrollPane();
-		gridScroll.setContent(pane);
-		gridScroll.setHbarPolicy(ScrollBarPolicy.ALWAYS);
-		gridScroll.setVbarPolicy(ScrollBarPolicy.ALWAYS);*/
 		root.getChildren().add(pane);
+	}
+
+	protected Cell getProbabilisticCell(Map<double[], Character> rangeMap, Cell c) {
+		double rand = Math.random();
+		for(double[] range : rangeMap.keySet()) {
+			if(range[0]<= rand & range[1]>= rand) {
+				c = simMap.get(rangeMap.get(range));
+			}
+		}
+		return c;
+	}
+
+	protected void createProbRanges(Map<double[], Character> rangeMap) {
+		double i = 0;
+		for(char c: probabilityMap.keySet()) {
+			double lowerBound = i;
+			double upperBound = probabilityMap.get(c);
+			double[] range = {lowerBound, upperBound};
+			rangeMap.put(range, c);
+			i = i+ probabilityMap.get(c);
+		}
+	}
+
+	protected void initializeCell(int i, int j, Cell c) {
+		c.setRow(i);
+		c.setCol(j);
+		c.setLand(land);
+		currentGrid[i][j] = c;
+		blocks[i][j].setFill(c.getColor());
+		Color stroke;
+		if(land!=null) {
+			stroke = land.strokeColorAtLocation(i, j);
+			blocks[i][j].setStrokeWidth(3.0);
+		}
+		else{
+			stroke = Color.DARKGREY;
+		}
+		blocks[i][j].setStroke(stroke);
+		GridPane.setConstraints(blocks[i][j], j, i);
+		pane.getChildren().add(blocks[i][j]);
 	}
 
 	/**
@@ -446,7 +495,7 @@ public abstract class Grid {
 		setNeighbors();
 		for (int i = 0; i < currentGrid.length; i++) {
 			for (int j = 0; j < currentGrid[i].length; j++) {
-				ArrayList<Cell> empty = getEmptyCells();
+				List<Cell> empty = getEmptyCells();
 				Cell c = currentGrid[i][j];
 				c.setThreshold(threshold1, threshold2, threshold3);
 				updateCounts(c);
@@ -479,8 +528,8 @@ public abstract class Grid {
 	/**
 	 * @return a list of all the empty cells in the current configuration of cells
 	 */
-	private ArrayList<Cell> getEmptyCells() {
-		ArrayList<Cell> emptyCells = new ArrayList<Cell>();
+	private List<Cell> getEmptyCells() {
+		List<Cell> emptyCells = new ArrayList<Cell>();
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
 				Cell c = currentGrid[i][j];
