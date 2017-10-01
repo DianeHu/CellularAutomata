@@ -1,6 +1,8 @@
 package simulationDrivers;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import XMLClasses.GridConfiguration;
 import XMLClasses.SegregationReader;
@@ -24,6 +26,10 @@ public class WatorSimulation extends Simulation {
 	private TextField fishBreed;
 	private TextField sharkBreed;
 	private TextField sharkStarve;
+	private TextField fishConc;
+	private TextField sharkConc;
+	private TextField waterConc;
+	private Map<Character, Double> concMap = new HashMap<>();
 	private double fBreedTurns;
 	private double sBreedTurns;
 	private double starveTurns;
@@ -61,10 +67,22 @@ public class WatorSimulation extends Simulation {
 				Integer.toString(numCols), sampleGrid.getGridConfig(), 
 				Double.toString(fBreedTurns), Double.toString(sBreedTurns),
 				Double.toString(starveTurns)), hboxTop, SCREEN_SIZE);
+		fishConc = SimulationButtons.makeReturnableTextFieldV("Set fish concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
+		sharkConc = SimulationButtons.makeReturnableTextFieldV("Set shark concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
+		waterConc = SimulationButtons.makeReturnableTextFieldV("Set water concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
 		fishBreed = SimulationButtons.makeReturnableTextFieldV("Input fishBreed", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		sharkBreed = SimulationButtons.makeReturnableTextFieldV("Input sharkBreed", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		sharkStarve = SimulationButtons.makeReturnableTextFieldV("Input sharkStarve", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
+	}
+	
+	@Override
+	protected void setConcentrations() {
+		concMap.put('f', Double.parseDouble(fishConc.getText()));
+		concMap.put('s', Double.parseDouble(sharkConc.getText()));
+		concMap.put('e', Double.parseDouble(waterConc.getText()));
+		sampleGrid.setConcMap(concMap);
+		setConc.setDisable(true);
 	}
 	
 	@Override

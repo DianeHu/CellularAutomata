@@ -1,6 +1,8 @@
 package simulationDrivers;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import XMLClasses.GridConfiguration;
 import XMLClasses.SegregationConfiguration;
@@ -9,6 +11,7 @@ import XMLClasses.SegregationReader;
 import cellManager.Grid;
 import cellManager.RectangleGrid;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 /**
@@ -24,6 +27,10 @@ public class SegregationSimulation extends Simulation {
 	private int numRows;
 	private int numCols;
 	private SegregationConfiguration sC = null;
+	private Map<Character, Double> concMap = new HashMap<>();
+	private TextField bConc;
+	private TextField oConc;
+	private TextField eConc;
 	
 	public SegregationSimulation(GridConfiguration gC, Grid g) {
 		super(gC, g);
@@ -57,12 +64,24 @@ public class SegregationSimulation extends Simulation {
 	protected void makeSimSpecificFields(Stage s) {
 		SimulationButtons.makeButtonH("Save", e->save(Integer.toString(numRows), 
 				Integer.toString(numCols), sampleGrid.getGridConfig(), Double.toString(satisfiedThreshold)), hboxTop, SCREEN_SIZE);
+		bConc = SimulationButtons.makeReturnableTextFieldV("Set blue concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
+		oConc = SimulationButtons.makeReturnableTextFieldV("Set orange concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
+		eConc = SimulationButtons.makeReturnableTextFieldV("Set empty concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
 		threshold = SimulationButtons.makeReturnableTextFieldV("Input threshold", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
 	}
 
 	private void save(String nR, String nC, String cC, String sT) {
 		new SegregationExporter(nR, nC, cC, sT).buildXML();
+	}
+	
+	@Override
+	protected void setConcentrations() {
+		concMap.put('b', Double.parseDouble(bConc.getText()));
+		concMap.put('o', Double.parseDouble(oConc.getText()));
+		concMap.put('e', Double.parseDouble(eConc.getText()));
+		sampleGrid.setConcMap(concMap);
+		setConc.setDisable(true);
 	}
 
 	@Override

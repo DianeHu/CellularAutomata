@@ -4,6 +4,8 @@ import XMLClasses.GridConfiguration;
 import XMLClasses.SegregationReader;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import XMLClasses.ForagingAntsConfiguration;
 import XMLClasses.ForagingAntsReader;
@@ -19,6 +21,9 @@ import javafx.stage.Stage;
 public class ForagingAntsSimulation extends Simulation {
 
 	private TextField threshold;
+	private TextField antConc;
+	private TextField emptyConc;
+	private Map<Character, Double> concMap = new HashMap<>();
 	private double maxAnts;
 	private ForagingAntsConfiguration XMLConfiguration = null;
 	
@@ -52,6 +57,16 @@ public class ForagingAntsSimulation extends Simulation {
 	protected void makeSimSpecificFields(Stage s) {
 		threshold = SimulationButtons.makeReturnableTextFieldV("Input maxAnts", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
+		antConc = SimulationButtons.makeReturnableTextFieldV("Set ant concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
+		emptyConc = SimulationButtons.makeReturnableTextFieldV("Set empty concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
+	}
+	
+	@Override
+	protected void setConcentrations() {
+		concMap.put('a', Double.parseDouble(antConc.getText()));
+		concMap.put('e', Double.parseDouble(emptyConc.getText()));
+		sampleGrid.setConcMap(concMap);
+		setConc.setDisable(true);
 	}
 
 	/*private void save(String sT, String nR, String nC, String cC, String pC, String pG, String sT1, String fB,
