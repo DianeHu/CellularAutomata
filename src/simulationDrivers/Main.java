@@ -79,6 +79,7 @@ public class Main extends Application {
 		initMap();
 		hbox.setPadding(new Insets(OFFSET));
 		hbox.setSpacing(OFFSET);
+		SimulationButtons.makeButtonH("Choose styling file", e -> openStyleFile(s), hbox, SCREEN_SIZE);
 		simType = SimulationButtons.makeReturnableTextFieldH("Choose simulation type", hbox, 3 * OFFSET - SCREEN_SIZE);
 		submit = SimulationButtons.makeReturnableButtonH("Create new Simulation", e -> {
 			try {
@@ -88,7 +89,6 @@ public class Main extends Application {
 				//e1.printStackTrace();
 			}
 		}, hbox, 3 * OFFSET - SCREEN_SIZE);
-		SimulationButtons.makeButtonH("Choose styling file", e -> openStyleFile(s), hbox, SCREEN_SIZE);
 		border.setCenter(hbox);
 		border.getStyleClass().add("pane");
 		border.setPrefSize(SCREEN_SIZE, SCREEN_SIZE);
