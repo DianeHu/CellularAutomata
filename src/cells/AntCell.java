@@ -6,6 +6,11 @@ import java.util.List;
 
 import cellManager.Grid;
 
+/**
+ * @author Madhavi
+ * This class is meant to represent an individual ant. Only AntGroupCell has access to AntCell,
+ * the 
+ */
 public class AntCell extends Cell {
 
 	private int[] direction;
@@ -62,46 +67,37 @@ public class AntCell extends Cell {
 			if(direction[0]==1 & direction[1]==0) {
 				toTheSide = (r2==row+1 & c2==col+1)|
 						(r2==row+1 & c2==col-1);
-				//System.out.println(toTheSide + " toTheSide for" + r2 + " " +c2);
 			}
 			if(direction[0]==1 & direction[1]==1) {
 				toTheSide = (r2==row & c2==col+1)|
 						(r2==row+1 & c2==col);
-				//System.out.println(toTheSide + "toTheSide for" + r2 + " " +c2);
 			}
 			if(direction[0]==0 & direction[1]==1) {
 				toTheSide = (r2==row-1 & c2==col+1)|
 						(r2==row+1 & c2==col+1);
-				//System.out.println(toTheSide + "toTheSide for" + r2 + " " +c2);
 			}
 			if(direction[0]==-1 & direction[1]==1) {
 				toTheSide = (r2==row-1 & c2==col)|
 						(r2==row & c2==col+1);
-				//System.out.println(toTheSide + "toTheSide for" + r2 + " " +c2);
 			}
 			if(direction[0]==-1 & direction[1]==-1) {
 				toTheSide = (r2==row & c2==col-1)|
 						(r2==row-1 & c2==col);
-				//System.out.println(toTheSide + "toTheSide for" + r2 + " " +c2);
 			}
 			if(direction[0]==1 & direction[1]==-1) {
 				toTheSide = (r2==row & c2==col-1)|
 						(r2==row+1 & c2==col);
-				//System.out.println(toTheSide + "toTheSide for" + r2 + " " +c2);
 			}
 			if(direction[0]==0 & direction[1]==-1) {
 				toTheSide = (r2==row-1 & c2==col)|
 						(r2==row+1 & c2==col);
-				//System.out.println(toTheSide + "toTheSide for" + r2 + " " +c2);
 			}
 			if(direction[0]==-1 & direction[1]==0) {
 				toTheSide = (r2==row & c2==col+1)|
 						(r2==row & c2==col-1);
-				//System.out.println(toTheSide + "toTheSide for" + r2 + " " +c2);
 			}
 
 			boolean isNeighbor = isDirectlyInFront | toTheSide;
-			//System.out.println(r2 + " " + c2 + " " + isNeighbor);
 			addCellIf(isNeighbor,c,dirNeigh);
 		}
 		return dirNeigh;
@@ -116,8 +112,6 @@ public class AntCell extends Cell {
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		getLand().addPheromones(getRow(), getCol(), hasFood,getNeighbors());
-		//System.out.println("numneighbors " + getDirectionNeighbors().size());
-		//System.out.println("directions " + Arrays.toString(direction));
 		List<Integer> coordinates = getLand().getNewCoordinates(getDirectionNeighbors(),hasFood,maxAnts,this);
 		int newrow = coordinates.get(0);
 		int newcol = coordinates.get(1);
