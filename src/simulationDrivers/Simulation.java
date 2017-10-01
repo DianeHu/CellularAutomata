@@ -65,7 +65,7 @@ public abstract class Simulation extends Application {
 	private BorderPane screenBorder = new BorderPane();
 	private Timeline animation = new Timeline();
 	private Group root;
-	protected boolean isFirstTime = false;
+	protected boolean isFirstTime = true;
 	protected Graph g;
 	protected boolean isPaused = false;
 	protected boolean isStarted = false;
@@ -151,7 +151,7 @@ public abstract class Simulation extends Application {
 		resetButton.setDisable(!isStarted);
 		stepButton.setDisable(!(isPaused&isStarted));
 		makeSimSpecificFields(s);
-		saveButton.setDisable(!isFirstTime);
+		saveButton.setDisable(!isStarted);
 	}
 
 	protected abstract void setConcentrations();
@@ -170,6 +170,7 @@ public abstract class Simulation extends Application {
 			startSimulation(s);
 			isStarted = true;
 			startButton.setDisable(isStarted);
+			resetButton.setDisable(!isStarted);
 			setConc.setDisable(isStarted);
 			saveButton.setDisable(!isStarted);
 		} catch (Exception e1) {
@@ -272,6 +273,7 @@ public abstract class Simulation extends Application {
 		// animation.play();
 		// sampleGrid.setPaused(false);
 		isPaused = false;
+		stepButton.setDisable(!(isPaused&&isStarted));
 	}
 
 	protected abstract void userSetThreshold();
