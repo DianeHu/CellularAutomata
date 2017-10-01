@@ -91,6 +91,7 @@ public abstract class Simulation extends Application {
 	protected boolean isPaused = false;
 	private String simType;
 	private Button startButton;
+	private Button stepButton;
 	// private ScrollPane gridScroll;
 	// private final ScrollBar sc = new ScrollBar();
 	protected XMLExporter XMLOutput;
@@ -159,7 +160,7 @@ public abstract class Simulation extends Application {
 		SimulationButtons.makeButtonV("Speed Up", e -> faster(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Slow Down", e -> slower(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Reset", e -> reset(), vboxRight, SCREEN_SIZE);
-		SimulationButtons.makeButtonV("Step", e -> manualStep(), vboxRight, SCREEN_SIZE);
+		stepButton = SimulationButtons.makeReturnableButtonV("Step", e -> manualStep(), vboxRight, SCREEN_SIZE);
 		makeSimSpecificFields(s);
 	}
 
@@ -176,6 +177,7 @@ public abstract class Simulation extends Application {
 		try {
 			startSimulation(s);
 			startButton.setDisable(true);
+			stepButton.setDisable(true);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			ErrorMessages.createErrors("Failed to Start\nChoose Valid Configuration File");
@@ -302,6 +304,7 @@ public abstract class Simulation extends Application {
 		// animation.pause();
 		// sampleGrid.setPaused(true);
 		isPaused = true;
+		stepButton.setDisable(false);
 	}
 
 	/**

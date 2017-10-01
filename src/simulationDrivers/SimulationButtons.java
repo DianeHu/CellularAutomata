@@ -27,6 +27,10 @@ public class SimulationButtons {
 		Button sampleButton = makeReturnableButtonV(name,handler,vbox,screenSize);
 	}
 	
+	public static void makeButtonH(String name, EventHandler<ActionEvent> handler, HBox hbox, int screenSize) {
+		Button sampleButton = makeReturnableButtonH(name,handler,hbox,screenSize);
+	}
+	
 	public static Button makeReturnableButtonV(String name, EventHandler<ActionEvent> handler, VBox vbox, int screenSize) {
 		Button sampleButton = new Button(name);
 		sampleButton.setOnAction(handler);
@@ -59,11 +63,6 @@ public class SimulationButtons {
 		sampleText.setPromptText(content);
 		hbox.getChildren().add(sampleText);
 		return sampleText;
-	}
-	
-
-	public static void makeButtonH(String name, EventHandler<ActionEvent> handler, HBox hbox, int screenSize) {
-		Button sampleButton = makeReturnableButtonH(name,handler,hbox,screenSize);
 	}
 
 }
