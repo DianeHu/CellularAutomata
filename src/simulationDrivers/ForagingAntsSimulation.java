@@ -57,8 +57,8 @@ public class ForagingAntsSimulation extends Simulation {
 	protected void makeSimSpecificFields(Stage s) {
 		threshold = SimulationButtons.makeReturnableTextFieldV("Input maxAnts", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
-		antConc = SimulationButtons.makeReturnableTextFieldV("Set ant concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
-		emptyConc = SimulationButtons.makeReturnableTextFieldV("Set empty concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
+		antConc = SimulationButtons.makeReturnableTextFieldV("Set ant concentration", vboxLeft, -LEFT_OFFSET);
+		emptyConc = SimulationButtons.makeReturnableTextFieldV("Set empty concentration", vboxLeft, -LEFT_OFFSET);
 	}
 	
 	@Override

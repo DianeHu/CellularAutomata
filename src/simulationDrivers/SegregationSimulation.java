@@ -64,9 +64,9 @@ public class SegregationSimulation extends Simulation {
 	protected void makeSimSpecificFields(Stage s) {
 		SimulationButtons.makeButtonH("Save", e->save(Integer.toString(numRows), 
 				Integer.toString(numCols), sampleGrid.getGridConfig(), Double.toString(satisfiedThreshold)), hboxTop, SCREEN_SIZE);
-		bConc = SimulationButtons.makeReturnableTextFieldV("Set blue concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
-		oConc = SimulationButtons.makeReturnableTextFieldV("Set orange concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
-		eConc = SimulationButtons.makeReturnableTextFieldV("Set empty concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
+		bConc = SimulationButtons.makeReturnableTextFieldV("Set blue concentration", vboxLeft, -LEFT_OFFSET);
+		oConc = SimulationButtons.makeReturnableTextFieldV("Set orange concentration", vboxLeft, -LEFT_OFFSET);
+		eConc = SimulationButtons.makeReturnableTextFieldV("Set empty concentration", vboxLeft, -LEFT_OFFSET);
 		threshold = SimulationButtons.makeReturnableTextFieldV("Input threshold", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
 	}

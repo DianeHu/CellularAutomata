@@ -40,7 +40,8 @@ public abstract class Simulation extends Application {
 	private static final String DATA_FILE_EXTENSION = "*.xml";
 	private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
 	private static final int VERT_SIZE = 650;
-	private static final int HORIZONTAL_SIZE = 550;
+	protected static final int LEFT_OFFSET = 35;
+	private static final int HORIZONTAL_SIZE = 725;
 	private static final Color BACKGROUND = Color.TRANSPARENT;
 	private static final String TITLE = "SIMULATION";
 	private static final int FRAMES_PER_SECOND = 2;
@@ -136,7 +137,7 @@ public abstract class Simulation extends Application {
 	private void makeButtons(Stage s) {
 		SimulationButtons.makeButtonH("Choose XML File for Configuration", e -> openFile(s), hboxTop, SCREEN_SIZE);
 		startButton = SimulationButtons.makeReturnableButtonH("Start Simulation", e -> startMethod(s), hboxTop, SCREEN_SIZE);
-		setConc = SimulationButtons.makeReturnableButtonV("Set conc.", e->setConcentrations(), vboxLeft, 3*OFFSET - SCREEN_SIZE);
+		setConc = SimulationButtons.makeReturnableButtonV("Set conc.", e->setConcentrations(), vboxLeft, OFFSET + 3*LEFT_OFFSET);
 		SimulationButtons.makeButtonV("Pause", e -> pause(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Resume", e -> resume(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Speed Up", e -> faster(), vboxRight, SCREEN_SIZE);

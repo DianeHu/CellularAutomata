@@ -68,9 +68,9 @@ public class SpreadingWildfireSimulation extends Simulation {
 		SimulationButtons.makeButtonH("Save", e->save(Integer.toString(numRows), 
 				Integer.toString(numCols), sampleGrid.getGridConfig(), 
 				Double.toString(catchProbability), Double.toString(growthProbability)), hboxTop, SCREEN_SIZE);
-		treeConc = SimulationButtons.makeReturnableTextFieldV("Set tree concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
-		bTreeConc = SimulationButtons.makeReturnableTextFieldV("Set burning concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
-		landConc = SimulationButtons.makeReturnableTextFieldV("Set land concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
+		treeConc = SimulationButtons.makeReturnableTextFieldV("Set tree concentration", vboxLeft, -LEFT_OFFSET);
+		bTreeConc = SimulationButtons.makeReturnableTextFieldV("Set burning concentration", vboxLeft, -LEFT_OFFSET);
+		landConc = SimulationButtons.makeReturnableTextFieldV("Set land concentration", vboxLeft, -LEFT_OFFSET);
 		probGrow = SimulationButtons.makeReturnableTextFieldV("Input probGrow", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		probCatch = SimulationButtons.makeReturnableTextFieldV("Input probCatch", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);

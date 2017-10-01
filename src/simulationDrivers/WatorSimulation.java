@@ -67,9 +67,9 @@ public class WatorSimulation extends Simulation {
 				Integer.toString(numCols), sampleGrid.getGridConfig(), 
 				Double.toString(fBreedTurns), Double.toString(sBreedTurns),
 				Double.toString(starveTurns)), hboxTop, SCREEN_SIZE);
-		fishConc = SimulationButtons.makeReturnableTextFieldV("Set fish concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
-		sharkConc = SimulationButtons.makeReturnableTextFieldV("Set shark concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
-		waterConc = SimulationButtons.makeReturnableTextFieldV("Set water concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
+		fishConc = SimulationButtons.makeReturnableTextFieldV("Set fish concentration", vboxLeft, -LEFT_OFFSET);
+		sharkConc = SimulationButtons.makeReturnableTextFieldV("Set shark concentration", vboxLeft, -LEFT_OFFSET);
+		waterConc = SimulationButtons.makeReturnableTextFieldV("Set water concentration", vboxLeft, -LEFT_OFFSET);
 		fishBreed = SimulationButtons.makeReturnableTextFieldV("Input fishBreed", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		sharkBreed = SimulationButtons.makeReturnableTextFieldV("Input sharkBreed", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		sharkStarve = SimulationButtons.makeReturnableTextFieldV("Input sharkStarve", vboxRight, 3 * OFFSET - SCREEN_SIZE);

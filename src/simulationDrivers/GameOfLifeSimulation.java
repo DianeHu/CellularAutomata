@@ -77,8 +77,8 @@ public class GameOfLifeSimulation extends Simulation {
 		SimulationButtons.makeButtonH("Save", e->save(Integer.toString(numRows), 
 				Integer.toString(numCols), 
 				sampleGrid.getGridConfig()), hboxTop, SCREEN_SIZE);
-		liveConc = SimulationButtons.makeReturnableTextFieldV("Set live concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
-		deadConc = SimulationButtons.makeReturnableTextFieldV("Set dead concentration", vboxLeft, 3*OFFSET - SCREEN_SIZE);
+		liveConc = SimulationButtons.makeReturnableTextFieldV("Set live concentration", vboxLeft, -LEFT_OFFSET);
+		deadConc = SimulationButtons.makeReturnableTextFieldV("Set dead concentration", vboxLeft, -LEFT_OFFSET);
 	}
 	
 	@Override
