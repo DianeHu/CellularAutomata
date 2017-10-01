@@ -280,7 +280,7 @@ public abstract class Grid {
 	}
 
 	private void updateCounts(Cell c) {
-		//countMap.put(c.getClass().getName(), countMap.get(c.getClass().getName()) + 1);
+		countMap.put(c.getClass().getName(), countMap.get(c.getClass().getName()) + 1);
 	}
 
 	/**
