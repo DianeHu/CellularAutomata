@@ -11,6 +11,7 @@ import XMLClasses.SpreadingWildfireConfiguration;
 import XMLClasses.ForagingAntsConfiguration;
 import cells.AntCell;
 import cells.AntGroupCell;
+import cells.BlueRPSCell;
 import cells.BlueSchellingCell;
 import cells.BurningTreeCell;
 import cells.Cell;
@@ -18,10 +19,13 @@ import cells.DeadCell;
 import cells.EmptyCell;
 import cells.EmptyLandCell;
 import cells.FishCell;
+import cells.GreenRPSCell;
 import cells.LiveCell;
 import cells.OrangeSchellingCell;
+import cells.RedRPSCell;
 import cells.SharkCell;
 import cells.TreeCell;
+import cells.WhiteRPSCell;
 import gridPatches.ForagingLand;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollBar;
@@ -69,7 +73,7 @@ public abstract class Grid {
 	private Map<String, String> fireConfigStringMap = new HashMap<>();
 	private Map<String, String> watorConfigStringMap = new HashMap<>();
 	private Map<String, String> antConfigStringMap = new HashMap<>();
-	private Map<Character, Double> concMap = new HashMap<>();
+	private Map<Character, Double> probabilityMap = new HashMap<>();
 	private Map<String, String> simulationConfigStringMap = new HashMap<>();
 	private Pane pane = new GridPane();
 	private Map<String, Integer> countMap = new HashMap<>();
@@ -184,8 +188,12 @@ public abstract class Grid {
 		BurningTreeCell bTCell = new BurningTreeCell();
 		EmptyLandCell eLCell = new EmptyLandCell();
 		
-		LiveCell lCell = new LiveCell();
-		DeadCell dCell = new DeadCell();
+		/*LiveCell lCell = new LiveCell();
+		DeadCell dCell = new DeadCell();*/
+		GreenRPSCell gcell = new GreenRPSCell();
+		RedRPSCell rcell = new RedRPSCell();
+		BlueRPSCell blcell = new BlueRPSCell();
+		WhiteRPSCell wcell = new WhiteRPSCell();
 		
 		FishCell fCell = new FishCell();
 		SharkCell sCell = new SharkCell();	
@@ -196,9 +204,13 @@ public abstract class Grid {
 		segregation.put('o', oCell);
 		segregation.put('e', eCell);
 
-		gameOfLife.put('l', lCell);
-		gameOfLife.put('d', dCell);
-
+  		/*gameOfLife.put('l', lCell);
+  		gameOfLife.put('d', dCell);*/
+		gameOfLife.put('g', gcell);
+		gameOfLife.put('r', rcell);
+		gameOfLife.put('b', blcell);
+		gameOfLife.put('w', wcell);
+		
 		spreadingWildfire.put('t', tCell);
 		spreadingWildfire.put('b', bTCell);
 		spreadingWildfire.put('e', eLCell);
@@ -296,7 +308,7 @@ public abstract class Grid {
 
 	
 	private void updateCounts(Cell c) {
-		countMap.put(c.getClass().getName(), countMap.get(c.getClass().getName()) + 1);
+		//countMap.put(c.getClass().getName(), countMap.get(c.getClass().getName()) + 1);
 	}
 
 	/**
@@ -307,6 +319,8 @@ public abstract class Grid {
 	public void initialize() {
 		numRows = gridConfig.getNumRows();
 		numCols = gridConfig.getNumCols();
+		/*numRows = 10;
+		numCols = 10;*/
 		gridCellCount = numRows * numCols;
 		createMaps();
 		setCurrSimulationMap();
@@ -453,32 +467,33 @@ public abstract class Grid {
 		char[][] states = gridConfig.getCellConfiguration();
 
 		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numCols; j++) {
+			for (int j = 0; j < numCols; j++) {				
 				Cell c = simMap.get(states[i][j]).copy();
-				c.setRow(i);
-				c.setCol(j);
-				c.setLand(land);
-				currentGrid[i][j] = c;
-				blocks[i][j].setFill(c.getColor());
-				Color stroke;
-				if(land!=null) {
-					stroke = land.strokeColorAtLocation(i, j);
-					blocks[i][j].setStrokeWidth(3.0);
-				}
-				else{
-					stroke = Color.DARKGREY;
-				}
-				blocks[i][j].setStroke(stroke);
-				GridPane.setConstraints(blocks[i][j], j, i);
-				pane.getChildren().add(blocks[i][j]);
+				initializeCell(i, j, c);
 			}
 		}
-		/*gridScroll = new ScrollPane();
-		gridScroll.setContent(pane);
-		gridScroll.setHbarPolicy(ScrollBarPolicy.ALWAYS);
-		gridScroll.setVbarPolicy(ScrollBarPolicy.ALWAYS);*/
 		root.getChildren().add(pane);
 	}
+	
+	private void initializeCell(int i, int j, Cell c) {
+		c.setRow(i);
+		c.setCol(j);
+		c.setLand(land);
+		currentGrid[i][j] = c;
+		blocks[i][j].setFill(c.getColor());
+		Color stroke;
+		if(land!=null) {
+			stroke = land.strokeColorAtLocation(i, j);
+			blocks[i][j].setStrokeWidth(3.0);
+		}
+		else{
+			stroke = Color.DARKGREY;
+		}
+		blocks[i][j].setStroke(stroke);
+		GridPane.setConstraints(blocks[i][j], j, i);
+		pane.getChildren().add(blocks[i][j]);
+	}
+
 
 	/**
 	 * This method goes through each cell and has it perform its interactions in
@@ -491,7 +506,8 @@ public abstract class Grid {
 			for (int j = 0; j < currentGrid[i].length; j++) {
 				ArrayList<Cell> empty = getEmptyCells();
 				Cell c = currentGrid[i][j];
-				c.setThreshold(threshold1, threshold2, threshold3);
+				//c.setThreshold(threshold1, threshold2, threshold3);
+				c.setThreshold(.3, 0, 0);
 				updateCounts(c);
 				c.moveCell(empty, this);
 				if(land!=null) {
