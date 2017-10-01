@@ -95,6 +95,7 @@ public class SegregationSimulation extends Simulation {
 	protected void step(double elapsedTime) {
 		if(isPaused == false) {
 			manualStep();
+			//stepButton.setDisable(true);
 		} else {
 			sampleGrid.createPausedGrid(satisfiedThreshold, 0, 0);
 			g.updateGraph();

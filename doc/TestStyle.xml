@@ -1,0 +1,6 @@
+<StyleConfiguration>
+	<gridShape>rectangle</gridShape>
+	<edgeShape>50</edgeShape>
+	<gridOutline>yes</gridOutline>
+	<neighborType>yes</neighborType>
+</StyleConfiguration>

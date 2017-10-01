@@ -12,19 +12,26 @@ public abstract class GridConfiguration {
 	 */
 	// Data file name to represent this object type
 	public static final String DATA_TYPE = "GridConfiguration";
-	// List of names of data fields
-	public static List<String> myDataFields = new ArrayList<>(
-			Arrays.asList(new String[] { "numRows", "numCols", "cellConfiguration" }));
-
-	// Stores actual data values
 	private static Map<String, String> myDataValues;
+	
+	// List of names of data fields
+	private static List<String> myDataFields = new ArrayList<>(
+			Arrays.asList(new String[] { "numRows", "numCols", "cellConfiguration" }));
 
 	public GridConfiguration(Map<String, String> dataValues) {
 		myDataValues = dataValues;
 	}
 
-	public static void addToDataFields(String s) {
-		myDataFields.add(s);
+	public static List<String> getMyDataFields() {
+		return myDataFields;
+	}
+
+	public static void addToDataFields(List<String> s) {
+		getMyDataFields().addAll(s);
+	}
+
+	public static void removeFromDataFields(List<String> s) {
+		getMyDataFields().removeAll(s);
 	}
 
 	// returns number of rows
@@ -58,5 +65,4 @@ public abstract class GridConfiguration {
 	public static Map<String, String> getMyDataValues() {
 		return myDataValues;
 	}
-
 }
