@@ -3,12 +3,13 @@ package gridPatches;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import cells.AntGroupCell;
 import cells.Cell;
 import javafx.scene.paint.Color;
 
-public class ForagingLand implements Land{
+public class ForagingLand{
 	private static final int EVAPO_RATE = 100;
 	private static final int MAX_NUM_PHER = 10;
 	PheromoneLocation[][] foodPheromones;
@@ -39,6 +40,7 @@ public class ForagingLand implements Land{
 		List<Integer> coordinates = new ArrayList<Integer>(2);
 		int homePher; int foodPher; int max = 0;
 		boolean moved = false;
+		ArrayList<Cell> possibleDirections = new ArrayList<Cell>();
 		for(Cell c:neighbors) {
 			homePher = homePheromones[c.getRow()][c.getCol()].getNumPheromones();
 			foodPher = foodPheromones[c.getRow()][c.getCol()].getNumPheromones();
@@ -48,27 +50,43 @@ public class ForagingLand implements Land{
 			}
 			if(!tooManyAnts) {
 				if(goingHome) {
-					if(homePher>=max) {
-						max = homePher; 
-						setCellCoordinates(coordinates, c);
-					}
+					max = updateMaxList(possibleDirections,homePher, max, c);
 				}
 				else {
-					if(foodPher>=max) {
-						max = foodPher; 
-						setCellCoordinates(coordinates, c);
-						System.out.println(Arrays.toString(coordinates.toArray()));
-					}
+					max = updateMaxList(possibleDirections,foodPher, max, c);
 				}			
 				moved = true;
-			}			
-					
+			}							
 		}
 		if(!moved) {
 			setCellCoordinates(coordinates,callingCell);
 		}
-		
+		if(possibleDirections.size()!=0) {
+			chooseRandomCoordinatesFromMaxCells(coordinates,possibleDirections);	
+		}
+		else {
+			setCellCoordinates(coordinates,callingCell);
+		}
 		return coordinates;
+	}
+
+	private void chooseRandomCoordinatesFromMaxCells(List<Integer> coord, ArrayList<Cell> possDir) {
+		int numPossCells = possDir.size();
+		Random rand = new Random();
+		Cell newLoc = possDir.get(rand.nextInt(numPossCells));
+		setCellCoordinates(coord,newLoc);		
+	}
+
+	protected int updateMaxList(List<Cell> possDir, int numPher, int max, Cell c) {
+		if(numPher==max) {
+			possDir.add(c);
+		}
+		if(numPher>max) {
+			possDir.clear();
+			possDir.add(c);
+			max = numPher; 
+		}
+		return max;
 	}
 
 	private void setCellCoordinates(List<Integer> coordinates, Cell c) {

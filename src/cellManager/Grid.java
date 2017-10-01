@@ -155,6 +155,19 @@ public abstract class Grid {
 	public double percentDead() {
 		return countMap.get("cells.DeadCell") / gridCellCount;
 	}
+	
+	private void initCountMap() {
+		countMap.put("cells.BlueSchellingCell", 0);
+		countMap.put("cells.OrangeSchellingCell", 0);
+		countMap.put("cells.LiveCell", 0);
+		countMap.put("cells.DeadCell", 0);
+		countMap.put("cells.TreeCell", 0);
+		countMap.put("cells.BurningTreeCell", 0);
+		countMap.put("cells.EmptyLandCell", 0);
+		countMap.put("cells.EmptyCell", 0);
+		countMap.put("cells.SharkCell", 0);
+		countMap.put("cells.FishCell", 0);
+	}
 
 	/**
 	 * Maps different cell types to different characters based on the simulation
@@ -199,19 +212,9 @@ public abstract class Grid {
 		
 		initCountMap();
 	}
+	
+	
 
-	private void initCountMap() {
-		countMap.put("cells.BlueSchellingCell", 0);
-		countMap.put("cells.OrangeSchellingCell", 0);
-		countMap.put("cells.LiveCell", 0);
-		countMap.put("cells.DeadCell", 0);
-		countMap.put("cells.TreeCell", 0);
-		countMap.put("cells.BurningTreeCell", 0);
-		countMap.put("cells.EmptyLandCell", 0);
-		countMap.put("cells.EmptyCell", 0);
-		countMap.put("cells.SharkCell", 0);
-		countMap.put("cells.FishCell", 0);
-	}
 	
 	public String getSimType() {
 		return simulationType;
