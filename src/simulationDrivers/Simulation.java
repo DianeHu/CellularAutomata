@@ -65,16 +65,19 @@ public abstract class Simulation extends Application {
 	private BorderPane screenBorder = new BorderPane();
 	private Timeline animation = new Timeline();
 	private Group root;
-	private boolean isFirstTime = true;
+	protected boolean isFirstTime = true;
 	protected Graph g;
 	protected boolean isPaused = false;
+	protected boolean isStarted = false;
 	private String simType;
 	private Button startButton;
 	private Button stepButton;
 	private Boolean isRectangle = true;
-	
-	// private ScrollPane gridScroll;
-	// private final ScrollBar sc = new ScrollBar();
+	private Button resetButton;
+	protected Button saveButton;
+	private Boolean isToroidal = false;
+	private Boolean isMaxNeighbors = true;
+	private Boolean isStroke = true;
 
 	public Simulation(GridConfiguration gC, Grid g) {
 		XMLConfiguration = gC;
@@ -135,15 +138,15 @@ public abstract class Simulation extends Application {
 	}
 	
 	public void setMaxNeighbors(Boolean b) {
-		sampleGrid.setMaxNeighbors(b);
+		isMaxNeighbors = b;
 	}
 	
 	public void setStrokeFill(Boolean b) {
-		sampleGrid.setIsStroke(b);
+		isStroke = b;
 	}
 	
 	public void setIsToroidal(Boolean b) {
-		sampleGrid.setIsToroidal(b);
+		isToroidal = b;
 	}
 
 	private void makeButtons(Stage s) {
@@ -153,9 +156,12 @@ public abstract class Simulation extends Application {
 		SimulationButtons.makeButtonV("Resume", e -> resume(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Speed Up", e -> faster(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Slow Down", e -> slower(), vboxRight, SCREEN_SIZE);
-		SimulationButtons.makeButtonV("Reset", e -> reset(), vboxRight, SCREEN_SIZE);
+		resetButton=SimulationButtons.makeReturnableButtonV("Reset", e -> reset(), vboxRight, SCREEN_SIZE);
 		stepButton = SimulationButtons.makeReturnableButtonV("Step", e -> manualStep(), vboxRight, SCREEN_SIZE);
+		resetButton.setDisable(!isStarted);
+		stepButton.setDisable(!(isPaused&isStarted));
 		makeSimSpecificFields(s);
+		saveButton.setDisable(!isStarted);
 	}
 	
 	protected abstract void makeSimSpecificFields(Stage s);
@@ -170,10 +176,11 @@ public abstract class Simulation extends Application {
 	private void startMethod(Stage s) {
 		try {
 			startSimulation(s);
-			startButton.setDisable(true);
-			stepButton.setDisable(true);
+			isStarted = true;
+			startButton.setDisable(isStarted);
+			resetButton.setDisable(!isStarted);
+			saveButton.setDisable(!isStarted);
 		} catch (Exception e1) {
-			e1.printStackTrace();
 			ErrorMessages.createErrors("Failed to Start\nChoose Valid Configuration File");
 		}
 	}
@@ -235,13 +242,16 @@ public abstract class Simulation extends Application {
 	 */
 	private Scene setSimulation() {
 		root = new Group();
-		if(isRectangle == true) {
+		if(isRectangle) {
 			sampleGrid = new RectangleGrid(root, XMLConfiguration);
 		} else {
 			sampleGrid = new HexagonGrid(root, XMLConfiguration);
 		}
 		sampleGrid.setSimType(simType);
 		sampleGrid.initialize();
+		sampleGrid.setMaxNeighbors(isMaxNeighbors);
+		sampleGrid.setIsStroke(isStroke);
+		sampleGrid.setIsToroidal(isToroidal);
 		g = createGraph(sampleGrid);
 		g.addToBox(hboxBottom);
 		screenBorder.setCenter(root);
@@ -276,6 +286,7 @@ public abstract class Simulation extends Application {
 		// animation.play();
 		// sampleGrid.setPaused(false);
 		isPaused = false;
+		stepButton.setDisable(!(isPaused&&isStarted));
 	}
 
 	protected abstract void userSetThreshold();
@@ -287,7 +298,7 @@ public abstract class Simulation extends Application {
 		// animation.pause();
 		// sampleGrid.setPaused(true);
 		isPaused = true;
-		stepButton.setDisable(false);
+		stepButton.setDisable(!(isPaused&&isStarted));
 	}
 
 	/**

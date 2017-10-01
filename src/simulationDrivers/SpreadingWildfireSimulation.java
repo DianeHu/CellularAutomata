@@ -29,28 +29,28 @@ public class SpreadingWildfireSimulation extends Simulation {
 	private int numRows;
 	private int numCols;
 	private SpreadingWildfireConfiguration XMLConfiguration;
-	
+
 	public SpreadingWildfireSimulation(GridConfiguration gC, Grid g) {
 		super(gC, g);
 	}
-	
+
 	@Override
 	public Simulation copy() {
 		SpreadingWildfireConfiguration sWC = null;
 		return new SpreadingWildfireSimulation(sWC, sampleGrid);
 	}
-	
+
 	@Override
 	protected GridConfiguration setInputConfig(File dataFile) {
 		XMLConfiguration = new SpreadingWildfireReader().getGridConfiguration(dataFile);
 		return XMLConfiguration;
 	}
-	
+
 	@Override
 	protected Graph createGraph(Grid g) {
 		return new SpreadingWildfireGraph(g);
 	}
-	
+
 	@Override
 	protected void setUpThresholds() {
 		numRows = sampleGrid.getNumRows();
@@ -58,17 +58,20 @@ public class SpreadingWildfireSimulation extends Simulation {
 		growthProbability = XMLConfiguration.getProbGrow();
 		catchProbability = XMLConfiguration.getProbCatch();
 	}
-	
+
 	@Override
 	protected void makeSimSpecificFields(Stage s) {
-		SimulationButtons.makeButtonH("Save", e->save(Integer.toString(numRows), 
-				Integer.toString(numCols), sampleGrid.getGridConfig(), 
-				Double.toString(catchProbability), Double.toString(growthProbability)), hboxTop, SCREEN_SIZE);
+		SimulationButtons
+				.makeButtonH("Save",
+						e -> save(Integer.toString(numRows), Integer.toString(numCols), sampleGrid.getGridConfig(),
+								Double.toString(catchProbability), Double.toString(growthProbability)),
+						hboxTop, SCREEN_SIZE);
 		probGrow = SimulationButtons.makeReturnableTextFieldV("Input probGrow", vboxRight, 3 * OFFSET - SCREEN_SIZE);
 		probCatch = SimulationButtons.makeReturnableTextFieldV("Input probCatch", vboxRight, 3 * OFFSET - SCREEN_SIZE);
-		submit = SimulationButtons.makeReturnableButtonV("Submit", e->userSetThreshold(), vboxRight, 3*OFFSET-SCREEN_SIZE);
+		submit = SimulationButtons.makeReturnableButtonV("Submit", e -> userSetThreshold(), vboxRight,
+				3 * OFFSET - SCREEN_SIZE);
 	}
-	
+
 	@Override
 	protected void userSetThreshold() {
 		growthProbability = Double.parseDouble(probGrow.getText());
@@ -78,17 +81,17 @@ public class SpreadingWildfireSimulation extends Simulation {
 	private void save(String nR, String nC, String cC, String pC, String pG) {
 		new SpreadingWildfireExporter(nR, nC, cC, pC, pG).buildXML();
 	}
-	
+
 	@Override
 	protected void manualStep() {
 		sampleGrid.createsNewGrid(growthProbability, catchProbability, 0);
 		g.updateGraph();
 		sampleGrid.update();
 	}
-	
+
 	@Override
 	protected void step(double elapsedTime) {
-		if(isPaused == false) {
+		if (isPaused == false) {
 			manualStep();
 		} else {
 			sampleGrid.createPausedGrid(growthProbability, catchProbability, 0);
