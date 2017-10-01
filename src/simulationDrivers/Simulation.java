@@ -61,7 +61,7 @@ public abstract class Simulation extends Application {
 	private static final Color EMPTY_DISPLAY_BACKGROUND = Color.LIGHTGRAY;
 	private static final int GRID_DISPLAY_SIZE = 400;
 	private static final String DATA_FILE_EXTENSION = "*.xml";
-	private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
+	//private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
 	private static final int VERT_SIZE = 650;
 	private static final int HORIZONTAL_SIZE = 550;
 	private static final Color BACKGROUND = Color.TRANSPARENT;
@@ -216,9 +216,7 @@ public abstract class Simulation extends Application {
 					break;
 				}
 			} catch (XMLException e) {
-				Alert a = new Alert(AlertType.ERROR);
-				a.setContentText(e.getMessage());
-				a.showAndWait();
+				throw e;
 			}
 			XMLConfiguration = InputConfiguration;
 			startButton.setDisable(false);
