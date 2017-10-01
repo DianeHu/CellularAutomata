@@ -22,7 +22,6 @@ public abstract class Graph {
 	}
 
 	public void updateGraph() {
-		lineChart.setLegendVisible(true);
 		update();
 		step++;
 	}
@@ -47,13 +46,12 @@ public abstract class Graph {
 		yAxis.setTickLabelFill(Color.WHITE);
 		lineChart = new LineChart<Number, Number>(xAxis, yAxis);
 		lineChart.setTitle("Population Monitor");
-		lineChart.setMaxSize(400, 200);
+		lineChart.setMaxSize(600, 200);
 		
 		setNames();
 		addData();
 
 		lineChart.setLegendSide(Side.RIGHT);
-		lineChart.setLegendVisible(false);
 		return lineChart;
 	}
 	
