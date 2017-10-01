@@ -1,10 +1,10 @@
 <GridConfiguration>
-<numRows>3</numRows>
-  <numCols>3</numCols>
-  <cellConfiguration>aeeeeeeee</cellConfiguration>
+<numRows>5</numRows>
+  <numCols>5</numCols>
+  <cellConfiguration>aaeaeeaaaeeeeeaaeaeeeaaaaaeaaaeaeeaeeaeeaaeeeaaaee</cellConfiguration>
   <maxAnts>5</maxAnts>
   <homeLocX>0</homeLocX>
   <homeLocY>0</homeLocY>
-  <foodLocX>0</foodLocX>
+  <foodLocX>3</foodLocX>
   <foodLocY>2</foodLocY>
   </GridConfiguration>

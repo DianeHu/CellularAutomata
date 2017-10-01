@@ -34,9 +34,6 @@ public class AntGroupCell extends Cell{
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		System.out.println("row " + getRow() + " col " + getCol() + " size "+ ants.size());
-		if(ants.size()>1) {
-			setColor(Color.MAROON);
-		}
 		if(ants.size()>0) {
 			for(AntCell ant: ants) {
 				ant.setRow(getRow());
@@ -46,6 +43,9 @@ public class AntGroupCell extends Cell{
 				ant.setMaxAnts(maxAnts);
 				ant.moveCell(emptySpots,grid);
 			}
+		}
+		if(ants.size()>1) {
+			setColor(Color.MAROON);
 		}
 	}
 	
