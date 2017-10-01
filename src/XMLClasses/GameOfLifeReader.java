@@ -18,7 +18,7 @@ public class GameOfLifeReader extends XMLReader {
         }
         // Stores the data with its field for gridConfiguration
         Map<String, String> results = new HashMap<>();
-        for (String field : GridConfiguration.myDataFields) {
+        for (String field : GridConfiguration.getMyDataFields()) {
             results.put(field, getTextValue(root, field));
         }
        return new GameOfLifeConfiguration(results);

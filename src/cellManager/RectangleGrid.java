@@ -45,12 +45,12 @@ public class RectangleGrid extends Grid {
 	/**
 	 * @param r
 	 *            - This is the root used to edit scenes
-	 * @param g
+	 * @param inputConfiguration
 	 *            - This is the GridConfiguration used to get information from the
 	 *            XML file
 	 */
-	public RectangleGrid(Group r, GridConfiguration g) {
-		super(r, (GridConfiguration) g);
+	public RectangleGrid(Group r, Object inputConfiguration) {
+		super(r, (GridConfiguration) inputConfiguration);
 	}
 
 	/**
