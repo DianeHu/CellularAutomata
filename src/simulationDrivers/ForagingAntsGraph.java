@@ -1,10 +1,16 @@
 package simulationDrivers;
 
+import java.util.ResourceBundle;
+
 import cellManager.Grid;
 import javafx.scene.chart.XYChart;
 
 public class ForagingAntsGraph extends Graph{
 
+	// initializes the resources used to get text Strings
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/Labels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
+	
 	public ForagingAntsGraph(Grid newGrid) {
 		super(newGrid);
 	}
@@ -23,7 +29,7 @@ public class ForagingAntsGraph extends Graph{
 	
 	@Override
 	protected void setNames() {
-		series1.setName("Percent ant groups");
-		series2.setName("Percent empty");
+		series1.setName(myResources.getString("percentantgroups"));
+		series2.setName(myResources.getString("percentempty"));
 	}
 }

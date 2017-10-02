@@ -1,10 +1,15 @@
 package simulationDrivers;
 
+import java.util.ResourceBundle;
+
 import cellManager.Grid;
 import javafx.scene.chart.XYChart;
 
 public class WatorGraph extends Graph{
 
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/Labels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
+	
 	public WatorGraph(Grid newGrid) {
 		super(newGrid);
 	}
@@ -24,8 +29,8 @@ public class WatorGraph extends Graph{
 	
 	@Override
 	protected void setNames() {
-		series1.setName("SharkCount");
-		series2.setName("FishCount");
-		series3.setName("EmptyCount");
+		series1.setName(myResources.getString("sharkcount"));
+		series2.setName(myResources.getString("fishcount"));
+		series3.setName(myResources.getString("emptycount"));
 	}
 }

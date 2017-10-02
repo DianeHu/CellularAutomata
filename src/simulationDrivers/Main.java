@@ -3,6 +3,7 @@ package simulationDrivers;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import XMLClasses.ForagingAntsConfiguration;
 import XMLClasses.GameOfLifeConfiguration;
@@ -72,6 +73,10 @@ public class Main extends Application {
 	private StyleConfiguration styler = null;
 	private boolean isRectangle = false;
 	private boolean isStylish = false;
+	
+	// initializes the resources used to get text Strings
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/Labels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
 
 	/*
 	 * (non-Javadoc)
@@ -102,13 +107,13 @@ public class Main extends Application {
 		initMap();
 		hbox.setPadding(new Insets(OFFSET));
 		hbox.setSpacing(OFFSET);
-		SimulationButtons.makeButtonH("Choose styling file", e -> openStyleFile(s), hbox, SCREEN_SIZE);
-		simType = SimulationButtons.makeReturnableTextFieldH("Choose simulation type", hbox, 3 * OFFSET - SCREEN_SIZE);
-		submit = SimulationButtons.makeReturnableButtonH("Create new Simulation", e -> {
+		SimulationButtons.makeButtonH(myResources.getString("choosestyle"), e -> openStyleFile(s), hbox, SCREEN_SIZE);
+		simType = SimulationButtons.makeReturnableTextFieldH(myResources.getString("choosesim"), hbox, 3 * OFFSET - SCREEN_SIZE);
+		submit = SimulationButtons.makeReturnableButtonH(myResources.getString("createsim"), e -> {
 			try {
 				setSim();
 			} catch (Exception e1) {
-				ErrorMessages.createErrors("Invalid simulation type entered");
+				ErrorMessages.createErrors(myResources.getString("invalidsim"));
 			}
 		}, hbox, 3 * OFFSET - SCREEN_SIZE);
 		submit.setDisable(!isStylish);
@@ -128,7 +133,7 @@ public class Main extends Application {
 	 */
 	private FileChooser makeChooser(String extensionAccepted) {
 		FileChooser result = new FileChooser();
-		result.setTitle("Open Data File");
+		result.setTitle(myResources.getString("open"));
 		result.setInitialDirectory(new File(System.getProperty("user.dir")));
 		result.getExtensionFilters().setAll(new ExtensionFilter("Text Files", extensionAccepted));
 		return result;
@@ -148,10 +153,10 @@ public class Main extends Application {
 				isStylish = true;
 				submit.setDisable(!isStylish);
 			} catch (XMLException e) {
-				ErrorMessages.createErrors("Invalid Style XML");
+				ErrorMessages.createErrors(myResources.getString("invalidstyle"));
 			}
 		} else {
-			ErrorMessages.createErrors("No File Chosen");
+			ErrorMessages.createErrors(myResources.getString("nofilechosen"));
 		}
 	}
 
@@ -180,8 +185,8 @@ public class Main extends Application {
 		hexGrid.setSimType(simulationSetByUser);
 		Simulation s = simMap.get(simulationSetByUser).copy();
 		s.setSimType(simulationSetByUser);
-		s.setMaxNeighbors(styler.getNeighborType() == "Max");
-		s.setIsToroidal(styler.getEdgeShape() == "Toroidal");
+		s.setMaxNeighbors(styler.getNeighborType() == myResources.getString("max"));
+		s.setIsToroidal(styler.getEdgeShape() == myResources.getString("toroidal"));
 		s.setIsRectangle(isRectangle);
 		s.start(newStage);
 	}
@@ -196,7 +201,7 @@ public class Main extends Application {
 	private void setUpStage(Stage s, Scene scene) {
 		myStage = s;
 		myStage.setScene(scene);
-		myStage.setTitle("Pick simulation");
+		myStage.setTitle(myResources.getString("picksim"));
 		myStage.show();
 	}
 
@@ -207,20 +212,20 @@ public class Main extends Application {
 	 */
 	private void initMap() {
 		pickRecSimByName = new HashMap<String, Simulation>();
-		pickRecSimByName.put("Wator", new WatorSimulation(wG, recGrid));
-		pickRecSimByName.put("SpreadingWildfire", new SpreadingWildfireSimulation(sWG, recGrid));
-		pickRecSimByName.put("GameOfLife", new GameOfLifeSimulation(gofC, recGrid));
-		pickRecSimByName.put("Segregation", new SegregationSimulation(sC, recGrid));
-		pickRecSimByName.put("ForagingAnts", new ForagingAntsSimulation(faC, recGrid));
-		pickRecSimByName.put("RPS", new RPSSimulation(rpsC, recGrid));
+		pickRecSimByName.put(myResources.getString("Wator"), new WatorSimulation(wG, recGrid));
+		pickRecSimByName.put(myResources.getString("SpreadingWildfire"), new SpreadingWildfireSimulation(sWG, recGrid));
+		pickRecSimByName.put(myResources.getString("GameOfLife"), new GameOfLifeSimulation(gofC, recGrid));
+		pickRecSimByName.put(myResources.getString("Segregation"), new SegregationSimulation(sC, recGrid));
+		pickRecSimByName.put(myResources.getString("ForagingAnts"), new ForagingAntsSimulation(faC, recGrid));
+		pickRecSimByName.put(myResources.getString("error"), new RPSSimulation(rpsC, recGrid));
 
 		pickHexSimByName = new HashMap<String, Simulation>();
-		pickHexSimByName.put("Wator", new WatorSimulation(wG, hexGrid));
-		pickHexSimByName.put("SpreadingWildfire", new SpreadingWildfireSimulation(sWG, hexGrid));
-		pickHexSimByName.put("GameOfLife", new GameOfLifeSimulation(gofC, hexGrid));
-		pickHexSimByName.put("Segregation", new SegregationSimulation(sC, hexGrid));
-		pickHexSimByName.put("ForagingAnts", new ForagingAntsSimulation(faC, hexGrid));
-		pickHexSimByName.put("RPS", new RPSSimulation(rpsC, recGrid));
+		pickHexSimByName.put(myResources.getString("Wator"), new WatorSimulation(wG, hexGrid));
+		pickHexSimByName.put(myResources.getString("SpreadingWildfire"), new SpreadingWildfireSimulation(sWG, hexGrid));
+		pickHexSimByName.put(myResources.getString("GameOfLife"), new GameOfLifeSimulation(gofC, hexGrid));
+		pickHexSimByName.put(myResources.getString("Segregation"), new SegregationSimulation(sC, hexGrid));
+		pickHexSimByName.put(myResources.getString("ForagingAnts"), new ForagingAntsSimulation(faC, hexGrid));
+		pickHexSimByName.put(myResources.getString("error"), new RPSSimulation(rpsC, recGrid));
 	}
 
 	/**

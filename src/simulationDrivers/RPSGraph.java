@@ -1,10 +1,16 @@
 package simulationDrivers;
 
+import java.util.ResourceBundle;
+
 import cellManager.Grid;
 import javafx.scene.chart.XYChart;
 
 public class RPSGraph extends Graph{
 
+	// initializes the resources used to get text Strings
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/Labels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
+	
 	public RPSGraph(Grid newGrid) {
 		super(newGrid);
 	}
@@ -25,9 +31,9 @@ public class RPSGraph extends Graph{
 	
 	@Override
 	protected void setNames() {
-		series1.setName("BlueRPSCount");
-		series2.setName("GreenRPSCount");
-		series3.setName("RedRPSCount");
-		series4.setName("WhiteRPSCount");
+		series1.setName(myResources.getString("bluerpscount"));
+		series2.setName(myResources.getString("greenrpscount"));
+		series3.setName(myResources.getString("redrpscount"));
+		series4.setName(myResources.getString("whiterpscount"));
 	}
 }

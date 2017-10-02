@@ -1,5 +1,7 @@
 package XMLClasses;
 
+import java.util.ResourceBundle;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
@@ -14,7 +16,11 @@ import simulationDrivers.ErrorMessages;
  * This class formats the XML to be export for the user's desires.
  */
 public class ForagingAntsExporter extends XMLExporter{
-		
+	
+	// initializes the resources used to get text Strings
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/Labels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
+	
 	/**
 	 * The XML Elements specific to the Foraging Ants simulation
 	 */

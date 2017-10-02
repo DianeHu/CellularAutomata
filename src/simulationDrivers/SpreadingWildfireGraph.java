@@ -1,10 +1,15 @@
 package simulationDrivers;
 
+import java.util.ResourceBundle;
+
 import cellManager.Grid;
 import javafx.scene.chart.XYChart;
 
 public class SpreadingWildfireGraph extends Graph{
 
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/Labels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
+	
 	public SpreadingWildfireGraph(Grid newGrid) {
 		super(newGrid);
 	}
@@ -24,8 +29,8 @@ public class SpreadingWildfireGraph extends Graph{
 	
 	@Override
 	protected void setNames() {
-		series1.setName("TreeCount");
-		series2.setName("BurningTreeCount");
-		series3.setName("EmptyLandCount");
+		series1.setName(myResources.getString("treecount"));
+		series2.setName(myResources.getString("burningtreecount"));
+		series3.setName(myResources.getString("emptylandcount"));
 	}
 }

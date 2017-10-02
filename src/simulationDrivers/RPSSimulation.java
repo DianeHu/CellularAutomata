@@ -1,6 +1,7 @@
 package simulationDrivers;
 
 import java.io.File;
+import java.util.ResourceBundle;
 
 import XMLClasses.GridConfiguration;
 import XMLClasses.RPSConfiguration;
@@ -21,6 +22,10 @@ public class RPSSimulation extends Simulation {
 	private int numRows;
 	private int numCols;
 	private RPSConfiguration XMLConfiguration = null;
+	
+	// initializes the resources used to get text Strings
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/Labels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
 
 	/**
 	 * @param gC
