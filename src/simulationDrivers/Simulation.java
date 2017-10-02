@@ -69,7 +69,6 @@ public abstract class Simulation extends Application {
 	private Button resetButton;
 	private Boolean isToroidal = false;
 	private Boolean isMaxNeighbors = true;
-	private Boolean isStroke = true;
 	/**
 	 * We decided the following variables would be protected since only
 	 * Simulation subclasses have access to these implementation features.
@@ -157,10 +156,6 @@ public abstract class Simulation extends Application {
 	
 	public void setMaxNeighbors(Boolean b) {
 		isMaxNeighbors = b;
-	}
-	
-	public void setStrokeFill(Boolean b) {
-		isStroke = b;
 	}
 	
 	public void setIsToroidal(Boolean b) {
@@ -269,7 +264,6 @@ public abstract class Simulation extends Application {
 		sampleGrid.setSimType(simType);
 		sampleGrid.initialize();
 		sampleGrid.setMaxNeighbors(isMaxNeighbors);
-		sampleGrid.setIsStroke(isStroke);
 		sampleGrid.setIsToroidal(isToroidal);
 		g = createGraph(sampleGrid);
 		g.addToBox(hboxBottom);

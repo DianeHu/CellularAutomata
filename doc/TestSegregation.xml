@@ -1,6 +1,6 @@
 <GridConfiguration>
-  <numRows>10</numRows>
-  <numCols>15</numCols>
-  <cellConfiguration>bbbbooooooooooooooeeeeeeeeeboeoboboboeooeobobeoeboobeoboeoeobboeoobeobobeoboboeboeobeoeooobooeoeobeeobeeeooooobbbbbbbbbboeboebooobobbbbeooobeobeoebobb</cellConfiguration>
-  <segregationThreshold>.3</segregationThreshold>
+  <numRows>5</numRows>
+  <numCols>5</numCols>
+  <cellConfiguration>bboeebbeebbboooeeebbeeooobbeobeobeobobeeebobobeobeobobeobebeoboeboboebbooebobeobobeobeobeobeobeobee</cellConfiguration>
+  <segregationThreshold>0.3</segregationThreshold>
   </GridConfiguration>

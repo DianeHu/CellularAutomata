@@ -139,7 +139,6 @@ public class Main extends Application {
 		Simulation s = simMap.get(simulationSetByUser).copy();
 		s.setSimType(simulationSetByUser);
 		s.setMaxNeighbors(styler.getNeighborType() == "Max");
-		s.setStrokeFill(styler.getGridOutline() == "Yes");
 		s.setIsToroidal(styler.getEdgeShape() == "Toroidal");
 		s.setIsRectangle(isRectangle);
 		s.start(newStage);
