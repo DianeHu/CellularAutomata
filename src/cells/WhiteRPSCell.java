@@ -21,7 +21,6 @@ public class WhiteRPSCell extends Cell {
 	@Override
 	public void setThreshold(double a, double b, double c) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
