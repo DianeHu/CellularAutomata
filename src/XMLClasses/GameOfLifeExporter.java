@@ -8,19 +8,33 @@ import org.w3c.dom.Element;
 
 import simulationDrivers.ErrorMessages;
 
+/**
+ * @author Tyler Yam This is a subclass of the XMLExporter superclass for the
+ *         GameOfLife simulation This class formats the XML to be export for
+ *         the user's desires.
+ */
 public class GameOfLifeExporter extends XMLExporter {
 	
 	
+	/**
+	 * @param nR
+	 * @param nC
+	 * @param cC
+	 * Constructor for GameOfLifeExporter
+	 */
 	public GameOfLifeExporter(String nR, String nC, String cC) {
 		super(nR, nC, cC);
 	}
 
+	/**
+	 * This method builds the XML file for the GameOfLife specific values and configuration
+	 * to be exported
+	 */
 	public void buildXML() {
 
 	       try {
 	          Document doc = XMLExporter.buildDocument();
 	         
-	          // root element
 	          Element GridConfiguration = doc.createElement("GridConfiguration");
 	          doc.appendChild(GridConfiguration);
 

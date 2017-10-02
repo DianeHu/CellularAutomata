@@ -3,21 +3,21 @@ package simulationDrivers;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
+/**
+ * @author Tyler Yam This class creates the error messages that is implemented
+ *         throughout all of program
+ */
 public class ErrorMessages {
-	
-	public static void createErrors(String message)
-	{
-		Alert alert = new Alert(AlertType.ERROR);
-	    alert.setTitle("Error");
-	    alert.setContentText(message);
-	    alert.showAndWait();
-	}
-	public static void createWarning(String message)
-	{
-		Alert alert = new Alert(AlertType.WARNING);
-	    alert.setTitle("WarningTitle");
-	    alert.setContentText(message);
-	    alert.showAndWait();
-	}
 
+	/**
+	 * @param message
+	 *            This method creates the error with the error message passed in as
+	 *            a string to portray the error
+	 */
+	public static void createErrors(String message) {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Error");
+		alert.setContentText(message);
+		alert.showAndWait();
+	}
 }

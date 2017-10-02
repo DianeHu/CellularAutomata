@@ -11,39 +11,35 @@ import java.io.IOException;
 import simulationDrivers.ErrorMessages;
 
 
+
 /**
  * @author Tyler Yam
  * Source Code from Rhondu Smithwick and Robert C. Duvall
+ * This class will read in XMLs for both Gridconfigurations
+ * and StyleConfigurations
  */
-
-
 /**
- * @author Tyler Yam
- * Source Code from Rhondu Smithwick and Robert C. Duvall
- * This class will read in XMLs
+ * @author tyler
+ *
  */
 public abstract class XMLReader {
 
     private final DocumentBuilder DOCUMENT_BUILDER;
 
     
+
     /**
-     * @author Tyler Yam
-     * Source Code from Rhondu Smithwick and Robert C. Duvall
-     * Create a parser for XML files
+     * Constructor for XMLReader
      */
     public XMLReader () {
         DOCUMENT_BUILDER = getDocumentBuilder();
         }
 
-
     /**
-     * @author Tyler Yam
-     * Source Code from Rhondu Smithwick and Robert C. Duvall
-     * Stores XML values a GridConfiguration
+     * @param xmlFile
+     * @return
+     * This is a getter for the root element of an XML file
      */
-
-    // Get root element of an XML file
     protected Element getRootElement (File xmlFile) {
         try {
             DOCUMENT_BUILDER.reset();
@@ -55,12 +51,24 @@ public abstract class XMLReader {
         }
     }
 
-    // Returns if this is a valid XML file for the specified object type
+   
+    /**
+     * @param root
+     * @param type
+     * @return
+     * This method accesses if the file is valid if the tag name
+     * of a root matches the type
+     */
     protected boolean isValidFile (Element root, String type) {
         return root.getTagName().equals(type);
     }
-
-    // Get value of Element's text
+    
+    /**
+     * @param e
+     * @param tagName
+     * @return
+     * This method gets the text value of an element
+     */
     protected String getTextValue (Element e, String tagName) {
         NodeList nodeList = e.getElementsByTagName(tagName);
         if (nodeList != null && nodeList.getLength() > 0) {
@@ -71,7 +79,10 @@ public abstract class XMLReader {
         }
     }
 
-    // Builds documentBuilder
+    /**
+     * @return
+     * This method gets the document Builder
+     */
     private DocumentBuilder getDocumentBuilder () {
         try {
             return DocumentBuilderFactory.newInstance().newDocumentBuilder();

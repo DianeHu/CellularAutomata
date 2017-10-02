@@ -8,6 +8,11 @@ import org.w3c.dom.Element;
 
 import simulationDrivers.ErrorMessages;
 
+/**
+ * @author Tyler Yam This is a subclass of the XMLExporter superclass for the
+ *         Spreading Wildfire simulation This class formats the XML to be export for
+ *         the user's desires.
+ */
 public class SpreadingWildfireExporter extends XMLExporter {
 
 	Element probCatch;
@@ -15,19 +20,29 @@ public class SpreadingWildfireExporter extends XMLExporter {
 	String pCatch;
 	String pGrow;
 	
+	/**
+	 * @param nR
+	 * @param nC
+	 * @param cC
+	 * @param pC
+	 * @param pG
+	 * Constructor for SpreadingWildfireExporter
+	 */
 	public SpreadingWildfireExporter(String nR, String nC, String cC, String pC, String pG) {
 		super(nR, nC, cC);
 		pCatch = pC;
 		pGrow = pG;
-		// TODO Auto-generated constructor stub
 	}
 	
+	/**
+	 * This methods builds the XML file tailored to the specifics of the SpreadingWildfire simulation
+	 * to be saved with the user's files
+	 */
 	public void buildXML() {
 
 	       try {
 	          Document doc = XMLExporter.buildDocument();
 	         
-	          // root element
 	          Element GridConfiguration = doc.createElement("GridConfiguration");
 	          doc.appendChild(GridConfiguration);
 	         
