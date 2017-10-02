@@ -9,9 +9,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 
 public abstract class Graph {
-	protected Series<Number, Number> series1 = new Series<Number, Number>();;
-	protected Series<Number, Number> series2 = new Series<Number, Number>();;
-	protected Series<Number, Number> series3 = new Series<Number, Number>();;
+	protected Series<Number, Number> series1 = new Series<Number, Number>();
+	protected Series<Number, Number> series2 = new Series<Number, Number>();
+	protected Series<Number, Number> series3 = new Series<Number, Number>();
+	protected Series<Number, Number> series4 = new Series<Number, Number>();	
 	protected LineChart<Number, Number> lineChart;
 	protected int step = 0;
 	protected Grid g;

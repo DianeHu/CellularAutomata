@@ -71,8 +71,8 @@ public class AntGroupCell extends Cell{
 
 	@Override
 	public Cell changeType() {
-		// TODO Auto-generated method stub
-		return null;
+		AntGroupCell newCell = new AntGroupCell(this.getRow(), this.getCol());
+		return newCell;
 	}
 
 }

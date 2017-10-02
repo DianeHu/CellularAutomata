@@ -57,7 +57,7 @@ public class ForagingAntsExporter extends XMLExporter{
 	/**
 	 * Builds the XML documents with the Foraging Ant specific elements
 	 */
-	protected void buildXML() {
+	public void buildXML() {
 
 	       try {
 	          Document doc = XMLExporter.buildDocument();

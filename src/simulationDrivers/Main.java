@@ -7,6 +7,7 @@ import java.util.Map;
 import XMLClasses.ForagingAntsConfiguration;
 import XMLClasses.GameOfLifeConfiguration;
 import XMLClasses.GridConfiguration;
+import XMLClasses.RPSConfiguration;
 import XMLClasses.SegregationConfiguration;
 import XMLClasses.SegregationReader;
 import XMLClasses.SpreadingWildfireConfiguration;
@@ -36,12 +37,12 @@ import javafx.util.Duration;
 
 public class Main extends Application {
 
-	private static GridConfiguration g = null;
-	private static WatorConfiguration wG = null;
-	private static SpreadingWildfireConfiguration sWG = null;
-	private static GameOfLifeConfiguration gofC = null;
-	private static SegregationConfiguration sC = null;
-	private static ForagingAntsConfiguration faC = null;
+	private WatorConfiguration wG = null;
+	private SpreadingWildfireConfiguration sWG = null;
+	private GameOfLifeConfiguration gofC = null;
+	private SegregationConfiguration sC = null;
+	private ForagingAntsConfiguration faC = null;
+	private RPSConfiguration rpsC = null;
 	private Stage myStage = new Stage();
 	private TextField simType = new TextField();
 	private HBox hbox = new HBox();
@@ -124,7 +125,7 @@ public class Main extends Application {
 	}
 
 	private void setSim() throws Exception {
-		if(styler.getGridShape() != null) {
+		if (styler.getGridShape() != null) {
 			setSimMap();
 		} else {
 			simMap = pickRecSimByName;
@@ -153,12 +154,13 @@ public class Main extends Application {
 
 	private void initMap() {
 		pickRecSimByName = new HashMap<String, Simulation>();
-		
+
 		pickRecSimByName.put("Wator", new WatorSimulation(wG, recGrid));
 		pickRecSimByName.put("SpreadingWildfire", new SpreadingWildfireSimulation(sWG, recGrid));
 		pickRecSimByName.put("GameOfLife", new GameOfLifeSimulation(gofC, recGrid));
 		pickRecSimByName.put("Segregation", new SegregationSimulation(sC, recGrid));
 		pickRecSimByName.put("ForagingAnts", new ForagingAntsSimulation(faC, recGrid));
+		pickRecSimByName.put("RPS", new RPSSimulation(rpsC, recGrid));
 
 		pickHexSimByName = new HashMap<String, Simulation>();
 		pickHexSimByName.put("Wator", new WatorSimulation(wG, hexGrid));
@@ -166,6 +168,7 @@ public class Main extends Application {
 		pickHexSimByName.put("GameOfLife", new GameOfLifeSimulation(gofC, hexGrid));
 		pickHexSimByName.put("Segregation", new SegregationSimulation(sC, hexGrid));
 		pickHexSimByName.put("ForagingAnts", new ForagingAntsSimulation(faC, hexGrid));
+		pickHexSimByName.put("RPS", new RPSSimulation(rpsC, recGrid));
 	}
 
 	private void setSimMap() {

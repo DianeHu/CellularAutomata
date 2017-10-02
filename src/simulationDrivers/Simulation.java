@@ -41,7 +41,6 @@ public abstract class Simulation extends Application {
 	private static final String DATA_FILE_EXTENSION = "*.xml";
 	private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
 	private static final int VERT_SIZE = 650;
-	protected static final int LEFT_OFFSET = 35;
 	private static final int HORIZONTAL_SIZE = 575;
 	private static final Color BACKGROUND = Color.TRANSPARENT;
 	private static final String TITLE = "SIMULATION";
@@ -182,6 +181,7 @@ public abstract class Simulation extends Application {
 			saveButton.setDisable(!isStarted);
 		} catch (Exception e1) {
 			ErrorMessages.createErrors("Failed to Start\nChoose Valid Configuration File");
+			e1.printStackTrace();
 		}
 	}
 

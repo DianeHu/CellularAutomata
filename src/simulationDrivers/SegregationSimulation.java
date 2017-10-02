@@ -70,7 +70,8 @@ public class SegregationSimulation extends Simulation {
 
 	@Override
 	protected void manualStep() {
-		sampleGrid.createsNewGrid(satisfiedThreshold, 0, 0);
+		//sampleGrid.createsNewGrid(satisfiedThreshold, 0, 0);
+		sampleGrid.createsNewGrid(.3, 0, 0);
 		g.updateGraph();
 		sampleGrid.update();
 	}

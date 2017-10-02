@@ -3,13 +3,19 @@ package cells;
 import java.util.List;
 
 import cellManager.Grid;
+import javafx.scene.paint.Color;
 
 public class BlueRPSCell extends Cell {
-
+	private boolean isDead;
+	public BlueRPSCell() {
+		super();
+		setLevel(0);
+		setColor(Color.BLUE);
+	}
+	
 	@Override
 	public Cell copy() {
-		// TODO Auto-generated method stub
-		return null;
+		return new BlueRPSCell();
 	}
 
 	@Override
@@ -20,13 +26,27 @@ public class BlueRPSCell extends Cell {
 
 	@Override
 	public Cell changeType() {
-		// TODO Auto-generated method stub
-		return null;
+		RedRPSCell newCell = new RedRPSCell();
+		newCell.setRow(getRow());newCell.setCol(getCol());
+		isDead = true;
+		return newCell;
 	}
 
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
-		// TODO Auto-generated method stub
+		if(!isDead) {
+			grid.addToNewGrid(this);
+		}
+		Cell c = chooseRandomNeighbor();
+		if(c instanceof RedRPSCell) {
+			//get eaten
+			createNewCellOfType(new RedRPSCell(),grid);
+		}
+		if(c instanceof GreenRPSCell) {
+			//eat
+			grid.addToNewGrid(c.changeType());
+			setLevel(0);
+		}
 		
 	}
 
