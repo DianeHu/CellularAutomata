@@ -19,10 +19,6 @@ import javafx.scene.layout.VBox;
  */
 public class SimulationButtons {
 
-	// initializes the resources used to get text Strings
-	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/Labels";
-	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
-
 	public static void makeButtonV(String name, EventHandler<ActionEvent> handler, VBox vbox, int screenSize) {
 		Button sampleButton = makeReturnableButtonV(name,handler,vbox,screenSize);
 	}

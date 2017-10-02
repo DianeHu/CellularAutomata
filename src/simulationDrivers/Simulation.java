@@ -1,6 +1,7 @@
 package simulationDrivers;
 
 import java.io.File;
+import java.util.ResourceBundle;
 
 import XMLClasses.GridConfiguration;
 import XMLClasses.XMLException;
@@ -87,6 +88,9 @@ public abstract class Simulation extends Application {
 	protected boolean isPaused = false;
 	protected boolean isStarted = false;
 	protected Button saveButton;
+	
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/Labels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
 
 	/**
 	 * @param gC
@@ -185,15 +189,15 @@ public abstract class Simulation extends Application {
 	 *            subsimulation.
 	 */
 	private void makeButtons(Stage s) {
-		SimulationButtons.makeButtonH("Choose XML File for Configuration", e -> openFile(s), hboxTop, SCREEN_SIZE);
-		startButton = SimulationButtons.makeReturnableButtonH("Start Simulation", e -> startMethod(s), hboxTop,
+		SimulationButtons.makeButtonH(myResources.getString("choose"), e -> openFile(s), hboxTop, SCREEN_SIZE);
+		startButton = SimulationButtons.makeReturnableButtonH(myResources.getString("start"), e -> startMethod(s), hboxTop,
 				SCREEN_SIZE);
-		SimulationButtons.makeButtonV("Pause", e -> pause(), vboxRight, SCREEN_SIZE);
-		SimulationButtons.makeButtonV("Resume", e -> resume(), vboxRight, SCREEN_SIZE);
-		SimulationButtons.makeButtonV("Speed Up", e -> faster(), vboxRight, SCREEN_SIZE);
-		SimulationButtons.makeButtonV("Slow Down", e -> slower(), vboxRight, SCREEN_SIZE);
-		resetButton = SimulationButtons.makeReturnableButtonV("Reset", e -> reset(), vboxRight, SCREEN_SIZE);
-		stepButton = SimulationButtons.makeReturnableButtonV("Step", e -> manualStep(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeButtonV(myResources.getString("pauseButton"), e -> pause(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeButtonV(myResources.getString("resumeButton"), e -> resume(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeButtonV(myResources.getString("speedup"), e -> faster(), vboxRight, SCREEN_SIZE);
+		SimulationButtons.makeButtonV(myResources.getString("slowdown"), e -> slower(), vboxRight, SCREEN_SIZE);
+		resetButton = SimulationButtons.makeReturnableButtonV(myResources.getString("resetButton"), e -> reset(), vboxRight, SCREEN_SIZE);
+		stepButton = SimulationButtons.makeReturnableButtonV(myResources.getString("stepButton"), e -> manualStep(), vboxRight, SCREEN_SIZE);
 		resetButton.setDisable(!isStarted);
 		stepButton.setDisable(!(isPaused & isStarted));
 		makeSimSpecificFields(s);
@@ -227,7 +231,7 @@ public abstract class Simulation extends Application {
 			resetButton.setDisable(!isStarted);
 			saveButton.setDisable(!isStarted);
 		} catch (Exception e1) {
-			ErrorMessages.createErrors("Failed to Start\nChoose Valid Configuration File");
+			ErrorMessages.createErrors(myResources.getString("chooseFail"));
 		}
 	}
 
@@ -250,12 +254,12 @@ public abstract class Simulation extends Application {
 			try {
 				XMLConfiguration = setInputConfig(dataFile);
 			} catch (XMLException e) {
-				ErrorMessages.createErrors("Invalid XML file");
+				ErrorMessages.createErrors(myResources.getString("invalidxml"));
 			}
 			startButton.setDisable(false);
 			hboxBottom.getChildren().clear();
 		} else {
-			ErrorMessages.createErrors("No File Chosen");
+			ErrorMessages.createErrors(myResources.getString("nofilechosen"));
 			startButton.setDisable(true);
 		}
 	}
@@ -395,7 +399,7 @@ public abstract class Simulation extends Application {
 	 */
 	private FileChooser makeChooser(String extensionAccepted) {
 		FileChooser result = new FileChooser();
-		result.setTitle("Open Data File");
+		result.setTitle(myResources.getString("open"));
 		result.setInitialDirectory(new File(System.getProperty("user.dir")));
 		result.getExtensionFilters().setAll(new ExtensionFilter("Text Files", extensionAccepted));
 		return result;

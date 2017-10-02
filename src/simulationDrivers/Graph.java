@@ -1,5 +1,7 @@
 package simulationDrivers;
 
+import java.util.ResourceBundle;
+
 import cellManager.Grid;
 
 import javafx.geometry.Side;
@@ -31,6 +33,10 @@ public abstract class Graph {
 	protected LineChart<Number, Number> lineChart;
 	protected int step = 0;
 	protected Grid g;
+	
+	// initializes the resources used to get text Strings
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/Labels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
 
 	/**
 	 * @param newGrid
@@ -81,12 +87,12 @@ public abstract class Graph {
 		final NumberAxis xAxis = new NumberAxis();
 		final NumberAxis yAxis = new NumberAxis();
 		xAxis.setForceZeroInRange(false);
-		xAxis.setLabel("Timestep");
-		yAxis.setLabel("Population %");
+		xAxis.setLabel(myResources.getString("timestep"));
+		yAxis.setLabel(myResources.getString("poppercent"));
 		xAxis.setTickLabelFill(Color.WHITE);
 		yAxis.setTickLabelFill(Color.WHITE);
 		lineChart = new LineChart<Number, Number>(xAxis, yAxis);
-		lineChart.setTitle("Population Monitor");
+		lineChart.setTitle(myResources.getString("popmonitor"));
 		lineChart.setMaxSize(600, 200);
 
 		setNames();

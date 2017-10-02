@@ -1,6 +1,7 @@
 package XMLClasses;
 
 import java.util.Map;
+import java.util.ResourceBundle;
 
 
 /**
@@ -11,6 +12,9 @@ import java.util.Map;
  */
 public class ForagingAntsConfiguration extends GridConfiguration {
 
+	// initializes the resources used to get text Strings
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/Labels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
 	
 	/**
 	 * @param dataValues

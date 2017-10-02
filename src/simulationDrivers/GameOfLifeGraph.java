@@ -1,5 +1,7 @@
 package simulationDrivers;
 
+import java.util.ResourceBundle;
+
 import cellManager.Grid;
 
 import javafx.scene.chart.XYChart;
@@ -16,6 +18,10 @@ public class GameOfLifeGraph extends Graph {
 	 * @param newGrid
 	 *            Constructor using superclass constructor.
 	 */
+	// initializes the resources used to get text Strings
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/Labels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
+	
 	public GameOfLifeGraph(Grid newGrid) {
 		super(newGrid);
 	}
@@ -55,7 +61,7 @@ public class GameOfLifeGraph extends Graph {
 	 */
 	@Override
 	protected void setNames() {
-		series1.setName("LiveCellCount");
-		series2.setName("DeadCellCount");
+		series1.setName(myResources.getString("livecellcount"));
+		series2.setName(myResources.getString("deadcellcount"));
 	}
 }
