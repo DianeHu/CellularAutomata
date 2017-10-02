@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * @author Tyler Yam Based on code from Robert C. Duvall. This is a super class
@@ -11,13 +12,16 @@ import java.util.Map;
  */
 public abstract class GridConfiguration {
 
-	
-	public static final String DATA_TYPE = "GridConfiguration";
+	// initializes the resources used to get text Strings
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/XMLLabels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
+
+	public static final String DATA_TYPE = (myResources.getString("GridConfiguration"));
 	private static Map<String, String> myDataValues;
 
-	
 	private static List<String> myDataFields = new ArrayList<>(
-			Arrays.asList(new String[] { "numRows", "numCols", "cellConfiguration" }));
+			Arrays.asList(new String[] { myResources.getString("numRows"), myResources.getString("numCols"),
+					myResources.getString("cellConfiguration") }));
 
 	/**
 	 * @param dataValues
@@ -57,7 +61,7 @@ public abstract class GridConfiguration {
 	 * @return This is a getter for number of rows for overall GridConfiguration
 	 */
 	public int getNumRows() {
-		return Integer.parseInt(getMyDataValues().get("numRows"));
+		return Integer.parseInt(getMyDataValues().get(myResources.getString("numRows")));
 	}
 
 	/**
@@ -65,7 +69,7 @@ public abstract class GridConfiguration {
 	 *         GridConfiguration
 	 */
 	public int getNumCols() {
-		return Integer.parseInt(getMyDataValues().get("numCols"));
+		return Integer.parseInt(getMyDataValues().get(myResources.getString("numCols")));
 	}
 
 	/**
@@ -75,7 +79,7 @@ public abstract class GridConfiguration {
 	public char[][] getCellConfiguration() {
 		char[][] cellConfiguration = new char[getNumRows()][getNumCols()];
 		List<Character> cellChars = new ArrayList<Character>();
-		for (char c : getMyDataValues().get("cellConfiguration").toCharArray()) {
+		for (char c : getMyDataValues().get(myResources.getString("cellConfiguration")).toCharArray()) {
 			cellChars.add(c);
 		}
 		int count = 0;

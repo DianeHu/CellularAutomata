@@ -1,5 +1,7 @@
 package XMLClasses;
 
+import java.util.ResourceBundle;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
@@ -17,10 +19,14 @@ import simulationDrivers.ErrorMessages;
  */
 public class SpreadingWildfireExporter extends XMLExporter {
 
-	Element probCatch;
-	Element probGrow;
-	String pCatch;
-	String pGrow;
+	// initializes the resources used to get text Strings
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/XMLLabels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
+
+	private Element probCatch;
+	private Element probGrow;
+	private String pCatch;
+	private String pGrow;
 
 	/**
 	 * @param numRowsParam
@@ -46,20 +52,20 @@ public class SpreadingWildfireExporter extends XMLExporter {
 		try {
 			Document doc = XMLExporter.buildDocument();
 
-			Element GridConfiguration = doc.createElement("GridConfiguration");
+			Element GridConfiguration = doc.createElement(myResources.getString("GridConfiguration"));
 			doc.appendChild(GridConfiguration);
 
 			addUniversalElements(doc, GridConfiguration);
 
-			addChildrenToDataType(doc, GridConfiguration, probCatch, "probCatch", pCatch);
-			addChildrenToDataType(doc, GridConfiguration, probGrow, "probGrow", pGrow);
+			addChildrenToDataType(doc, GridConfiguration, probCatch, myResources.getString("probCatch"), pCatch);
+			addChildrenToDataType(doc, GridConfiguration, probGrow, myResources.getString("probGrow"), pGrow);
 
 			writeXML(doc);
 
 		} catch (ParserConfigurationException pce) {
-			ErrorMessages.createErrors("Parsing Error!");
+			ErrorMessages.createErrors(myResources.getString("parseError"));
 		} catch (TransformerException tfe) {
-			ErrorMessages.createErrors("Transformer Error!");
+			ErrorMessages.createErrors(myResources.getString("transformerError"));
 		}
 	}
 

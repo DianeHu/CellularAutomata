@@ -1,5 +1,7 @@
 package XMLClasses;
 
+import java.util.ResourceBundle;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
@@ -16,6 +18,10 @@ import simulationDrivers.ErrorMessages;
  *         desires.
  */
 public class GameOfLifeExporter extends XMLExporter {
+
+	// initializes the resources used to get text Strings
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/XMLLabels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
 
 	/**
 	 * @param numRowsParam
@@ -36,7 +42,7 @@ public class GameOfLifeExporter extends XMLExporter {
 		try {
 			Document doc = XMLExporter.buildDocument();
 
-			Element GridConfiguration = doc.createElement("GridConfiguration");
+			Element GridConfiguration = doc.createElement(myResources.getString("GridConfiguration"));
 			doc.appendChild(GridConfiguration);
 
 			addUniversalElements(doc, GridConfiguration);
@@ -44,9 +50,9 @@ public class GameOfLifeExporter extends XMLExporter {
 			writeXML(doc);
 
 		} catch (ParserConfigurationException pce) {
-			ErrorMessages.createErrors("Parsing Error!");
+			ErrorMessages.createErrors(myResources.getString("parseError"));
 		} catch (TransformerException tfe) {
-			ErrorMessages.createErrors("Transformer Error!");
+			ErrorMessages.createErrors(myResources.getString("transformerError"));
 		}
 	}
 

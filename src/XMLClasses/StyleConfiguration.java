@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * @author Tyler Yam Based on code from Robert C. Duvall This class is used to
@@ -11,9 +12,14 @@ import java.util.Map;
  */
 public class StyleConfiguration {
 
-	public static final String DATA_TYPE = "StyleConfiguration";
+	// initializes the resources used to get text Strings
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/XMLLabels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
+
+	public static final String DATA_TYPE = myResources.getString("StyleConfiguration");
 	public static List<String> myDataFields = new ArrayList<>(
-			Arrays.asList(new String[] { "gridShape", "edgeShape", "neighborType" }));
+			Arrays.asList(new String[] { myResources.getString("gridShape"), myResources.getString("edgeShape"),
+					myResources.getString("neighborType") }));
 	private static Map<String, String> myDataValues;
 
 	/**
@@ -35,20 +41,20 @@ public class StyleConfiguration {
 	 * @return This is a getter for the Grid shape
 	 */
 	public String getGridShape() {
-		return getMyDataValues().get("gridShape");
+		return getMyDataValues().get(myResources.getString("gridShape"));
 	}
 
 	/**
 	 * @return This is a getter for the Edge shape
 	 */
 	public String getEdgeShape() {
-		return getMyDataValues().get("edgeShape");
+		return getMyDataValues().get(myResources.getString("edgeShape"));
 	}
 
 	/**
 	 * @return This is a getter for the neighbor type
 	 */
 	public String getNeighborType() {
-		return getMyDataValues().get("neighborType");
+		return getMyDataValues().get(myResources.getString("neighborType"));
 	}
 }

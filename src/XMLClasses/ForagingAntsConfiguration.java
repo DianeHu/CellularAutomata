@@ -1,6 +1,7 @@
 package XMLClasses;
 
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * @author Tyler Yam This is a subclass of the GridConfiguration superclass for
@@ -9,6 +10,9 @@ import java.util.Map;
  *         values to be accessed by the back end
  */
 public class ForagingAntsConfiguration extends GridConfiguration {
+	// initializes the resources used to get text Strings
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/XMLLabels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
 
 	/**
 	 * @param dataValues
@@ -22,7 +26,7 @@ public class ForagingAntsConfiguration extends GridConfiguration {
 	 * @return Returns the maxAnts for Foraging Ant simulation
 	 */
 	public double getMaxAnts() {
-		return Double.parseDouble(GridConfiguration.getMyDataValues().get("maxAnts"));
+		return Double.parseDouble(GridConfiguration.getMyDataValues().get(myResources.getString("maxAnts")));
 	}
 
 	/**
@@ -30,7 +34,7 @@ public class ForagingAntsConfiguration extends GridConfiguration {
 	 */
 	public int getHomeLocX() {
 
-		return Integer.parseInt(GridConfiguration.getMyDataValues().get("homeLocX"));
+		return Integer.parseInt(GridConfiguration.getMyDataValues().get(myResources.getString("homeLocX")));
 	}
 
 	/**
@@ -38,7 +42,7 @@ public class ForagingAntsConfiguration extends GridConfiguration {
 	 */
 	public int getHomeLocY() {
 
-		return Integer.parseInt(GridConfiguration.getMyDataValues().get("homeLocY"));
+		return Integer.parseInt(GridConfiguration.getMyDataValues().get(myResources.getString("homeLocY")));
 	}
 
 	/**
@@ -46,7 +50,7 @@ public class ForagingAntsConfiguration extends GridConfiguration {
 	 */
 	public int getFoodLocX() {
 
-		return Integer.parseInt(GridConfiguration.getMyDataValues().get("foodLocX"));
+		return Integer.parseInt(GridConfiguration.getMyDataValues().get(myResources.getString("foodLocX")));
 	}
 
 	/**
@@ -54,7 +58,7 @@ public class ForagingAntsConfiguration extends GridConfiguration {
 	 */
 	public int getFoodLocY() {
 
-		return Integer.parseInt(GridConfiguration.getMyDataValues().get("foodLocY"));
+		return Integer.parseInt(GridConfiguration.getMyDataValues().get(myResources.getString("foodLocY")));
 	}
 
 }

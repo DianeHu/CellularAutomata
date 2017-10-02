@@ -7,6 +7,7 @@ import java.util.Map;
 import org.w3c.dom.Element;
 
 public class StyleReader extends XMLReader {
+
 	public StyleReader() {
 		super();
 	}

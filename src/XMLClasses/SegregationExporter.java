@@ -1,5 +1,7 @@
 package XMLClasses;
 
+import java.util.ResourceBundle;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
@@ -16,6 +18,10 @@ import simulationDrivers.ErrorMessages;
  *         desires.
  */
 public class SegregationExporter extends XMLExporter {
+
+	// initializes the resources used to get text Strings
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/XMLLabels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
 
 	private Element segregationThreshold;
 	private String segThreshold;
@@ -42,19 +48,20 @@ public class SegregationExporter extends XMLExporter {
 		try {
 			Document doc = XMLExporter.buildDocument();
 
-			Element GridConfiguration = doc.createElement("GridConfiguration");
+			Element GridConfiguration = doc.createElement(myResources.getString("GridConfiguration"));
 			doc.appendChild(GridConfiguration);
 
 			addUniversalElements(doc, GridConfiguration);
 
-			addChildrenToDataType(doc, GridConfiguration, segregationThreshold, "segregationThreshold", segThreshold);
+			addChildrenToDataType(doc, GridConfiguration, segregationThreshold,
+					myResources.getString("segregationThreshold"), segThreshold);
 
 			writeXML(doc);
 
 		} catch (ParserConfigurationException pce) {
-			ErrorMessages.createErrors("Parsing Error!");
+			ErrorMessages.createErrors(myResources.getString("parseError"));
 		} catch (TransformerException tfe) {
-			ErrorMessages.createErrors("Transformer Error!");
+			ErrorMessages.createErrors(myResources.getString(("transformerError")));
 		}
 	}
 

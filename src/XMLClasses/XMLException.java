@@ -7,6 +7,7 @@ package XMLClasses;
  */
 
 public class XMLException extends RuntimeException {
+
 	private static final long serialVersionUID = 1L;
 
 	/**

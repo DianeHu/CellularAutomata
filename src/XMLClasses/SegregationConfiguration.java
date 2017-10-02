@@ -1,6 +1,7 @@
 package XMLClasses;
 
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * @author Tyler Yam This is a subclass of the GridConfiguration superclass for
@@ -9,6 +10,10 @@ import java.util.Map;
  *         be accessed by the back end
  */
 public class SegregationConfiguration extends GridConfiguration {
+
+	// initializes the resources used to get text Strings
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/XMLLabels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
 
 	/**
 	 * @param dataValues
@@ -23,7 +28,8 @@ public class SegregationConfiguration extends GridConfiguration {
 	 * @return This is a getter for Segregation Threshold
 	 */
 	public double getSegregationThreshold() {
-		return Double.parseDouble(GridConfiguration.getMyDataValues().get("segregationThreshold"));
+		return Double
+				.parseDouble(GridConfiguration.getMyDataValues().get(myResources.getString("segregationThreshold")));
 	}
 
 }

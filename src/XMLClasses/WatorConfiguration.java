@@ -1,6 +1,7 @@
 package XMLClasses;
 
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * @author Tyler Yam This is a subclass of the GridConfiguration superclass for
@@ -9,6 +10,10 @@ import java.util.Map;
  *         accessed by the back end
  */
 public class WatorConfiguration extends GridConfiguration {
+
+	// initializes the resources used to get text Strings
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/XMLLabels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
 
 	/**
 	 * @param dataValues
@@ -23,7 +28,7 @@ public class WatorConfiguration extends GridConfiguration {
 	 *         simulation
 	 */
 	public double getFishBreedTurns() {
-		return Double.parseDouble(GridConfiguration.getMyDataValues().get("fishBreedTurns"));
+		return Double.parseDouble(GridConfiguration.getMyDataValues().get(myResources.getString("fishBreedTurns")));
 	}
 
 	/**
@@ -31,7 +36,7 @@ public class WatorConfiguration extends GridConfiguration {
 	 *         simulation
 	 */
 	public double getSharkBreedTurns() {
-		return Double.parseDouble(GridConfiguration.getMyDataValues().get("sharkBreedTurns"));
+		return Double.parseDouble(GridConfiguration.getMyDataValues().get(myResources.getString("sharkBreedTurns")));
 	}
 
 	/**
@@ -39,7 +44,7 @@ public class WatorConfiguration extends GridConfiguration {
 	 *         simulation
 	 */
 	public double getSharkStarveTurns() {
-		return Double.parseDouble(GridConfiguration.getMyDataValues().get("sharkStarveTurns"));
+		return Double.parseDouble(GridConfiguration.getMyDataValues().get(myResources.getString("sharkStarveTurns")));
 	}
 
 }

@@ -1,5 +1,7 @@
 package XMLClasses;
 
+import java.util.ResourceBundle;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
@@ -17,12 +19,16 @@ import simulationDrivers.ErrorMessages;
  */
 public class WatorExporter extends XMLExporter {
 
-	Element fishBreedTurns;
-	Element sharkBreedTurns;
-	Element sharkStarveTurns;
-	String fBreedTurns;
-	String sBreedTurns;
-	String sStarveTurns;
+	// initializes the resources used to get text Strings
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/XMLLabels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
+
+	private Element fishBreedTurns;
+	private Element sharkBreedTurns;
+	private Element sharkStarveTurns;
+	private String fBreedTurns;
+	private String sBreedTurns;
+	private String sStarveTurns;
 
 	/**
 	 * @param numRowsParam
@@ -50,21 +56,24 @@ public class WatorExporter extends XMLExporter {
 		try {
 			Document doc = XMLExporter.buildDocument();
 
-			Element GridConfiguration = doc.createElement("GridConfiguration");
+			Element GridConfiguration = doc.createElement(myResources.getString("GridConfiguration"));
 			doc.appendChild(GridConfiguration);
 
 			addUniversalElements(doc, GridConfiguration);
 
-			addChildrenToDataType(doc, GridConfiguration, fishBreedTurns, "fishBreedTurns", fBreedTurns);
-			addChildrenToDataType(doc, GridConfiguration, sharkBreedTurns, "sharkBreedTurns", sBreedTurns);
-			addChildrenToDataType(doc, GridConfiguration, sharkStarveTurns, "sharkStarveTurns", sStarveTurns);
+			addChildrenToDataType(doc, GridConfiguration, fishBreedTurns, myResources.getString("fishBreedTurns"),
+					fBreedTurns);
+			addChildrenToDataType(doc, GridConfiguration, sharkBreedTurns, myResources.getString("sharkBreedTurns"),
+					sBreedTurns);
+			addChildrenToDataType(doc, GridConfiguration, sharkStarveTurns, myResources.getString("sharkStarveTurns"),
+					sStarveTurns);
 
 			writeXML(doc);
 
 		} catch (ParserConfigurationException pce) {
-			ErrorMessages.createErrors("Parsing Error!");
+			ErrorMessages.createErrors(myResources.getString("parseError"));
 		} catch (TransformerException tfe) {
-			ErrorMessages.createErrors("Transformer Error!");
+			ErrorMessages.createErrors(myResources.getString("transformerError"));
 		}
 	}
 

@@ -7,6 +7,7 @@ import java.util.Map;
 import org.w3c.dom.Element;
 
 public class RPSReader extends XMLReader {
+
 	public RPSReader() {
 		super();
 	}

@@ -1,6 +1,8 @@
 package XMLClasses;
 
 import java.io.File;
+import java.util.ResourceBundle;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,13 +25,17 @@ import org.w3c.dom.Element;
  */
 public abstract class XMLExporter {
 
+	// initializes the resources used to get text Strings
+	private static final String DEFAULT_RESOURCE_PACKAGE = "Resources/XMLLabels";
+	private static ResourceBundle myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE);
+
 	private static String nRows;
 	private static String nCols;
 	private static String cellConfig;
 
-	static Element numRows;
-	static Element numCols;
-	static Element cellConfiguration;
+	private static Element numRows;
+	private static Element numCols;
+	private static Element cellConfiguration;
 
 	/**
 	 * @param numRowsParam
@@ -82,9 +88,10 @@ public abstract class XMLExporter {
 	 *            all types of simulation
 	 */
 	public static void addUniversalElements(Document doc, Element GridConfiguration) {
-		addChildrenToDataType(doc, GridConfiguration, numRows, "numRows", nRows);
-		addChildrenToDataType(doc, GridConfiguration, numCols, "numCols", nCols);
-		addChildrenToDataType(doc, GridConfiguration, cellConfiguration, "cellConfiguration", cellConfig);
+		addChildrenToDataType(doc, GridConfiguration, numRows, myResources.getString("numRows"), nRows);
+		addChildrenToDataType(doc, GridConfiguration, numCols, myResources.getString("numCols"), nCols);
+		addChildrenToDataType(doc, GridConfiguration, cellConfiguration, myResources.getString("cellConfiguration"),
+				cellConfig);
 	}
 
 	/**
