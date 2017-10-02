@@ -5,11 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author Tyler Yam Based on code from Robert C. Duvall. This is a super class that
+ * stores data from an XML to be used for grid configurations
+ */
 public abstract class GridConfiguration {
-	/**
-	 * @author Tyler Yam Based on code from Robert C. Duvall This class is used to
-	 *         store data from an XML to be used for grid configurations
-	 */
+
 	// Data file name to represent this object type
 	public static final String DATA_TYPE = "GridConfiguration";
 	private static Map<String, String> myDataValues;
@@ -18,14 +19,26 @@ public abstract class GridConfiguration {
 	private static List<String> myDataFields = new ArrayList<>(
 			Arrays.asList(new String[] { "numRows", "numCols", "cellConfiguration" }));
 
+	/**
+	 * @param dataValues
+	 * Constructor for GridConfiguration
+	 */
 	public GridConfiguration(Map<String, String> dataValues) {
 		myDataValues = dataValues;
 	}
 
+	/**
+	 * @return
+	 * This is a getter method for the data fields
+	 */
 	public static List<String> getMyDataFields() {
 		return myDataFields;
 	}
 
+	/**
+	 * @param s
+	 * This is a method to add the data fields specific for the subclasses 
+	 */
 	public static void addToDataFields(List<String> s) {
 		getMyDataFields().addAll(s);
 	}
