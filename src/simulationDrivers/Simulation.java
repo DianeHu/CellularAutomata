@@ -29,9 +29,14 @@ import javafx.util.Duration;
 
 /**
  * 
- * @author Tyler Yam
- * @author Diane Hu This class holds most of the front end processing. This
- *         class essentially runs the simulations.
+ * @author Diane Hu
+ * @author Tyler Yam 
+ * 
+ * This class is the simulation superclass. It controls the functionality of
+ * a single simulation instantiation in the subclasses, and is able to set grid
+ * edge style, shape, etc. based on booleans passed through from the main driver.
+ * It depends on the Grid class and XML classes. Should be used by instantiating
+ * a subclass, or adding a subclass for a new simulation. 
  */
 public abstract class Simulation extends Application {
 
@@ -47,44 +52,57 @@ public abstract class Simulation extends Application {
 	private static final int FRAMES_PER_SECOND = 2;
 	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private static double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-	protected HBox hboxTop = new HBox();
-	protected VBox vboxRight = new VBox();
 	private HBox hboxBottom = new HBox();
 	private Group splash = new Group();
 	private Group simulationScreen = new Group();
 	private Scene myScene;
-	protected Grid sampleGrid;
-	private Stage myStage;
-	protected Button submit;
-	protected GridConfiguration XMLConfiguration;
-	protected static final int OFFSET = 7;
-	protected static int SCREEN_SIZE = 200 + OFFSET;
 	private static double timePassing = SECOND_DELAY;
 	private GridPane emptyPane = new GridPane();
 	private BorderPane screenBorder = new BorderPane();
 	private Timeline animation = new Timeline();
 	private Group root;
-	protected boolean isFirstTime = true;
-	protected Graph g;
-	protected boolean isPaused = false;
-	protected boolean isStarted = false;
+	private Stage myStage;
 	private String simType;
 	private Button startButton;
 	private Button stepButton;
 	private Boolean isRectangle = true;
 	private Button resetButton;
-	protected Button saveButton;
 	private Boolean isToroidal = false;
 	private Boolean isMaxNeighbors = true;
 	private Boolean isStroke = true;
+	/**
+	 * We decided the following variables would be protected since only
+	 * Simulation subclasses have access to these implementation features.
+	 * As such, no other classes other than those that directly instantiate
+	 * simulations have access, and doing it any other way would require
+	 * an excessive number of getters and setters.
+	 */
+	protected HBox hboxTop = new HBox();
+	protected VBox vboxRight = new VBox();
+	protected Grid sampleGrid;
+	protected Button submit;
+	protected GridConfiguration XMLConfiguration;
+	protected static final int OFFSET = 7;
+	protected static int SCREEN_SIZE = 200 + OFFSET;
+	protected boolean isFirstTime = true;
+	protected Graph g;
+	protected boolean isPaused = false;
+	protected boolean isStarted = false;
+	protected Button saveButton;
 
+	/**
+	 * @param gC
+	 * @param g
+	 * Simulation constructor with a GridConfiguration and a Grid
+	 */
 	public Simulation(GridConfiguration gC, Grid g) {
 		XMLConfiguration = gC;
 		sampleGrid = g;
 	}
 
 	/**
-	 * This method starts the application
+	 * This method starts the application by adding the initial buttons
+	 * to the original screen
 	 */
 	public void start(Stage primaryStage) throws Exception {
 		addButtonsToBorder(primaryStage);
@@ -94,7 +112,8 @@ public abstract class Simulation extends Application {
 	 * @param s
 	 * @throws Exception
 	 *             This method add buttons to the Border Pane and calls the
-	 *             startSplash and addEvents methods
+	 *             startSplash and addEvents methods, creating the basic look of
+	 *             the screen when no movement has been called yet.
 	 */
 	private void addButtonsToBorder(Stage s) throws Exception {
 		Rectangle temp = new Rectangle();
