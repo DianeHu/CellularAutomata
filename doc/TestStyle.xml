@@ -1,6 +1,5 @@
 <StyleConfiguration>
 	<gridShape>Hexagon</gridShape>
 	<edgeShape>Toroidal</edgeShape>
-	<gridOutline>Yes</gridOutline>
 	<neighborType>Max</neighborType>
 </StyleConfiguration>

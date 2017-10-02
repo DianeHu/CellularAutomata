@@ -27,7 +27,6 @@ public class BurningTreeCell extends Cell {
 		setColor(Color.DARKORANGE);
 	}
 
-
 	/**
 	 * Constructor for BurningTreeCell that does not specify row or column number.
 	 */
@@ -35,8 +34,13 @@ public class BurningTreeCell extends Cell {
 		super();
 		setColor(Color.DARKORANGE);
 	}
-	
-	@Override 
+
+	/* (non-Javadoc)
+	 * @see cells.Cell#changeType()
+	 * 
+	 * Changes type of cell from tree to burningtreecell on user mouse click.
+	 */
+	@Override
 	public Cell changeType() {
 		TreeCell newCell = new TreeCell(this.getRow(), this.getCol());
 		return newCell;
@@ -52,7 +56,15 @@ public class BurningTreeCell extends Cell {
 		BurningTreeCell newCell = new BurningTreeCell();
 		return newCell;
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see cells.Cell#setThreshold(double, double, double)
+	 * 
+	 * No thresholds are set for a burning cell. Included as the main method is
+	 * abstract.
+	 */
 	@Override
 	public void setThreshold(double a, double b, double c) {
 		// do nothing
@@ -68,7 +80,7 @@ public class BurningTreeCell extends Cell {
 	 */
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
-		createNewCellOfType(new EmptyLandCell(),grid);
+		createNewCellOfType(new EmptyLandCell(), grid);
 	}
 
 }

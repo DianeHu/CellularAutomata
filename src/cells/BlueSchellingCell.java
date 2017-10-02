@@ -16,17 +16,18 @@ import javafx.scene.paint.Color;
  *         Segregation simulation
  */
 public class BlueSchellingCell extends Cell {
+	private static final Color BLUE_SCHELLING_COLOR = Color.NAVY;
 	private double threshold;
 	
 	public BlueSchellingCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
-		setColor(Color.NAVY);
+		setColor(BLUE_SCHELLING_COLOR);
 	}
 
 
 	public BlueSchellingCell() {
 		super();
-		setColor(Color.NAVY);
+		setColor(BLUE_SCHELLING_COLOR);
 	}
 	
 	/*

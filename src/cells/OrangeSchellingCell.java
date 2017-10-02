@@ -16,16 +16,17 @@ import javafx.scene.paint.Color;
  */
 public class OrangeSchellingCell extends Cell {
 
+	private static final Color ORANGE_SCHELLING_COLOR = Color.DARKORANGE;
 	private double threshold;
 	
 	public OrangeSchellingCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
-		setColor(Color.DARKORANGE);
+		setColor(ORANGE_SCHELLING_COLOR);
 	}
 
 	public OrangeSchellingCell() {
 		super();
-		setColor(Color.DARKORANGE);
+		setColor(ORANGE_SCHELLING_COLOR);
 	}
 	
 	/**

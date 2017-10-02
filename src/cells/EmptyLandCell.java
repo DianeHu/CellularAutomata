@@ -48,6 +48,11 @@ public class EmptyLandCell extends Cell {
 		return newCell;
 	}
 
+	/* (non-Javadoc)
+	 * @see cells.Cell#changeType()
+	 * 
+	 * Changes type of cell from emptyland to new tree, when user clicks.
+	 */
 	@Override
 	public Cell changeType() {
 		TreeCell newCell = new TreeCell(this.getRow(), this.getCol());

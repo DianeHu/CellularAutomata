@@ -6,13 +6,13 @@ import java.util.Map;
 
 import org.w3c.dom.Element;
 
-public class GameOfLifeReader extends XMLReader {
+public class RPSReader extends XMLReader {
 
-	public GameOfLifeReader() {
+	public RPSReader() {
 		super();
 	}
 
-	public GameOfLifeConfiguration getGridConfiguration(File dataFile) {
+	public RPSConfiguration getGridConfiguration(File dataFile) {
 		Element root = getRootElement(dataFile);
 		if (!isValidFile(root, GridConfiguration.DATA_TYPE)) {
 			throw new XMLException("XML file does not represent %s", GridConfiguration.DATA_TYPE);
@@ -22,6 +22,6 @@ public class GameOfLifeReader extends XMLReader {
 		for (String field : GridConfiguration.getMyDataFields()) {
 			results.put(field, getTextValue(root, field));
 		}
-		return new GameOfLifeConfiguration(results);
+		return new RPSConfiguration(results);
 	}
 }

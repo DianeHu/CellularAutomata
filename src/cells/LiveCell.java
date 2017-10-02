@@ -15,7 +15,6 @@ import javafx.scene.paint.Color;
  */
 public class LiveCell extends Cell {
 
-	
 	public LiveCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
 		setColor(Color.DARKCYAN);
@@ -39,7 +38,14 @@ public class LiveCell extends Cell {
 		Cell newCell = new LiveCell();
 		return newCell;
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see cells.Cell#changeType()
+	 * 
+	 * Changes type of cell from deadcell to livecell on user mouse click
+	 */
 	@Override
 	public Cell changeType() {
 		DeadCell newCell = new DeadCell(this.getRow(), this.getCol());
@@ -56,7 +62,15 @@ public class LiveCell extends Cell {
 		}
 		return false;
 	}
-	
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see cells.Cell#setThreshold(double, double, double)
+	 * 
+	 * No thresholds set for this simulation. Included since the main method is
+	 * abstract.
+	 */
 	@Override
 	public void setThreshold(double t, double unused1, double unused2) {
 		// do nothing
@@ -74,7 +88,7 @@ public class LiveCell extends Cell {
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		if (shouldDie()) {
-			createNewCellOfType(new DeadCell(),grid);
+			createNewCellOfType(new DeadCell(), grid);
 		} else {
 			grid.addToNewGrid(this);
 		}
