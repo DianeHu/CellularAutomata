@@ -22,8 +22,6 @@ public class HexagonGrid extends Grid{
 
 	public static final int SIZE = 400;
 	private Polygon[][] blocks;
-	private boolean toroidal = false;
-	private boolean maxNeighbors = true;
 
 
 	/**
@@ -69,20 +67,6 @@ public class HexagonGrid extends Grid{
 		}
 		hexagon.setTranslateX(-.25*(double)(getCellWidth())*col);
 	}
-	/**
-	 * @param cell
-	 *            is an individual Cell type This method sets a list of neighbors
-	 *            for a single cell.
-	 * 
-	 */
-	protected void setNeighborsForCell(Cell cell) {
-		List<Cell> neighbors = new ArrayList<Cell>();
-		getAdjacentNeighbors(cell, neighbors);
-		if(toroidal) {
-			getWrappedNeighbors(cell, neighbors);
-		}
-		cell.setNeighbors(neighbors);
-	}
 
 	/**
 	 * @param cell
@@ -91,7 +75,7 @@ public class HexagonGrid extends Grid{
 	 *            include adjacent neighbors which are neighbors according to the
 	 *            cell type's isNeighbor() algorithm.
 	 */
-	private void getAdjacentNeighbors(Cell cell, List<Cell> neighbors) {
+	protected void getAdjacentNeighbors(Cell cell, List<Cell> neighbors) {
 		int row = cell.getRow();
 		int col = cell.getCol();
 		
@@ -107,7 +91,7 @@ public class HexagonGrid extends Grid{
 	}
 	
 	private boolean isNeighborAdjacent(int currentRow, int currentCol, int otherRow, int otherCol) {
-		if(maxNeighbors) {
+		if(getMaxNeighbors()) {
 			if(currentCol%2!=0) {//downcurve
 				//left,right,up, lower left, lower right,down
 				return (Math.abs(currentRow - otherRow) <= 1 & Math.abs(currentCol - otherCol) <= 1)
@@ -142,7 +126,7 @@ public class HexagonGrid extends Grid{
 	 *            include wrapped neighbors which are neighbors according to the
 	 *            cell type's isNeighbor() algorithm.
 	 */
-	private void getWrappedNeighbors(Cell cell, List<Cell> neighbors) {
+	protected void getWrappedNeighbors(Cell cell, List<Cell> neighbors) {
 		verticalWrapping(cell, neighbors);
 		horizontalWrapping(cell, neighbors);
 	}
@@ -156,7 +140,7 @@ public class HexagonGrid extends Grid{
 		}
 		if (cell.getCol() == getNumCols() - 1) {
 			neighbors.add(getCurrentGrid()[cell.getRow()][0]);
-			if(maxNeighbors) {
+			if(getMaxNeighbors()) {
 				if(cell.getCol()%2!=0) {
 					if(cell.getRow()!=0) {
 						neighbors.add(getCurrentGrid()[cell.getRow()-1][0]);
@@ -173,7 +157,7 @@ public class HexagonGrid extends Grid{
 
 	protected void verticalWrapping(Cell cell, List<Cell> neighbors) {
 		if (cell.getRow() == 0) {
-			if(maxNeighbors) {
+			if(getMaxNeighbors()) {
 				neighbors.add(getCurrentGrid()[getNumRows()-1][cell.getCol()]);
 			}
 			if(cell.getCol()%2==0) {
@@ -186,7 +170,7 @@ public class HexagonGrid extends Grid{
 			}
 		}
 		if (cell.getRow() == getNumRows() - 1) {
-			if(maxNeighbors) {
+			if(getMaxNeighbors()) {
 				neighbors.add(getCurrentGrid()[0][cell.getCol()]);
 			}
 			if(cell.getCol()%2!=0) {
