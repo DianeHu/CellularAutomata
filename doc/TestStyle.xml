@@ -1,6 +1,5 @@
 <StyleConfiguration>
 	<gridShape>Rectangle</gridShape>
-	<edgeShape>Finite</edgeShape>
-	<gridOutline>Yes</gridOutline>
+	<edgeShape>Toroidal</edgeShape>
 	<neighborType>Four</neighborType>
 </StyleConfiguration>

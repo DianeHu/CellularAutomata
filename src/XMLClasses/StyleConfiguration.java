@@ -16,7 +16,6 @@ public class StyleConfiguration {
     public static List<String> myDataFields = new ArrayList<>(Arrays.asList(new String[]{
     	"gridShape",
         "edgeShape",
-        "gridOutline",
         "neighborType"
     }));
 
@@ -40,10 +39,7 @@ public class StyleConfiguration {
     public String getEdgeShape () {
         return getMyDataValues().get("edgeShape");
     }
-    // returns shape of grid
-    public String getGridOutline () {
-        return getMyDataValues().get("gridOutline");
-    }
+    
     // returns shape of grid
     public String getNeighborType () {
         return getMyDataValues().get("neighborType");

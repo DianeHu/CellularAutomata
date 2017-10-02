@@ -13,8 +13,6 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
@@ -29,9 +27,15 @@ import javafx.util.Duration;
 
 /**
  * 
+ * @author Diane Hu
  * @author Tyler Yam
- * @author Diane Hu This class holds most of the front end processing. This
- *         class essentially runs the simulations.
+ * 
+ *         This class is the simulation superclass. It controls the
+ *         functionality of a single simulation instantiation in the subclasses,
+ *         and is able to set grid edge style, shape, etc. based on booleans
+ *         passed through from the main driver. It depends on the Grid class and
+ *         XML classes. Should be used by instantiating a subclass, or adding a
+ *         subclass for a new simulation.
  */
 public abstract class Simulation extends Application {
 
@@ -41,51 +45,62 @@ public abstract class Simulation extends Application {
 	private static final String DATA_FILE_EXTENSION = "*.xml";
 	private FileChooser myChooser = makeChooser(DATA_FILE_EXTENSION);
 	private static final int VERT_SIZE = 650;
-	protected static final int LEFT_OFFSET = 35;
 	private static final int HORIZONTAL_SIZE = 575;
 	private static final Color BACKGROUND = Color.TRANSPARENT;
 	private static final String TITLE = "SIMULATION";
 	private static final int FRAMES_PER_SECOND = 2;
 	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
 	private static double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-	protected HBox hboxTop = new HBox();
-	protected VBox vboxRight = new VBox();
 	private HBox hboxBottom = new HBox();
 	private Group splash = new Group();
 	private Group simulationScreen = new Group();
 	private Scene myScene;
-	protected Grid sampleGrid;
-	private Stage myStage;
-	protected Button submit;
-	protected GridConfiguration XMLConfiguration;
-	protected static final int OFFSET = 7;
-	protected static int SCREEN_SIZE = 200 + OFFSET;
 	private static double timePassing = SECOND_DELAY;
 	private GridPane emptyPane = new GridPane();
 	private BorderPane screenBorder = new BorderPane();
 	private Timeline animation = new Timeline();
 	private Group root;
-	protected boolean isFirstTime = true;
-	protected Graph g;
-	protected boolean isPaused = false;
-	protected boolean isStarted = false;
+	private Stage myStage;
 	private String simType;
 	private Button startButton;
 	private Button stepButton;
 	private Boolean isRectangle = true;
 	private Button resetButton;
-	protected Button saveButton;
 	private Boolean isToroidal = false;
 	private Boolean isMaxNeighbors = true;
-	private Boolean isStroke = true;
+	/**
+	 * We decided the following variables would be protected since only Simulation
+	 * subclasses have access to these implementation features. As such, no other
+	 * classes other than those that directly instantiate simulations have access,
+	 * and doing it any other way would require an excessive number of getters and
+	 * setters.
+	 */
+	protected HBox hboxTop = new HBox();
+	protected VBox vboxRight = new VBox();
+	protected Grid sampleGrid;
+	protected Button submit;
+	protected GridConfiguration XMLConfiguration;
+	protected static final int OFFSET = 7;
+	protected static int SCREEN_SIZE = 200 + OFFSET;
+	protected boolean isFirstTime = true;
+	protected Graph g;
+	protected boolean isPaused = false;
+	protected boolean isStarted = false;
+	protected Button saveButton;
 
+	/**
+	 * @param gC
+	 * @param g
+	 *            Simulation constructor with a GridConfiguration and a Grid
+	 */
 	public Simulation(GridConfiguration gC, Grid g) {
 		XMLConfiguration = gC;
 		sampleGrid = g;
 	}
 
 	/**
-	 * This method starts the application
+	 * This method starts the application by adding the initial buttons to the
+	 * original screen
 	 */
 	public void start(Stage primaryStage) throws Exception {
 		addButtonsToBorder(primaryStage);
@@ -94,8 +109,9 @@ public abstract class Simulation extends Application {
 	/**
 	 * @param s
 	 * @throws Exception
-	 *             This method add buttons to the Border Pane and calls the
-	 *             startSplash and addEvents methods
+	 *             This method adds buttons to the Border Pane and calls the
+	 *             startSplash and addEvents methods, creating the basic look of the
+	 *             screen when no movement has been called yet.
 	 */
 	private void addButtonsToBorder(Stage s) throws Exception {
 		Rectangle temp = new Rectangle();
@@ -113,7 +129,7 @@ public abstract class Simulation extends Application {
 
 		vboxRight.setPadding(new Insets(OFFSET));
 		vboxRight.setSpacing(OFFSET);
-		
+
 		screenBorder.setCenter(emptyPane);
 		screenBorder.setTop(hboxTop);
 		screenBorder.setRight(vboxRight);
@@ -129,41 +145,66 @@ public abstract class Simulation extends Application {
 		scene.getStylesheets().add(getClass().getResource("Styling.css").toExternalForm());
 	}
 
+	/**
+	 * @param s
+	 *            Sets the current simulation type string
+	 */
 	public void setSimType(String s) {
 		simType = s;
 	}
-	
+
+	/**
+	 * @param b
+	 *            Sets whether or not the current simulation runs on a rectangleGrid
+	 */
 	public void setIsRectangle(Boolean b) {
 		isRectangle = b;
 	}
-	
+
+	/**
+	 * @param b
+	 *            Sets the type of neighbors a grid should use--max (all 8) or not
+	 *            (4).
+	 */
 	public void setMaxNeighbors(Boolean b) {
 		isMaxNeighbors = b;
 	}
-	
-	public void setStrokeFill(Boolean b) {
-		isStroke = b;
-	}
-	
+
+	/**
+	 * @param b
+	 *            Sets whether or not a simulation runs on a toroidal edged Grid
+	 */
 	public void setIsToroidal(Boolean b) {
 		isToroidal = b;
 	}
 
+	/**
+	 * @param s
+	 *            Makes the generic buttons every simulation needs, calls
+	 *            makeSimSpecificFields to make the buttons specific to each
+	 *            subsimulation.
+	 */
 	private void makeButtons(Stage s) {
 		SimulationButtons.makeButtonH("Choose XML File for Configuration", e -> openFile(s), hboxTop, SCREEN_SIZE);
-		startButton = SimulationButtons.makeReturnableButtonH("Start Simulation", e -> startMethod(s), hboxTop, SCREEN_SIZE);
+		startButton = SimulationButtons.makeReturnableButtonH("Start Simulation", e -> startMethod(s), hboxTop,
+				SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Pause", e -> pause(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Resume", e -> resume(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Speed Up", e -> faster(), vboxRight, SCREEN_SIZE);
 		SimulationButtons.makeButtonV("Slow Down", e -> slower(), vboxRight, SCREEN_SIZE);
-		resetButton=SimulationButtons.makeReturnableButtonV("Reset", e -> reset(), vboxRight, SCREEN_SIZE);
+		resetButton = SimulationButtons.makeReturnableButtonV("Reset", e -> reset(), vboxRight, SCREEN_SIZE);
 		stepButton = SimulationButtons.makeReturnableButtonV("Step", e -> manualStep(), vboxRight, SCREEN_SIZE);
 		resetButton.setDisable(!isStarted);
-		stepButton.setDisable(!(isPaused&isStarted));
+		stepButton.setDisable(!(isPaused & isStarted));
 		makeSimSpecificFields(s);
 		saveButton.setDisable(!isStarted);
 	}
-	
+
+	/**
+	 * @param s
+	 *            Abstract method replicated in the subclasses that makes the
+	 *            necessary specific buttons/textfields.
+	 */
 	protected abstract void makeSimSpecificFields(Stage s);
 
 	private void setUpStage(Stage s, Scene scene) {
@@ -173,6 +214,11 @@ public abstract class Simulation extends Application {
 		myStage.show();
 	}
 
+	/**
+	 * @param s
+	 *            Starts the simulation, and flips the disables of buttons as
+	 *            appropriate.
+	 */
 	private void startMethod(Stage s) {
 		try {
 			startSimulation(s);
@@ -186,8 +232,10 @@ public abstract class Simulation extends Application {
 	}
 
 	/**
-	 * This method allows the stepButton to step through our grid every time it is
-	 * click
+	 * This method calls a single step of the simulation, to step through once.
+	 * Called as an ordinary step when the simulation isn't paused, or when the step
+	 * button is clicked when the simulation is paused. Abstracted so subsimulations
+	 * can update their specific graphs appropriately.
 	 */
 	protected abstract void manualStep();
 
@@ -202,7 +250,7 @@ public abstract class Simulation extends Application {
 			try {
 				XMLConfiguration = setInputConfig(dataFile);
 			} catch (XMLException e) {
-				throw e;
+				ErrorMessages.createErrors("Invalid XML file");
 			}
 			startButton.setDisable(false);
 			hboxBottom.getChildren().clear();
@@ -211,15 +259,28 @@ public abstract class Simulation extends Application {
 			startButton.setDisable(true);
 		}
 	}
-	
-	protected abstract GridConfiguration setInputConfig (File datafile);
 
+	/**
+	 * @param datafile
+	 * @return Returns a GridConfiguration appropriate to each simulation type. This
+	 *         method is called in openFile in order to instantiate the correct
+	 *         XMLConfiguration per simulation type.
+	 */
+	protected abstract GridConfiguration setInputConfig(File datafile);
+
+	/**
+	 * @return Returns a copy of the current simulation as appropriate to the
+	 *         simulation type. Used to simplify simulation instantiation by user
+	 *         choice--see Main. Used to call Simulation instantiation through a map
+	 *         that has Simulations as values.
+	 */
 	public abstract Simulation copy();
 
 	/**
 	 * @param s
 	 * @throws Exception
-	 *             This method starts the simulation
+	 *             This method starts the simulation, and sets up the appropriate
+	 *             thresholds for the simulation.
 	 */
 	private void startSimulation(Stage s) throws Exception {
 
@@ -233,16 +294,22 @@ public abstract class Simulation extends Application {
 		animation.play();
 	}
 
+	/**
+	 * Abstract threshold setter-upper replicated in subclasses, to update
+	 * simulation specific thresholds as necessary.
+	 */
 	protected abstract void setUpThresholds();
 
 	/**
 	 * @param xml
 	 * @return This method sets up the scene upon which the simulation will run and
-	 *         returns it
+	 *         returns it. In order to avoid duplicated children, it only sets the
+	 *         screenBorder borderpane once per simulation. Its children are
+	 *         manipulated separately.
 	 */
 	private Scene setSimulation() {
 		root = new Group();
-		if(isRectangle) {
+		if (isRectangle) {
 			sampleGrid = new RectangleGrid(root, XMLConfiguration);
 		} else {
 			sampleGrid = new HexagonGrid(root, XMLConfiguration);
@@ -250,7 +317,6 @@ public abstract class Simulation extends Application {
 		sampleGrid.setSimType(simType);
 		sampleGrid.initialize();
 		sampleGrid.setMaxNeighbors(isMaxNeighbors);
-		sampleGrid.setIsStroke(isStroke);
 		sampleGrid.setIsToroidal(isToroidal);
 		g = createGraph(sampleGrid);
 		g.addToBox(hboxBottom);
@@ -267,15 +333,19 @@ public abstract class Simulation extends Application {
 
 		return myScene;
 	}
-	
-	//protected abstract void createGrid(Group root);
-	
+
+	/**
+	 * @param g
+	 * @return Abstract method used in subclasses to create graphs specific to
+	 *         simulations.
+	 */
 	protected abstract Graph createGraph(Grid g);
 
 	/**
 	 * @param elapsedTime
 	 *            This method iterates through the grid, updating it as the
-	 *            simulation runs
+	 *            simulation runs. Abstracted into subclasses to perform simulation
+	 *            specific behavior.
 	 */
 	protected abstract void step(double elapsedTime);
 
@@ -283,22 +353,23 @@ public abstract class Simulation extends Application {
 	 * This method resumes the simulation after it is paused
 	 */
 	private void resume() {
-		// animation.play();
-		// sampleGrid.setPaused(false);
 		isPaused = false;
-		stepButton.setDisable(!(isPaused&&isStarted));
+		stepButton.setDisable(!(isPaused && isStarted));
 	}
 
+	/**
+	 * This abstract method directs what happens when the user wishes to set/reset
+	 * the thresholds of the simulation mid simulation. Abstracted as different
+	 * simulations have different thresholds to update.
+	 */
 	protected abstract void userSetThreshold();
 
 	/**
 	 * This method pauses the simulation
 	 */
 	private void pause() {
-		// animation.pause();
-		// sampleGrid.setPaused(true);
 		isPaused = true;
-		stepButton.setDisable(!(isPaused&&isStarted));
+		stepButton.setDisable(!(isPaused && isStarted));
 	}
 
 	/**
@@ -319,7 +390,8 @@ public abstract class Simulation extends Application {
 
 	/**
 	 * @param extensionAccepted
-	 * @return This method makes the FileChooser object
+	 * @return This method makes the FileChooser object that allows users to open an
+	 *         XML File.
 	 */
 	private FileChooser makeChooser(String extensionAccepted) {
 		FileChooser result = new FileChooser();
@@ -330,7 +402,8 @@ public abstract class Simulation extends Application {
 	}
 
 	/**
-	 * This method resets the grid pane so that a new file can be put in
+	 * This method resets the grid pane so that a new file can be put in. Also
+	 * removes the current graph.
 	 */
 	private void reset() {
 		startButton.setDisable(false);

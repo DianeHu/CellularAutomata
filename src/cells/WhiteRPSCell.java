@@ -37,7 +37,6 @@ public class WhiteRPSCell extends Cell {
 	@Override
 	public void setThreshold(double a, double b, double c) {
 		// TODO Auto-generated method stub
-		
 	}
 
 	/* (non-Javadoc)
@@ -45,8 +44,9 @@ public class WhiteRPSCell extends Cell {
 	 */
 	@Override
 	public Cell changeType() {
-		// TODO Auto-generated method stub
-		return null;
+		BlueRPSCell newCell = new BlueRPSCell();
+		newCell.setRow(getRow());newCell.setCol(getCol());
+		return newCell;
 	}
 
 
