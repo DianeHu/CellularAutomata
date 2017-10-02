@@ -29,11 +29,8 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * @author Madhavi Rajiv
- * @author Diane Hu This class creates manages the different cells in the
- *         simulation, and organizes their updates in parallel. It takes in a
- *         GridConfiguration object to get information from the XML file about
- *         the nature of the simulation, and takes in a Group root to edit the
- *         scene based on the states of the cells.
+ * This class is a subclass of Grid which creates rectangles as cell shapes
+ * and gets neighbors based on the shape of the rectangles.
  */
 public class RectangleGrid extends Grid {
 
@@ -66,50 +63,17 @@ public class RectangleGrid extends Grid {
 		setBlocks(blocks);
 	}
 
-	private double countBSCell() {
-		double count = 0;
-		for (int i = 0; i < getNumRows(); i++) {
-			for (int j = 0; j < getNumCols(); j++) {
-				Cell c = getCurrentGrid()[i][j];
-				if (c instanceof BlueSchellingCell) {
-					count++;
-				}
-			}
-		}
-		return count;
-	}
-
-	public double percentBS() {
-		return countBSCell() / (getNumRows() * getNumCols());
-	}
-
-	public double percentOS() {
-		return 1 - percentBS();
-	}
-
 
 	/**
-	 * @param cell
-	 * @param neighbors
-	 *            This method takes in a cell and edits its list of neighbors to
-	 *            include adjacent neighbors which are neighbors according to the
-	 *            cell type's isNeighbor() algorithm.
+	 * @param currentRow
+	 * @param currentCol
+	 * @param otherRow
+	 * @param otherCol
+	 * @return Takes in a Cell's location and a potential neighbor's location to 
+	 * determine whether the potential neighbor cell is adjacent 
 	 */
-	protected void getAdjacentNeighbors(Cell cell, List<Cell> neighbors) {
-		int row = cell.getRow();
-		int col = cell.getCol();
-		for (int i = -1; i < 2; i++) {
-			for (int j = -1; j < 2; j++) {
-				if (row + i < getNumRows() & row + i > -1 & (col + j) < getNumCols() & (col + j) > -1) {
-					if (isNeighborAdjacent(cell.getRow(), cell.getCol(), row + i, col + j)) {
-						neighbors.add(getCurrentGrid()[row + i][col + j]);
-					}
-				}
-			}
-		}
-	}
-
-	private boolean isNeighborAdjacent(int currentRow, int currentCol, int otherRow, int otherCol) {
+	@Override
+	protected boolean isNeighborAdjacent(int currentRow, int currentCol, int otherRow, int otherCol) {
 		if (getMaxNeighbors()) {
 			return (Math.abs(currentRow - otherRow) <= 1 && Math.abs(currentCol - otherCol) <= 1)
 					& !(otherRow == currentRow && otherCol == currentCol);
@@ -126,12 +90,18 @@ public class RectangleGrid extends Grid {
 	 *            include wrapped neighbors which are neighbors according to the
 	 *            cell type's isNeighbor() algorithm.
 	 */
+	@Override
 	protected void getWrappedNeighbors(Cell cell, List<Cell> neighbors) {
 		verticalWrapping(cell, neighbors);
 		horizontalWrapping(cell, neighbors);
 	}
 
-	protected void horizontalWrapping(Cell cell, List<Cell> neighbors) {
+	/**
+	 * @param cell
+	 * @param neighbors
+	 * Updates a cell's list of neighbors to include neighbors from horizontal wrapping
+	 */
+	private void horizontalWrapping(Cell cell, List<Cell> neighbors) {
 		if (cell.getCol() == 0) {
 
 			neighbors.add(getCurrentGrid()[cell.getRow()][getNumCols() - 1]);
@@ -157,7 +127,12 @@ public class RectangleGrid extends Grid {
 		}
 	}
 
-	protected void verticalWrapping(Cell cell, List<Cell> neighbors) {
+	/**
+	 * @param cell
+	 * @param neighbors
+	 * Updates a cell's list of neighbors to include neighbors from vertical wrapping
+	 */
+	private void verticalWrapping(Cell cell, List<Cell> neighbors) {
 		if (cell.getRow() == 0) {
 			neighbors.add(getCurrentGrid()[getNumRows() - 1][cell.getCol()]);
 			if (getMaxNeighbors()) {

@@ -11,10 +11,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
- * 
- * @author Tyler Yam
- * @author Diane Hu This class holds most of the front end processing. This
- *         class essentially runs the simulations.
+ * @author Diane Hu Simulation subclass that instantiates a ForagingAnt type
+ *         simulation. Depends on the XML classes. Used through the main GUI--if
+ *         "ForagingAnts" is typed, a user will be able to run a ForagingAnts
+ *         simulation. Run with a ForagingAnts XML file--see TestForagingAnts as
+ *         an example, or test run with that file.
  */
 public class ForagingAntsSimulation extends Simulation {
 
@@ -28,21 +29,44 @@ public class ForagingAntsSimulation extends Simulation {
 	private int foodLocX;
 	private int foodLocY;
 
+	/**
+	 * @param gC
+	 * @param g
+	 *            Constructor that uses the superclass constructor.
+	 */
 	public ForagingAntsSimulation(GridConfiguration gC, Grid g) {
 		super(gC, g);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see simulationDrivers.Simulation#createGraph(cellManager.Grid) Creates a
+	 * ForagingAntsGraph.
+	 */
 	@Override
 	protected Graph createGraph(Grid g) {
 		return new ForagingAntsGraph(g);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see simulationDrivers.Simulation#setInputConfig(java.io.File) Returns a
+	 * ForagingAntsConfiguration for the superclass filereader to use.
+	 */
 	@Override
 	protected GridConfiguration setInputConfig(File dataFile) {
 		XMLConfiguration = new ForagingAntsReader().getGridConfiguration(dataFile);
 		return XMLConfiguration;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see simulationDrivers.Simulation#setUpThresholds() Sets up ant specific
+	 * thresholds, including home and food location, and max number of ant groups.
+	 */
 	@Override
 	protected void setUpThresholds() {
 		numRows = sampleGrid.getNumRows();
@@ -54,12 +78,26 @@ public class ForagingAntsSimulation extends Simulation {
 		maxAnts = XMLConfiguration.getMaxAnts();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see simulationDrivers.Simulation#copy() Returns a copy of this specific
+	 * simulation with the appropriate grid and configuration.
+	 */
 	@Override
 	public Simulation copy() {
 		ForagingAntsConfiguration fC = null;
 		return new ForagingAntsSimulation(fC, sampleGrid);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see simulationDrivers.Simulation#makeSimSpecificFields(javafx.stage.Stage)
+	 * Makes the simulation specific textfields and buttons. In this case, foraging
+	 * ants needs a max ants threshold setting button, and a submit button for that
+	 * threshold.
+	 */
 	@Override
 	protected void makeSimSpecificFields(Stage s) {
 		saveButton = SimulationButtons.makeReturnableButtonH("Save",
@@ -72,10 +110,31 @@ public class ForagingAntsSimulation extends Simulation {
 				3 * OFFSET - SCREEN_SIZE);
 	}
 
-	private void save(String nR, String nC, String cC, String mA, String hLX, String hLY, String fLX, String fLY) {
-		new ForagingAntsExporter(nR, nC, cC, mA, hLX, hLY, fLX, fLY).buildXML();
+	/**
+	 * @param numRows
+	 * @param numCols
+	 * @param cellConfig
+	 * @param maxAnts
+	 * @param homeLocX
+	 * @param homeLocY
+	 * @param foodLocX
+	 * @param foodLocY
+	 * 
+	 *            Saves the current simulation configuration in the file called
+	 *            GridConfigurationOutput
+	 */
+	private void save(String numRows, String numCols, String cellConfig, String maxAnts, String homeLocX,
+			String homeLocY, String foodLocX, String foodLocY) {
+		new ForagingAntsExporter(numRows, numCols, cellConfig, maxAnts, homeLocX, homeLocY, foodLocX, foodLocY)
+				.buildXML();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see simulationDrivers.Simulation#manualStep() Steps through the simulation
+	 * for one step--updating the graph, creating a new grid state.
+	 */
 	@Override
 	protected void manualStep() {
 		sampleGrid.createsNewGrid(maxAnts, 0, 0);
@@ -83,6 +142,15 @@ public class ForagingAntsSimulation extends Simulation {
 		sampleGrid.update();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see simulationDrivers.Simulation#step(double) Method controlling regular
+	 * stepping. If the simulation isn't paused, it steps through as usual, but if
+	 * it is, the grid doesn't update cell movement--only cell state changes, i.e.,
+	 * if a user clicks on a cell it changes state. In this case, ants go empty, and
+	 * empty cells have no change state behavior.
+	 */
 	@Override
 	protected void step(double elapsedTime) {
 		if (isPaused == false) {
@@ -94,6 +162,13 @@ public class ForagingAntsSimulation extends Simulation {
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see simulationDrivers.Simulation#userSetThreshold()
+	 * 
+	 * Sets the simulation specific threshold of max number of ants in an ant group.
+	 */
 	@Override
 	protected void userSetThreshold() {
 		if (!(threshold.getText().length() == 0)) {

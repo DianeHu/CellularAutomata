@@ -98,7 +98,7 @@ public class AntGroupCell extends Cell{
 	 */
 	@Override
 	public Cell changeType() {
-		AntGroupCell newCell = new AntGroupCell(this.getRow(), this.getCol());
+		EmptyCell newCell = new EmptyCell(this.getRow(), this.getCol());
 		return newCell;
 	}
 
