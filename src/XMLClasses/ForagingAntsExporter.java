@@ -9,12 +9,12 @@ import org.w3c.dom.Element;
 import simulationDrivers.ErrorMessages;
 
 /**
- * @author Tyler Yam
- * This is a subclass of the XMLExporter superclass for the Foraging Ants simulation
- * This class formats the XML to be export for the user's desires.
+ * @author Tyler Yam This is a subclass of the XMLExporter superclass for the
+ *         Foraging Ants simulation This class formats the XML to be export for
+ *         the user's desires.
  */
-public class ForagingAntsExporter extends XMLExporter{
-		
+public class ForagingAntsExporter extends XMLExporter {
+
 	/**
 	 * The XML Elements specific to the Foraging Ants simulation
 	 */
@@ -23,7 +23,7 @@ public class ForagingAntsExporter extends XMLExporter{
 	Element homeLocY;
 	Element foodLocX;
 	Element foodLocY;
-	
+
 	/**
 	 * Local variables to store variables passed in
 	 */
@@ -32,7 +32,6 @@ public class ForagingAntsExporter extends XMLExporter{
 	String hLocY;
 	String fLocX;
 	String fLocY;
-	
 
 	/**
 	 * @param nR
@@ -43,43 +42,44 @@ public class ForagingAntsExporter extends XMLExporter{
 	 * @param hLY
 	 * @param fLX
 	 * @param fLY
-	 * Constructor for ForagingAntsExporter
+	 *            Constructor for ForagingAntsExporter
 	 */
-	public ForagingAntsExporter(String nR, String nC, String cC, String mA, String hLX,String hLY,String fLX,String fLY) {
+	public ForagingAntsExporter(String nR, String nC, String cC, String mA, String hLX, String hLY, String fLX,
+			String fLY) {
 		super(nR, nC, cC);
-		mAnts=mA;
-		hLocX=hLX;
-		hLocY=hLY;
-		fLocX=fLX;
-		fLocY=fLY;
+		mAnts = mA;
+		hLocX = hLX;
+		hLocY = hLY;
+		fLocX = fLX;
+		fLocY = fLY;
 	}
-	
+
 	/**
 	 * Builds the XML documents with the Foraging Ant specific elements
 	 */
 	public void buildXML() {
 
-	       try {
-	          Document doc = XMLExporter.buildDocument();
-	         
-	          Element GridConfiguration = doc.createElement("GridConfiguration");
-	          doc.appendChild(GridConfiguration);
-	    
-	          addUniversalElements(doc, GridConfiguration);
-	          
-	          addChildrenToDataType(doc, GridConfiguration, maxAnts, "maxAnts", mAnts);
-	          addChildrenToDataType(doc, GridConfiguration, homeLocX, "homeLocX", hLocX);
-	          addChildrenToDataType(doc, GridConfiguration, homeLocY, "homeLocY", hLocY);
-	          addChildrenToDataType(doc, GridConfiguration, foodLocX, "foodLocX", fLocX);
-	          addChildrenToDataType(doc, GridConfiguration, foodLocY, "foodLocY", fLocY);
-	        
-	          writeXML(doc);
-	          
-	       	} catch (ParserConfigurationException pce) {
-	       		ErrorMessages.createErrors("Parsing Error!");
-	      	  	} catch (TransformerException tfe) {
-	      	  	ErrorMessages.createErrors("Transformer Error!");
-	      	  	}
+		try {
+			Document doc = XMLExporter.buildDocument();
+
+			Element GridConfiguration = doc.createElement("GridConfiguration");
+			doc.appendChild(GridConfiguration);
+
+			addUniversalElements(doc, GridConfiguration);
+
+			addChildrenToDataType(doc, GridConfiguration, maxAnts, "maxAnts", mAnts);
+			addChildrenToDataType(doc, GridConfiguration, homeLocX, "homeLocX", hLocX);
+			addChildrenToDataType(doc, GridConfiguration, homeLocY, "homeLocY", hLocY);
+			addChildrenToDataType(doc, GridConfiguration, foodLocX, "foodLocX", fLocX);
+			addChildrenToDataType(doc, GridConfiguration, foodLocY, "foodLocY", fLocY);
+
+			writeXML(doc);
+
+		} catch (ParserConfigurationException pce) {
+			ErrorMessages.createErrors("Parsing Error!");
+		} catch (TransformerException tfe) {
+			ErrorMessages.createErrors("Transformer Error!");
+		}
 	}
 
 }
