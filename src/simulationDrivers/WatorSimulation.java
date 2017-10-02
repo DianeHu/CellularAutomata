@@ -1,17 +1,12 @@
 package simulationDrivers;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 import XMLClasses.GridConfiguration;
-import XMLClasses.SegregationReader;
 import XMLClasses.WatorConfiguration;
 import XMLClasses.WatorExporter;
 import XMLClasses.WatorReader;
-import XMLClasses.XMLExporter;
 import cellManager.Grid;
-import cellManager.RectangleGrid;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 

@@ -1,17 +1,12 @@
 package simulationDrivers;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 import XMLClasses.GameOfLifeConfiguration;
 import XMLClasses.GameOfLifeExporter;
 import XMLClasses.GameOfLifeReader;
 import XMLClasses.GridConfiguration;
-import XMLClasses.SegregationReader;
 import cellManager.Grid;
-import cellManager.RectangleGrid;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**

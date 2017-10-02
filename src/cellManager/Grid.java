@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import XMLClasses.GridConfiguration;
-import XMLClasses.SpreadingWildfireConfiguration;
 import XMLClasses.ForagingAntsConfiguration;
-import cells.AntCell;
+import XMLClasses.GridConfiguration;
 import cells.AntGroupCell;
 import cells.BlueRPSCell;
 import cells.BlueSchellingCell;
@@ -28,16 +26,9 @@ import cells.TreeCell;
 import cells.WhiteRPSCell;
 import gridPatches.ForagingLand;
 import javafx.scene.Group;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 /**
@@ -669,7 +660,6 @@ public abstract class Grid {
 	private void changeState(Cell c) {
 		currentGrid[c.getRow()][c.getCol()] = (c.changeType());
 		addToNewGrid(c.changeType());
-		System.out.println("changed state");
 	}
 
 	/**
