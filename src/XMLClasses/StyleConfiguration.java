@@ -18,41 +18,35 @@ public class StyleConfiguration {
 
 	/**
 	 * @param dataValues
-	 * Constructor for StyleConfiguration
+	 *            Constructor for StyleConfiguration
 	 */
 	public StyleConfiguration(Map<String, String> dataValues) {
 		myDataValues = dataValues;
 	}
 
 	/**
-	 * @return
-	 * This is a getter for the data values for the StyleConfiguration
+	 * @return This is a getter for the data values for the StyleConfiguration
 	 */
 	public static Map<String, String> getMyDataValues() {
 		return myDataValues;
 	}
 
-
 	/**
-	 * @return
-	 * This is a getter for the Grid shape
+	 * @return This is a getter for the Grid shape
 	 */
 	public String getGridShape() {
 		return getMyDataValues().get("gridShape");
 	}
 
 	/**
-	 * @return
-	 * This is a getter for the Edge shape
+	 * @return This is a getter for the Edge shape
 	 */
 	public String getEdgeShape() {
 		return getMyDataValues().get("edgeShape");
 	}
 
-
 	/**
-	 * @return
-	 * This is a getter for the neighbor type
+	 * @return This is a getter for the neighbor type
 	 */
 	public String getNeighborType() {
 		return getMyDataValues().get("neighborType");

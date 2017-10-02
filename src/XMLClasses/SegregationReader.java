@@ -10,26 +10,25 @@ import java.util.Map;
 import org.w3c.dom.Element;
 
 public class SegregationReader extends XMLReader {
-	public SegregationReader()
-	{
+	public SegregationReader() {
 		super();
 	}
-	public SegregationConfiguration getGridConfiguration (File dataFile) {
-		List<String> segregationThresholds = new ArrayList<>(Arrays.asList(new String[]{
-				"segregationThreshold"
-		    }));
+
+	public SegregationConfiguration getGridConfiguration(File dataFile) {
+		List<String> segregationThresholds = new ArrayList<>(Arrays.asList(new String[] { "segregationThreshold" }));
 		Element root = getRootElement(dataFile);
-        if (! isValidFile(root, GridConfiguration.DATA_TYPE)) {
-            throw new XMLException("XML file does not represent %s", GridConfiguration.DATA_TYPE);
-        }
-        // Stores the data with its field for gridConfiguration
-        Map<String, String> results = new HashMap<>();
-        GridConfiguration.addToDataFields(segregationThresholds);
-        for (String field : GridConfiguration.getMyDataFields()) {
-            results.put(field, getTextValue(root, field));
-        }
-        GridConfiguration.removeFromDataFields(segregationThresholds);;
-       return new SegregationConfiguration(results);
+		if (!isValidFile(root, GridConfiguration.DATA_TYPE)) {
+			throw new XMLException("XML file does not represent %s", GridConfiguration.DATA_TYPE);
+		}
+		
+		Map<String, String> results = new HashMap<>();
+		GridConfiguration.addToDataFields(segregationThresholds);
+		for (String field : GridConfiguration.getMyDataFields()) {
+			results.put(field, getTextValue(root, field));
+		}
+		GridConfiguration.removeFromDataFields(segregationThresholds);
+		;
+		return new SegregationConfiguration(results);
 	}
 
 }

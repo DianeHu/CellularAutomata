@@ -10,27 +10,24 @@ import java.util.Map;
 import org.w3c.dom.Element;
 
 public class SpreadingWildfireReader extends XMLReader {
-	public SpreadingWildfireReader()
-	{
+	public SpreadingWildfireReader() {
 		super();
 	}
-	public SpreadingWildfireConfiguration getGridConfiguration (File dataFile) {
-		List<String> SpreadingWildfireThresholds = new ArrayList<>(Arrays.asList(new String[]{
-				"probCatch",
-		        "probGrow",
-		    }));
-        Element root = getRootElement(dataFile);
-        if (! isValidFile(root, GridConfiguration.DATA_TYPE)) {
-            throw new XMLException("XML file does not represent %s", GridConfiguration.DATA_TYPE);
-        }
-        // Stores the data with its field for gridConfiguration
-        Map<String, String> results = new HashMap<>();
-        GridConfiguration.addToDataFields(SpreadingWildfireThresholds);
-        for (String field : GridConfiguration.getMyDataFields()) {
-            results.put(field, getTextValue(root, field));
-        }
-        GridConfiguration.removeFromDataFields(SpreadingWildfireThresholds);
-       return new SpreadingWildfireConfiguration(results);
+
+	public SpreadingWildfireConfiguration getGridConfiguration(File dataFile) {
+		List<String> SpreadingWildfireThresholds = new ArrayList<>(
+				Arrays.asList(new String[] { "probCatch", "probGrow", }));
+		Element root = getRootElement(dataFile);
+		if (!isValidFile(root, GridConfiguration.DATA_TYPE)) {
+			throw new XMLException("XML file does not represent %s", GridConfiguration.DATA_TYPE);
+		}
+		Map<String, String> results = new HashMap<>();
+		GridConfiguration.addToDataFields(SpreadingWildfireThresholds);
+		for (String field : GridConfiguration.getMyDataFields()) {
+			results.put(field, getTextValue(root, field));
+		}
+		GridConfiguration.removeFromDataFields(SpreadingWildfireThresholds);
+		return new SpreadingWildfireConfiguration(results);
 	}
-    
+
 }

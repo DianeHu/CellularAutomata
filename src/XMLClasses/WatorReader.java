@@ -15,16 +15,13 @@ public class WatorReader extends XMLReader {
 	}
 
 	public WatorConfiguration getGridConfiguration(File dataFile) {
-		List<String> watorThresholds = new ArrayList<>(Arrays.asList(new String[]{
-				"fishBreedTurns",
-		        "sharkBreedTurns",
-		        "sharkStarveTurns"
-		    }));
+		List<String> watorThresholds = new ArrayList<>(
+				Arrays.asList(new String[] { "fishBreedTurns", "sharkBreedTurns", "sharkStarveTurns" }));
 		Element root = getRootElement(dataFile);
 		if (!isValidFile(root, GridConfiguration.DATA_TYPE)) {
 			throw new XMLException("XML file does not represent %s", GridConfiguration.DATA_TYPE);
 		}
-		// Stores the data with its field for gridConfiguration
+
 		Map<String, String> results = new HashMap<>();
 		GridConfiguration.addToDataFields(watorThresholds);
 		for (String field : GridConfiguration.getMyDataFields()) {

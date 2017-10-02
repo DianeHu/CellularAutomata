@@ -11,11 +11,11 @@ import java.util.Map;
  */
 public abstract class GridConfiguration {
 
-	// Data file name to represent this object type
+	
 	public static final String DATA_TYPE = "GridConfiguration";
 	private static Map<String, String> myDataValues;
 
-	// List of names of data fields
+	
 	private static List<String> myDataFields = new ArrayList<>(
 			Arrays.asList(new String[] { "numRows", "numCols", "cellConfiguration" }));
 

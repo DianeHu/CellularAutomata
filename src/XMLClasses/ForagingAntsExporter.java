@@ -9,9 +9,11 @@ import org.w3c.dom.Element;
 import simulationDrivers.ErrorMessages;
 
 /**
- * @author Tyler Yam This is a subclass of the XMLExporter superclass for the
- *         Foraging Ants simulation This class formats the XML to be export for
- *         the user's desires.
+ * @author Tyler Yam and inspiration from
+ *         https://www.tutorialspoint.com/java_xml/java_dom_create_document.htm
+ *         This is a subclass of the XMLExporter superclass for the Foraging
+ *         Ants simulation This class formats the XML to be export for the
+ *         user's desires.
  */
 public class ForagingAntsExporter extends XMLExporter {
 
@@ -27,31 +29,31 @@ public class ForagingAntsExporter extends XMLExporter {
 	/**
 	 * Local variables to store variables passed in
 	 */
-	String mAnts;
-	String hLocX;
-	String hLocY;
-	String fLocX;
-	String fLocY;
+	String maxAntsLocal;
+	String homeLocXLocal;
+	String homeLocYLocal;
+	String foodLocXLocal;
+	String foodLocYLocal;
 
 	/**
-	 * @param nR
-	 * @param nC
-	 * @param cC
-	 * @param mA
-	 * @param hLX
-	 * @param hLY
-	 * @param fLX
-	 * @param fLY
+	 * @param numRowParam
+	 * @param numColParam
+	 * @param cellConfigParam
+	 * @param maxAntsParam
+	 * @param homeLocXParam
+	 * @param homeLocYParam
+	 * @param foodLocXParam
+	 * @param foodLocYParam
 	 *            Constructor for ForagingAntsExporter
 	 */
-	public ForagingAntsExporter(String nR, String nC, String cC, String mA, String hLX, String hLY, String fLX,
-			String fLY) {
-		super(nR, nC, cC);
-		mAnts = mA;
-		hLocX = hLX;
-		hLocY = hLY;
-		fLocX = fLX;
-		fLocY = fLY;
+	public ForagingAntsExporter(String numRowParam, String numColParam, String cellConfigParam, String maxAntsParam,
+			String homeLocXParam, String homeLocYParam, String foodLocXParam, String foodLocYParam) {
+		super(numRowParam, numColParam, cellConfigParam);
+		maxAntsLocal = maxAntsParam;
+		homeLocXLocal = homeLocXParam;
+		homeLocYLocal = homeLocYParam;
+		foodLocXLocal = foodLocXParam;
+		foodLocYLocal = foodLocYParam;
 	}
 
 	/**
@@ -67,11 +69,11 @@ public class ForagingAntsExporter extends XMLExporter {
 
 			addUniversalElements(doc, GridConfiguration);
 
-			addChildrenToDataType(doc, GridConfiguration, maxAnts, "maxAnts", mAnts);
-			addChildrenToDataType(doc, GridConfiguration, homeLocX, "homeLocX", hLocX);
-			addChildrenToDataType(doc, GridConfiguration, homeLocY, "homeLocY", hLocY);
-			addChildrenToDataType(doc, GridConfiguration, foodLocX, "foodLocX", fLocX);
-			addChildrenToDataType(doc, GridConfiguration, foodLocY, "foodLocY", fLocY);
+			addChildrenToDataType(doc, GridConfiguration, maxAnts, "maxAnts", maxAntsLocal);
+			addChildrenToDataType(doc, GridConfiguration, homeLocX, "homeLocX", homeLocXLocal);
+			addChildrenToDataType(doc, GridConfiguration, homeLocY, "homeLocY", homeLocYLocal);
+			addChildrenToDataType(doc, GridConfiguration, foodLocX, "foodLocX", foodLocXLocal);
+			addChildrenToDataType(doc, GridConfiguration, foodLocY, "foodLocY", foodLocYLocal);
 
 			writeXML(doc);
 
