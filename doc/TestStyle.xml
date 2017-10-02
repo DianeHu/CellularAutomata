@@ -1,5 +1,5 @@
 <StyleConfiguration>
 	<gridShape>Rectangle</gridShape>
 	<edgeShape>Toroidal</edgeShape>
-	<neighborType>Four</neighborType>
+	<neighborType>Max</neighborType>
 </StyleConfiguration>

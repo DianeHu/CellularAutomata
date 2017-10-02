@@ -185,8 +185,8 @@ public class Main extends Application {
 		hexGrid.setSimType(simulationSetByUser);
 		Simulation s = simMap.get(simulationSetByUser).copy();
 		s.setSimType(simulationSetByUser);
-		s.setMaxNeighbors(styler.getNeighborType() == myResources.getString("max"));
-		s.setIsToroidal(styler.getEdgeShape() == myResources.getString("toroidal"));
+		s.setMaxNeighbors(styler.getNeighborType().equals(myResources.getString("max")));
+		s.setIsToroidal(styler.getEdgeShape().equals(myResources.getString("toroidal")));
 		s.setIsRectangle(isRectangle);
 		s.start(newStage);
 	}
@@ -217,7 +217,7 @@ public class Main extends Application {
 		pickRecSimByName.put(myResources.getString("GameOfLife"), new GameOfLifeSimulation(gofC, recGrid));
 		pickRecSimByName.put(myResources.getString("Segregation"), new SegregationSimulation(sC, recGrid));
 		pickRecSimByName.put(myResources.getString("ForagingAnts"), new ForagingAntsSimulation(faC, recGrid));
-		pickRecSimByName.put(myResources.getString("error"), new RPSSimulation(rpsC, recGrid));
+		pickRecSimByName.put(myResources.getString("RPS"), new RPSSimulation(rpsC, recGrid));
 
 		pickHexSimByName = new HashMap<String, Simulation>();
 		pickHexSimByName.put(myResources.getString("Wator"), new WatorSimulation(wG, hexGrid));
@@ -225,7 +225,7 @@ public class Main extends Application {
 		pickHexSimByName.put(myResources.getString("GameOfLife"), new GameOfLifeSimulation(gofC, hexGrid));
 		pickHexSimByName.put(myResources.getString("Segregation"), new SegregationSimulation(sC, hexGrid));
 		pickHexSimByName.put(myResources.getString("ForagingAnts"), new ForagingAntsSimulation(faC, hexGrid));
-		pickHexSimByName.put(myResources.getString("error"), new RPSSimulation(rpsC, recGrid));
+		pickHexSimByName.put(myResources.getString("RPS"), new RPSSimulation(rpsC, recGrid));
 	}
 
 	/**

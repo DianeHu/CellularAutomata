@@ -232,6 +232,7 @@ public abstract class Simulation extends Application {
 			saveButton.setDisable(!isStarted);
 		} catch (Exception e1) {
 			ErrorMessages.createErrors(myResources.getString("chooseFail"));
+			e1.printStackTrace();
 		}
 	}
 
