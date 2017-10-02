@@ -15,18 +15,23 @@ import javafx.scene.paint.Color;
  *         with its surroundings.
  */
 public class FishCell extends Cell {
+	private static final Color FISH_COLOR = Color.PALEGREEN;
 	private static double breedTurns;
+	// This variable was set to be static because the variable needs to be the same
+	// for all instances of FishCell, and passing the variable as new fish were 
+	// created turned out to be too error prone to keep the value constant 
+	// among all fish at each time step.
 	private int numTurns;
 	private boolean eaten;
 	
 	public FishCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
-		setColor(Color.PALEGREEN);
+		setColor(FISH_COLOR);
 	}
 
 	public FishCell() {
 		super();
-		setColor(Color.PALEGREEN);
+		setColor(FISH_COLOR);
 	}
 
 	@Override

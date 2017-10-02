@@ -14,9 +14,13 @@ import javafx.scene.paint.Color;
  * throughout the grid. The AntCell class uses this ForagingLand in order to 
  * determine where to move, and how many pheromones to put down. The Grid class uses
  * ForagingLand to determine where home and food are so that it can use SetStroke
- * to mark these locations.
+ * to mark these locations. This class is dependent on PheromoneLocation, which it uses
+ * to keep track of pheromones.
  */
 public class ForagingLand{
+	private static final Color NORMAL_LOC_COLOR = Color.DARKGREY;
+	private static final Color FOODSOURCE_COLOR = Color.CHARTREUSE;
+	private static final Color HOME_COLOR = Color.CORAL;
 	private static final int EVAPO_RATE = 100;
 	private static final int MAX_NUM_PHER = 10;
 	PheromoneLocation[][] foodPheromones;
@@ -221,31 +225,50 @@ public class ForagingLand{
 		}
 	}
 	
+	/**
+	 * This method restores the number of pheromones at home to the max level
+	 */
 	public void topOffHome() {
 		PheromoneLocation h = homePheromones[homeLoc[0]][homeLoc[1]];
 		addPheromonesUntilAt(h,MAX_NUM_PHER);
 	}
 
+
+	/**
+	 * @param h
+	 * @param num
+	 * This method adds pheromones to a PheromoneLocation h until a desired value
+	 * num is reached.
+	 */
 	protected void addPheromonesUntilAt(PheromoneLocation h, int num) {
 		while(h.getNumPheromones()<num) {
 			h.addNew();
 		}
 	}
 	
+	/**
+	 * This method restores the number of pheromones at food source to the max level
+	 */
 	public void topOffFood() {
 		PheromoneLocation f = foodPheromones[foodLoc[0]][foodLoc[1]];
 		addPheromonesUntilAt(f,MAX_NUM_PHER);
 	}
 	
+	/**
+	 * @param row
+	 * @param col
+	 * @return This method returns a stroke color based on whether the location
+	 * specified by row and col is at a permanent location- home or food source.
+	 */
 	public Color strokeColorAtLocation(int row, int col) {
 		if(atHome(row,col)) {
-			return Color.CORAL;
+			return HOME_COLOR;
 		}
 		if(atFoodSource(row,col)) {
-			return Color.CHARTREUSE;
+			return FOODSOURCE_COLOR;
 		}
 		else {
-			return Color.DARKGREY;
+			return NORMAL_LOC_COLOR;
 		}
 	}
 }
