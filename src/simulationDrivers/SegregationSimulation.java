@@ -1,8 +1,6 @@
 package simulationDrivers;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import XMLClasses.GridConfiguration;
@@ -10,9 +8,6 @@ import XMLClasses.SegregationConfiguration;
 import XMLClasses.SegregationExporter;
 import XMLClasses.SegregationReader;
 import cellManager.Grid;
-import cellManager.RectangleGrid;
-import javafx.scene.Group;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
