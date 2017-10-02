@@ -106,22 +106,33 @@ public abstract class Grid {
 		return root;
 	}
 	
-	public void setPaused(Boolean b) {
+	public void setPaused(boolean b) {
 		currentlyPaused = b;
 	}
 	
-	public void setMaxNeighbors(Boolean b) {
+	public void setMaxNeighbors(boolean b) {
 		maxNeighbors = b;
 	}
 	
-	public void setIsStroke(Boolean b) {
+	public void setIsStroke(boolean b) {
 		isStroke = b;
 	}
 	
-	public void setIsToroidal(Boolean b) {
+	public void setIsToroidal(boolean b) {
 		isToroidal = b;
 	}
 	
+	protected boolean getIsStroke() {
+		return isStroke;
+	}
+	
+	protected boolean getIsToroidal() {
+		return isToroidal;
+	}
+	
+	protected boolean getMaxNeighbors() {
+		return maxNeighbors;
+	}
 	/**
 	 * @param shapes- takes in a list of shapes to set blocks to
 	 */
@@ -319,8 +330,6 @@ public abstract class Grid {
 	public void initialize() {
 		numRows = gridConfig.getNumRows();
 		numCols = gridConfig.getNumCols();
-		/*numRows = 10;
-		numCols = 10;*/
 		gridCellCount = numRows * numCols;
 		createMaps();
 		setCurrSimulationMap();
@@ -421,7 +430,7 @@ public abstract class Grid {
 	 * its adjacent cells are considered neighbors by the algorithm used for its
 	 * respective cell type.
 	 */
-	protected void setNeighbors() {
+	private void setNeighbors() {
 		for (int i = 0; i < getNumRows(); i++) {
 			for (int j = 0; j < getNumCols(); j++) {
 				Cell c = getCurrentGrid()[i][j];
@@ -429,7 +438,6 @@ public abstract class Grid {
 			}
 		}
 	}
-
 	
 	/**
 	 * @param cell
@@ -437,7 +445,36 @@ public abstract class Grid {
 	 *            for a single cell.
 	 * 
 	 */
-	protected abstract void setNeighborsForCell(Cell cell);
+	protected void setNeighborsForCell(Cell cell) {
+		List<Cell> neighbors = new ArrayList<Cell>();
+		getAdjacentNeighbors(cell, neighbors);
+		if (isToroidal) {
+			getWrappedNeighbors(cell, neighbors);
+		}
+		cell.setNeighbors(neighbors);
+	}
+	
+	/**
+	 * @param cell
+	 * @param neighbors
+	 *            This method takes in a cell and edits its list of neighbors to
+	 *            include adjacent neighbors which are neighbors according to the
+	 *            cell type's isNeighbor() algorithm.
+	 */
+	protected abstract void getAdjacentNeighbors(Cell cell, List<Cell> neighbors);
+	
+	protected abstract void getWrappedNeighbors(Cell cell, List<Cell> neighbors);
+	
+	
+
+	
+/*	*//**
+	 * @param cell
+	 *            is an individual Cell type This method sets a list of neighbors
+	 *            for a single cell.
+	 * 
+	 *//*
+	protected abstract void setNeighborsForCell(Cell cell);*/
 
 	/**
 	 * @param grid-
@@ -506,8 +543,7 @@ public abstract class Grid {
 			for (int j = 0; j < currentGrid[i].length; j++) {
 				ArrayList<Cell> empty = getEmptyCells();
 				Cell c = currentGrid[i][j];
-				//c.setThreshold(threshold1, threshold2, threshold3);
-				c.setThreshold(.3, 0, 0);
+				c.setThreshold(threshold1, threshold2, threshold3);
 				updateCounts(c);
 				c.moveCell(empty, this);
 				if(land!=null) {

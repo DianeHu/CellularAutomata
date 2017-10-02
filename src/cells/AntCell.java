@@ -1,7 +1,6 @@
 package cells;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import cellManager.Grid;
@@ -9,7 +8,9 @@ import cellManager.Grid;
 /**
  * @author Madhavi
  * This class is meant to represent an individual ant. Only AntGroupCell has access to AntCell,
- * the 
+ * unlike for other Cells, the Grid class doesn't have access to AntCells. This AntCell is
+ * dependent on the location and parameter of the AntGroupCell. It keeps track of its direction,
+ * and whether it has food and is headed home, or whether its looking for food.
  */
 public class AntCell extends Cell {
 
@@ -23,10 +24,18 @@ public class AntCell extends Cell {
 		setInitialDirection();
 	}
 	
+	/**
+	 * @param m
+	 * Sets the max number of ants in a neighboring cell before it won't move into
+	 * that cell.
+	 */
 	protected void setMaxAnts(double m) {
 		maxAnts = m;
 	}
 
+	/**
+	 * Randomizes the initial direction vector.
+	 */
 	protected void setInitialDirection() {
 		direction = new int[2];
 		while(direction[0] == 0 & direction[1] == 0) {
@@ -35,8 +44,9 @@ public class AntCell extends Cell {
 		}
 	}
 	
-
-
+	/**
+	 * @return Returns a random choice of 1, -1, or 0 to represent a direction
+	 */
 	protected int randomDir() {
 		if(Math.random()<.33) {
 			return 0;
@@ -49,12 +59,18 @@ public class AntCell extends Cell {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see cells.Cell#copy()
+	 */
 	@Override
 	public Cell copy() {
 		AntGroupCell newCell = new AntGroupCell();
 		return newCell;
 	}
 	
+	/**
+	 * @return Returns a list of neighbor cells in the direction the ant is facing.
+	 */
 	private List<Cell> getDirectionNeighbors() {
 		List<Cell> dirNeigh = new ArrayList<Cell>();	
 		for(Cell c: getNeighbors()) {
@@ -103,12 +119,25 @@ public class AntCell extends Cell {
 		return dirNeigh;
 	}
 
+	/**
+	 * @param condition
+	 * @param c
+	 * @param neighbors
+	 * If a condition is true, this method will add a Cell c to a list of Cells
+	 * called neighbors.
+	 */
 	private void addCellIf(boolean condition, Cell c, List<Cell> neighbors) {
 		if(condition) {
 			neighbors.add(c);
 		}	
 	}
 
+	/* (non-Javadoc)
+	 * @see cells.Cell#moveCell(java.util.List, cellManager.Grid)
+	 * In this move method, the AntCell drops pheromones,
+	 * uses ForagingLand to determine where to move, and the AntGroupCell it belongs
+	 * to if necessary.
+	 */
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		getLand().addPheromones(getRow(), getCol(), hasFood,getNeighbors());
@@ -143,9 +172,18 @@ public class AntCell extends Cell {
 	@Override
 	public Cell changeType() {
 		return this;
-		// TODO Auto-generated method stub
 	}
 
+	/**
+	 * @param grid
+	 * @param newrow
+	 * @param newcol
+	 * This method uses the information of the new location it will be moving to in 
+	 * order to navigate the changes in relevant AntGroupCells. The AntCell adds itself to
+	 * the new AntGroupCell, creating it and adding it to the grid if an
+	 * AntGroupCell doesn't already exist in the new location. The AntCell also
+	 * tops off pheromones if the new location is at home or at the food location.
+	 */
 	protected void moveToNewGroup(Grid grid, int newrow, int newcol) {
 		if (!(grid.getCellInNewGridAt(newrow, newcol) instanceof AntGroupCell)) {
 			AntGroupCell newgroup = new AntGroupCell(newrow, newcol);
@@ -166,6 +204,13 @@ public class AntCell extends Cell {
 		}
 	}
 
+	/**
+	 * @param grid
+	 * @param newrow
+	 * @param newcol
+	 * This method has the AntCell remove itself from the current Group it's in if
+	 * it's changing location.
+	 */
 	protected void updateCurrentGroup(Grid grid, int newrow, int newcol) {
 		if (!(newrow == getRow() & newcol == getCol())) {
 			if (grid.getCellInNewGridAt(getRow(), getCol()) instanceof AntGroupCell) {
