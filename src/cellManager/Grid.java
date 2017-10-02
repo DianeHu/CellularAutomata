@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import XMLClasses.GridConfiguration;
-import XMLClasses.SpreadingWildfireConfiguration;
 import XMLClasses.ForagingAntsConfiguration;
-import cells.AntCell;
+import XMLClasses.GridConfiguration;
 import cells.AntGroupCell;
 import cells.BlueRPSCell;
 import cells.BlueSchellingCell;
@@ -28,16 +26,9 @@ import cells.TreeCell;
 import cells.WhiteRPSCell;
 import gridPatches.ForagingLand;
 import javafx.scene.Group;
-import javafx.scene.control.ScrollBar;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ScrollPane.ScrollBarPolicy;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 /**
@@ -46,8 +37,8 @@ import javafx.scene.shape.Shape;
  *         simulation, and organizes their updates in parallel. It takes in a
  *         GridConfiguration object to get information from the XML file about
  *         the nature of the simulation, and takes in a Group root to edit the
- *         scene based on the states of the cells. This class also keeps track of
- *         counts and states of cells.
+ *         scene based on the states of the cells. This class also keeps track
+ *         of counts and states of cells.
  */
 public abstract class Grid {
 
@@ -62,7 +53,7 @@ public abstract class Grid {
 	private double gridCellCount;
 	private double cellWidth;
 	private double cellHeight;
-	private String simulationType= "ForagingAnts";
+	private String simulationType = "ForagingAnts";
 	private Map<Character, Cell> segregation = new HashMap<>();
 	private Map<Character, Cell> gameOfLife = new HashMap<>();
 	private Map<Character, Cell> spreadingWildfire = new HashMap<>();
@@ -97,63 +88,64 @@ public abstract class Grid {
 		root = r;
 		gridConfig = g;
 	}
-	
+
 	/**
 	 * @return the root used to add shapes to the scene
 	 */
 	protected Group getRoot() {
 		return root;
 	}
-	
+
 	/**
 	 * @param b
-	 * b is a boolean describing whether the simulation is currently paused.
-	 * This method updates currentlyPaused to be b.
+	 *            b is a boolean describing whether the simulation is currently
+	 *            paused. This method updates currentlyPaused to be b.
 	 */
 	public void setPaused(boolean b) {
 		currentlyPaused = b;
 	}
-	
+
 	/**
 	 * @param b
-	 * Determines whether or not maxNeighbors is the neighbor paradigm used
-	 * based on a boolean b
+	 *            Determines whether or not maxNeighbors is the neighbor paradigm
+	 *            used based on a boolean b
 	 */
 	public void setMaxNeighbors(boolean b) {
 		maxNeighbors = b;
 	}
-	
+
 	public void setIsToroidal(boolean b) {
 		isToroidal = b;
 	}
-	
+
 	protected boolean getIsToroidal() {
 		return isToroidal;
 	}
-	
+
 	/**
 	 * @return Returns whether maxNeighbors is in effect
 	 */
 	protected boolean getMaxNeighbors() {
 		return maxNeighbors;
 	}
-	
+
 	/**
-	 * @param shapes- takes in a matrix of shapes to set blocks to
+	 * @param shapes-
+	 *            takes in a matrix of shapes to set blocks to
 	 */
 	protected void setBlocks(Shape[][] shapes) {
 		blocks = new Shape[numRows][numCols];
-		for(int i = 0; i<numRows; i++) {
-			for(int j = 0; j<numCols; j++) {
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
 				blocks[i][j] = shapes[i][j];
 			}
 		}
 	}
 
 	/**
-	 * @return Returns the percent of TreeCells from the map keeping track
-	 * of different kinds of cells. All the methods below have similar 
-	 * functionality but for different kinds of cells.
+	 * @return Returns the percent of TreeCells from the map keeping track of
+	 *         different kinds of cells. All the methods below have similar
+	 *         functionality but for different kinds of cells.
 	 */
 	public double percentTree() {
 		return countMap.get("cells.TreeCell") / gridCellCount;
@@ -194,23 +186,23 @@ public abstract class Grid {
 	public double percentDead() {
 		return countMap.get("cells.DeadCell") / gridCellCount;
 	}
-	
+
 	public double percentAnt() {
 		return countMap.get("cells.AntGroupCell") / gridCellCount;
 	}
-	
+
 	public double percentBlueRPS() {
 		return countMap.get("cells.BlueRPSCell") / gridCellCount;
 	}
-	
+
 	public double percentRedRPS() {
 		return countMap.get("cells.RedRPSCell") / gridCellCount;
 	}
-	
+
 	public double percentGreenRPS() {
 		return countMap.get("cells.GreenRPSCell") / gridCellCount;
 	}
-	
+
 	public double percentWhiteRPS() {
 		return countMap.get("cells.WhiteRPSCell") / gridCellCount;
 	}
@@ -228,31 +220,31 @@ public abstract class Grid {
 		TreeCell tCell = new TreeCell();
 		BurningTreeCell bTCell = new BurningTreeCell();
 		EmptyLandCell eLCell = new EmptyLandCell();
-		
+
 		LiveCell lCell = new LiveCell();
 		DeadCell dCell = new DeadCell();
 		GreenRPSCell gcell = new GreenRPSCell();
 		RedRPSCell rcell = new RedRPSCell();
 		BlueRPSCell blcell = new BlueRPSCell();
 		WhiteRPSCell wcell = new WhiteRPSCell();
-		
+
 		FishCell fCell = new FishCell();
-		SharkCell sCell = new SharkCell();	
-		
+		SharkCell sCell = new SharkCell();
+
 		AntGroupCell aCell = new AntGroupCell();
 
 		segregation.put('b', bCell);
 		segregation.put('o', oCell);
 		segregation.put('e', eCell);
 
-  		gameOfLife.put('l', lCell);
-  		gameOfLife.put('d', dCell);
-  		
+		gameOfLife.put('l', lCell);
+		gameOfLife.put('d', dCell);
+
 		rps.put('g', gcell);
 		rps.put('r', rcell);
 		rps.put('b', blcell);
 		rps.put('w', wcell);
-		
+
 		spreadingWildfire.put('t', tCell);
 		spreadingWildfire.put('b', bTCell);
 		spreadingWildfire.put('e', eLCell);
@@ -261,10 +253,10 @@ public abstract class Grid {
 		waTor.put('s', sCell);
 		waTor.put('e', eCell);
 
-		foragingAnts.put('a',aCell);
-		foragingAnts.put('e',eCell);
+		foragingAnts.put('a', aCell);
+		foragingAnts.put('e', eCell);
 		initExportMap();
-		
+
 		initCountMap();
 	}
 
@@ -311,17 +303,17 @@ public abstract class Grid {
 		countMap.put("cells.RedRPSCell", 0);
 		countMap.put("cells.WhiteRPSCell", 0);
 	}
-	
+
 	/**
 	 * @return Returns the simulationType as a String
 	 */
 	public String getSimType() {
 		return simulationType;
 	}
-	
+
 	/**
 	 * @param s
-	 * Sets the simulationType to be a string s
+	 *            Sets the simulationType to be a string s
 	 */
 	public void setSimType(String s) {
 		simulationType = s;
@@ -349,45 +341,43 @@ public abstract class Grid {
 			simMap = gameOfLife;
 			simulationConfigStringMap = gOLConfigStringMap;
 			break;
-		case("RPS"):
+		case ("RPS"):
 			simMap = rps;
 			simulationConfigStringMap = rpsConfigStringMap;
 			break;
 		case ("ForagingAnts"):
 			simMap = foragingAnts;
 			simulationConfigStringMap = antConfigStringMap;
-			homeLoc[0]= ((ForagingAntsConfiguration) gridConfig).getHomeLocX();
+			homeLoc[0] = ((ForagingAntsConfiguration) gridConfig).getHomeLocX();
 			homeLoc[1] = ((ForagingAntsConfiguration) gridConfig).getHomeLocY();
-			
-			foodLoc[0]= ((ForagingAntsConfiguration) gridConfig).getFoodLocX();
+
+			foodLoc[0] = ((ForagingAntsConfiguration) gridConfig).getFoodLocX();
 			foodLoc[1] = ((ForagingAntsConfiguration) gridConfig).getFoodLocY();
-			land = new ForagingLand(getNumRows(),getNumCols(),
-					homeLoc, foodLoc);
+			land = new ForagingLand(getNumRows(), getNumCols(), homeLoc, foodLoc);
 			break;
 		}
 	}
-	
+
 	/**
 	 * @return The map mapping each character to a cell type
 	 */
-	protected Map<Character,Cell> getSimMap() {
+	protected Map<Character, Cell> getSimMap() {
 		return simMap;
 	}
 
-	
 	/**
 	 * @param c
-	 * Takes a cell and updates the percent of that type of cell in the configuration
-	 * so that percentages of different kinds of cells can be mapped.
+	 *            Takes a cell and updates the percent of that type of cell in the
+	 *            configuration so that percentages of different kinds of cells can
+	 *            be mapped.
 	 */
 	private void updateCounts(Cell c) {
 		countMap.put(c.getClass().getName(), countMap.get(c.getClass().getName()) + 1);
 	}
 
 	/**
-	 * Initializes the gridpane. Creates the mappings of characters
-	 *         to cells, sets the appropriate maps, and sets up the 2D arrays
-	 *         backing the gridpane.
+	 * Initializes the gridpane. Creates the mappings of characters to cells, sets
+	 * the appropriate maps, and sets up the 2D arrays backing the gridpane.
 	 */
 	public void initialize() {
 		numRows = gridConfig.getNumRows();
@@ -404,92 +394,95 @@ public abstract class Grid {
 		setShapes();
 		setInitialStates();
 	}
+
 	/**
 	 * @return the number of rows in the grid
 	 */
 	public int getNumRows() {
 		return numRows;
 	}
-	
-	
+
 	/**
-	 * @param n is used to set the number of rows
+	 * @param n
+	 *            is used to set the number of rows
 	 */
 	protected void setNumRows(int n) {
 		numRows = n;
 	}
-	
+
 	/**
 	 * @return the number of cols in the grid
 	 */
 	public int getNumCols() {
 		return numCols;
 	}
-	
+
 	/**
 	 * @return Returns the configuration of the grid as a string to be exported.
 	 */
 	public String getGridConfig() {
 		StringBuilder s = new StringBuilder();
-		for(int i = 0; i < numRows; i++) {
-			for(int j = 0; j < numCols; j++) {
-				String currType = simulationConfigStringMap.get(
-						currentGrid[i][j].getClass().getName());
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
+				String currType = simulationConfigStringMap.get(currentGrid[i][j].getClass().getName());
 				s.append(currType);
 			}
 		}
 		return s.toString();
 	}
-	
+
 	/**
-	 * @param n is used to set the number of rows
+	 * @param n
+	 *            is used to set the number of rows
 	 */
 	protected void setNumCols(int n) {
 		numCols = n;
 	}
-	
+
 	/**
 	 * @return the calculated width of the cell
 	 */
 	protected double getCellWidth() {
 		return cellWidth;
 	}
-	
+
 	/**
-	 * @param width is the calculated cellWidth
+	 * @param width
+	 *            is the calculated cellWidth
 	 */
 	protected void setCellWidth(double width) {
 		cellWidth = width;
 	}
-	
+
 	/**
 	 * @return the calculated height of the cell
 	 */
 	protected double getCellHeight() {
 		return cellHeight;
 	}
-	
+
 	/**
-	 * @param height is the calculated cellHeight
+	 * @param height
+	 *            is the calculated cellHeight
 	 */
 	protected void setCellHeight(double height) {
 		cellWidth = height;
 	}
-	
+
 	/**
 	 * @return the grid of cells describing the current state
 	 */
 	protected Cell[][] getCurrentGrid() {
 		return currentGrid;
 	}
-	
+
 	/**
 	 * @return the grid of cells describing the next state
 	 */
 	protected Cell[][] getNewGrid() {
 		return newGrid;
 	}
-	
+
 	/**
 	 * This methods sets the list of neighbors for each cell by checking which of
 	 * its adjacent cells are considered neighbors by the algorithm used for its
@@ -503,7 +496,7 @@ public abstract class Grid {
 			}
 		}
 	}
-	
+
 	/**
 	 * @param cell
 	 *            is an individual Cell type This method sets a list of neighbors
@@ -518,7 +511,6 @@ public abstract class Grid {
 		}
 		cell.setNeighbors(neighbors);
 	}
-	
 
 	/**
 	 * @param cell
@@ -540,17 +532,16 @@ public abstract class Grid {
 			}
 		}
 	}
-	
+
 	protected abstract boolean isNeighborAdjacent(int currentRow, int currentCol, int otherRow, int otherCol);
-	
+
 	/**
 	 * @param cell
 	 * @param neighbors
-	 * Takes in a cell and updates a list of neighbors in order to include
-	 * neighbors from the toroidal setting.
+	 *            Takes in a cell and updates a list of neighbors in order to
+	 *            include neighbors from the toroidal setting.
 	 */
 	protected abstract void getWrappedNeighbors(Cell cell, List<Cell> neighbors);
-	
 
 	/**
 	 * @param grid-
@@ -580,21 +571,21 @@ public abstract class Grid {
 		char[][] states = gridConfig.getCellConfiguration();
 
 		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numCols; j++) {				
+			for (int j = 0; j < numCols; j++) {
 				Cell c = simMap.get(states[i][j]).copy();
 				initializeCell(i, j, c);
 			}
 		}
 		root.getChildren().add(pane);
 	}
-	
+
 	/**
 	 * @param i
 	 * @param j
 	 * @param c
-	 * This method takes in the grid location with i and j, and a Cell c, 
-	 * and then proceeds to set all the initial values of the cell, while also
-	 * drawing the cell by adding it to GridPane.
+	 *            This method takes in the grid location with i and j, and a Cell c,
+	 *            and then proceeds to set all the initial values of the cell, while
+	 *            also drawing the cell by adding it to GridPane.
 	 */
 	private void initializeCell(int i, int j, Cell c) {
 		c.setRow(i);
@@ -603,11 +594,10 @@ public abstract class Grid {
 		currentGrid[i][j] = c;
 		blocks[i][j].setFill(c.getColor());
 		Color stroke;
-		if(land!=null) {
+		if (land != null) {
 			stroke = land.strokeColorAtLocation(i, j);
 			blocks[i][j].setStrokeWidth(3.0);
-		}
-		else{
+		} else {
 			stroke = Color.DARKGREY;
 		}
 		blocks[i][j].setStroke(stroke);
@@ -619,10 +609,11 @@ public abstract class Grid {
 	 * @param threshold1
 	 * @param threshold2
 	 * @param threshold3
-	 * This method takes in all the thresholds for different cells, to dynamically update
-	 * them based on user input. This method goes through each cell and has it perform its interactions in
-	 * order to create the new grid, a 2D matrix of cells which describes the next
-	 * state.
+	 *            This method takes in all the thresholds for different cells, to
+	 *            dynamically update them based on user input. This method goes
+	 *            through each cell and has it perform its interactions in order to
+	 *            create the new grid, a 2D matrix of cells which describes the next
+	 *            state.
 	 */
 	public void createsNewGrid(double threshold1, double threshold2, double threshold3) {
 		setNeighbors();
@@ -633,43 +624,42 @@ public abstract class Grid {
 				c.setThreshold(threshold1, threshold2, threshold3);
 				updateCounts(c);
 				c.moveCell(empty, this);
-				if(land!=null) {
+				if (land != null) {
 					land.evaporate();
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * @param threshold1
 	 * @param threshold2
 	 * @param threshold3
-	 * This method takes in all the thresholds for different cells, to dynamically update
-	 * them based on user input. It creates a grid in the special case that the simulation
-	 * is paused.
+	 *            This method takes in all the thresholds for different cells, to
+	 *            dynamically update them based on user input. It creates a grid in
+	 *            the special case that the simulation is paused.
 	 */
 	public void createPausedGrid(double threshold1, double threshold2, double threshold3) {
-		for(int i = 0; i < currentGrid.length; i++) {
-			for(int j = 0; j < currentGrid[i].length; j++) {
+		for (int i = 0; i < currentGrid.length; i++) {
+			for (int j = 0; j < currentGrid[i].length; j++) {
 				Cell c = currentGrid[i][j];
-				blocks[i][j].setOnMouseClicked(e->changeState(c));
+				blocks[i][j].setOnMouseClicked(e -> changeState(c));
 				c.setThreshold(threshold1, threshold2, threshold3);
 				newGrid[i][j] = c;
 				updateCounts(c);
 			}
 		}
 	}
-	
+
 	/**
 	 * @param c
-	 * This method is called when a user want to change the state of a cell c.
-	 * The cell returns which cell it will change to, and this new cell is
-	 * added to the newGrid and currentGrid.
+	 *            This method is called when a user want to change the state of a
+	 *            cell c. The cell returns which cell it will change to, and this
+	 *            new cell is added to the newGrid and currentGrid.
 	 */
 	private void changeState(Cell c) {
 		currentGrid[c.getRow()][c.getCol()] = (c.changeType());
 		addToNewGrid(c.changeType());
-		System.out.println("changed state");
 	}
 
 	/**
@@ -694,13 +684,14 @@ public abstract class Grid {
 	 * the new state so that it can be built up again.
 	 */
 	public void update() {
-		for(Entry<String, Integer> entry : countMap.entrySet()) {
+		for (Entry<String, Integer> entry : countMap.entrySet()) {
 			countMap.put(entry.getKey(), 0);
 		}
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
 				Cell c = newGrid[i][j];
-				c.setRow(i);c.setCol(j);
+				c.setRow(i);
+				c.setCol(j);
 				blocks[i][j].setFill(c.getColor());
 				currentGrid[i][j] = newGrid[i][j];
 			}
