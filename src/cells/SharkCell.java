@@ -16,23 +16,31 @@ import javafx.scene.paint.Color;
  *         with its surroundings.
  */
 public class SharkCell extends Cell {
+	private static final Color SHARK_COLOR = Color.SLATEGREY;
 	private static double breedTurns;
 	private static double starveTurns;
+	// These variables were set to be static because the variables needs to be the same
+	// for all instances of FishCell, and passing the variable as new sharks were 
+	// created turned out to be too error prone to keep the values constant 
+	// among all sharks at each time step.
 	private int numBreedTurns;
 	private int numStarveTurns;
 
 	
 	public SharkCell(int myRowNum, int myColNum) {
 		super(myRowNum, myColNum);
-		setColor(Color.SLATEGREY);
+		setColor(SHARK_COLOR);
 	}
 
 
 	public SharkCell() {
 		super();
-		setColor(Color.SLATEGREY);
+		setColor(SHARK_COLOR);
 	}
 	
+	/* (non-Javadoc)
+	 * @see cells.Cell#changeType()
+	 */
 	@Override
 	public Cell changeType() {
 		FishCell newCell = new FishCell(this.getRow(), this.getCol());
@@ -157,6 +165,9 @@ public class SharkCell extends Cell {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see cells.Cell#setThreshold(double, double, double)
+	 */
 	@Override
 	public void setThreshold(double unused1, double bTurns, double sTurns) {
 		breedTurns = bTurns;

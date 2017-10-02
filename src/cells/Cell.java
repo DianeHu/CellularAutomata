@@ -9,16 +9,13 @@ import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 /**
- * @author Madhavi Rajiv
+ * @author Madhavi
  * @author Diane Hu This class outlines the functionality of a general Cell
  *         type. The Cell needs to know how to move, interact with its
  *         neighbors, and tell whether a cell at a specific location is its
- *         neighbor. Since there is no generic cell, the class is abstract.
+ *         neighbor. Since there is no generic cell, the class is abstract. 
  */
-/**
- * @author Madhavi
- *
- */
+
 public abstract class Cell {
 
 	private int rowNum;
@@ -221,6 +218,9 @@ public abstract class Cell {
 		}
 	}
 	
+	/**
+	 * @return Returns the ForagingLand (needed for Foraging Ants) associated with the cell
+	 */
 	protected ForagingLand getLand() {
 		return land;
 	}
@@ -234,10 +234,17 @@ public abstract class Cell {
 		return(neighbors.get(rand.nextInt(numNeigh)));		
 	}
 	
+	/**
+	 * @param n
+	 * Sets a cell's level (needed for Rock Paper Scissors) to n
+	 */
 	protected void setLevel(int n) {
 		level = n;
 	}
 	
+	/**
+	 * @return Returns the cell's level (needed for Rock Paper Scissors);
+	 */
 	protected int getLevel() {
 		return level;
 	}

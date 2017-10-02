@@ -12,11 +12,8 @@ import javafx.scene.shape.Rectangle;
 
 /**
  * @author Madhavi Rajiv
- * @author Diane Hu This class creates manages the different cells in the
- *         simulation, and organizes their updates in parallel. It takes in a
- *         GridConfiguration object to get information from the XML file about
- *         the nature of the simulation, and takes in a Group root to edit the
- *         scene based on the states of the cells.
+ * This class is a subclass of Grid which creates hexagons as cell shapes
+ * and gets neighbors based on the shape of the hexagon.
  */
 public class HexagonGrid extends Grid{
 
@@ -36,7 +33,7 @@ public class HexagonGrid extends Grid{
 	}
 
 	/**
-	 * Creates the a grid of blank rectangles which represents the cells.
+	 * Creates a grid of blank polygons which represents the cells.
 	 */
 	protected void setShapes() {
 		blocks = new Polygon[getNumRows()][getNumCols()];
@@ -51,6 +48,13 @@ public class HexagonGrid extends Grid{
 		setBlocks(blocks);
 	}
 	
+	/**
+	 * @param hexagon
+	 * @param row
+	 * @param col
+	 * Takes in a polygon at a certain location, and adds points to create
+	 * a hexagonal shape based on the polygon's location.
+	 */
 	private void createHexagon(Polygon hexagon, int row, int col) {
 		double side = (double)getCellHeight()/2;
 		double center = (double)getCellWidth()/2;
@@ -67,46 +71,31 @@ public class HexagonGrid extends Grid{
 		}
 		hexagon.setTranslateX(-.25*(double)(getCellWidth())*col);
 	}
-
-	/**
-	 * @param cell
-	 * @param neighbors
-	 *            This method takes in a cell and edits its list of neighbors to
-	 *            include adjacent neighbors which are neighbors according to the
-	 *            cell type's isNeighbor() algorithm.
-	 */
-	protected void getAdjacentNeighbors(Cell cell, List<Cell> neighbors) {
-		int row = cell.getRow();
-		int col = cell.getCol();
-		
-		for (int i = -1; i < 2; i++) {
-			for (int j = -1; j < 2; j++) {
-				if (row + i < getNumRows() & row + i > -1 & col + j < getNumCols() & col + j > -1) {
-					if (isNeighborAdjacent(cell.getRow(),cell.getCol(),row + i, col + j)){
-						neighbors.add(getCurrentGrid()[row + i][col + j]);
-					}
-				}
-			}
-		}
-	}
 	
-	private boolean isNeighborAdjacent(int currentRow, int currentCol, int otherRow, int otherCol) {
+	
+	/**
+	 * @param currentRow
+	 * @param currentCol
+	 * @param otherRow
+	 * @param otherCol
+	 * @return Takes in a Cell's location and a potential neighbor's location to 
+	 * determine whether the potential neighbor cell is adjacent 
+	 */
+	@Override
+	protected boolean isNeighborAdjacent(int currentRow, int currentCol, int otherRow, int otherCol) {
 		if(getMaxNeighbors()) {
-			if(currentCol%2!=0) {//downcurve
-				//left,right,up, lower left, lower right,down
+			if(currentCol%2!=0) {
 				return (Math.abs(currentRow - otherRow) <= 1 & Math.abs(currentCol - otherCol) <= 1)
 						& !(otherRow == currentRow & otherCol == currentCol) 
 						& !(Math.abs(currentRow - otherRow)==1 & currentCol-otherCol==-1);
 			}
-			//upcurve
 			else {
-				//left, right, up, down, upper left, upper right
 				return (Math.abs(currentRow - otherRow) <= 1 & Math.abs(currentCol - otherCol) <= 1)
 						& !(otherRow == currentRow & otherCol == currentCol) 
 						& !(Math.abs(currentRow - otherRow)==1 & currentCol-otherCol==1);
 			}
 		}
-		else { //upcurve- left, right, upper left, upper right 
+		else {
 			boolean leftOrRight = (currentRow == otherRow) | (Math.abs(currentCol-otherCol)==1);
 			boolean upperLeftOrUpperRight = (currentRow-otherRow==-1) | (Math.abs(currentCol-otherCol)==1);
 			boolean lowerLeftOrLowerRight = (currentRow-otherRow==1) | (Math.abs(currentCol-otherCol)==1);
@@ -126,12 +115,18 @@ public class HexagonGrid extends Grid{
 	 *            include wrapped neighbors which are neighbors according to the
 	 *            cell type's isNeighbor() algorithm.
 	 */
+	@Override
 	protected void getWrappedNeighbors(Cell cell, List<Cell> neighbors) {
 		verticalWrapping(cell, neighbors);
 		horizontalWrapping(cell, neighbors);
 	}
 
-	protected void horizontalWrapping(Cell cell, List<Cell> neighbors) {
+	/**
+	 * @param cell
+	 * @param neighbors
+	 * Updates a cell's list of neighbors to include neighbors from horizontal wrapping
+	 */
+	private void horizontalWrapping(Cell cell, List<Cell> neighbors) {
 		if (cell.getCol() == 0) {		
 			neighbors.add(getCurrentGrid()[cell.getRow()][getNumCols()-1]);
 			if(cell.getRow()!=getNumRows()-1) {
@@ -155,7 +150,12 @@ public class HexagonGrid extends Grid{
 		}
 	}
 
-	protected void verticalWrapping(Cell cell, List<Cell> neighbors) {
+	/**
+	 * @param cell
+	 * @param neighbors
+	 * Updates a cell's list of neighbors to include neighbors from vertical wrapping
+	 */
+	private void verticalWrapping(Cell cell, List<Cell> neighbors) {
 		if (cell.getRow() == 0) {
 			if(getMaxNeighbors()) {
 				neighbors.add(getCurrentGrid()[getNumRows()-1][cell.getCol()]);
