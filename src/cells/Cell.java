@@ -16,7 +16,7 @@ import javafx.scene.paint.Color;
  *         neighbor. Since there is no generic cell, the class is abstract.
  */
 /**
- * @author Madhavi
+ * @author Diane Hu
  *
  */
 public abstract class Cell {
@@ -32,14 +32,13 @@ public abstract class Cell {
 	 * @param myRowNum
 	 * @param myColNum
 	 *            The cell is initialized with its location. The constructor also
-	 *            initializes the list of neighbors, and also takes in  ForagingLand
+	 *            initializes the list of neighbors, and also takes in ForagingLand
 	 */
 	public Cell(int myRowNum, int myColNum) {
 		rowNum = myRowNum;
 		colNum = myColNum;
 		neighbors = new ArrayList<Cell>();
 	}
-
 
 	/**
 	 * This constructor initializes a cell without its location.
@@ -62,9 +61,23 @@ public abstract class Cell {
 	protected void setColor(Color c) {
 		col = c;
 	}
-	
+
+	/**
+	 * @param a
+	 * @param b
+	 * @param c
+	 * 
+	 *            Abstract method setting cell thresholds. The max number of
+	 *            thresholds ever set is three, so this method takes in three
+	 *            parameters. Unused parameters can be filled in with any double and
+	 *            simply ignored--nothing will happen to thresholds no explictly
+	 *            set.
+	 */
 	public abstract void setThreshold(double a, double b, double c);
-	
+
+	/**
+	 * @return Changes cell type on user mouse click.
+	 */
 	public abstract Cell changeType();
 
 	/**
@@ -81,10 +94,10 @@ public abstract class Cell {
 	public void setRow(int row) {
 		rowNum = row;
 	}
-	
+
 	/**
 	 * @param l
-	 * Set the ForagingLand for Foraging Ant simulation
+	 *            Set the ForagingLand for Foraging Ant simulation
 	 */
 	public void setLand(ForagingLand l) {
 		land = l;
@@ -128,16 +141,16 @@ public abstract class Cell {
 	public void setNeighbors(List<Cell> n) {
 		neighbors = n;
 	}
-	
+
 	/**
 	 * @param cell
-	 * @return the number of neighbors a cell has of the type of the 
-	 * cell passed in through the parameter
+	 * @return the number of neighbors a cell has of the type of the cell passed in
+	 *         through the parameter
 	 */
 	protected int getNumNeighborsOfType(Cell cell) {
 		int sum = 0;
 		for (Cell c : neighbors) {
-			if (c.getClass().getName()==cell.getClass().getName()) {
+			if (c.getClass().getName() == cell.getClass().getName()) {
 				sum++;
 			}
 		}
@@ -190,26 +203,27 @@ public abstract class Cell {
 	protected List<Cell> getNeighbors() {
 		return neighbors;
 	}
-	
+
 	/**
 	 * @param c
 	 * @param grid
-	 * Replaces the cell's grid location with a new cell c
+	 *            Replaces the cell's grid location with a new cell c
 	 */
 	protected void createNewCellOfType(Cell c, Grid grid) {
 		c.setRow(getRow());
 		c.setCol(getCol());
-		grid.addToNewGrid(c);	
+		grid.addToNewGrid(c);
 	}
-	
+
 	/**
 	 * @param emptySpots
 	 * @param grid
 	 * @param satisfied
-	 * Takes in a list of empty spots, a grid, and a boolean that determines whether
-	 * the cell is satisfied in its current position. This method determines how a 
-	 * segregation cell moves based on whether its satistied and whether there are 
-	 * empty locations left in the grid.
+	 *            Takes in a list of empty spots, a grid, and a boolean that
+	 *            determines whether the cell is satisfied in its current position.
+	 *            This method determines how a segregation cell moves based on
+	 *            whether its satistied and whether there are empty locations left
+	 *            in the grid.
 	 */
 	protected void segregationMove(List<Cell> emptySpots, Grid grid, boolean satisfied) {
 		if (!satisfied) {
@@ -220,24 +234,24 @@ public abstract class Cell {
 			grid.addToNewGrid(this);
 		}
 	}
-	
+
 	protected ForagingLand getLand() {
 		return land;
 	}
-	
+
 	/**
 	 * @return Returns a cell chosen randomly from a cell's list of neighbors
 	 */
 	protected Cell chooseRandomNeighbor() {
 		int numNeigh = neighbors.size();
 		Random rand = new Random();
-		return(neighbors.get(rand.nextInt(numNeigh)));		
+		return (neighbors.get(rand.nextInt(numNeigh)));
 	}
-	
+
 	protected void setLevel(int n) {
 		level = n;
 	}
-	
+
 	protected int getLevel() {
 		return level;
 	}

@@ -15,7 +15,6 @@ import javafx.scene.paint.Color;
  */
 public class DeadCell extends Cell {
 
-	
 	/**
 	 * @param myRowNum
 	 * @param myColNum
@@ -26,8 +25,6 @@ public class DeadCell extends Cell {
 		super(myRowNum, myColNum);
 		setColor(Color.BLACK);
 	}
-
-
 
 	/**
 	 * Constructor for DeadCell that does not specify row or column number
@@ -73,18 +70,33 @@ public class DeadCell extends Cell {
 	@Override
 	public void moveCell(List<Cell> emptySpots, Grid grid) {
 		if (shouldResurrect()) {
-			createNewCellOfType(new LiveCell(),grid);
+			createNewCellOfType(new LiveCell(), grid);
 		} else {
 			grid.addToNewGrid(this);
 		}
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see cells.Cell#changeType()
+	 * 
+	 * Changes type of current cell from live to dead on user mouse click.
+	 */
 	@Override
 	public Cell changeType() {
 		LiveCell newCell = new LiveCell(this.getRow(), this.getCol());
 		return newCell;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see cells.Cell#setThreshold(double, double, double)
+	 * 
+	 * No thresholds set for this cell type. Included since the main method is
+	 * abstract.
+	 */
 	@Override
 	public void setThreshold(double a, double b, double c) {
 		// do nothing

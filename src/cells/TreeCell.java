@@ -65,6 +65,11 @@ public class TreeCell extends Cell {
 		return newCell;
 	}
 	
+	/* (non-Javadoc)
+	 * @see cells.Cell#changeType()
+	 * 
+	 * Changes cell type from tree to burning tree on user mouse click.
+	 */
 	@Override
 	public Cell changeType() {
 		BurningTreeCell newCell = new BurningTreeCell(this.getRow(), this.getCol());
