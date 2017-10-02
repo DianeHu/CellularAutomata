@@ -1,24 +1,5 @@
 package cellManager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import XMLClasses.GridConfiguration;
-import XMLClasses.SpreadingWildfireConfiguration;
-import cells.BlueSchellingCell;
-import cells.BurningTreeCell;
-import cells.Cell;
-import cells.DeadCell;
-import cells.EmptyCell;
-import cells.EmptyLandCell;
-import cells.FishCell;
-import cells.LiveCell;
-import cells.OrangeSchellingCell;
-import cells.SharkCell;
-import cells.TreeCell;
-import javafx.scene.Group;
-import javafx.scene.layout.GridPane;
 import java.util.List;
 
 import XMLClasses.GridConfiguration;

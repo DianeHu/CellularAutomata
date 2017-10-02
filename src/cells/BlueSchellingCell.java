@@ -1,12 +1,8 @@
 package cells;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cellManager.Grid;
-import cellManager.RectangleGrid;
-import gridPatches.ForagingLand;
-import javafx.beans.value.ChangeListener;
 import javafx.scene.paint.Color;
 
 /**

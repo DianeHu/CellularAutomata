@@ -5,8 +5,6 @@ import java.util.List;
 import java.util.Random;
 
 import cellManager.Grid;
-import cellManager.RectangleGrid;
-import gridPatches.ForagingLand;
 import javafx.scene.paint.Color;
 
 /**

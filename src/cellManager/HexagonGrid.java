@@ -1,6 +1,5 @@
 package cellManager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import XMLClasses.GridConfiguration;
@@ -8,7 +7,6 @@ import cells.Cell;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Rectangle;
 
 /**
  * @author Madhavi Rajiv
