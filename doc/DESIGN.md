@@ -1,4 +1,4 @@
-CompSci 308: Cell Society Design Document
+CompSci 308: Cell Society Initial Design Document (see master for final Design Document)
 ===================
 
 ### Introduction
