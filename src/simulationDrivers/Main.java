@@ -241,6 +241,7 @@ public class Main extends Application {
 		case ("Rectangle"):
 			simMap = pickRecSimByName;
 			isRectangle = true;
+			break;
 		}
 	}
 
